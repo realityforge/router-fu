@@ -32,7 +32,7 @@ public final class Route
   /**
    * The list of elements used for constructing a url if route can be a navigation target. Otherwise this is null.
    */
-  @Nonnull
+  @Nullable
   private final PathElement[] _pathElements;
   /**
    * Descriptors for parameters extracted from the path.
@@ -56,21 +56,29 @@ public final class Route
   }
 
   public Route( @Nonnull final String name,
-                @Nonnull final PathElement[] pathElements,
+                @Nullable final PathElement[] pathElements,
                 @Nonnull final PathParameter[] pathParameters,
                 @Nonnull final RegExp matcher,
                 @Nonnull final RouteMatchCallback matchCallback )
   {
     _name = Objects.requireNonNull( name );
-    _pathElements = Objects.requireNonNull( pathElements );
+    _pathElements = pathElements;
     _pathParameters = Objects.requireNonNull( pathParameters );
     _matcher = Objects.requireNonNull( matcher );
     _matchCallback = Objects.requireNonNull( matchCallback );
   }
 
+  public boolean isNavigationTarget()
+  {
+    return null != _pathElements;
+  }
+
   @Nonnull
   public String buildPath( @Nonnull final Map<String, String> parameters )
   {
+    apiInvariant( this::isNavigationTarget,
+                  () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
+    assert null != _pathElements;
     final HashSet<String> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
     final StringBuilder sb = new StringBuilder();
     for ( final PathElement pathElement : _pathElements )
