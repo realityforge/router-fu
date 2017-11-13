@@ -57,8 +57,9 @@ public final class Route
                       () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
                             "supplied when building path but no such parameter was supplied. " +
                             "Parameters: " + parameters );
-        if ( null != usedParameters )
+        if ( BrainCheckConfig.checkApiInvariants() )
         {
+          assert null != usedParameters;
           usedParameters.add( parameterKey );
         }
         final String parameterValue = parameters.get( parameterKey );
@@ -69,8 +70,9 @@ public final class Route
         sb.append( pathElement.getValue() );
       }
     }
-    if ( null != usedParameters )
+    if ( BrainCheckConfig.checkApiInvariants() )
     {
+      assert null != usedParameters;
       final List<String> unusedParameters =
         parameters.keySet().stream().filter( k -> !usedParameters.contains( k ) ).collect( Collectors.toList() );
       apiInvariant( unusedParameters::isEmpty,
