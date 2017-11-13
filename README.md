@@ -1,11 +1,11 @@
-# Routerfi: A framework agnostic, state producing router 
+# Router-Fu: A framework agnostic, state producing router 
 
-[![Build Status](https://secure.travis-ci.org/realityforge/routerfi.png?branch=master)](http://travis-ci.org/realityforge/routerfi)
+[![Build Status](https://secure.travis-ci.org/realityforge/router-fu.png?branch=master)](http://travis-ci.org/realityforge/router-fu)
 
-## What is Routerfi?
+## What is Router-Fu?
 
-Routerfi is a modern router for your web application. Traditional routers match on the url and render components,
-templates or pages but a routerfi router matches on the url and outputs state. The application is able to treat
+Router-Fu is a modern router for your web application. Traditional routers match on the url and render components,
+templates or pages but a Router-Fu router matches on the url and outputs state. The application is able to treat
 route state like any other application state.
 
 ## The Design
