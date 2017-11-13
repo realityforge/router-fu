@@ -46,7 +46,7 @@ public final class PathElement
   public String getPath()
   {
     apiInvariant( () -> null != _path,
-                  () -> "PathElement.getParameter() invoked on parameter path element with parameter named '" +
+                  () -> "PathElement.getPath() invoked on parameter path element with parameter named '" +
                         _parameter + "'" );
     assert null != _path;
     return _path;
