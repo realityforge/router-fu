@@ -11,16 +11,16 @@ TEST_OPTIONS =
     'braincheck.environment' => 'development'
   }
 
-desc 'routerfi: A GWT based state router'
-define 'routerfi' do
-  project.group = 'org.realityforge.routerfi'
+desc 'router-fu: A GWT based state router'
+define 'router-fu' do
+  project.group = 'org.realityforge.router.fu'
   compile.options.source = '1.8'
   compile.options.target = '1.8'
   compile.options.lint = 'all'
 
   project.version = ENV['PRODUCT_VERSION'] if ENV['PRODUCT_VERSION']
 
-  desc 'The core routerfi code'
+  desc 'The core router-fu code'
   define 'core' do
     pom.provided_dependencies.concat PROVIDED_DEPS
 
@@ -53,7 +53,7 @@ define 'routerfi' do
   ipr.add_component_from_artifact(:idea_codestyle)
 
   ipr.add_gwt_configuration(project('core'),
-                            :gwt_module => 'routerfi.RouterfiDev',
+                            :gwt_module => 'router.fu.RouterFuDev',
                             :start_javascript_debugger => false,
                             :vm_parameters => "-Xmx2G -Djava.io.tmpdir=#{_('tmp/gwt')}",
                             :shell_parameters => "-port 8888 -codeServerPort 8889 -bindAddress 0.0.0.0 -war #{_(:generated, 'gwt-export')}/")
