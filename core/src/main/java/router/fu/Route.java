@@ -12,16 +12,41 @@ import javax.annotation.Nullable;
 import org.realityforge.braincheck.BrainCheckConfig;
 import static org.realityforge.braincheck.Guards.*;
 
+/**
+ * A named pattern that can be matched during routing.
+ * Matching the pattern can produce parameters as described by the {@link #_pathParameters} field. If the
+ * toolkit identifies this route as matching and all patterns pass validation, then the toolkit invokes the
+ * {@link #_matchCallback} callback to complete the match process.
+ *
+ * <p>Some routes can also be used as targets of navigation. These routes are constructed with {@link PathElement}
+ * instances passed to them and will return true from {@link #isNavigationTarget()}. The {@link #buildPath(Map)}
+ * method can be invoked on navigation targets.</p>
+ */
 public final class Route
 {
+  /**
+   * The name of route. An opaque string primarily useful for users.
+   */
   @Nonnull
   private final String _name;
+  /**
+   * The list of elements used for constructing a url if route can be a navigation target. Otherwise this is null.
+   */
   @Nonnull
   private final PathElement[] _pathElements;
+  /**
+   * Descriptors for parameters extracted from the path.
+   */
   @Nonnull
   private final PathParameter[] _pathParameters;
+  /**
+   * The regular expression that matches the path and extracts parameters.
+   */
   @Nonnull
   private final RegExp _matcher;
+  /**
+   * The callback that makes the final decision whether a route matches.
+   */
   @Nonnull
   private final RouteMatchCallback _matchCallback;
 
@@ -92,6 +117,11 @@ public final class Route
     return location;
   }
 
+  /**
+   * Attempt to match the specified location.
+   *
+   * @return the reoute state if a match is successful, null otherwise.
+   */
   @Nullable
   public RouteState match( @Nonnull final String location )
   {
@@ -125,6 +155,11 @@ public final class Route
     }
   }
 
+  /**
+   * Return the parameter descriptor at index.
+   *
+   * @return the parameter descriptor at index.
+   */
   @Nonnull
   private PathParameter getParameterByIndex( final int index )
   {
