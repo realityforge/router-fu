@@ -161,7 +161,7 @@ public final class Route
    * @return the parameter descriptor at index.
    */
   @Nonnull
-  private PathParameter getParameterByIndex( final int index )
+  PathParameter getParameterByIndex( final int index )
   {
     invariant( () -> _pathParameters.length > index,
                () -> "Route named '" + _name + "' expects a parameter at index " + index + " when matching " +
