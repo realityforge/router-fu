@@ -37,7 +37,7 @@ define 'router-fu' do
     test.options[:properties] = TEST_OPTIONS
     test.options[:java_args] = ['-ea']
 
-    gwt_enhance(project, :modules_complete => true, :package_jars => false)
+    gwt_enhance(project)
 
     package(:jar)
     package(:sources)
