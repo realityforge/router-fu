@@ -12,8 +12,7 @@ public final class PathParameter
   @Nullable
   private final RegExp _validator;
 
-  public PathParameter( @Nonnull final String name,
-                        @Nullable final RegExp validator )
+  public PathParameter( @Nonnull final String name, @Nullable final RegExp validator )
   {
     _name = Objects.requireNonNull( name );
     _validator = validator;
