@@ -52,7 +52,7 @@ public final class Route
     {
       if ( pathElement.isParameter() )
       {
-        final String parameterKey = pathElement.getValue();
+        final String parameterKey = pathElement.getPath();
         apiInvariant( () -> parameters.containsKey( parameterKey ),
                       () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
                             "supplied when building path but no such parameter was supplied. " +
@@ -63,11 +63,15 @@ public final class Route
           usedParameters.add( parameterKey );
         }
         final String parameterValue = parameters.get( parameterKey );
+        apiInvariant( () -> null == pathElement.getParameter().getValidator() ||
+                            pathElement.getParameter().getValidator().test( parameterValue ),
+                      () -> "Route named '" + _name + "' has a parameter named '" + parameterKey + "' and " +
+                            "a value '" + parameterValue + "' has been passed that does not pass validation check." );
         sb.append( parameterValue );
       }
       else
       {
-        sb.append( pathElement.getValue() );
+        sb.append( pathElement.getPath() );
       }
     }
     final String location = sb.toString();
