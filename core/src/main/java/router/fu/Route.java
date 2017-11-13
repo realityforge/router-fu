@@ -70,6 +70,7 @@ public final class Route
         sb.append( pathElement.getValue() );
       }
     }
+    final String location = sb.toString();
     if ( BrainCheckConfig.checkApiInvariants() )
     {
       assert null != usedParameters;
@@ -78,8 +79,13 @@ public final class Route
       apiInvariant( unusedParameters::isEmpty,
                     () -> "Route named '" + _name + "' expects all parameters to be used when building " +
                           "path but the following parameters are unused. Parameters: " + unusedParameters );
+      final RouteState routeState = match( location );
+      invariant( () -> null != routeState && Objects.equals( routeState.getParameters(), parameters ),
+                 () -> "Route named '" + _name + "' had buildPath() invoked with parameters " + parameters +
+                       " produced path '" + location + "' and if this is matched against the same route it produces " +
+                       "different parameters: " + ( null != routeState ? routeState.getParameters() : null ) );
     }
-    return sb.toString();
+    return location;
   }
 
   @Nullable
