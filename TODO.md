@@ -9,3 +9,15 @@
 * Support either child or peer routers. These routers pick up optional route data that are suffixed to the main
   route and delegated to separate components. Typically these will be things like popup dialogs that contain
   some state. This typically used to manage/expose user-interface state.
+
+* Consider using an existing path syntax - http://router5.github.io/docs/path-syntax.html
+* Routing options: http://router5.github.io/docs/router-options.html
+
+### Mobx Examples to validate against
+
+* https://hackernoon.com/how-to-decouple-state-and-ui-a-k-a-you-dont-need-componentwillmount-cc90b787aa37
+
+#### Mobx+Router5+React example
+
+* https://vincent.is/testing-a-different-spa-routing/
+* https://vincent.is/testing-a-different-spa-routing-update/
