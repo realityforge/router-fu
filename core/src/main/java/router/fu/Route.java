@@ -25,6 +25,11 @@ public final class Route
   @Nonnull
   private final RouteMatchCallback _matchCallback;
 
+  static String pathToPattern( @Nonnull final String path )
+  {
+    return "^" + path.replaceAll( "([\\-/\\\\\\^$\\*\\+\\?\\.\\(\\)\\|\\[\\]\\{\\}])", "\\\\$1" ) + "$";
+  }
+
   public Route( @Nonnull final String name,
                 @Nonnull final PathElement[] pathElements,
                 @Nonnull final PathParameter[] pathParameters,
