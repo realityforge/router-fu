@@ -29,4 +29,10 @@ public final class PathParameter
   {
     return _validator;
   }
+
+  @Override
+  public String toString()
+  {
+    return getName();
+  }
 }
