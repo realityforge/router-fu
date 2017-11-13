@@ -61,7 +61,8 @@ public final class Route
         {
           usedParameters.add( parameterKey );
         }
-        sb.append( parameterKey );
+        final String parameterValue = parameters.get( parameterKey );
+        sb.append( parameterValue );
       }
       else
       {
