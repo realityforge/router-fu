@@ -29,4 +29,10 @@ public class TestRegExp
   {
     return _resultGroups;
   }
+
+  @Override
+  public boolean test( final Object str )
+  {
+    return null != _resultGroups;
+  }
 }
