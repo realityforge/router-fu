@@ -11,7 +11,7 @@ public interface RoutingBackend
   @FunctionalInterface
   interface LocationChangeListener
   {
-    boolean onLocationChange( @Nullable String location );
+    void onLocationChange( @Nullable String location );
   }
 
   /**
