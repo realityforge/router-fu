@@ -19,7 +19,7 @@ import static org.realityforge.braincheck.Guards.*;
  * {@link #_matchCallback} callback to complete the match process.
  *
  * <p>Some routes can also be used as targets of navigation. These routes are constructed with {@link PathElement}
- * instances passed to them and will return true from {@link #isNavigationTarget()}. The {@link #buildPath(Map)}
+ * instances passed to them and will return true from {@link #isNavigationTarget()}. The {@link #buildLocation(Map)}
  * method can be invoked on navigation targets.</p>
  */
 public final class Route
