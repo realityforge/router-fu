@@ -81,7 +81,7 @@ public final class Route
   }
 
   @Nonnull
-  public String buildPath( @Nonnull final Map<String, String> parameters )
+  public String buildLocation( @Nonnull final Map<String, String> parameters )
   {
     apiInvariant( this::isNavigationTarget,
                   () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
