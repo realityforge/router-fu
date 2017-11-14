@@ -1,5 +1,7 @@
 package router.fu;
 
+import java.util.Collections;
+import java.util.HashMap;
 import javax.annotation.Nonnull;
 import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.DataProvider;
@@ -163,6 +165,171 @@ public class RouteTest
 
     final RouteState state = route.match( location );
     assertNull( state );
+  }
+
+  @Test
+  public void buildLocation_notNavigationTarget()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    final Route route =
+      new Route( name,
+                 null,
+                 new PathParameter[ 0 ],
+                 new TestRegExp(),
+                 matchCallback );
+    final IllegalStateException exception =
+      expectThrows( IllegalStateException.class, () -> route.buildLocation( Collections.emptyMap() ) );
+    assertEquals( exception.getMessage(),
+                  "Route named '" + name + "' can not have buildPath() invoked on it as is not a target." );
+  }
+
+  @Test
+  public void buildLocation_noParameters()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    final PathElement[] pathElements = { new PathElement( "/blah" ) };
+    final PathParameter[] pathParameters = new PathParameter[ 0 ];
+    final String expectedPath = "/blah";
+    final String[] resultGroups = { expectedPath };
+    final Route route =
+      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+
+    final String location = route.buildLocation( Collections.emptyMap() );
+    assertEquals( location, expectedPath );
+  }
+
+  @Test
+  public void buildLocation_multipleParameters()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    final PathParameter locationParameter = new PathParameter( "location" );
+    final PathParameter eventParameter = new PathParameter( "event" );
+    final PathElement[] pathElements =
+      {
+        new PathElement( "/locations/" ),
+        new PathElement( locationParameter ),
+        new PathElement( "/events/" ),
+        new PathElement( eventParameter )
+      };
+    final PathParameter[] pathParameters = new PathParameter[]{ locationParameter, eventParameter };
+    final String expectedPath = "/locations/ballarat/events/42";
+    final String[] resultGroups = { expectedPath, "ballarat", "42" };
+    final Route route =
+      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+
+    final HashMap<String, String> input = new HashMap<>();
+    input.put( "location", "ballarat" );
+    input.put( "event", "42" );
+    final String location = route.buildLocation( input );
+    assertEquals( location, expectedPath );
+  }
+
+  @Test
+  public void buildLocation_missingParameter()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    final PathParameter locationParameter = new PathParameter( "location" );
+    final PathElement[] pathElements =
+      {
+        new PathElement( "/locations/" ),
+        new PathElement( locationParameter )
+      };
+    final PathParameter[] pathParameters = new PathParameter[]{ locationParameter };
+    final String expectedPath = "/locations/ballarat";
+    final String[] resultGroups = { expectedPath, "ballarat" };
+    final Route route =
+      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+
+    final IllegalStateException exception =
+      expectThrows( IllegalStateException.class, () -> route.buildLocation( new HashMap<>() ) );
+    assertEquals( exception.getMessage(),
+                  "Route named '" + name + "' expects a parameter named 'location' to be supplied when " +
+                  "building path but no such parameter was supplied. Parameters: {}" );
+  }
+
+  @Test
+  public void buildLocation_invalidParameter()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    // Event parameters regex will not match thus causing it to fail to match
+    final PathParameter eventParameter = new PathParameter( "event", new TestRegExp() );
+    final PathElement[] pathElements =
+      {
+        new PathElement( "/events/" ),
+        new PathElement( eventParameter )
+      };
+    final PathParameter[] pathParameters = new PathParameter[]{ eventParameter };
+    final String expectedPath = "/events/42";
+    final String[] resultGroups = { expectedPath, "42" };
+    final Route route =
+      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+
+    final HashMap<String, String> input = new HashMap<>();
+    input.put( "event", "42" );
+    final IllegalStateException exception =
+      expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
+    assertEquals( exception.getMessage(),
+                  "Route named '" + name + "' has a parameter named 'event' and a value '42' has been " +
+                  "passed that does not pass validation check." );
+  }
+
+  @Test
+  public void buildLocation_unusedParameter()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    final PathParameter eventParameter = new PathParameter( "event" );
+    final PathElement[] pathElements =
+      {
+        new PathElement( "/events/" ),
+        new PathElement( eventParameter )
+      };
+    final PathParameter[] pathParameters = new PathParameter[]{ eventParameter };
+    final String expectedPath = "/events/42";
+    final String[] resultGroups = { expectedPath, "42" };
+    final Route route =
+      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+
+    final HashMap<String, String> input = new HashMap<>();
+    input.put( "event", "42" );
+    input.put( "other", "73" );
+    final IllegalStateException exception =
+      expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
+    assertEquals( exception.getMessage(),
+                  "Route named '" + name + "' expects all parameters to be used when building path but the " +
+                  "following parameters are unused. Parameters: [other]" );
+  }
+
+  @Test
+  public void buildLocation_no_match()
+  {
+    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+    final String name = ValueUtil.randomString();
+    final PathParameter eventParameter = new PathParameter( "event" );
+    final PathElement[] pathElements =
+      {
+        new PathElement( "/events/" ),
+        new PathElement( eventParameter )
+      };
+    final PathParameter[] pathParameters = new PathParameter[]{ eventParameter };
+    final String expectedPath = "/events/77";
+    final String[] resultGroups = { expectedPath, "77" };
+    final Route route =
+      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+
+    final HashMap<String, String> input = new HashMap<>();
+    input.put( "event", "42" );
+    final IllegalStateException exception =
+      expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
+    assertEquals( exception.getMessage(),
+                  "Route named '" + name + "' had buildPath() invoked with parameters {event=42} produced " +
+                  "path '/events/42' and if this is matched against the same route it produces different " +
+                  "parameters: {event=77}" );
   }
 
   @Test
