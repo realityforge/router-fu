@@ -128,7 +128,7 @@ public final class Route
   /**
    * Attempt to match the specified location.
    *
-   * @return the reoute state if a match is successful, null otherwise.
+   * @return the route state if a match is successful, null otherwise.
    */
   @Nullable
   public RouteState match( @Nonnull final String location )
