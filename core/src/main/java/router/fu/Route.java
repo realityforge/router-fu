@@ -144,7 +144,11 @@ public final class Route
         final String value = groups[ i ];
         final int paramIndex = i - 1;
         final PathParameter parameter = getParameterByIndex( paramIndex );
-
+        final RegExp validator = parameter.getValidator();
+        if ( null != validator && !validator.test( value ) )
+        {
+          return null;
+        }
         matchData.put( parameter.getName(), value );
       }
       final MatchResult matchResult = _matchCallback.shouldMatch( location, this, matchData );
