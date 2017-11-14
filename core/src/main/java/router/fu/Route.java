@@ -123,11 +123,11 @@ public final class Route
       apiInvariant( unusedParameters::isEmpty,
                     () -> "Route named '" + _name + "' expects all parameters to be used when building " +
                           "path but the following parameters are unused. Parameters: " + unusedParameters );
-      final RouteState routeState = match( location );
-      invariant( () -> null != routeState && Objects.equals( routeState.getParameters(), parameters ),
+      final HashMap<String, String> matchedParameters = locationMatch( location );
+      invariant( () -> null != matchedParameters && Objects.equals( matchedParameters, parameters ),
                  () -> "Route named '" + _name + "' had buildPath() invoked with parameters " + parameters +
                        " produced path '" + location + "' and if this is matched against the same route it produces " +
-                       "different parameters: " + ( null != routeState ? routeState.getParameters() : null ) );
+                       "different parameters: " + matchedParameters );
     }
     return location;
   }
@@ -140,6 +140,27 @@ public final class Route
    */
   @Nullable
   public RouteState match( @Nonnull final String location )
+  {
+    final HashMap<String, String> parameters = locationMatch( location );
+    if ( null != parameters )
+    {
+      final MatchResult matchResult = _matchCallback.shouldMatch( location, this, parameters );
+      if ( MatchResult.NO_MATCH != matchResult )
+      {
+        return new RouteState( this, parameters, MatchResult.TERMINAL == matchResult );
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Attempt to match the specified location and generate parameters.
+   *
+   * @param location the location to match.
+   * @return the parameters if match, else null.
+   */
+  @Nullable
+  private HashMap<String, String> locationMatch( @Nonnull final String location )
   {
     final String[] groups = _matcher.exec( Objects.requireNonNull( location ) );
     if ( null != groups )
@@ -158,15 +179,7 @@ public final class Route
         }
         matchData.put( parameter.getName(), value );
       }
-      final MatchResult matchResult = _matchCallback.shouldMatch( location, this, matchData );
-      if ( MatchResult.NO_MATCH != matchResult )
-      {
-        return new RouteState( this, matchData, MatchResult.TERMINAL == matchResult );
-      }
-      else
-      {
-        return null;
-      }
+      return matchData;
     }
     else
     {
