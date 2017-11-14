@@ -68,6 +68,13 @@ public final class Route
     _matchCallback = Objects.requireNonNull( matchCallback );
   }
 
+  /**
+   * Return true if it is valid to navigate to the location identified by this route.
+   * As some routes only act as filters (i.e. for applying security) they are not valid navigation
+   * targets and should return false from this method.
+   *
+   * @return true if it is valid to navigate to this route..
+   */
   public boolean isNavigationTarget()
   {
     return null != _pathElements;
