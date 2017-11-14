@@ -11,7 +11,7 @@ public interface RoutingBackend
   @FunctionalInterface
   interface LocationChangeListener
   {
-    void onLocationChange( @Nullable String location );
+    void onLocationChange( @Nonnull String location );
   }
 
   /**
@@ -19,7 +19,7 @@ public interface RoutingBackend
    *
    * @return the location.
    */
-  @Nullable
+  @Nonnull
   String getLocation();
 
   /**
@@ -27,7 +27,7 @@ public interface RoutingBackend
    *
    * @param location the location.
    */
-  void setLocation( @Nullable String location );
+  void setLocation( @Nonnull String location );
 
   /**
    * Register a listener that is called back when location changes.

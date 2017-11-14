@@ -38,21 +38,21 @@ public class Elemental2HashRoutingBackend
   /**
    * {@inheritDoc}
    */
-  @Nullable
+  @Nonnull
   @Override
   public String getLocation()
   {
     final String hash = (String) JsPropertyMap.of( _window.location ).get( "hash" );
-    return null == hash ? null : hash.substring( 1 );
+    return null == hash ? "" : hash.substring( 1 );
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void setLocation( @Nullable final String hash )
+  public void setLocation( @Nonnull final String hash )
   {
-    final String value = null == hash ? null : "#" + hash;
+    final String value = hash.isEmpty() ? null : "#" + hash;
     JsPropertyMap.of( _window.location ).set( "hash", value );
   }
 
