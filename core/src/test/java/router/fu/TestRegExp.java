@@ -1,27 +1,22 @@
 package router.fu;
 
 import elemental2.core.RegExp;
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TestRegExp
   extends RegExp
 {
   private String[] _resultGroups;
 
-  public TestRegExp( @Nonnull final String[] resultGroups )
-  {
-    this();
-    setResultGroups( resultGroups );
-  }
-
-  public TestRegExp()
+  TestRegExp( @Nullable final String[] resultGroups )
   {
     super( new Object() );
+    _resultGroups = resultGroups;
   }
 
-  public void setResultGroups( final String[] resultGroups )
+  TestRegExp()
   {
-    _resultGroups = resultGroups;
+    this( null );
   }
 
   @Override
