@@ -140,8 +140,7 @@ public final class Route
   @Nullable
   public RouteState match( @Nonnull final String location )
   {
-    Objects.requireNonNull( location );
-    final String[] groups = _matcher.exec( location );
+    final String[] groups = _matcher.exec( Objects.requireNonNull( location ) );
     if ( null != groups )
     {
       final HashMap<String, String> matchData = new HashMap<>();
