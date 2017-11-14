@@ -99,7 +99,7 @@ public final class Route
     {
       if ( pathElement.isParameter() )
       {
-        final String parameterKey = pathElement.getPath();
+        final String parameterKey = pathElement.getParameter().getName();
         apiInvariant( () -> parameters.containsKey( parameterKey ),
                       () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
                             "supplied when building path but no such parameter was supplied. " +
