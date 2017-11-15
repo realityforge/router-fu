@@ -14,11 +14,25 @@ import javax.annotation.Nullable;
 public final class RouteLocation
 {
   @Nonnull
+  private final String _path;
+  @Nonnull
   private final List<RouteState> _states;
 
-  public RouteLocation( @Nonnull final List<RouteState> states )
+  public RouteLocation( @Nonnull final String path, @Nonnull final List<RouteState> states )
   {
+    _path = Objects.requireNonNull( path );
     _states = Collections.unmodifiableList( Objects.requireNonNull( states ) );
+  }
+
+  /**
+   * Return the path that generated this route.
+   *
+   * @return the associated path.
+   */
+  @Nonnull
+  public String getPath()
+  {
+    return _path;
   }
 
   /**

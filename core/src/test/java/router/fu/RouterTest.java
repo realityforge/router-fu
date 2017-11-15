@@ -131,6 +131,7 @@ public class RouterTest
 
     assertNotNull( result );
 
+    assertEquals( result.getPath(), location );
     assertEquals( result.getStates().size(), 2 );
     assertEquals( result.getStates().get( 0 ).getRoute(), route1 );
     assertEquals( result.getStates().get( 1 ).getRoute(), route4 );

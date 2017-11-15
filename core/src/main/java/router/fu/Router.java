@@ -98,7 +98,7 @@ public final class Router
         }
       }
     }
-    return new RouteLocation( states );
+    return new RouteLocation( location, states );
   }
 
   @TestOnly
