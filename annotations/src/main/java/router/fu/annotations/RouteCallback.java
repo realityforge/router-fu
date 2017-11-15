@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
  * <ul>
  * <li>String parameter: Identifies the location matched.</li>
  * <li>{@link router.fu.Route} parameter: Identifies the route matched.</li>
- * <li>Map<String, String> parameter: Identifies the parameters extracted during match.</li>
+ * <li>Map&lt;{@link router.fu.Parameter}, String&gt; parameter: Identifies the parameters extracted during match.</li>
  * </ul>
  */
 @Documented
