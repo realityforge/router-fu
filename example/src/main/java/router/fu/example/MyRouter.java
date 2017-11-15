@@ -10,10 +10,10 @@ import router.fu.annotations.RouteParameter;
 
 @RouteManager( arez = true )
 // This first route is a filter and matches all locations but can not be navigated to
-@Route( name = "authFilter", path = "", navigationTarget = false, matchType = Route.MatchType.START )
+@Route( name = "authFilter", path = "", navigationTarget = false, partialMatch = true )
 @Route( name = "regions", path = "regions" )
 // The next route is used so can add non-terminal routing state for all routes
-@Route( name = "regionFilter", path = "regions/:regionCode", navigationTarget = false, matchType = Route.MatchType.START )
+@Route( name = "regionFilter", path = "regions/:regionCode", navigationTarget = false, partialMatch = true )
 @Route( name = "region", path = "regions/:regionCode" )
 @Route( name = "regionEvents", path = "regions/:regionCode/events" )
 @Route( name = "regionEvent", path = "regions/:regionCode/events/:eventId" )
