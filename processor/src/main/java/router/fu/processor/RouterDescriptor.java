@@ -103,7 +103,7 @@ final class RouterDescriptor
   }
 
   @Nonnull
-  String getServiceName()
+  private String getServiceName()
   {
     return _element.getSimpleName() + "Service";
   }
@@ -115,7 +115,7 @@ final class RouterDescriptor
   }
 
   @Nonnull
-  String getRouterName()
+  private String getRouterName()
   {
     return "RouterFu_" + _element.getSimpleName();
   }
@@ -133,7 +133,7 @@ final class RouterDescriptor
   }
 
   @Nonnull
-  String getNestedClassPrefix()
+  private String getNestedClassPrefix()
   {
     final StringBuilder name = new StringBuilder();
     TypeElement t = getElement();
