@@ -64,6 +64,43 @@ define 'router-fu' do
     test.compile.with TEST_DEPS
   end
 
+  desc 'The Annotation processor'
+  define 'processor' do
+    pom.provided_dependencies.concat PROVIDED_DEPS
+
+    compile.with :autoservice,
+                 :autocommon,
+                 :javapoet,
+                 :guava,
+                 project('annotations').package(:jar),
+                 project('annotations').compile.dependencies,
+                 project('core').package(:jar),
+                 project('core').compile.dependencies
+
+    test.with :compile_testing,
+              Java.tools_jar,
+              :truth,
+              :arez_annotations,
+              :arez_core,
+              :arez_processor,
+              :arez_component
+
+    package(:jar)
+    package(:sources)
+    package(:javadoc)
+
+    test.using :testng
+    test.options[:properties] = { 'router-fu.fixture_dir' => _('src/test/resources') }
+    test.compile.with TEST_DEPS
+
+    # The generators are configured to generate to here.
+    iml.test_source_directories << _('generated/processors/test/java')
+
+    iml.test_source_directories << _('src/test/resources/input')
+    iml.test_source_directories << _('src/test/resources/expected')
+    iml.test_source_directories << _('src/test/resources/bad_input')
+  end
+
   define 'example' do
     pom.provided_dependencies.concat PROVIDED_DEPS
 

@@ -37,5 +37,10 @@ artifacts:
   arez_component: org.realityforge.arez:arez-component:jar:gwt:0.25
   arez_extras: org.realityforge.arez:arez-extras:jar:gwt:0.25
 
+  autoservice: com.google.auto.service:auto-service:jar:1.0-rc3
+  autocommon: com.google.auto:auto-common:jar:0.8
   javapoet: com.squareup:javapoet:jar:1.7.0
   guava: com.google.guava:guava:jar:21.0
+
+  compile_testing: com.google.testing.compile:compile-testing:jar:0.11
+  truth: com.google.truth:truth:jar:0.35
