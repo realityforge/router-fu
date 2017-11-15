@@ -89,7 +89,7 @@ final class ProcessorUtil
 
   static boolean isJavaIdentifier( @Nonnull final String value )
   {
-    if ( !Character.isJavaIdentifierStart( value.charAt( 0 ) ) )
+    if ( value.isEmpty() || !Character.isJavaIdentifierStart( value.charAt( 0 ) ) )
     {
       return false;
     }
