@@ -47,6 +47,25 @@ define 'router-fu' do
     test.compile.with TEST_DEPS
   end
 
+  define 'example' do
+    pom.provided_dependencies.concat PROVIDED_DEPS
+
+    compile.with project('core').package(:jar),
+                 project('core').compile.dependencies,
+                 :gwt_user
+
+    test.options[:properties] = TEST_OPTIONS
+    test.options[:java_args] = ['-ea']
+
+    gwt_enhance(project, :modules_complete => true, :package_jars => false)
+
+    test.using :testng
+    test.compile.with TEST_DEPS
+
+    # The generators are configured to generate to here.
+    iml.main_generated_source_directories << _('generated/processors/main/java')
+  end
+
   iml.excluded_directories << project._('tmp')
 
   ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development')
