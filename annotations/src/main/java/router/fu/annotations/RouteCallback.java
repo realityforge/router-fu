@@ -23,6 +23,8 @@ public @interface RouteCallback
    * The name of the route that this is custom callback for.
    * If name is unspecified then the name of the method is assumed to be of the form
    * "[name]Callback" and can be derived.
+   *
+   * @return the name of associated route.
    */
   @Nonnull
   String name() default "<default>";

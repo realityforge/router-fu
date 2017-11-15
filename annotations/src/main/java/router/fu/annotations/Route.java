@@ -36,9 +36,11 @@ public @interface Route
    * Note that back slashes have to be escaped.</p>
    *
    * <ul>
-   * <li><b>:param&lt;\\d+&gt;</b> will match numbers only for parameter param</p>
+   * <li><b>:param&lt;\\d+&gt;</b> will match numbers only for parameter param</li>
    * <li><b>;id&lt;[a-fA-F0-9]{8}&gt;</b> will match 8 characters hexadecimal strings for parameter id.</li>
    * </ul>
+   *
+   * @return the path pattern.
    */
   @Nonnull
   String path();
