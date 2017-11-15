@@ -38,3 +38,11 @@ parameters. It also provides methods via which the application can request that 
 The `RouteLocation` object is effectively immutable and can easily be passed to other frameworks that have their
 own state management tools. In an [`Arez`](https://github.com/realityforge/arez), it would expected that you wrap
 the `RouteLocation` to make it observable.
+
+# Credit
+
+* [Stock Software](http://www.stocksoftware.com.au/) for providing significant support in building and maintaining
+  the library, particularly at it's inception.
+
+* This toolkit drew inspiration from [troch/path-parser](https://github.com/troch/path-parser) and
+  [router5](http://router5.github.io/).
