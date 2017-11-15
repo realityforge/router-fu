@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import router.fu.RouteLocation;
+import router.fu.RouteState;
 
 /**
  * Possible shape of generated router interface.
@@ -43,4 +44,22 @@ public interface MyRouterService
 
   @Nonnull
   RouteLocation getLocation();
+
+  @Nullable
+  RouteState getAuthFilterRouteState();
+
+  @Nullable
+  RouteState getRegionsRouteState();
+
+  @Nullable
+  RouteState getRegionFilterRouteState();
+
+  @Nullable
+  RouteState getRegionRouteState();
+
+  @Nullable
+  RouteState getRegionEventsRouteState();
+
+  @Nullable
+  RouteState getRegionEventRouteState();
 }

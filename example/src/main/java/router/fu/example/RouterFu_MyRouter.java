@@ -73,6 +73,12 @@ final class RouterFu_MyRouter
   private router.fu.RouteLocation $fu$_location;
   private String $fu$_parameter_regionCode;
   private String $fu$_parameter_eventId;
+  private RouteState $fu$_state_authFilter;
+  private RouteState $fu$_state_regions;
+  private RouteState $fu$_state_regionFilter;
+  private RouteState $fu$_state_region;
+  private RouteState $fu$_state_regionEvents;
+  private RouteState $fu$_state_regionEvent;
 
   RouterFu_MyRouter( @Nonnull final Window window )
   {
@@ -204,39 +210,86 @@ final class RouterFu_MyRouter
     return $fu$_location;
   }
 
+  @Nullable
+  @Override
+  public RouteState getAuthFilterRouteState()
+  {
+    return $fu$_state_authFilter;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionsRouteState()
+  {
+    return $fu$_state_regions;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionFilterRouteState()
+  {
+    return $fu$_state_regionFilter;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionRouteState()
+  {
+    return $fu$_state_region;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionEventsRouteState()
+  {
+    return $fu$_state_regionEvents;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionEventRouteState()
+  {
+    return $fu$_state_regionEvent;
+  }
+
   void onLocationChanged( @Nonnull final RouteLocation location )
   {
     $fu$_location = Objects.requireNonNull( location );
     final List<RouteState> states = $fu$_location.getStates();
-    final List<Route> routes = $fu$_router.getRoutes();
-    final int routeCount = routes.size();
     int routeStartIndex = 0;
-    for ( final RouteState state : states )
+    for ( int i = 0; i < 5; i++ )
     {
-      for ( int i = routeStartIndex; i < routeCount; i++ )
+      final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
+      switch ( i )
       {
-        if ( routes.get( i ) == state.getRoute() )
-        {
-          switch ( i )
-          {
-            case 0:
-              break;
-            case 1:
-              break;
-            case 2:
-              $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
-              break;
-            case 3:
-              $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
-              break;
-            case 4:
-              $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
-              $fu$_parameter_eventId = state.getParameters().get( "eventId" );
-              break;
-          }
-          routeStartIndex = i;
+        case 0:
+          $fu$_state_authFilter = state;
           break;
-        }
+        case 1:
+          $fu$_state_regions = state;
+          break;
+        case 2:
+          $fu$_state_region = state;
+          if ( null != state )
+          {
+            $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
+          }
+          break;
+        case 3:
+          $fu$_state_regionEvents = state;
+          if ( null != state )
+          {
+            $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
+          }
+          break;
+        case 4:
+          $fu$_state_regionEvent = state;
+          if ( null != state )
+          {
+            $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
+            $fu$_parameter_eventId = state.getParameters().get( "eventId" );
+          }
+          break;
       }
     }
   }
