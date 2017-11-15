@@ -34,6 +34,17 @@ public final class Router
   }
 
   /**
+   * Return the routes managed by the router.
+   *
+   * @return the routes managed by the router.
+   */
+  @Nonnull
+  public List<Route> getRoutes()
+  {
+    return _routes;
+  }
+
+  /**
    * Change the location to specified location.
    *
    * @param location the location to change to.

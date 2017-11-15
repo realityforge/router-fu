@@ -14,6 +14,7 @@ public class RouterTest
     final TestRoutingBackend backend = new TestRoutingBackend();
     final ArrayList<Route> routes = new ArrayList<>();
     final Router router = new Router( locations::add, backend, routes );
+    assertEquals( router.getRoutes(), routes );
 
     assertNull( backend.getHandler() );
 
@@ -126,6 +127,7 @@ public class RouterTest
     routes.add( route5 );
 
     final Router router = new Router( locations::add, backend, routes );
+    assertEquals( router.getRoutes(), routes );
 
     final RouteLocation result = router.route( location );
 
