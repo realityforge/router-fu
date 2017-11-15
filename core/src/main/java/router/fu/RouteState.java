@@ -7,10 +7,10 @@ import javax.annotation.Nonnull;
 public final class RouteState
 {
   private final Route _route;
-  private final Map<String, String> _parameters;
+  private final Map<PathParameter, String> _parameters;
   private final boolean _terminal;
 
-  public RouteState( @Nonnull final Route route, @Nonnull final Map<String, String> parameters, final boolean terminal )
+  public RouteState( @Nonnull final Route route, @Nonnull final Map<PathParameter, String> parameters, final boolean terminal )
   {
     _route = Objects.requireNonNull( route );
     _parameters = Objects.requireNonNull( parameters );
@@ -24,7 +24,7 @@ public final class RouteState
   }
 
   @Nonnull
-  public Map<String, String> getParameters()
+  public Map<PathParameter, String> getParameters()
   {
     return _parameters;
   }

@@ -16,7 +16,7 @@ public class RouteStateTest
                                    new PathParameter[ 0 ],
                                    new TestRegExp(),
                                    matchCallback );
-    final HashMap<String, String> parameters = new HashMap<>();
+    final HashMap<PathParameter, String> parameters = new HashMap<>();
     final boolean terminal = true;
     final RouteState state = new RouteState( route, parameters, terminal );
 

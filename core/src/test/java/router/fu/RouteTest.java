@@ -97,10 +97,9 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter[] parameters = {
-      new PathParameter( "paramA" ),
-      new PathParameter( "paramB" )
-    };
+    final PathParameter paramA = new PathParameter( "paramA" );
+    final PathParameter paramB = new PathParameter( "paramB" );
+    final PathParameter[] parameters = { paramA, paramB };
     final String location = "/locations/ballarat/events/42";
     final String[] resultGroups = { location, "ballarat", "42" };
 
@@ -114,8 +113,8 @@ public class RouteTest
 
     assertEquals( state.getRoute(), route );
     assertEquals( state.getParameters().size(), 2 );
-    assertEquals( state.getParameters().get( "paramA" ), "ballarat" );
-    assertEquals( state.getParameters().get( "paramB" ), "42" );
+    assertEquals( state.getParameters().get( paramA ), "ballarat" );
+    assertEquals( state.getParameters().get( paramB ), "42" );
     assertEquals( state.isTerminal(), true );
   }
 
@@ -124,10 +123,9 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter[] parameters = {
-      new PathParameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) ),
-      new PathParameter( "paramB", new TestRegExp( new String[]{ "42" } ) )
-    };
+    final PathParameter paramA = new PathParameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) );
+    final PathParameter paramB = new PathParameter( "paramB", new TestRegExp( new String[]{ "42" } ) );
+    final PathParameter[] parameters = { paramA, paramB };
     final String location = "/locations/ballarat/events/42";
     final String[] resultGroups = { location, "ballarat", "42" };
 
@@ -141,8 +139,8 @@ public class RouteTest
 
     assertEquals( state.getRoute(), route );
     assertEquals( state.getParameters().size(), 2 );
-    assertEquals( state.getParameters().get( "paramA" ), "ballarat" );
-    assertEquals( state.getParameters().get( "paramB" ), "42" );
+    assertEquals( state.getParameters().get( paramA ), "ballarat" );
+    assertEquals( state.getParameters().get( paramB ), "42" );
     assertEquals( state.isTerminal(), true );
   }
 
@@ -220,9 +218,9 @@ public class RouteTest
     final Route route =
       new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<String, String> input = new HashMap<>();
-    input.put( "location", "ballarat" );
-    input.put( "event", "42" );
+    final HashMap<PathParameter, String> input = new HashMap<>();
+    input.put( locationParameter, "ballarat" );
+    input.put( eventParameter, "42" );
     final String location = route.buildLocation( input );
     assertEquals( location, expectedPath );
   }
@@ -269,8 +267,8 @@ public class RouteTest
     final Route route =
       new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<String, String> input = new HashMap<>();
-    input.put( "event", "42" );
+    final HashMap<PathParameter, String> input = new HashMap<>();
+    input.put( eventParameter, "42" );
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
     assertEquals( exception.getMessage(),
@@ -295,9 +293,9 @@ public class RouteTest
     final Route route =
       new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<String, String> input = new HashMap<>();
-    input.put( "event", "42" );
-    input.put( "other", "73" );
+    final HashMap<PathParameter, String> input = new HashMap<>();
+    input.put( eventParameter, "42" );
+    input.put( new PathParameter( "other" ), "73" );
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
     assertEquals( exception.getMessage(),
@@ -322,8 +320,8 @@ public class RouteTest
     final Route route =
       new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<String, String> input = new HashMap<>();
-    input.put( "event", "42" );
+    final HashMap<PathParameter, String> input = new HashMap<>();
+    input.put( eventParameter, "42" );
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
     assertEquals( exception.getMessage(),

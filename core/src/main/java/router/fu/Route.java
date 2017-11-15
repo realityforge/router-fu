@@ -88,18 +88,18 @@ public final class Route
    * @param parameters the parameters required by route.
    */
   @Nonnull
-  public String buildLocation( @Nonnull final Map<String, String> parameters )
+  public String buildLocation( @Nonnull final Map<PathParameter, String> parameters )
   {
     apiInvariant( this::isNavigationTarget,
                   () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
     assert null != _pathElements;
-    final HashSet<String> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
+    final HashSet<PathParameter> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
     final StringBuilder sb = new StringBuilder();
     for ( final PathElement pathElement : _pathElements )
     {
       if ( pathElement.isParameter() )
       {
-        final String parameterKey = pathElement.getParameter().getName();
+        final PathParameter parameterKey = pathElement.getParameter();
         apiInvariant( () -> parameters.containsKey( parameterKey ),
                       () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
                             "supplied when building path but no such parameter was supplied. " +
@@ -125,12 +125,12 @@ public final class Route
     if ( BrainCheckConfig.checkApiInvariants() )
     {
       assert null != usedParameters;
-      final List<String> unusedParameters =
+      final List<PathParameter> unusedParameters =
         parameters.keySet().stream().filter( k -> !usedParameters.contains( k ) ).collect( Collectors.toList() );
       apiInvariant( unusedParameters::isEmpty,
                     () -> "Route named '" + _name + "' expects all parameters to be used when building " +
                           "path but the following parameters are unused. Parameters: " + unusedParameters );
-      final HashMap<String, String> matchedParameters = locationMatch( location );
+      final HashMap<PathParameter, String> matchedParameters = locationMatch( location );
       invariant( () -> null != matchedParameters && Objects.equals( matchedParameters, parameters ),
                  () -> "Route named '" + _name + "' had buildPath() invoked with parameters " + parameters +
                        " produced path '" + location + "' and if this is matched against the same route it produces " +
@@ -148,7 +148,7 @@ public final class Route
   @Nullable
   public RouteState match( @Nonnull final String location )
   {
-    final HashMap<String, String> parameters = locationMatch( location );
+    final HashMap<PathParameter, String> parameters = locationMatch( location );
     if ( null != parameters )
     {
       final MatchResult matchResult = _matchCallback.shouldMatch( location, this, parameters );
@@ -167,12 +167,12 @@ public final class Route
    * @return the parameters if match, else null.
    */
   @Nullable
-  private HashMap<String, String> locationMatch( @Nonnull final String location )
+  private HashMap<PathParameter, String> locationMatch( @Nonnull final String location )
   {
     final String[] groups = _matcher.exec( Objects.requireNonNull( location ) );
     if ( null != groups )
     {
-      final HashMap<String, String> matchData = new HashMap<>();
+      final HashMap<PathParameter, String> matchData = new HashMap<>();
       //Group 0 is the whole string so we can skip it
       for ( int i = 1; i < groups.length; i++ )
       {
@@ -184,7 +184,7 @@ public final class Route
         {
           return null;
         }
-        matchData.put( parameter.getName(), value );
+        matchData.put( parameter, value );
       }
       return matchData;
     }
