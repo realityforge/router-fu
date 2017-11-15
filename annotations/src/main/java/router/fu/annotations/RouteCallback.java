@@ -7,12 +7,12 @@ import javax.annotation.Nonnull;
 
 /**
  * Marks a method as custom implementation of callback hook.
- * The method must return a {@link router.fu.MatchResult} and may accept up to three parameters:
+ * The method must return a router.fu.MatchResult and may accept up to three parameters:
  *
  * <ul>
  * <li>String parameter: Identifies the location matched.</li>
- * <li>{@link router.fu.Route} parameter: Identifies the route matched.</li>
- * <li>Map&lt;{@link router.fu.Parameter}, String&gt; parameter: Identifies the parameters extracted during match.</li>
+ * <li>router.fu.Route parameter: Identifies the route matched.</li>
+ * <li>Map&lt;router.fu.Parameter, String&gt; parameter: Identifies the parameters extracted during match.</li>
  * </ul>
  */
 @Documented
