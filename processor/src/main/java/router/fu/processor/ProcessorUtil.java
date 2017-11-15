@@ -1,18 +1,14 @@
 package router.fu.processor;
 
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
-import java.lang.annotation.Documented;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
@@ -70,86 +66,11 @@ final class ProcessorUtil
     }
   }
 
-  @Nonnull
-  static Map<String, TypeMirror> getFields( @Nonnull final TypeElement element,
-                                            @Nonnull final Types typeUtils )
-  {
-    final Map<String, TypeMirror> methodMap = new LinkedHashMap<>();
-    enumerateFields( element, typeUtils, element, methodMap );
-    return methodMap;
-  }
-
-  private static void enumerateFields( @Nonnull final TypeElement scope,
-                                       @Nonnull final Types typeUtils,
-                                       @Nonnull final TypeElement element,
-                                       @Nonnull final Map<String, TypeMirror> fields )
-  {
-    final TypeMirror superclass = element.getSuperclass();
-    if ( TypeKind.NONE != superclass.getKind() )
-    {
-      enumerateFields( scope, typeUtils, (TypeElement) ( (DeclaredType) superclass ).asElement(), fields );
-    }
-    for ( final Element member : element.getEnclosedElements() )
-    {
-      if ( member.getKind() == ElementKind.FIELD )
-      {
-        final TypeMirror fieldType = typeUtils.asMemberOf( (DeclaredType) scope.asType(), member );
-        fields.put( member.getSimpleName().toString(), fieldType );
-      }
-    }
-  }
-
   static void copyAccessModifiers( @Nonnull final TypeElement element, @Nonnull final TypeSpec.Builder builder )
   {
     if ( element.getModifiers().contains( Modifier.PUBLIC ) )
     {
       builder.addModifiers( Modifier.PUBLIC );
-    }
-  }
-
-  static void copyAccessModifiers( @Nonnull final TypeElement element, @Nonnull final MethodSpec.Builder builder )
-  {
-    if ( element.getModifiers().contains( Modifier.PUBLIC ) )
-    {
-      builder.addModifiers( Modifier.PUBLIC );
-    }
-  }
-
-  static void copyAccessModifiers( @Nonnull final ExecutableElement element, @Nonnull final MethodSpec.Builder builder )
-  {
-    if ( element.getModifiers().contains( Modifier.PUBLIC ) )
-    {
-      builder.addModifiers( Modifier.PUBLIC );
-    }
-    else if ( element.getModifiers().contains( Modifier.PROTECTED ) )
-    {
-      builder.addModifiers( Modifier.PROTECTED );
-    }
-  }
-
-  static void copyDocumentedAnnotations( @Nonnull final AnnotatedConstruct element,
-                                         @Nonnull final MethodSpec.Builder builder )
-  {
-    for ( final AnnotationMirror annotation : element.getAnnotationMirrors() )
-    {
-      final DeclaredType annotationType = annotation.getAnnotationType();
-      if ( !annotationType.toString().startsWith( "react4j.annotations." ) &&
-           null != annotationType.asElement().getAnnotation( Documented.class ) )
-      {
-        builder.addAnnotation( AnnotationSpec.get( annotation ) );
-      }
-    }
-  }
-
-  static void copyDocumentedAnnotations( @Nonnull final AnnotatedConstruct element,
-                                         @Nonnull final ParameterSpec.Builder builder )
-  {
-    for ( final AnnotationMirror annotation : element.getAnnotationMirrors() )
-    {
-      if ( null != annotation.getAnnotationType().asElement().getAnnotation( Documented.class ) )
-      {
-        builder.addAnnotation( AnnotationSpec.get( annotation ) );
-      }
     }
   }
 
