@@ -3,6 +3,7 @@ package router.fu.example;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import router.fu.Route;
 import router.fu.RouteLocation;
 import router.fu.RouteState;
 
@@ -62,4 +63,22 @@ public interface MyRouterService
 
   @Nullable
   RouteState getRegionEventRouteState();
+
+  @Nonnull
+  Route getAuthFilterRoute();
+
+  @Nonnull
+  Route getRegionsRoute();
+
+  @Nonnull
+  Route getRegionFilterRoute();
+
+  @Nonnull
+  Route getRegionRoute();
+
+  @Nonnull
+  Route getRegionEventsRoute();
+
+  @Nonnull
+  Route getRegionEventRoute();
 }

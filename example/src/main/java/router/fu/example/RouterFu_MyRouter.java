@@ -252,6 +252,48 @@ final class RouterFu_MyRouter
     return $fu$_state_regionEvent;
   }
 
+  @Nonnull
+  @Override
+  public Route getAuthFilterRoute()
+  {
+    return $fu$_authFilter;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionsRoute()
+  {
+    return $fu$_regions;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionFilterRoute()
+  {
+    return $fu$_regionFilter;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionRoute()
+  {
+    return $fu$_region;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionEventsRoute()
+  {
+    return $fu$_regionEvents;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionEventRoute()
+  {
+    return $fu$_regionEvent;
+  }
+
   void onLocationChanged( @Nonnull final RouteLocation location )
   {
     $fu$_location = Objects.requireNonNull( location );
