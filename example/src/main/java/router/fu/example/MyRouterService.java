@@ -39,7 +39,7 @@ public interface MyRouterService
   @Nullable
   String getEventId();
 
-  void setEventId( @Nonnull String EventId );
+  void setEventId( @Nonnull String eventId );
 
   @Nonnull
   RouteLocation getLocation();
