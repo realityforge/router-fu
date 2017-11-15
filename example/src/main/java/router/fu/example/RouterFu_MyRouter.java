@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.realityforge.arez.annotations.ArezComponent;
 import router.fu.Elemental2HashRoutingBackend;
 import router.fu.MatchResult;
 import router.fu.PathElement;
@@ -21,8 +22,9 @@ import router.fu.RouteState;
 import router.fu.Router;
 
 @Generated( "router.fu" )
+@ArezComponent( type = "MyRouter", nameIncludesId = false, allowEmpty = true )
 @SuppressWarnings( "FieldCanBeLocal" )
-final class RouterFu_MyRouter
+class RouterFu_MyRouter
   extends MyRouter
   implements MyRouterService
 {
@@ -210,11 +212,21 @@ final class RouterFu_MyRouter
     return $fu$_location;
   }
 
+  void setLocation( @Nonnull final RouteLocation location )
+  {
+    this.$fu$_location = location;
+  }
+
   @Nullable
   @Override
   public RouteState getAuthFilterRouteState()
   {
     return $fu$_state_authFilter;
+  }
+
+  void setAuthFilterRouteState( @Nullable final RouteState state )
+  {
+    $fu$_state_authFilter = state;
   }
 
   @Nullable
@@ -224,11 +236,21 @@ final class RouterFu_MyRouter
     return $fu$_state_regions;
   }
 
+  void setRegionsRouteState( @Nullable final RouteState state )
+  {
+    $fu$_state_regions = state;
+  }
+
   @Nullable
   @Override
   public RouteState getRegionFilterRouteState()
   {
     return $fu$_state_regionFilter;
+  }
+
+  void setRegionFilterRouteState( @Nullable final RouteState state )
+  {
+    $fu$_state_regionFilter = state;
   }
 
   @Nullable
@@ -238,6 +260,11 @@ final class RouterFu_MyRouter
     return $fu$_state_region;
   }
 
+  void setRegionRouteState( @Nullable final RouteState state )
+  {
+    $fu$_state_region = state;
+  }
+
   @Nullable
   @Override
   public RouteState getRegionEventsRouteState()
@@ -245,11 +272,21 @@ final class RouterFu_MyRouter
     return $fu$_state_regionEvents;
   }
 
+  void setRegionEventsRouteState( @Nullable final RouteState state )
+  {
+    $fu$_state_regionEvents = state;
+  }
+
   @Nullable
   @Override
   public RouteState getRegionEventRouteState()
   {
     return $fu$_state_regionEvent;
+  }
+
+  void setRegionEventRouteState( @Nullable final RouteState state )
+  {
+    $fu$_state_regionEvent = state;
   }
 
   @Nonnull

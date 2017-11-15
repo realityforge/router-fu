@@ -52,6 +52,13 @@ define 'router-fu' do
 
     compile.with project('core').package(:jar),
                  project('core').compile.dependencies,
+                 :arez_annotations,
+                 :arez_core,
+                 :arez_processor,
+                 :arez_component,
+                 :arez_extras,
+                 :javapoet,
+                 :guava,
                  :gwt_user
 
     test.options[:properties] = TEST_OPTIONS
@@ -76,4 +83,14 @@ define 'router-fu' do
                             :start_javascript_debugger => false,
                             :vm_parameters => "-Xmx2G -Djava.io.tmpdir=#{_('tmp/gwt')}",
                             :shell_parameters => "-port 8888 -codeServerPort 8889 -bindAddress 0.0.0.0 -war #{_(:generated, 'gwt-export')}/")
+
+  ipr.add_component('CompilerConfiguration') do |component|
+    component.annotationProcessing do |xml|
+      xml.profile(:default => true, :name => 'Default', :enabled => true) do
+        xml.sourceOutputDir :name => 'generated/processors/main/java'
+        xml.sourceTestOutputDir :name => 'generated/processors/test/java'
+        xml.outputRelativeToContentRoot :value => true
+      end
+    end
+  end
 end

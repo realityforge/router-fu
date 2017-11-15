@@ -28,7 +28,7 @@ public class MyRouter
   @Nonnull
   public static MyRouterService create()
   {
-    return new RouterFu_MyRouter( DomGlobal.window );
+    return new Arez_RouterFu_MyRouter( DomGlobal.window );
   }
 
   @RouteCallback
