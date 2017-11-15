@@ -5,10 +5,10 @@ import javax.annotation.Nonnull;
 import router.fu.MatchResult;
 import router.fu.annotations.Route;
 import router.fu.annotations.RouteCallback;
-import router.fu.annotations.RouteManager;
+import router.fu.annotations.Router;
 import router.fu.annotations.RouteParameter;
 
-@RouteManager( arez = true )
+@Router( arez = true )
 // This first route is a filter and matches all locations but can not be navigated to
 @Route( name = "authFilter", path = "", navigationTarget = false, partialMatch = true )
 @Route( name = "regions", path = "regions" )

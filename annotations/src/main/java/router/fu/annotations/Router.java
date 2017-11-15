@@ -6,7 +6,7 @@ import java.lang.annotation.Target;
 
 @Documented
 @Target( ElementType.TYPE )
-public @interface RouteManager
+public @interface Router
 {
   boolean arez() default false;
 }
