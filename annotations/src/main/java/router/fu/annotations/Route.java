@@ -17,7 +17,7 @@ public @interface Route
 {
   /**
    * The name of the route.
-   * This is an opaque name, only used during development.
+   * This name must conform to the requirements of a java identifier.
    *
    * @return the name of the route.
    */
