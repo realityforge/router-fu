@@ -1,6 +1,7 @@
 package router.fu;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,7 +17,7 @@ public final class Router
   @Nonnull
   private final RoutingBackend _backend;
   @Nonnull
-  private final ArrayList<Route> _routes;
+  private final List<Route> _routes;
   /**
    * Callback used when registering callback handler after router installed.
    */
@@ -25,7 +26,7 @@ public final class Router
 
   public Router( @Nonnull final LocationListener listener,
                  @Nonnull final RoutingBackend backend,
-                 @Nonnull final ArrayList<Route> routes )
+                 @Nonnull final List<Route> routes )
   {
     _listener = Objects.requireNonNull( listener );
     _backend = Objects.requireNonNull( backend );
