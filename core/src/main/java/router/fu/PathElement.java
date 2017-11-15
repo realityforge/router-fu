@@ -11,7 +11,7 @@ import static org.realityforge.braincheck.Guards.*;
 public final class PathElement
 {
   @Nullable
-  private final PathParameter _parameter;
+  private final Parameter _parameter;
   @Nullable
   private final String _path;
 
@@ -31,7 +31,7 @@ public final class PathElement
    *
    * @param parameter the parameter.
    */
-  public PathElement( @Nonnull final PathParameter parameter )
+  public PathElement( @Nonnull final Parameter parameter )
   {
     _parameter = Objects.requireNonNull( parameter );
     _path = null;
@@ -58,7 +58,7 @@ public final class PathElement
    * @return the parameter component.
    */
   @Nonnull
-  public PathParameter getParameter()
+  public Parameter getParameter()
   {
     apiInvariant( () -> null != _parameter,
                   () -> "PathElement.getParameter() invoked on non-parameter path element with " +

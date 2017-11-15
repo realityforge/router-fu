@@ -91,32 +91,32 @@ public class RouterTest
     final Route route1 =
       new Route( "security",
                  null,
-                 new PathParameter[ 0 ],
+                 new Parameter[ 0 ],
                  new TestRegExp( new String[]{ location } ),
                  new TestRouteMatchCallback( MatchResult.NON_TERMINAL ) );
     final Route route2 =
       new Route( "event",
                  null,
-                 new PathParameter[]{ new PathParameter( "eventId" ) },
+                 new Parameter[]{ new Parameter( "eventId" ) },
                  new TestRegExp(),
                  new TestRouteMatchCallback() );
     final Route route3 =
       new Route( "location",
                  null,
-                 new PathParameter[]{ new PathParameter( "location" ) },
+                 new Parameter[]{ new Parameter( "location" ) },
                  new TestRegExp(),
                  new TestRouteMatchCallback() );
     final Route route4 =
       new Route( "eventAtLocation",
                  null,
-                 new PathParameter[]{ new PathParameter( "location" ), new PathParameter( "eventId" ) },
+                 new Parameter[]{ new Parameter( "location" ), new Parameter( "eventId" ) },
                  new TestRegExp( new String[]{ location, "ballarat", "42" } ),
                  new TestRouteMatchCallback() );
     // 404 would match everything if it gets to here
     final Route route5 =
       new Route( "404",
                  null,
-                 new PathParameter[ 0 ],
+                 new Parameter[ 0 ],
                  new TestRegExp( new String[]{ location } ),
                  new TestRouteMatchCallback() );
 

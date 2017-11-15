@@ -14,7 +14,7 @@ import static org.realityforge.braincheck.Guards.*;
 
 /**
  * A named pattern that can be matched during routing.
- * Matching the pattern can produce parameters as described by the {@link #_pathParameters} field. If the
+ * Matching the pattern can produce parameters as described by the {@link #_parameters} field. If the
  * toolkit identifies this route as matching and all patterns pass validation, then the toolkit invokes the
  * {@link #_matchCallback} callback to complete the match process.
  *
@@ -38,7 +38,7 @@ public final class Route
    * Descriptors for parameters extracted from the path.
    */
   @Nonnull
-  private final PathParameter[] _pathParameters;
+  private final Parameter[] _parameters;
   /**
    * The regular expression that matches the path and extracts parameters.
    */
@@ -57,13 +57,13 @@ public final class Route
 
   public Route( @Nonnull final String name,
                 @Nullable final PathElement[] pathElements,
-                @Nonnull final PathParameter[] pathParameters,
+                @Nonnull final Parameter[] parameters,
                 @Nonnull final RegExp matcher,
                 @Nonnull final RouteMatchCallback matchCallback )
   {
     _name = Objects.requireNonNull( name );
     _pathElements = pathElements;
-    _pathParameters = Objects.requireNonNull( pathParameters );
+    _parameters = Objects.requireNonNull( parameters );
     _matcher = Objects.requireNonNull( matcher );
     _matchCallback = Objects.requireNonNull( matchCallback );
   }
@@ -88,18 +88,18 @@ public final class Route
    * @param parameters the parameters required by route.
    */
   @Nonnull
-  public String buildLocation( @Nonnull final Map<PathParameter, String> parameters )
+  public String buildLocation( @Nonnull final Map<Parameter, String> parameters )
   {
     apiInvariant( this::isNavigationTarget,
                   () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
     assert null != _pathElements;
-    final HashSet<PathParameter> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
+    final HashSet<Parameter> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
     final StringBuilder sb = new StringBuilder();
     for ( final PathElement pathElement : _pathElements )
     {
       if ( pathElement.isParameter() )
       {
-        final PathParameter parameterKey = pathElement.getParameter();
+        final Parameter parameterKey = pathElement.getParameter();
         apiInvariant( () -> parameters.containsKey( parameterKey ),
                       () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
                             "supplied when building path but no such parameter was supplied. " +
@@ -125,12 +125,12 @@ public final class Route
     if ( BrainCheckConfig.checkApiInvariants() )
     {
       assert null != usedParameters;
-      final List<PathParameter> unusedParameters =
+      final List<Parameter> unusedParameters =
         parameters.keySet().stream().filter( k -> !usedParameters.contains( k ) ).collect( Collectors.toList() );
       apiInvariant( unusedParameters::isEmpty,
                     () -> "Route named '" + _name + "' expects all parameters to be used when building " +
                           "path but the following parameters are unused. Parameters: " + unusedParameters );
-      final HashMap<PathParameter, String> matchedParameters = locationMatch( location );
+      final HashMap<Parameter, String> matchedParameters = locationMatch( location );
       invariant( () -> null != matchedParameters && Objects.equals( matchedParameters, parameters ),
                  () -> "Route named '" + _name + "' had buildPath() invoked with parameters " + parameters +
                        " produced path '" + location + "' and if this is matched against the same route it produces " +
@@ -148,7 +148,7 @@ public final class Route
   @Nullable
   public RouteState match( @Nonnull final String location )
   {
-    final HashMap<PathParameter, String> parameters = locationMatch( location );
+    final HashMap<Parameter, String> parameters = locationMatch( location );
     if ( null != parameters )
     {
       final MatchResult matchResult = _matchCallback.shouldMatch( location, this, parameters );
@@ -167,18 +167,18 @@ public final class Route
    * @return the parameters if match, else null.
    */
   @Nullable
-  private HashMap<PathParameter, String> locationMatch( @Nonnull final String location )
+  private HashMap<Parameter, String> locationMatch( @Nonnull final String location )
   {
     final String[] groups = _matcher.exec( Objects.requireNonNull( location ) );
     if ( null != groups )
     {
-      final HashMap<PathParameter, String> matchData = new HashMap<>();
+      final HashMap<Parameter, String> matchData = new HashMap<>();
       //Group 0 is the whole string so we can skip it
       for ( int i = 1; i < groups.length; i++ )
       {
         final String value = groups[ i ];
         final int paramIndex = i - 1;
-        final PathParameter parameter = getParameterByIndex( paramIndex );
+        final Parameter parameter = getParameterByIndex( paramIndex );
         final RegExp validator = parameter.getValidator();
         if ( null != validator && !validator.test( value ) )
         {
@@ -200,11 +200,11 @@ public final class Route
    * @return the parameter descriptor at index.
    */
   @Nonnull
-  PathParameter getParameterByIndex( final int index )
+  Parameter getParameterByIndex( final int index )
   {
-    invariant( () -> _pathParameters.length > index,
+    invariant( () -> _parameters.length > index,
                () -> "Route named '" + _name + "' expects a parameter at index " + index + " when matching " +
                      "location but no such parameter has been defined." );
-    return _pathParameters[ index ];
+    return _parameters[ index ];
   }
 }

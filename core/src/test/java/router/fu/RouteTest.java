@@ -34,7 +34,7 @@ public class RouteTest
     final String name = ValueUtil.randomString();
     final String location = ValueUtil.randomString();
     final TestRegExp matcher = new TestRegExp( new String[]{ location } );
-    final Route route = new Route( name, null, new PathParameter[ 0 ], matcher, matchCallback );
+    final Route route = new Route( name, null, new Parameter[ 0 ], matcher, matchCallback );
 
     final RouteState state = route.match( location );
     assertNotNull( state );
@@ -51,7 +51,7 @@ public class RouteTest
     final String name = ValueUtil.randomString();
     final String location = ValueUtil.randomString();
     final TestRegExp matcher = new TestRegExp( new String[]{ location } );
-    final Route route = new Route( name, null, new PathParameter[ 0 ], matcher, matchCallback );
+    final Route route = new Route( name, null, new Parameter[ 0 ], matcher, matchCallback );
 
     final RouteState state = route.match( location );
     assertNotNull( state );
@@ -68,7 +68,7 @@ public class RouteTest
     final String name = ValueUtil.randomString();
     final String location = ValueUtil.randomString();
     final TestRegExp matcher = new TestRegExp( new String[]{ location } );
-    final Route route = new Route( name, null, new PathParameter[ 0 ], matcher, matchCallback );
+    final Route route = new Route( name, null, new Parameter[ 0 ], matcher, matchCallback );
 
     final RouteState state = route.match( location );
     assertNull( state );
@@ -79,9 +79,9 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter[] parameters = {
-      new PathParameter( "paramA" ),
-      new PathParameter( "paramB" )
+    final Parameter[] parameters = {
+      new Parameter( "paramA" ),
+      new Parameter( "paramB" )
     };
     final String location = "/locations/ballarat/events/42";
     final TestRegExp matcher = new TestRegExp();
@@ -97,9 +97,9 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter paramA = new PathParameter( "paramA" );
-    final PathParameter paramB = new PathParameter( "paramB" );
-    final PathParameter[] parameters = { paramA, paramB };
+    final Parameter paramA = new Parameter( "paramA" );
+    final Parameter paramB = new Parameter( "paramB" );
+    final Parameter[] parameters = { paramA, paramB };
     final String location = "/locations/ballarat/events/42";
     final String[] resultGroups = { location, "ballarat", "42" };
 
@@ -123,9 +123,9 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter paramA = new PathParameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) );
-    final PathParameter paramB = new PathParameter( "paramB", new TestRegExp( new String[]{ "42" } ) );
-    final PathParameter[] parameters = { paramA, paramB };
+    final Parameter paramA = new Parameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) );
+    final Parameter paramB = new Parameter( "paramB", new TestRegExp( new String[]{ "42" } ) );
+    final Parameter[] parameters = { paramA, paramB };
     final String location = "/locations/ballarat/events/42";
     final String[] resultGroups = { location, "ballarat", "42" };
 
@@ -149,9 +149,9 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter[] parameters = {
-      new PathParameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) ),
-      new PathParameter( "paramB", new TestRegExp() )
+    final Parameter[] parameters = {
+      new Parameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) ),
+      new Parameter( "paramB", new TestRegExp() )
     };
     final String location = "/locations/ballarat/events/42";
     final String[] resultGroups = { location, "ballarat", "42" };
@@ -173,7 +173,7 @@ public class RouteTest
     final Route route =
       new Route( name,
                  null,
-                 new PathParameter[ 0 ],
+                 new Parameter[ 0 ],
                  new TestRegExp(),
                  matchCallback );
     final IllegalStateException exception =
@@ -188,11 +188,11 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     final PathElement[] pathElements = { new PathElement( "/blah" ) };
-    final PathParameter[] pathParameters = new PathParameter[ 0 ];
+    final Parameter[] parameters = new Parameter[ 0 ];
     final String expectedPath = "/blah";
     final String[] resultGroups = { expectedPath };
     final Route route =
-      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final String location = route.buildLocation( Collections.emptyMap() );
     assertEquals( location, expectedPath );
@@ -203,8 +203,8 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter locationParameter = new PathParameter( "location" );
-    final PathParameter eventParameter = new PathParameter( "event" );
+    final Parameter locationParameter = new Parameter( "location" );
+    final Parameter eventParameter = new Parameter( "event" );
     final PathElement[] pathElements =
       {
         new PathElement( "/locations/" ),
@@ -212,13 +212,13 @@ public class RouteTest
         new PathElement( "/events/" ),
         new PathElement( eventParameter )
       };
-    final PathParameter[] pathParameters = new PathParameter[]{ locationParameter, eventParameter };
+    final Parameter[] parameters = new Parameter[]{ locationParameter, eventParameter };
     final String expectedPath = "/locations/ballarat/events/42";
     final String[] resultGroups = { expectedPath, "ballarat", "42" };
     final Route route =
-      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<PathParameter, String> input = new HashMap<>();
+    final HashMap<Parameter, String> input = new HashMap<>();
     input.put( locationParameter, "ballarat" );
     input.put( eventParameter, "42" );
     final String location = route.buildLocation( input );
@@ -230,17 +230,17 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter locationParameter = new PathParameter( "location" );
+    final Parameter locationParameter = new Parameter( "location" );
     final PathElement[] pathElements =
       {
         new PathElement( "/locations/" ),
         new PathElement( locationParameter )
       };
-    final PathParameter[] pathParameters = new PathParameter[]{ locationParameter };
+    final Parameter[] parameters = new Parameter[]{ locationParameter };
     final String expectedPath = "/locations/ballarat";
     final String[] resultGroups = { expectedPath, "ballarat" };
     final Route route =
-      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( new HashMap<>() ) );
@@ -255,19 +255,19 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     // Event parameters regex will not match thus causing it to fail to match
-    final PathParameter eventParameter = new PathParameter( "event", new TestRegExp() );
+    final Parameter eventParameter = new Parameter( "event", new TestRegExp() );
     final PathElement[] pathElements =
       {
         new PathElement( "/events/" ),
         new PathElement( eventParameter )
       };
-    final PathParameter[] pathParameters = new PathParameter[]{ eventParameter };
+    final Parameter[] parameters = new Parameter[]{ eventParameter };
     final String expectedPath = "/events/42";
     final String[] resultGroups = { expectedPath, "42" };
     final Route route =
-      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<PathParameter, String> input = new HashMap<>();
+    final HashMap<Parameter, String> input = new HashMap<>();
     input.put( eventParameter, "42" );
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
@@ -281,21 +281,21 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter eventParameter = new PathParameter( "event" );
+    final Parameter eventParameter = new Parameter( "event" );
     final PathElement[] pathElements =
       {
         new PathElement( "/events/" ),
         new PathElement( eventParameter )
       };
-    final PathParameter[] pathParameters = new PathParameter[]{ eventParameter };
+    final Parameter[] parameters = new Parameter[]{ eventParameter };
     final String expectedPath = "/events/42";
     final String[] resultGroups = { expectedPath, "42" };
     final Route route =
-      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<PathParameter, String> input = new HashMap<>();
+    final HashMap<Parameter, String> input = new HashMap<>();
     input.put( eventParameter, "42" );
-    input.put( new PathParameter( "other" ), "73" );
+    input.put( new Parameter( "other" ), "73" );
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
     assertEquals( exception.getMessage(),
@@ -308,19 +308,19 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathParameter eventParameter = new PathParameter( "event" );
+    final Parameter eventParameter = new Parameter( "event" );
     final PathElement[] pathElements =
       {
         new PathElement( "/events/" ),
         new PathElement( eventParameter )
       };
-    final PathParameter[] pathParameters = new PathParameter[]{ eventParameter };
+    final Parameter[] parameters = new Parameter[]{ eventParameter };
     final String expectedPath = "/events/77";
     final String[] resultGroups = { expectedPath, "77" };
     final Route route =
-      new Route( name, pathElements, pathParameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
 
-    final HashMap<PathParameter, String> input = new HashMap<>();
+    final HashMap<Parameter, String> input = new HashMap<>();
     input.put( eventParameter, "42" );
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
@@ -338,7 +338,7 @@ public class RouteTest
     final Route route =
       new Route( name,
                  new PathElement[ 0 ],
-                 new PathParameter[ 0 ],
+                 new Parameter[ 0 ],
                  new TestRegExp(),
                  matchCallback );
     final IllegalStateException exception =

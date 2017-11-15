@@ -21,5 +21,5 @@ public interface RouteMatchCallback
   @Nonnull
   MatchResult shouldMatch( @Nonnull String location,
                            @Nonnull Route route,
-                           @Nonnull Map<PathParameter, String> parameters );
+                           @Nonnull Map<Parameter, String> parameters );
 }

@@ -24,7 +24,7 @@ public class PathElementTest
   public void parameterPath()
   {
     final String parameterName = ValueUtil.randomString();
-    final PathParameter parameter = new PathParameter( parameterName, null );
+    final Parameter parameter = new Parameter( parameterName, null );
     final PathElement pathElement = new PathElement( parameter );
 
     assertEquals( pathElement.isParameter(), true );

@@ -8,19 +8,19 @@ import javax.annotation.Nullable;
 /**
  * Representation of a path parameter.
  */
-public final class PathParameter
+public final class Parameter
 {
   @Nonnull
   private final String _name;
   @Nullable
   private final RegExp _validator;
 
-  public PathParameter( @Nonnull final String name )
+  public Parameter( @Nonnull final String name )
   {
     this( name, null );
   }
 
-  public PathParameter( @Nonnull final String name, @Nullable final RegExp validator )
+  public Parameter( @Nonnull final String name, @Nullable final RegExp validator )
   {
     _name = Objects.requireNonNull( name );
     _validator = validator;

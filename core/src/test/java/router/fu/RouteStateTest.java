@@ -13,10 +13,10 @@ public class RouteStateTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final Route route = new Route( ValueUtil.randomString(),
                                    new PathElement[ 0 ],
-                                   new PathParameter[ 0 ],
+                                   new Parameter[ 0 ],
                                    new TestRegExp(),
                                    matchCallback );
-    final HashMap<PathParameter, String> parameters = new HashMap<>();
+    final HashMap<Parameter, String> parameters = new HashMap<>();
     final boolean terminal = true;
     final RouteState state = new RouteState( route, parameters, terminal );
 

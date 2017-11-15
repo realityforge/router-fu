@@ -14,8 +14,8 @@ import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.ArezComponent;
 import router.fu.Elemental2HashRoutingBackend;
 import router.fu.MatchResult;
+import router.fu.Parameter;
 import router.fu.PathElement;
-import router.fu.PathParameter;
 import router.fu.Route;
 import router.fu.RouteLocation;
 import router.fu.RouteState;
@@ -28,31 +28,31 @@ class RouterFu_MyRouter
   extends MyRouter
   implements MyRouterService
 {
-  private final PathParameter $fu$_pathParam_regionCode_1 = new PathParameter( "regionCode" );
-  private final PathParameter $fu$_pathParam_eventId_1 = new PathParameter( "eventId" );
+  private final Parameter $fu$_pathParam_regionCode_1 = new Parameter( "regionCode" );
+  private final Parameter $fu$_pathParam_eventId_1 = new Parameter( "eventId" );
   private final router.fu.Route $fu$_authFilter =
     new router.fu.Route( "authFilter",
                          null,
-                         new PathParameter[]{},
+                         new Parameter[]{},
                          new RegExp( "^/.*$" ),
                          ( ( location, route, parameters ) -> authFilterCallback() ) );
   private final router.fu.Route $fu$_regions =
     new router.fu.Route( "regions",
                          new PathElement[]{ new PathElement( "/regions" ) },
-                         new PathParameter[]{},
+                         new Parameter[]{},
                          new RegExp( "^/regions$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
   private final router.fu.Route $fu$_regionFilter =
     new router.fu.Route( "regionFilter",
                          null,
-                         new PathParameter[]{ $fu$_pathParam_regionCode_1 },
+                         new Parameter[]{ $fu$_pathParam_regionCode_1 },
                          new RegExp( "^/regions/([^/.;]+)/.*$" ),
                          ( ( location, route, parameters ) -> MatchResult.NON_TERMINAL ) );
   private final router.fu.Route $fu$_region =
     new router.fu.Route( "region",
                          new PathElement[]{ new PathElement( "/regions" ),
                                             new PathElement( $fu$_pathParam_regionCode_1 ) },
-                         new PathParameter[]{ $fu$_pathParam_regionCode_1 },
+                         new Parameter[]{ $fu$_pathParam_regionCode_1 },
                          new RegExp( "^/regions/([^/.;]+)$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
   private final router.fu.Route $fu$_regionEvents =
@@ -60,7 +60,7 @@ class RouterFu_MyRouter
                          new PathElement[]{ new PathElement( "/regions" ),
                                             new PathElement( $fu$_pathParam_regionCode_1 ),
                                             new PathElement( "/events" ) },
-                         new PathParameter[]{ $fu$_pathParam_regionCode_1 },
+                         new Parameter[]{ $fu$_pathParam_regionCode_1 },
                          new RegExp( "^/regions\\/([^\\/.;]+)\\/events$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
   private final router.fu.Route $fu$_regionEvent =
@@ -69,7 +69,7 @@ class RouterFu_MyRouter
                                             new PathElement( $fu$_pathParam_regionCode_1 ),
                                             new PathElement( "/event" ),
                                             new PathElement( $fu$_pathParam_eventId_1 ) },
-                         new PathParameter[]{ $fu$_pathParam_regionCode_1, $fu$_pathParam_eventId_1 },
+                         new Parameter[]{ $fu$_pathParam_regionCode_1, $fu$_pathParam_eventId_1 },
                          new RegExp( "^/regions\\/([^\\/.;]+)\\/events\\/([^\\/.;]+)$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
 
@@ -113,7 +113,7 @@ class RouterFu_MyRouter
   @Override
   public String buildRegionLocation( @Nonnull final String regionCode )
   {
-    final Map<PathParameter, String> parameters = new HashMap<>();
+    final Map<Parameter, String> parameters = new HashMap<>();
     parameters.put( $fu$_pathParam_regionCode_1, regionCode );
     return $fu$_regions.buildLocation( parameters );
   }
@@ -128,7 +128,7 @@ class RouterFu_MyRouter
   @Override
   public String buildRegionEventsLocation( @Nonnull final String regionCode )
   {
-    final Map<PathParameter, String> parameters = new HashMap<>();
+    final Map<Parameter, String> parameters = new HashMap<>();
     parameters.put( $fu$_pathParam_regionCode_1, regionCode );
     return $fu$_regions.buildLocation( parameters );
   }
@@ -143,7 +143,7 @@ class RouterFu_MyRouter
   @Override
   public String buildRegionEventLocation( @Nonnull final String regionCode, @Nonnull final String eventId )
   {
-    final Map<PathParameter, String> parameters = new HashMap<>();
+    final Map<Parameter, String> parameters = new HashMap<>();
     parameters.put( $fu$_pathParam_regionCode_1, regionCode );
     parameters.put( $fu$_pathParam_eventId_1, eventId );
     return $fu$_regions.buildLocation( parameters );

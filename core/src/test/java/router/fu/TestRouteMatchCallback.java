@@ -23,7 +23,7 @@ class TestRouteMatchCallback
   @Override
   public MatchResult shouldMatch( @Nonnull final String location,
                                   @Nonnull final Route route,
-                                  @Nonnull final Map<PathParameter, String> parameters )
+                                  @Nonnull final Map<Parameter, String> parameters )
   {
     return _result;
   }
