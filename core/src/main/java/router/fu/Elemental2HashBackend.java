@@ -5,14 +5,13 @@ import elemental2.dom.EventListener;
 import elemental2.dom.Window;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import jsinterop.base.JsPropertyMap;
 
 /**
  * Hash based routing backend based on Elemental2.
  */
-public class Elemental2HashRoutingBackend
-  implements RoutingBackend
+public class Elemental2HashBackend
+  implements Backend
 {
   @Nonnull
   private final Window _window;
@@ -20,7 +19,7 @@ public class Elemental2HashRoutingBackend
   /**
    * Create backend for routing for on current window.
    */
-  public Elemental2HashRoutingBackend()
+  public Elemental2HashBackend()
   {
     this( DomGlobal.window );
   }
@@ -30,7 +29,7 @@ public class Elemental2HashRoutingBackend
    *
    * @param window the window.
    */
-  public Elemental2HashRoutingBackend( @Nonnull final Window window )
+  public Elemental2HashBackend( @Nonnull final Window window )
   {
     _window = Objects.requireNonNull( window );
   }

@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 /**
  * Interface via which different routing backends can be implemented.
  */
-public interface RoutingBackend
+public interface Backend
 {
   @FunctionalInterface
   interface LocationChangeListener

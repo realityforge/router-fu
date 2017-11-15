@@ -5,8 +5,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import static org.testng.Assert.*;
 
-final class TestRoutingBackend
-  implements RoutingBackend
+final class TestBackend
+  implements Backend
 {
   private LocationChangeListener _handler;
   @Nonnull

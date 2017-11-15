@@ -15,7 +15,7 @@ public final class Router
   @Nonnull
   private final LocationListener _listener;
   @Nonnull
-  private final RoutingBackend _backend;
+  private final Backend _backend;
   @Nonnull
   private final List<Route> _routes;
   /**
@@ -25,7 +25,7 @@ public final class Router
   private Object _callback;
 
   public Router( @Nonnull final LocationListener listener,
-                 @Nonnull final RoutingBackend backend,
+                 @Nonnull final Backend backend,
                  @Nonnull final List<Route> routes )
   {
     _listener = Objects.requireNonNull( listener );

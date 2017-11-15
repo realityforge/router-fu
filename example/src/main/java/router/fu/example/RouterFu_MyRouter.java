@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.ArezComponent;
-import router.fu.Elemental2HashRoutingBackend;
+import router.fu.Elemental2HashBackend;
 import router.fu.MatchResult;
 import router.fu.Parameter;
 import router.fu.Segment;
@@ -92,7 +92,7 @@ class RouterFu_MyRouter
                                                    $fu$_region,
                                                    $fu$_regionEvents,
                                                    $fu$_regionEvent ) );
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashRoutingBackend( window ), routes );
+    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), routes );
     $fu$_router.activate();
   }
 
