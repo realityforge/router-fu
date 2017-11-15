@@ -20,6 +20,19 @@ define 'router-fu' do
 
   project.version = ENV['PRODUCT_VERSION'] if ENV['PRODUCT_VERSION']
 
+  desc 'Annotations for defining a router'
+  define 'annotations' do
+    pom.provided_dependencies.concat PROVIDED_DEPS
+
+    compile.with PROVIDED_DEPS
+
+    gwt_enhance(project)
+
+    package(:jar)
+    package(:sources)
+    package(:javadoc)
+  end
+
   desc 'The core router-fu code'
   define 'core' do
     pom.provided_dependencies.concat PROVIDED_DEPS
@@ -50,7 +63,9 @@ define 'router-fu' do
   define 'example' do
     pom.provided_dependencies.concat PROVIDED_DEPS
 
-    compile.with project('core').package(:jar),
+    compile.with project('annotations').package(:jar),
+                 project('annotations').compile.dependencies,
+                 project('core').package(:jar),
                  project('core').compile.dependencies,
                  :arez_annotations,
                  :arez_core,
