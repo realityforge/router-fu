@@ -1,6 +1,8 @@
 package router.fu.processor;
 
 import com.google.auto.service.AutoService;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -13,6 +15,7 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import router.fu.annotations.Router;
 import static javax.tools.Diagnostic.Kind.*;
@@ -76,5 +79,28 @@ public final class RouterProcessor
   private void process( @Nonnull final TypeElement element )
     throws IOException, RouterProcessorException
   {
+    final RouterDescriptor descriptor = parse( element );
+    emitTypeSpec( descriptor.getPackageName(), Generator.buildService( descriptor ) );
+    emitTypeSpec( descriptor.getPackageName(), Generator.buildRouterImpl( descriptor ) );
+  }
+
+  private void emitTypeSpec( @Nonnull final String packageName, @Nonnull final TypeSpec typeSpec )
+    throws IOException
+  {
+    JavaFile.builder( packageName, typeSpec ).
+      skipJavaLangImports( true ).
+      build().
+      writeTo( processingEnv.getFiler() );
+  }
+
+  @Nonnull
+  private RouterDescriptor parse( @Nonnull final TypeElement typeElement )
+  {
+    final Router component = typeElement.getAnnotation( Router.class );
+    assert null != component;
+    final PackageElement packageElement = processingEnv.getElementUtils().getPackageOf( typeElement );
+    final RouterDescriptor descriptor = new RouterDescriptor( packageElement, typeElement );
+    descriptor.setArezComponent( component.arez() );
+    return descriptor;
   }
 }

@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -93,6 +94,11 @@ abstract class AbstractRouterProcessorTest
         }
         Files.copy( fileObject.openInputStream(), target );
       }
+    }
+    for ( final String output : outputs )
+    {
+      final Path path = fixtureDir().resolve( output );
+      assertTrue( path.toFile().exists(), "Expected output file to exist: " + path );
     }
     final JavaFileObject firstExpected = fixture( outputs.get( 0 ) );
     final JavaFileObject[] restExpected =
