@@ -8,7 +8,7 @@ import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
-public class RouteLocationTest
+public class LocationTest
 {
   @Test
   public void basicOperation()
@@ -19,7 +19,7 @@ public class RouteLocationTest
     final RouteState state4 = newRouteState( true );
 
     final String path = ValueUtil.randomString();
-    final RouteLocation location = new RouteLocation( path, Arrays.asList( state1, state2, state3, state4 ) );
+    final Location location = new Location( path, Arrays.asList( state1, state2, state3, state4 ) );
     assertEquals( location.getPath(), path );
     assertEquals( location.getStates().size(), 4 );
     assertEquals( location.getStates().get( 0 ), state1 );
@@ -35,7 +35,7 @@ public class RouteLocationTest
     final RouteState state1 = newRouteState( false );
     final RouteState state2 = newRouteState( false );
 
-    final RouteLocation location = new RouteLocation( ValueUtil.randomString(), Arrays.asList( state1, state2 ) );
+    final Location location = new Location( ValueUtil.randomString(), Arrays.asList( state1, state2 ) );
     assertEquals( location.getStates().size(), 2 );
     assertEquals( location.getStates().get( 0 ), state1 );
     assertEquals( location.getStates().get( 1 ), state2 );
@@ -45,7 +45,7 @@ public class RouteLocationTest
   @Test
   public void noState()
   {
-    final RouteLocation location = new RouteLocation( ValueUtil.randomString(), Collections.emptyList() );
+    final Location location = new Location( ValueUtil.randomString(), Collections.emptyList() );
     assertEquals( location.getStates().size(), 0 );
     assertEquals( location.getTerminalState(), null );
   }

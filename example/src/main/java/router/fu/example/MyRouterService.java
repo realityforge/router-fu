@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.Observable;
 import router.fu.Route;
-import router.fu.RouteLocation;
+import router.fu.Location;
 import router.fu.RouteState;
 
 /**
@@ -53,7 +53,7 @@ public interface MyRouterService
 
   @Observable
   @Nonnull
-  RouteLocation getLocation();
+  Location getLocation();
 
   @Observable
   @Nullable

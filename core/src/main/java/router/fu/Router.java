@@ -95,7 +95,7 @@ public final class Router
    * @return the result of routing.
    */
   @Nonnull
-  RouteLocation route( @Nonnull final String location )
+  Location route( @Nonnull final String location )
   {
     final ArrayList<RouteState> states = new ArrayList<>();
     for ( final Route route : _routes )
@@ -110,7 +110,7 @@ public final class Router
         }
       }
     }
-    return new RouteLocation( location, states );
+    return new Location( location, states );
   }
 
   @TestOnly

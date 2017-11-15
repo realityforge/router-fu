@@ -17,7 +17,7 @@ import router.fu.MatchResult;
 import router.fu.Parameter;
 import router.fu.Segment;
 import router.fu.Route;
-import router.fu.RouteLocation;
+import router.fu.Location;
 import router.fu.RouteState;
 import router.fu.Router;
 
@@ -74,7 +74,7 @@ class RouterFu_MyRouter
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
 
   private final router.fu.Router $fu$_router;
-  private router.fu.RouteLocation $fu$_location;
+  private Location $fu$_location;
   private String $fu$_parameter_regionCode;
   private String $fu$_parameter_eventId;
   private RouteState $fu$_state_authFilter;
@@ -165,7 +165,7 @@ class RouterFu_MyRouter
   @Override
   public void setRegionCode( @Nonnull final String regionCode )
   {
-    final RouteLocation location = getLocation();
+    final Location location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if ( null != terminalState )
     {
@@ -195,7 +195,7 @@ class RouterFu_MyRouter
   @Override
   public void setEventId( @Nonnull final String eventId )
   {
-    final RouteLocation location = getLocation();
+    final Location location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if ( null != terminalState )
     {
@@ -208,13 +208,13 @@ class RouterFu_MyRouter
   }
 
   @Nonnull
-  public RouteLocation getLocation()
+  public Location getLocation()
   {
     assert null != $fu$_location;
     return $fu$_location;
   }
 
-  void setLocation( @Nonnull final RouteLocation location )
+  void setLocation( @Nonnull final Location location )
   {
     this.$fu$_location = location;
   }
@@ -333,7 +333,7 @@ class RouterFu_MyRouter
     return $fu$_regionEvent;
   }
 
-  void onLocationChanged( @Nonnull final RouteLocation location )
+  void onLocationChanged( @Nonnull final Location location )
   {
     $fu$_location = Objects.requireNonNull( location );
     final List<RouteState> states = $fu$_location.getStates();

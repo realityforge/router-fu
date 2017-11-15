@@ -7,18 +7,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
- * Result of performing a routing on location.
- * The result is an ordered list of {@link RouteState} instances with the last instance
- * potentially being a terminal routing state and other states being non-terminal.
+ * The result of routing a path.
+ * The location contains the path as well as an ordered list of {@link RouteState} instances. The last
+ * {@link RouteState} instance may be a terminal routing state and other states being non-terminal.
  */
-public final class RouteLocation
+public final class Location
 {
   @Nonnull
   private final String _path;
   @Nonnull
   private final List<RouteState> _states;
 
-  public RouteLocation( @Nonnull final String path, @Nonnull final List<RouteState> states )
+  public Location( @Nonnull final String path, @Nonnull final List<RouteState> states )
   {
     _path = Objects.requireNonNull( path );
     _states = Collections.unmodifiableList( Objects.requireNonNull( states ) );

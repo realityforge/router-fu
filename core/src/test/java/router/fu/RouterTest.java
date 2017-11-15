@@ -10,7 +10,7 @@ public class RouterTest
   @Test
   public void activateAndDeactivate()
   {
-    final ArrayList<RouteLocation> locations = new ArrayList<>();
+    final ArrayList<Location> locations = new ArrayList<>();
     final TestBackend backend = new TestBackend();
     final ArrayList<Route> routes = new ArrayList<>();
     final Router router = new Router( locations::add, backend, routes );
@@ -59,7 +59,7 @@ public class RouterTest
   public void changeLocation()
   {
     final TestBackend backend = new TestBackend();
-    final Router router = new Router( new ArrayList<RouteLocation>()::add, backend, new ArrayList<>() );
+    final Router router = new Router( new ArrayList<Location>()::add, backend, new ArrayList<>() );
 
     assertEquals( backend.getLocation(), "" );
 
@@ -72,7 +72,7 @@ public class RouterTest
   @Test
   public void basicRouting()
   {
-    final ArrayList<RouteLocation> locations = new ArrayList<>();
+    final ArrayList<Location> locations = new ArrayList<>();
     final TestBackend backend = new TestBackend();
     final ArrayList<Route> routes = new ArrayList<>();
 
@@ -129,7 +129,7 @@ public class RouterTest
     final Router router = new Router( locations::add, backend, routes );
     assertEquals( router.getRoutes(), routes );
 
-    final RouteLocation result = router.route( location );
+    final Location result = router.route( location );
 
     assertNotNull( result );
 
