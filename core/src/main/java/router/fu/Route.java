@@ -18,7 +18,7 @@ import static org.realityforge.braincheck.Guards.*;
  * toolkit identifies this route as matching and all patterns pass validation, then the toolkit invokes the
  * {@link #_matchCallback} callback to complete the match process.
  *
- * <p>Some routes can also be used as targets of navigation. These routes are constructed with {@link PathElement}
+ * <p>Some routes can also be used as targets of navigation. These routes are constructed with {@link Segment}
  * instances passed to them and will return true from {@link #isNavigationTarget()}. The {@link #buildLocation(Map)}
  * method can be invoked on navigation targets.</p>
  */
@@ -33,7 +33,7 @@ public final class Route
    * The list of elements used for constructing a url if route can be a navigation target. Otherwise this is null.
    */
   @Nullable
-  private final PathElement[] _pathElements;
+  private final Segment[] _segments;
   /**
    * Descriptors for parameters extracted from the path.
    */
@@ -56,13 +56,13 @@ public final class Route
   }
 
   public Route( @Nonnull final String name,
-                @Nullable final PathElement[] pathElements,
+                @Nullable final Segment[] segments,
                 @Nonnull final Parameter[] parameters,
                 @Nonnull final RegExp matcher,
                 @Nonnull final RouteMatchCallback matchCallback )
   {
     _name = Objects.requireNonNull( name );
-    _pathElements = pathElements;
+    _segments = segments;
     _parameters = Objects.requireNonNull( parameters );
     _matcher = Objects.requireNonNull( matcher );
     _matchCallback = Objects.requireNonNull( matchCallback );
@@ -77,7 +77,7 @@ public final class Route
    */
   public boolean isNavigationTarget()
   {
-    return null != _pathElements;
+    return null != _segments;
   }
 
   /**
@@ -92,14 +92,14 @@ public final class Route
   {
     apiInvariant( this::isNavigationTarget,
                   () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
-    assert null != _pathElements;
+    assert null != _segments;
     final HashSet<Parameter> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
     final StringBuilder sb = new StringBuilder();
-    for ( final PathElement pathElement : _pathElements )
+    for ( final Segment segment : _segments )
     {
-      if ( pathElement.isParameter() )
+      if ( segment.isParameter() )
       {
-        final Parameter parameterKey = pathElement.getParameter();
+        final Parameter parameterKey = segment.getParameter();
         apiInvariant( () -> parameters.containsKey( parameterKey ),
                       () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
                             "supplied when building path but no such parameter was supplied. " +
@@ -110,15 +110,15 @@ public final class Route
           usedParameters.add( parameterKey );
         }
         final String parameterValue = parameters.get( parameterKey );
-        apiInvariant( () -> null == pathElement.getParameter().getValidator() ||
-                            pathElement.getParameter().getValidator().test( parameterValue ),
+        apiInvariant( () -> null == segment.getParameter().getValidator() ||
+                            segment.getParameter().getValidator().test( parameterValue ),
                       () -> "Route named '" + _name + "' has a parameter named '" + parameterKey + "' and " +
                             "a value '" + parameterValue + "' has been passed that does not pass validation check." );
         sb.append( parameterValue );
       }
       else
       {
-        sb.append( pathElement.getPath() );
+        sb.append( segment.getPath() );
       }
     }
     final String location = sb.toString();

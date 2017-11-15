@@ -8,7 +8,7 @@ import static org.realityforge.braincheck.Guards.*;
 /**
  * This class represents the path segments used when reconstructing paths for route.
  */
-public final class PathElement
+public final class Segment
 {
   @Nullable
   private final Parameter _parameter;
@@ -20,7 +20,7 @@ public final class PathElement
    *
    * @param path the static path component.
    */
-  public PathElement( @Nonnull final String path )
+  public Segment( @Nonnull final String path )
   {
     _parameter = null;
     _path = Objects.requireNonNull( path );
@@ -31,7 +31,7 @@ public final class PathElement
    *
    * @param parameter the parameter.
    */
-  public PathElement( @Nonnull final Parameter parameter )
+  public Segment( @Nonnull final Parameter parameter )
   {
     _parameter = Objects.requireNonNull( parameter );
     _path = null;
@@ -46,7 +46,7 @@ public final class PathElement
   public String getPath()
   {
     apiInvariant( () -> null != _path,
-                  () -> "PathElement.getPath() invoked on parameter path element with parameter named '" +
+                  () -> "Segment.getPath() invoked on parameter path element with parameter named '" +
                         _parameter + "'" );
     assert null != _path;
     return _path;
@@ -61,7 +61,7 @@ public final class PathElement
   public Parameter getParameter()
   {
     apiInvariant( () -> null != _parameter,
-                  () -> "PathElement.getParameter() invoked on non-parameter path element with value '" + _path + "'" );
+                  () -> "Segment.getParameter() invoked on non-parameter path element with value '" + _path + "'" );
     assert null != _parameter;
     return _parameter;
   }

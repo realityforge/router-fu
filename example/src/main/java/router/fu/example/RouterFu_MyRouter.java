@@ -15,7 +15,7 @@ import org.realityforge.arez.annotations.ArezComponent;
 import router.fu.Elemental2HashRoutingBackend;
 import router.fu.MatchResult;
 import router.fu.Parameter;
-import router.fu.PathElement;
+import router.fu.Segment;
 import router.fu.Route;
 import router.fu.RouteLocation;
 import router.fu.RouteState;
@@ -38,7 +38,7 @@ class RouterFu_MyRouter
                          ( ( location, route, parameters ) -> authFilterCallback() ) );
   private final router.fu.Route $fu$_regions =
     new router.fu.Route( "regions",
-                         new PathElement[]{ new PathElement( "/regions" ) },
+                         new Segment[]{ new Segment( "/regions" ) },
                          new Parameter[]{},
                          new RegExp( "^/regions$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
@@ -50,25 +50,25 @@ class RouterFu_MyRouter
                          ( ( location, route, parameters ) -> MatchResult.NON_TERMINAL ) );
   private final router.fu.Route $fu$_region =
     new router.fu.Route( "region",
-                         new PathElement[]{ new PathElement( "/regions" ),
-                                            new PathElement( $fu$_pathParam_regionCode_1 ) },
+                         new Segment[]{ new Segment( "/regions" ),
+                                        new Segment( $fu$_pathParam_regionCode_1 ) },
                          new Parameter[]{ $fu$_pathParam_regionCode_1 },
                          new RegExp( "^/regions/([^/.;]+)$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
   private final router.fu.Route $fu$_regionEvents =
     new router.fu.Route( "regionEvents",
-                         new PathElement[]{ new PathElement( "/regions" ),
-                                            new PathElement( $fu$_pathParam_regionCode_1 ),
-                                            new PathElement( "/events" ) },
+                         new Segment[]{ new Segment( "/regions" ),
+                                        new Segment( $fu$_pathParam_regionCode_1 ),
+                                        new Segment( "/events" ) },
                          new Parameter[]{ $fu$_pathParam_regionCode_1 },
                          new RegExp( "^/regions\\/([^\\/.;]+)\\/events$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );
   private final router.fu.Route $fu$_regionEvent =
     new router.fu.Route( "regionEvent",
-                         new PathElement[]{ new PathElement( "/regions" ),
-                                            new PathElement( $fu$_pathParam_regionCode_1 ),
-                                            new PathElement( "/event" ),
-                                            new PathElement( $fu$_pathParam_eventId_1 ) },
+                         new Segment[]{ new Segment( "/regions" ),
+                                        new Segment( $fu$_pathParam_regionCode_1 ),
+                                        new Segment( "/event" ),
+                                        new Segment( $fu$_pathParam_eventId_1 ) },
                          new Parameter[]{ $fu$_pathParam_regionCode_1, $fu$_pathParam_eventId_1 },
                          new RegExp( "^/regions\\/([^\\/.;]+)\\/events\\/([^\\/.;]+)$" ),
                          ( ( location, route, parameters ) -> MatchResult.TERMINAL ) );

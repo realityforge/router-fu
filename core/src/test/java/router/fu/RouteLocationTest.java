@@ -60,7 +60,7 @@ public class RouteLocationTest
   private Route newRoute()
   {
     return new Route( ValueUtil.randomString(),
-                      new PathElement[ 0 ],
+                      new Segment[ 0 ],
                       new Parameter[ 0 ],
                       new TestRegExp(),
                       new TestRouteMatchCallback() );

@@ -187,12 +187,12 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final PathElement[] pathElements = { new PathElement( "/blah" ) };
+    final Segment[] segments = { new Segment( "/blah" ) };
     final Parameter[] parameters = new Parameter[ 0 ];
     final String expectedPath = "/blah";
     final String[] resultGroups = { expectedPath };
     final Route route =
-      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final String location = route.buildLocation( Collections.emptyMap() );
     assertEquals( location, expectedPath );
@@ -205,18 +205,18 @@ public class RouteTest
     final String name = ValueUtil.randomString();
     final Parameter locationParameter = new Parameter( "location" );
     final Parameter eventParameter = new Parameter( "event" );
-    final PathElement[] pathElements =
+    final Segment[] segments =
       {
-        new PathElement( "/locations/" ),
-        new PathElement( locationParameter ),
-        new PathElement( "/events/" ),
-        new PathElement( eventParameter )
+        new Segment( "/locations/" ),
+        new Segment( locationParameter ),
+        new Segment( "/events/" ),
+        new Segment( eventParameter )
       };
     final Parameter[] parameters = new Parameter[]{ locationParameter, eventParameter };
     final String expectedPath = "/locations/ballarat/events/42";
     final String[] resultGroups = { expectedPath, "ballarat", "42" };
     final Route route =
-      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final HashMap<Parameter, String> input = new HashMap<>();
     input.put( locationParameter, "ballarat" );
@@ -231,16 +231,16 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     final Parameter locationParameter = new Parameter( "location" );
-    final PathElement[] pathElements =
+    final Segment[] segments =
       {
-        new PathElement( "/locations/" ),
-        new PathElement( locationParameter )
+        new Segment( "/locations/" ),
+        new Segment( locationParameter )
       };
     final Parameter[] parameters = new Parameter[]{ locationParameter };
     final String expectedPath = "/locations/ballarat";
     final String[] resultGroups = { expectedPath, "ballarat" };
     final Route route =
-      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final IllegalStateException exception =
       expectThrows( IllegalStateException.class, () -> route.buildLocation( new HashMap<>() ) );
@@ -256,16 +256,16 @@ public class RouteTest
     final String name = ValueUtil.randomString();
     // Event parameters regex will not match thus causing it to fail to match
     final Parameter eventParameter = new Parameter( "event", new TestRegExp() );
-    final PathElement[] pathElements =
+    final Segment[] segments =
       {
-        new PathElement( "/events/" ),
-        new PathElement( eventParameter )
+        new Segment( "/events/" ),
+        new Segment( eventParameter )
       };
     final Parameter[] parameters = new Parameter[]{ eventParameter };
     final String expectedPath = "/events/42";
     final String[] resultGroups = { expectedPath, "42" };
     final Route route =
-      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final HashMap<Parameter, String> input = new HashMap<>();
     input.put( eventParameter, "42" );
@@ -282,16 +282,16 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     final Parameter eventParameter = new Parameter( "event" );
-    final PathElement[] pathElements =
+    final Segment[] segments =
       {
-        new PathElement( "/events/" ),
-        new PathElement( eventParameter )
+        new Segment( "/events/" ),
+        new Segment( eventParameter )
       };
     final Parameter[] parameters = new Parameter[]{ eventParameter };
     final String expectedPath = "/events/42";
     final String[] resultGroups = { expectedPath, "42" };
     final Route route =
-      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final HashMap<Parameter, String> input = new HashMap<>();
     input.put( eventParameter, "42" );
@@ -309,16 +309,16 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     final Parameter eventParameter = new Parameter( "event" );
-    final PathElement[] pathElements =
+    final Segment[] segments =
       {
-        new PathElement( "/events/" ),
-        new PathElement( eventParameter )
+        new Segment( "/events/" ),
+        new Segment( eventParameter )
       };
     final Parameter[] parameters = new Parameter[]{ eventParameter };
     final String expectedPath = "/events/77";
     final String[] resultGroups = { expectedPath, "77" };
     final Route route =
-      new Route( name, pathElements, parameters, new TestRegExp( resultGroups ), matchCallback );
+      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
 
     final HashMap<Parameter, String> input = new HashMap<>();
     input.put( eventParameter, "42" );
@@ -337,7 +337,7 @@ public class RouteTest
     final String name = ValueUtil.randomString();
     final Route route =
       new Route( name,
-                 new PathElement[ 0 ],
+                 new Segment[ 0 ],
                  new Parameter[ 0 ],
                  new TestRegExp(),
                  matchCallback );

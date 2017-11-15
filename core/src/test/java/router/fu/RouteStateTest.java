@@ -12,7 +12,7 @@ public class RouteStateTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final Route route = new Route( ValueUtil.randomString(),
-                                   new PathElement[ 0 ],
+                                   new Segment[ 0 ],
                                    new Parameter[ 0 ],
                                    new TestRegExp(),
                                    matchCallback );
