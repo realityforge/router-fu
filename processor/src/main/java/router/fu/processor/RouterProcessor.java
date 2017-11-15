@@ -17,6 +17,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import router.fu.annotations.Route;
 import router.fu.annotations.Router;
 import static javax.tools.Diagnostic.Kind.*;
 
@@ -101,6 +102,42 @@ public final class RouterProcessor
     final PackageElement packageElement = processingEnv.getElementUtils().getPackageOf( typeElement );
     final RouterDescriptor descriptor = new RouterDescriptor( packageElement, typeElement );
     descriptor.setArezComponent( component.arez() );
+
+    parseRouteAnnotations( typeElement, descriptor );
+
     return descriptor;
+  }
+
+  private void parseRouteAnnotations( @Nonnull final TypeElement typeElement,
+                                      @Nonnull final RouterDescriptor descriptor )
+  {
+    for ( final Route routeAnnotation : typeElement.getAnnotationsByType( Route.class ) )
+    {
+      parseRouteAnnotation( typeElement, descriptor, routeAnnotation );
+    }
+  }
+
+  private void parseRouteAnnotation( @Nonnull final TypeElement typeElement,
+                                     @Nonnull final RouterDescriptor router,
+                                     @Nonnull final Route annotation )
+  {
+    final String name = annotation.name();
+    if ( !ProcessorUtil.isJavaIdentifier( name ) )
+    {
+      throw new RouterProcessorException( "@Router target has a route with an invalid name '" + name + "'",
+                                          typeElement );
+
+    }
+    final String path = annotation.path();
+    final boolean navigationTarget = annotation.navigationTarget();
+    final boolean partialMatch = annotation.partialMatch();
+    final RouteDescriptor route = new RouteDescriptor( name, path, navigationTarget, partialMatch );
+
+    if ( router.hasRouteNamed( name ) )
+    {
+      throw new RouterProcessorException( "@Router target has multiple routes with the name '" + name + "'",
+                                          typeElement );
+    }
+    router.addRoute( route );
   }
 }

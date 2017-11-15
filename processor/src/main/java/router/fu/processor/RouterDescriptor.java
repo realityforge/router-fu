@@ -1,7 +1,10 @@
 package router.fu.processor;
 
 import com.squareup.javapoet.ClassName;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -20,6 +23,7 @@ final class RouterDescriptor
   @Nonnull
   private final TypeElement _element;
   private boolean _arezComponent;
+  private final Map<String, RouteDescriptor> _routes = new HashMap<>();
 
   RouterDescriptor( @Nonnull final PackageElement packageElement,
                     @Nonnull final TypeElement element )
@@ -56,6 +60,22 @@ final class RouterDescriptor
       throw new RouterProcessorException( "@Router target must have a single non-private, no-argument " +
                                           "constructor or the default constructor", element );
     }
+  }
+
+  boolean hasRouteNamed( @Nonnull final String name )
+  {
+    return _routes.containsKey( name );
+  }
+
+  void addRoute( @Nonnull final RouteDescriptor route )
+  {
+    assert !hasRouteNamed( route.getName() );
+    _routes.put( route.getName(), route );
+  }
+
+  Collection<RouteDescriptor> getRoutes()
+  {
+    return _routes.values();
   }
 
   @Nonnull

@@ -38,6 +38,12 @@ public class ReactProcessorTest
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.route.BadParameterName2Router",
+                      "@Router target has a route with an invalid name ''" },
+        new Object[]{ "com.example.route.BadParameterNameRouter",
+                      "@Router target has a route with an invalid name '-ace'" },
+        new Object[]{ "com.example.route.SameParameterNameRouter",
+                      "@Router target has multiple routes with the name 'root'" },
         new Object[]{ "com.example.router.AbstractRouter", "@Router target must not be abstract" },
         new Object[]{ "com.example.router.CtorWithArgsRouter",
                       "@Router target must have a single non-private, no-argument constructor or the default constructor" },
