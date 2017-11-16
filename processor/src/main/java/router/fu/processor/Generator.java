@@ -330,7 +330,10 @@ final class Generator
         sb.append( "([a-zA-Z0-9\\-_]+)" );
       }
     }
-    sb.append( "$" );
+    if ( !route.isPartialMatch() )
+    {
+      sb.append( "$" );
+    }
     return sb.toString();
   }
 

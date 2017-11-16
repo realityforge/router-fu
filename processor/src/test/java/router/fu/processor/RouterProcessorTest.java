@@ -17,6 +17,7 @@ public class RouterProcessorTest
         new Object[]{ "com.example.route.RouteWithNonTargetParameters" },
         new Object[]{ "com.example.route.RouteWithParameters" },
         new Object[]{ "com.example.route.RouteWithParametersWithConstraints" },
+        new Object[]{ "com.example.route.RouteWithPartialMatchParameters" },
         new Object[]{ "com.example.router.BasicRouter" }
       };
   }
