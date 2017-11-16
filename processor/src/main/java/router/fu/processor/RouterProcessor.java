@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -32,6 +34,10 @@ import static javax.tools.Diagnostic.Kind.*;
 public final class RouterProcessor
   extends AbstractProcessor
 {
+  private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9-_]*[a-zA-Z0-9])(<(.+?)>)?" );
+  private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
+  private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
+
   /**
    * {@inheritDoc}
    */
@@ -138,6 +144,52 @@ public final class RouterProcessor
       throw new RouterProcessorException( "@Router target has multiple routes with the name '" + name + "'",
                                           typeElement );
     }
+
+    parseRoutePath( route, path );
+
     router.addRoute( route );
+  }
+
+  private void parseRoutePath( @Nonnull final RouteDescriptor route, @Nonnull final String path )
+  {
+    final int length = path.length();
+    int start = 0;
+
+    while ( start < length )
+    {
+      // Match path parameters
+      {
+        final Matcher matcher = _urlParameterPattern.matcher( path.substring( start ) );
+        if ( matcher.find() )
+        {
+          final String matched = matcher.group();
+          start += matched.length();
+          final String name = matcher.group( 1 );
+          final String constraint = matcher.groupCount() > 1 ? matcher.group( 3 ) : null;
+          route.addParameter( new ParameterDescriptor( name, constraint ) );
+        }
+      }
+      // Match separators
+      {
+        final Matcher matcher = _separatorPattern.matcher( path.substring( start ) );
+        if ( matcher.find() )
+        {
+          final String matched = matcher.group();
+          start += matched.length();
+          route.addText( matched );
+        }
+      }
+
+      // Match fragments
+      {
+        final Matcher matcher = _fragmentPattern.matcher( path.substring( start ) );
+        if ( matcher.find() )
+        {
+          final String matched = matcher.group();
+          start += matched.length();
+          route.addText( matched );
+        }
+      }
+    }
   }
 }
