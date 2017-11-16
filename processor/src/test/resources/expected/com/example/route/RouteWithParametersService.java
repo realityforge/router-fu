@@ -7,11 +7,20 @@ import router.fu.Route;
 @Generated("router.fu.processor.RouterProcessor")
 public interface RouteWithParametersService {
   @Nonnull
-  Route getegionEventRoute();
+  Route getRegionEventRoute();
 
   @Nonnull
-  Route getegionRoute();
+  Route getRegionRoute();
 
   @Nonnull
-  Route getegionEventsRoute();
+  Route getRegionEventsRoute();
+
+  @Nonnull
+  String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
+
+  @Nonnull
+  String buildRegionLocation(@Nonnull String regionCode);
+
+  @Nonnull
+  String buildRegionEventsLocation(@Nonnull String regionCode);
 }

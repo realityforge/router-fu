@@ -4,8 +4,10 @@ import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -44,6 +46,7 @@ final class Generator
       build() );
 
     descriptor.getRoutes().forEach( route -> buildRouteMethod( builder, route ) );
+    descriptor.getRoutes().forEach( route -> buildBuildLocationMethod( builder, route ) );
 
     return builder.build();
   }
@@ -55,6 +58,23 @@ final class Generator
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     method.returns( ROUTE_TYPE );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildBuildLocationMethod( @Nonnull final TypeSpec.Builder builder,
+                                                @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "build" + route.getPascalCaseName() + "Location" );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addAnnotation( Nonnull.class );
+    method.returns( String.class );
+    for ( final ParameterDescriptor parameter : route.getParameters() )
+    {
+      method.addParameter( ParameterSpec.builder( String.class, parameter.getName() )
+                             .addAnnotation( Nonnull.class )
+                             .build() );
+    }
     builder.addMethod( method.build() );
   }
 
@@ -89,6 +109,7 @@ final class Generator
     buildParameterFields( builder, descriptor );
     descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
+    descriptor.getRoutes().forEach( route -> buildBuildLocationMethodImpl( builder, route ) );
 
     return builder.build();
   }
@@ -98,10 +119,7 @@ final class Generator
   {
     final Map<String, ParameterDescriptor> parameters =
       descriptor.getRoutes().stream().
-        flatMap( r -> r.getParts()
-          .stream()
-          .filter( ParameterDescriptor.class::isInstance )
-          .map( ParameterDescriptor.class::cast ) ).
+        flatMap( r -> r.getParameters().stream() ).
         collect( Collectors.toMap( ParameterDescriptor::getKey, Function.identity(), ( s, a ) -> s ) );
 
     for ( final ParameterDescriptor parameter : parameters.values() )
@@ -247,6 +265,38 @@ final class Generator
     method.addAnnotation( Override.class );
     method.returns( ROUTE_TYPE );
     method.addStatement( "return $N", ROUTE_FIELD_PREFIX + route.getName() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildBuildLocationMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "build" + route.getPascalCaseName() + "Location" );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( Override.class );
+    method.returns( String.class );
+
+    method.addStatement( "final $T<$T, $T> $N = new $T<>()",
+                         Map.class,
+                         PARAMETER_TYPE,
+                         String.class,
+                         ROUTE_FIELD_PREFIX + "params",
+                         HashMap.class );
+    for ( final ParameterDescriptor parameter : route.getParameters() )
+    {
+      method.addParameter( ParameterSpec.builder( String.class, parameter.getName(), Modifier.FINAL )
+                             .addAnnotation( Nonnull.class )
+                             .build() );
+      method.addStatement( "$N.put( $N, $N )",
+                           ROUTE_FIELD_PREFIX + "params",
+                           FIELD_PREFIX + parameter.getFieldName(),
+                           parameter.getName() );
+    }
+    method.addStatement( "return $N.buildLocation( $N )",
+                         ROUTE_FIELD_PREFIX + route.getName(),
+                         ROUTE_FIELD_PREFIX + "params" );
     builder.addMethod( method.build() );
   }
 }

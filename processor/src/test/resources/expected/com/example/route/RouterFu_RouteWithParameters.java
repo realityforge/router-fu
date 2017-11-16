@@ -1,6 +1,8 @@
 package com.example.route;
 
 import elemental2.core.RegExp;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import router.fu.MatchResult;
@@ -22,19 +24,44 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
 
   @Nonnull
   @Override
-  public Route getegionEventRoute() {
+  public Route getRegionEventRoute() {
     return $fu$_route_regionEvent;
   }
 
   @Nonnull
   @Override
-  public Route getegionRoute() {
+  public Route getRegionRoute() {
     return $fu$_route_region;
   }
 
   @Nonnull
   @Override
-  public Route getegionEventsRoute() {
+  public Route getRegionEventsRoute() {
     return $fu$_route_regionEvents;
+  }
+
+  @Nonnull
+  @Override
+  public String buildRegionEventLocation(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+    final Map<Parameter, String> $fu$_route_params = new HashMap<>();
+    $fu$_route_params.put( $fu$_regionCode, regionCode );
+    $fu$_route_params.put( $fu$_eventCode, eventCode );
+    return $fu$_route_regionEvent.buildLocation( $fu$_route_params );
+  }
+
+  @Nonnull
+  @Override
+  public String buildRegionLocation(@Nonnull final String regionCode) {
+    final Map<Parameter, String> $fu$_route_params = new HashMap<>();
+    $fu$_route_params.put( $fu$_regionCode, regionCode );
+    return $fu$_route_region.buildLocation( $fu$_route_params );
+  }
+
+  @Nonnull
+  @Override
+  public String buildRegionEventsLocation(@Nonnull final String regionCode) {
+    final Map<Parameter, String> $fu$_route_params = new HashMap<>();
+    $fu$_route_params.put( $fu$_regionCode, regionCode );
+    return $fu$_route_regionEvents.buildLocation( $fu$_route_params );
   }
 }

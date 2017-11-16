@@ -1,7 +1,9 @@
 package router.fu.processor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
 final class RouteDescriptor
@@ -40,7 +42,7 @@ final class RouteDescriptor
     }
     else
     {
-      return Character.toUpperCase( _name.charAt( 0 ) ) + _name.length() > 1 ? _name.substring( 1 ) : "";
+      return Character.toUpperCase( _name.charAt( 0 ) ) + (_name.length() > 1 ? _name.substring( 1 ) : "");
     }
   }
 
@@ -74,5 +76,14 @@ final class RouteDescriptor
   ArrayList<Object> getParts()
   {
     return _parts;
+  }
+
+  @Nonnull
+  List<ParameterDescriptor> getParameters()
+  {
+    return getParts().stream()
+      .filter( ParameterDescriptor.class::isInstance )
+      .map( ParameterDescriptor.class::cast ).
+        collect( Collectors.toList() );
   }
 }
