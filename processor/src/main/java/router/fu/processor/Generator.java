@@ -2,14 +2,17 @@ package router.fu.processor;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -33,6 +36,7 @@ final class Generator
   private static final ClassName SEGMENT_TYPE = ClassName.get( "router.fu", "Segment" );
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
+  private static final ClassName ACTION_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Action" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
@@ -488,10 +492,38 @@ final class Generator
                                                     @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "onLocationChanged" );
+    if( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( ACTION_TYPE );
+    }
     method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
                            .addAnnotation( Nonnull.class )
                            .build() );
     method.addStatement( "setLocation( $T.requireNonNull( location ) )", Objects.class );
+    method.addStatement( "final $T<$T> states = location.getStates()", List.class, ROUTE_STATE_TYPE );
+    method.addStatement( "int routeStartIndex = 0", List.class, ROUTE_STATE_TYPE );
+
+    final CodeBlock.Builder loop = CodeBlock.builder();
+    final Collection<RouteDescriptor> routes = descriptor.getRoutes();
+    loop.beginControlFlow( "for ( int i = 0; i < " + routes.size() + "; i++ )" );
+    loop.addStatement( "final $T state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null",
+                       ROUTE_STATE_TYPE );
+    loop.addStatement( "routeStartIndex++" );
+    final CodeBlock.Builder switchBlock = CodeBlock.builder();
+    switchBlock.beginControlFlow( "switch ( i )" );
+    int index = 0;
+    for ( final RouteDescriptor route : routes )
+    {
+      switchBlock.addStatement( "case " + index + ":" );
+      switchBlock.addStatement( "$N( state )", "set" + route.getPascalCaseName() + "RouteState" );
+      switchBlock.addStatement( "break" );
+      index++;
+    }
+    switchBlock.endControlFlow();
+    loop.add( switchBlock.build() );
+    loop.endControlFlow();
+    method.addCode( loop.build() );
+
     builder.addMethod( method.build() );
   }
 }

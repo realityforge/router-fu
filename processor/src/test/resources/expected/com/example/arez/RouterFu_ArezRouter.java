@@ -3,12 +3,15 @@ package com.example.arez;
 import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
 import router.fu.Elemental2HashBackend;
 import router.fu.Location;
+import router.fu.RouteState;
 import router.fu.Router;
 
 @ArezComponent(
@@ -37,7 +40,16 @@ public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService
     $fu$_location = location;
   }
 
+  @Action
   void onLocationChanged(@Nonnull final Location location) {
     setLocation( Objects.requireNonNull( location ) );
+    final List<RouteState> states = location.getStates();
+    int routeStartIndex = 0;
+    for ( int i = 0; i < 0; i++ ) {
+      final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
+      routeStartIndex++;
+      switch ( i ) {
+      }
+    }
   }
 }

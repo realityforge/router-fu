@@ -5,6 +5,7 @@ import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Generated;
@@ -98,5 +99,19 @@ public class RouterFu_RouteWithNonTargetParameters extends RouteWithNonTargetPar
 
   void onLocationChanged(@Nonnull final Location location) {
     setLocation( Objects.requireNonNull( location ) );
+    final List<RouteState> states = location.getStates();
+    int routeStartIndex = 0;
+    for ( int i = 0; i < 2; i++ ) {
+      final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
+      routeStartIndex++;
+      switch ( i ) {
+        case 0:;
+        setRegionRouteState( state );
+        break;
+        case 1:;
+        setRegionFilterRouteState( state );
+        break;
+      }
+    }
   }
 }

@@ -3,11 +3,13 @@ package com.example.router;
 import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import router.fu.Elemental2HashBackend;
 import router.fu.Location;
+import router.fu.RouteState;
 import router.fu.Router;
 
 @Generated("router.fu.processor.RouterProcessor")
@@ -33,5 +35,13 @@ public class RouterFu_BasicRouter extends BasicRouter implements BasicRouterServ
 
   void onLocationChanged(@Nonnull final Location location) {
     setLocation( Objects.requireNonNull( location ) );
+    final List<RouteState> states = location.getStates();
+    int routeStartIndex = 0;
+    for ( int i = 0; i < 0; i++ ) {
+      final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
+      routeStartIndex++;
+      switch ( i ) {
+      }
+    }
   }
 }
