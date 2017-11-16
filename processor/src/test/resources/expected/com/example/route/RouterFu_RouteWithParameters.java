@@ -77,6 +77,24 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
     return $fu$_route_regionEvents.buildLocation( $fu$_route_params );
   }
 
+  @Nonnull
+  @Override
+  public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+    $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );
+  }
+
+  @Nonnull
+  @Override
+  public void gotoRegion(@Nonnull final String regionCode) {
+    $fu$_router.changeLocation( buildRegionLocation( regionCode ) );
+  }
+
+  @Nonnull
+  @Override
+  public void gotoRegionEvents(@Nonnull final String regionCode) {
+    $fu$_router.changeLocation( buildRegionEventsLocation( regionCode ) );
+  }
+
   void onLocationChanged(@Nonnull final Location location) {
   }
 }

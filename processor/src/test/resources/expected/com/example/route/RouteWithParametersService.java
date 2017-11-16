@@ -23,4 +23,13 @@ public interface RouteWithParametersService {
 
   @Nonnull
   String buildRegionEventsLocation(@Nonnull String regionCode);
+
+  @Nonnull
+  void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
+
+  @Nonnull
+  void gotoRegion(@Nonnull String regionCode);
+
+  @Nonnull
+  void gotoRegionEvents(@Nonnull String regionCode);
 }

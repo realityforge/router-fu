@@ -53,6 +53,7 @@ final class Generator
 
     descriptor.getRoutes().forEach( route -> buildRouteMethod( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildBuildLocationMethod( builder, route ) );
+    descriptor.getRoutes().forEach( route -> buildGotoLocationMethod( builder, route ) );
 
     return builder.build();
   }
@@ -75,6 +76,22 @@ final class Generator
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     method.returns( String.class );
+    for ( final ParameterDescriptor parameter : route.getParameters() )
+    {
+      method.addParameter( ParameterSpec.builder( String.class, parameter.getName() )
+                             .addAnnotation( Nonnull.class )
+                             .build() );
+    }
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildGotoLocationMethod( @Nonnull final TypeSpec.Builder builder,
+                                               @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "goto" + route.getPascalCaseName() );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addAnnotation( Nonnull.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
       method.addParameter( ParameterSpec.builder( String.class, parameter.getName() )
@@ -120,6 +137,7 @@ final class Generator
     descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildBuildLocationMethodImpl( builder, route ) );
+    descriptor.getRoutes().forEach( route -> buildGotoLocationMethodImpl( builder, route ) );
 
     buildrOnLocationChangedMethod( builder, descriptor );
 
@@ -332,6 +350,37 @@ final class Generator
     method.addStatement( "return $N.buildLocation( $N )",
                          ROUTE_FIELD_PREFIX + route.getName(),
                          ROUTE_FIELD_PREFIX + "params" );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildGotoLocationMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                   @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "goto" + route.getPascalCaseName() );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( Override.class );
+    for ( final ParameterDescriptor parameter : route.getParameters() )
+    {
+      method.addParameter( ParameterSpec.builder( String.class, parameter.getName(), Modifier.FINAL )
+                             .addAnnotation( Nonnull.class )
+                             .build() );
+    }
+
+    final StringBuilder sb = new StringBuilder();
+    final ArrayList<Object> params = new ArrayList<>();
+    sb.append( "$N.changeLocation( $N( " );
+    params.add( FIELD_PREFIX + "router" );
+    params.add( "build" + route.getPascalCaseName() + "Location" );
+    sb.append( route.getParameters()
+                 .stream()
+                 .map( ParameterDescriptor::getName )
+                 .peek( params::add )
+                 .map( routeName -> "$N" )
+                 .collect( Collectors.joining( ", " ) ) );
+    sb.append( " ) )" );
+    method.addStatement( sb.toString(), params.toArray() );
     builder.addMethod( method.build() );
   }
 
