@@ -37,6 +37,7 @@ final class Generator
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
   private static final ClassName ACTION_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Action" );
+  private static final ClassName OBSERVABLE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Observable" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
@@ -59,10 +60,10 @@ final class Generator
       addMember( "value", "$S", RouterProcessor.class.getName() ).
       build() );
 
-    buildGetLocationMethod( builder );
+    buildGetLocationMethod( builder, descriptor );
     descriptor.getRoutes().forEach( route -> {
-      buildRouteMethod( builder, route );
-      buildGetRouteStateMethod( builder, route );
+      buildRouteMethod( builder, descriptor, route );
+      buildGetRouteStateMethod( builder, descriptor, route );
     } );
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
@@ -74,19 +75,30 @@ final class Generator
     return builder.build();
   }
 
-  private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder )
+  private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder,
+                                              @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
     method.addAnnotation( Nonnull.class );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.returns( Location.class );
     builder.addMethod( method.build() );
   }
 
-  private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder, @Nonnull final RouteDescriptor route )
+  private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder,
+                                        @Nonnull final RouterDescriptor descriptor,
+                                        @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "Route" );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     method.returns( ROUTE_TYPE );
@@ -94,10 +106,15 @@ final class Generator
   }
 
   private static void buildGetRouteStateMethod( @Nonnull final TypeSpec.Builder builder,
+                                                @Nonnull final RouterDescriptor descriptor,
                                                 @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "RouteState" );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nullable.class );
     method.returns( ROUTE_STATE_TYPE );
@@ -111,6 +128,7 @@ final class Generator
       MethodSpec.methodBuilder( "build" + route.getPascalCaseName() + "Location" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
+    method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
     method.returns( String.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {

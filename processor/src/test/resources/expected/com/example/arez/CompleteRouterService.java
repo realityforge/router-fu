@@ -1,33 +1,49 @@
-package com.example.route;
+package com.example.arez;
 
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.Action;
+import org.realityforge.arez.annotations.Observable;
 import router.fu.Location;
 import router.fu.Route;
 import router.fu.RouteState;
 
 @Generated("router.fu.processor.RouterProcessor")
-public interface RouteWithParametersService {
+public interface CompleteRouterService {
   @Nonnull
+  @Observable
   Location getLocation();
 
+  @Observable
   @Nonnull
   Route getRegionEventRoute();
 
+  @Observable
   @Nullable
   RouteState getRegionEventRouteState();
 
+  @Observable
   @Nonnull
   Route getRegionRoute();
 
+  @Observable
   @Nullable
   RouteState getRegionRouteState();
 
+  @Observable
+  @Nonnull
+  Route getRegionFilterRoute();
+
+  @Observable
+  @Nullable
+  RouteState getRegionFilterRouteState();
+
+  @Observable
   @Nonnull
   Route getRegionEventsRoute();
 
+  @Observable
   @Nullable
   RouteState getRegionEventsRouteState();
 

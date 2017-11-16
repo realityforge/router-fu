@@ -3,6 +3,7 @@ package com.example.route;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.realityforge.arez.annotations.Action;
 import router.fu.Location;
 import router.fu.Route;
 import router.fu.RouteState;
@@ -25,6 +26,9 @@ public interface RouteWithNonTargetParametersService {
   RouteState getRegionFilterRouteState();
 
   @Nonnull
+  @Action(
+      mutation = false
+  )
   String buildRegionLocation(@Nonnull String regionCode);
 
   @Nonnull
