@@ -7,6 +7,8 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -15,11 +17,15 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import router.fu.Elemental2HashBackend;
+import router.fu.Location;
 import router.fu.Parameter;
 
 final class Generator
 {
   private static final ClassName REGEXP_TYPE = ClassName.get( "elemental2.core", "RegExp" );
+  private static final ClassName WINDOW_TYPE = ClassName.get( "elemental2.dom", "Window" );
+  private static final ClassName ROUTER_TYPE = ClassName.get( "router.fu", "Router" );
   private static final ClassName ROUTE_TYPE = ClassName.get( "router.fu", "Route" );
   private static final ClassName SEGMENT_TYPE = ClassName.get( "router.fu", "Segment" );
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
@@ -107,11 +113,43 @@ final class Generator
       build() );
 
     buildParameterFields( builder, descriptor );
+    //Add router field
+    builder.addField( ROUTER_TYPE, FIELD_PREFIX + "router", Modifier.FINAL, Modifier.PRIVATE );
+    buildConstructor( builder, descriptor );
+
     descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildBuildLocationMethodImpl( builder, route ) );
 
+    buildrOnLocationChangedMethod( builder, descriptor );
+
     return builder.build();
+  }
+
+  private static void buildConstructor( @Nonnull final TypeSpec.Builder builder,
+                                        @Nonnull final RouterDescriptor descriptor )
+  {
+    final MethodSpec.Builder ctor = MethodSpec.constructorBuilder();
+    ctor.addParameter( ParameterSpec.builder( WINDOW_TYPE, "window", Modifier.FINAL ).
+      addAnnotation( Nonnull.class ).build() );
+
+    final StringBuilder sb = new StringBuilder();
+    final ArrayList<Object> params = new ArrayList<>();
+    sb.append( "$N = new $T( this::onLocationChanged, new $T( window ), $T.unmodifiableList( $T.asList( " );
+    params.add( FIELD_PREFIX + "router" );
+    params.add( ROUTER_TYPE );
+    params.add( Elemental2HashBackend.class );
+    params.add( Collections.class );
+    params.add( Arrays.class );
+    sb.append( descriptor.getRoutes()
+                 .stream()
+                 .map( route -> ROUTE_FIELD_PREFIX + route.getName() )
+                 .peek( params::add )
+                 .map( routeName -> "$N" )
+                 .collect( Collectors.joining( ", " ) ) );
+    sb.append( " ) ) )" );
+    ctor.addStatement( sb.toString(), params.toArray() );
+    builder.addMethod( ctor.build() );
   }
 
   private static void buildParameterFields( @Nonnull final TypeSpec.Builder builder,
@@ -294,6 +332,16 @@ final class Generator
     method.addStatement( "return $N.buildLocation( $N )",
                          ROUTE_FIELD_PREFIX + route.getName(),
                          ROUTE_FIELD_PREFIX + "params" );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildrOnLocationChangedMethod( @Nonnull final TypeSpec.Builder builder,
+                                                     @Nonnull final RouterDescriptor descriptor )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "onLocationChanged" );
+    method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
+                           .addAnnotation( Nonnull.class )
+                           .build() );
     builder.addMethod( method.build() );
   }
 }
