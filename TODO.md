@@ -13,6 +13,8 @@
 * Consider using an existing path syntax - http://router5.github.io/docs/path-syntax.html
 * Routing options: http://router5.github.io/docs/router-options.html
 
+* Test long static segments
+
 ### Mobx Examples to validate against
 
 * https://hackernoon.com/how-to-decouple-state-and-ui-a-k-a-you-dont-need-componentwillmount-cc90b787aa37
