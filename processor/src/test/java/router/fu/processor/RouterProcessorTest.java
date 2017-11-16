@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class ReactProcessorTest
+public class RouterProcessorTest
   extends AbstractRouterProcessorTest
 {
   @DataProvider( name = "successfulCompiles" )
