@@ -43,13 +43,13 @@ public interface MyRouterService
   @Nullable
   String getRegionCode();
 
-  void setRegionCode( @Nonnull String regionCode );
+  void updateRegionCode( @Nonnull String regionCode );
 
   @Observable
   @Nullable
   String getEventId();
 
-  void setEventId( @Nonnull String eventId );
+  void updateEventId( @Nonnull String eventId );
 
   @Observable
   @Nonnull

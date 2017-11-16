@@ -163,7 +163,7 @@ class RouterFu_MyRouter
   }
 
   @Override
-  public void setRegionCode( @Nonnull final String regionCode )
+  public void updateRegionCode( @Nonnull final String regionCode )
   {
     final Location location = getLocation();
     final RouteState terminalState = location.getTerminalState();
@@ -193,7 +193,7 @@ class RouterFu_MyRouter
   }
 
   @Override
-  public void setEventId( @Nonnull final String eventId )
+  public void updateEventId( @Nonnull final String eventId )
   {
     final Location location = getLocation();
     final RouteState terminalState = location.getTerminalState();
