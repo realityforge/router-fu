@@ -54,8 +54,12 @@ final class Generator
 
     buildGetLocationMethod( builder );
     descriptor.getRoutes().forEach( route -> buildRouteMethod( builder, route ) );
-    descriptor.getRoutes().forEach( route -> buildBuildLocationMethod( builder, route ) );
-    descriptor.getRoutes().forEach( route -> buildGotoLocationMethod( builder, route ) );
+    descriptor.getRoutes().stream().
+      filter( RouteDescriptor::isNavigationTarget ).
+      forEach( route -> {
+        buildBuildLocationMethod( builder, route );
+        buildGotoLocationMethod( builder, route );
+      } );
 
     return builder.build();
   }
@@ -149,8 +153,12 @@ final class Generator
     buildConstructor( builder, descriptor );
 
     descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
-    descriptor.getRoutes().forEach( route -> buildBuildLocationMethodImpl( builder, route ) );
-    descriptor.getRoutes().forEach( route -> buildGotoLocationMethodImpl( builder, route ) );
+    descriptor.getRoutes().stream().
+      filter( RouteDescriptor::isNavigationTarget ).
+      forEach( route -> {
+        buildBuildLocationMethodImpl( builder, route );
+        buildGotoLocationMethodImpl( builder, route );
+      } );
 
     buildGetLocationImplMethod( builder );
     buildSetLocationMethod( builder );

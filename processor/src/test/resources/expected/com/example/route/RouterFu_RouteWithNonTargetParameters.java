@@ -1,0 +1,76 @@
+package com.example.route;
+
+import elemental2.core.RegExp;
+import elemental2.dom.Window;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.annotation.Nonnull;
+import router.fu.Elemental2HashBackend;
+import router.fu.Location;
+import router.fu.MatchResult;
+import router.fu.Parameter;
+import router.fu.Route;
+import router.fu.Router;
+import router.fu.Segment;
+
+@Generated("router.fu.processor.RouterProcessor")
+public class RouterFu_RouteWithNonTargetParameters extends RouteWithNonTargetParameters implements RouteWithNonTargetParametersService {
+  private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
+
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+
+  private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.NON_TERMINAL );
+
+  private final Router $fu$_router;
+
+  private Location $fu$_location;
+
+  RouterFu_RouteWithNonTargetParameters(@Nonnull final Window window) {
+    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region, $fu$_route_regionFilter ) ) );
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionRoute() {
+    return $fu$_route_region;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionFilterRoute() {
+    return $fu$_route_regionFilter;
+  }
+
+  @Nonnull
+  @Override
+  public String buildRegionLocation(@Nonnull final String regionCode) {
+    final Map<Parameter, String> $fu$_route_params = new HashMap<>();
+    $fu$_route_params.put( $fu$_regionCode, regionCode );
+    return $fu$_route_region.buildLocation( $fu$_route_params );
+  }
+
+  @Nonnull
+  @Override
+  public void gotoRegion(@Nonnull final String regionCode) {
+    $fu$_router.changeLocation( buildRegionLocation( regionCode ) );
+  }
+
+  @Nonnull
+  @Override
+  public Location getLocation() {
+    assert null != $fu$_location;
+    return $fu$_location;
+  }
+
+  void setLocation(@Nonnull final Location location) {
+    $fu$_location = location;
+  }
+
+  void onLocationChanged(@Nonnull final Location location) {
+    setLocation( Objects.requireNonNull( location ) );
+  }
+}

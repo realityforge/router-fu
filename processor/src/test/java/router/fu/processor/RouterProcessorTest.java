@@ -13,6 +13,7 @@ public class RouterProcessorTest
     return new Object[][]
       {
         new Object[]{ "com.example.arez.ArezRouter" },
+        new Object[]{ "com.example.route.RouteWithNonTargetParameters" },
         new Object[]{ "com.example.route.RouteWithParameters" },
         new Object[]{ "com.example.route.RouteWithParametersWithConstraints" },
         new Object[]{ "com.example.router.BasicRouter" }

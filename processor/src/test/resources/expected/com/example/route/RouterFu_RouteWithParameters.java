@@ -66,6 +66,12 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
 
   @Nonnull
   @Override
+  public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+    $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );
+  }
+
+  @Nonnull
+  @Override
   public String buildRegionLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode, regionCode );
@@ -74,22 +80,16 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
 
   @Nonnull
   @Override
+  public void gotoRegion(@Nonnull final String regionCode) {
+    $fu$_router.changeLocation( buildRegionLocation( regionCode ) );
+  }
+
+  @Nonnull
+  @Override
   public String buildRegionEventsLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode, regionCode );
     return $fu$_route_regionEvents.buildLocation( $fu$_route_params );
-  }
-
-  @Nonnull
-  @Override
-  public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
-    $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );
-  }
-
-  @Nonnull
-  @Override
-  public void gotoRegion(@Nonnull final String regionCode) {
-    $fu$_router.changeLocation( buildRegionLocation( regionCode ) );
   }
 
   @Nonnull

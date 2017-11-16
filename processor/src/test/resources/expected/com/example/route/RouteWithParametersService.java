@@ -23,16 +23,16 @@ public interface RouteWithParametersService {
   String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
 
   @Nonnull
-  String buildRegionLocation(@Nonnull String regionCode);
-
-  @Nonnull
-  String buildRegionEventsLocation(@Nonnull String regionCode);
-
-  @Nonnull
   void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
 
   @Nonnull
+  String buildRegionLocation(@Nonnull String regionCode);
+
+  @Nonnull
   void gotoRegion(@Nonnull String regionCode);
+
+  @Nonnull
+  String buildRegionEventsLocation(@Nonnull String regionCode);
 
   @Nonnull
   void gotoRegionEvents(@Nonnull String regionCode);
