@@ -5,8 +5,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.Observable;
-import router.fu.Route;
 import router.fu.Location;
+import router.fu.Route;
 import router.fu.RouteState;
 
 /**
