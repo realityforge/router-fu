@@ -34,7 +34,7 @@ import static javax.tools.Diagnostic.Kind.*;
 public final class RouterProcessor
   extends AbstractProcessor
 {
-  private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9-_]*[a-zA-Z0-9])(<(.+?)>)?" );
+  private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
 
@@ -145,12 +145,14 @@ public final class RouterProcessor
                                           typeElement );
     }
 
-    parseRoutePath( route, path );
+    parseRoutePath( typeElement, route, path );
 
     router.addRoute( route );
   }
 
-  private void parseRoutePath( @Nonnull final RouteDescriptor route, @Nonnull final String path )
+  private void parseRoutePath( @Nonnull final TypeElement typeElement,
+                               @Nonnull final RouteDescriptor route,
+                               @Nonnull final String path )
   {
     final int length = path.length();
     int start = 0;
@@ -167,6 +169,7 @@ public final class RouterProcessor
           final String name = matcher.group( 1 );
           final String constraint = matcher.groupCount() > 1 ? matcher.group( 3 ) : null;
           route.addParameter( new ParameterDescriptor( name, constraint ) );
+          continue;
         }
       }
       // Match separators
@@ -177,6 +180,7 @@ public final class RouterProcessor
           final String matched = matcher.group();
           start += matched.length();
           route.addText( matched );
+          continue;
         }
       }
 
@@ -188,8 +192,13 @@ public final class RouterProcessor
           final String matched = matcher.group();
           start += matched.length();
           route.addText( matched );
+          continue;
         }
       }
+
+      throw new RouterProcessorException( "@Route named '" + route.getName() + "' has a path that can not " +
+                                          "be parsed: '" + path + "'",
+                                          typeElement );
     }
   }
 }
