@@ -122,10 +122,7 @@ final class Generator
         flatMap( r -> r.getParameters().stream() ).
         collect( Collectors.toMap( ParameterDescriptor::getKey, Function.identity(), ( s, a ) -> s ) );
 
-    for ( final ParameterDescriptor parameter : parameters.values() )
-    {
-      buildParameterField( builder, parameter );
-    }
+    parameters.values().forEach( parameter -> buildParameterField( builder, parameter ) );
   }
 
   private static void buildParameterField( @Nonnull final TypeSpec.Builder builder,
