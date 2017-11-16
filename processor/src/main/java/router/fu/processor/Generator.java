@@ -3,6 +3,7 @@ package router.fu.processor;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.Map;
@@ -42,7 +43,28 @@ final class Generator
       addMember( "value", "$S", RouterProcessor.class.getName() ).
       build() );
 
+    buildRouteMethods( builder, descriptor );
+
     return builder.build();
+  }
+
+  private static void buildRouteMethods( @Nonnull final TypeSpec.Builder builder,
+                                         @Nonnull final RouterDescriptor descriptor )
+  {
+    for ( final RouteDescriptor route : descriptor.getRoutes() )
+    {
+      buildRouteMethod( builder, route );
+    }
+  }
+
+  private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder, @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "Route" );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addAnnotation( Nonnull.class );
+    method.returns( ROUTE_TYPE );
+    builder.addMethod( method.build() );
   }
 
   @Nonnull
@@ -75,6 +97,7 @@ final class Generator
 
     buildParameterFields( builder, descriptor );
     buildRouteFields( builder, descriptor );
+    buildRouteMethodImpls( builder, descriptor );
 
     return builder.build();
   }
@@ -230,5 +253,27 @@ final class Generator
         params.add( FIELD_PREFIX + param.getFieldName() );
       }
     }
+  }
+
+  private static void buildRouteMethodImpls( @Nonnull final TypeSpec.Builder builder,
+                                             @Nonnull final RouterDescriptor descriptor )
+  {
+    for ( final RouteDescriptor route : descriptor.getRoutes() )
+    {
+      buildRouteMethodImpl( builder, route );
+    }
+  }
+
+  private static void buildRouteMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                            @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "Route" );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( Override.class );
+    method.returns( ROUTE_TYPE );
+    method.addStatement( "return $N", ROUTE_FIELD_PREFIX + route.getName() );
+    builder.addMethod( method.build() );
   }
 }
