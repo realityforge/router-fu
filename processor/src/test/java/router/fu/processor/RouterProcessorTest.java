@@ -47,6 +47,8 @@ public class RouterProcessorTest
       {
         new Object[]{ "com.example.route.BadParameterName2Router",
                       "@Router target has a route with an invalid name ''" },
+        new Object[]{ "com.example.route.BadParameterName3Router",
+                      "@Router target has a route with an invalid name 'ace-'" },
         new Object[]{ "com.example.route.BadParameterNameRouter",
                       "@Router target has a route with an invalid name '-ace'" },
         new Object[]{ "com.example.route.BadPathInParameterRouter",
