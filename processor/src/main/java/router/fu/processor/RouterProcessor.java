@@ -134,10 +134,9 @@ public final class RouterProcessor
                                           typeElement );
 
     }
-    final String path = annotation.path();
     final boolean navigationTarget = annotation.navigationTarget();
     final boolean partialMatch = annotation.partialMatch();
-    final RouteDescriptor route = new RouteDescriptor( name, path, navigationTarget, partialMatch );
+    final RouteDescriptor route = new RouteDescriptor( name, navigationTarget, partialMatch );
 
     if ( router.hasRouteNamed( name ) )
     {
@@ -145,7 +144,7 @@ public final class RouterProcessor
                                           typeElement );
     }
 
-    parseRoutePath( typeElement, route, path );
+    parseRoutePath( typeElement, route, annotation.path() );
 
     router.addRoute( route );
   }

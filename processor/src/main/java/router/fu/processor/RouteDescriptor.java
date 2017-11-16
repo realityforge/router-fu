@@ -10,19 +10,13 @@ final class RouteDescriptor
 {
   @Nonnull
   private final String _name;
-  @Nonnull
-  private final String _path;
   private final boolean _navigationTarget;
   private final boolean _partialMatch;
   private final ArrayList<Object> _parts = new ArrayList<>();
 
-  RouteDescriptor( @Nonnull final String name,
-                   @Nonnull final String path,
-                   final boolean navigationTarget,
-                   final boolean partialMatch )
+  RouteDescriptor( @Nonnull final String name, final boolean navigationTarget, final boolean partialMatch )
   {
     _name = Objects.requireNonNull( name );
-    _path = Objects.requireNonNull( path );
     _navigationTarget = navigationTarget;
     _partialMatch = partialMatch;
   }
@@ -44,12 +38,6 @@ final class RouteDescriptor
     {
       return Character.toUpperCase( _name.charAt( 0 ) ) + (_name.length() > 1 ? _name.substring( 1 ) : "");
     }
-  }
-
-  @Nonnull
-  String getPath()
-  {
-    return _path;
   }
 
   boolean isNavigationTarget()
