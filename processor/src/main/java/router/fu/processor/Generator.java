@@ -43,18 +43,9 @@ final class Generator
       addMember( "value", "$S", RouterProcessor.class.getName() ).
       build() );
 
-    buildRouteMethods( builder, descriptor );
+    descriptor.getRoutes().forEach( route -> buildRouteMethod( builder, route ) );
 
     return builder.build();
-  }
-
-  private static void buildRouteMethods( @Nonnull final TypeSpec.Builder builder,
-                                         @Nonnull final RouterDescriptor descriptor )
-  {
-    for ( final RouteDescriptor route : descriptor.getRoutes() )
-    {
-      buildRouteMethod( builder, route );
-    }
   }
 
   private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder, @Nonnull final RouteDescriptor route )
@@ -96,8 +87,8 @@ final class Generator
       build() );
 
     buildParameterFields( builder, descriptor );
-    buildRouteFields( builder, descriptor );
-    buildRouteMethodImpls( builder, descriptor );
+    descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
+    descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
 
     return builder.build();
   }
@@ -140,15 +131,6 @@ final class Generator
       field.initializer( "new $T( $S )", Parameter.class, parameter.getName() );
     }
     builder.addField( field.build() );
-  }
-
-  private static void buildRouteFields( @Nonnull final TypeSpec.Builder builder,
-                                        @Nonnull final RouterDescriptor descriptor )
-  {
-    for ( final RouteDescriptor route : descriptor.getRoutes() )
-    {
-      buildRouteField( builder, route );
-    }
   }
 
   private static void buildRouteField( @Nonnull final TypeSpec.Builder builder, @Nonnull final RouteDescriptor route )
@@ -252,15 +234,6 @@ final class Generator
         sb.append( "$N, " );
         params.add( FIELD_PREFIX + param.getFieldName() );
       }
-    }
-  }
-
-  private static void buildRouteMethodImpls( @Nonnull final TypeSpec.Builder builder,
-                                             @Nonnull final RouterDescriptor descriptor )
-  {
-    for ( final RouteDescriptor route : descriptor.getRoutes() )
-    {
-      buildRouteMethodImpl( builder, route );
     }
   }
 
