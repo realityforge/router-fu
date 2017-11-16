@@ -9,8 +9,6 @@ import javax.lang.model.element.TypeParameterElement;
 
 final class ProcessorUtil
 {
-  private static final String SENTINEL_NAME = "<default>";
-
   private ProcessorUtil()
   {
   }
@@ -29,11 +27,6 @@ final class ProcessorUtil
     {
       builder.addTypeVariable( TypeVariableName.get( typeParameter ) );
     }
-  }
-
-  static boolean isSentinelName( @Nonnull final String name )
-  {
-    return SENTINEL_NAME.equals( name );
   }
 
   static boolean isJavaIdentifier( @Nonnull final String value )

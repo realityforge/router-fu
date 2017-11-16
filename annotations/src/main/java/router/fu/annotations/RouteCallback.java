@@ -27,5 +27,5 @@ public @interface RouteCallback
    * @return the name of associated route.
    */
   @Nonnull
-  String name() default "<default>";
+  String name() default "";
 }
