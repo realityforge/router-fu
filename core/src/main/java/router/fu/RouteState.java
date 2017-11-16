@@ -31,6 +31,14 @@ public final class RouteState
     return _parameters;
   }
 
+  @Nonnull
+  public String getParameterValue( @Nonnull final Parameter parameter )
+  {
+    final String value = _parameters.get( parameter );
+    assert null != value;
+    return value;
+  }
+
   public boolean isTerminal()
   {
     return _terminal;

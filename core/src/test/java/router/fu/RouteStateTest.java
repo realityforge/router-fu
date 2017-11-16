@@ -17,11 +17,15 @@ public class RouteStateTest
                                    new TestRegExp(),
                                    matchCallback );
     final HashMap<Parameter, String> parameters = new HashMap<>();
+    final Parameter parameter = new Parameter( ValueUtil.randomString() );
+    final String parameterValue = ValueUtil.randomString();
+    parameters.put( parameter, parameterValue );
     final boolean terminal = true;
     final RouteState state = new RouteState( route, parameters, terminal );
 
     assertEquals( state.getRoute(), route );
     assertEquals( state.getParameters(), parameters );
     assertEquals( state.isTerminal(), terminal );
+    assertEquals( state.getParameterValue( parameter ), parameterValue );
   }
 }
