@@ -492,7 +492,7 @@ final class Generator
                                                     @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "onLocationChanged" );
-    if( descriptor.isArezComponent() )
+    if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( ACTION_TYPE );
     }

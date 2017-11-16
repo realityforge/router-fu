@@ -36,7 +36,7 @@ final class RouteDescriptor
     }
     else
     {
-      return Character.toUpperCase( _name.charAt( 0 ) ) + (_name.length() > 1 ? _name.substring( 1 ) : "");
+      return Character.toUpperCase( _name.charAt( 0 ) ) + ( _name.length() > 1 ? _name.substring( 1 ) : "" );
     }
   }
 
