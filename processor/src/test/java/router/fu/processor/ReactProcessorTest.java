@@ -44,6 +44,8 @@ public class ReactProcessorTest
                       "@Router target has a route with an invalid name ''" },
         new Object[]{ "com.example.route.BadParameterNameRouter",
                       "@Router target has a route with an invalid name '-ace'" },
+        new Object[]{ "com.example.route.BadPathInParameterRouter",
+                      "@Route named 'root' has a path that can not be parsed: '<>#kjskaj'" },
         new Object[]{ "com.example.route.SameParameterNameRouter",
                       "@Router target has multiple routes with the name 'root'" },
         new Object[]{ "com.example.router.AbstractRouter", "@Router target must not be abstract" },
