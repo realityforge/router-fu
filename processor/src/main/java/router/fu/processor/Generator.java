@@ -162,6 +162,8 @@ final class Generator
 
     final TypeSpec.Builder builder = TypeSpec.classBuilder( descriptor.getRouterClassName() );
 
+    ProcessorUtil.copyTypeParameters( descriptor.getElement(), builder );
+
     builder.superclass( descriptor.getClassName() );
 
     if ( descriptor.isArezComponent() )
