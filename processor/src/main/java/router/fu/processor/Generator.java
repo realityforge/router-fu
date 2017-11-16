@@ -16,6 +16,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import router.fu.Elemental2HashBackend;
@@ -28,11 +29,13 @@ final class Generator
   private static final ClassName WINDOW_TYPE = ClassName.get( "elemental2.dom", "Window" );
   private static final ClassName ROUTER_TYPE = ClassName.get( "router.fu", "Router" );
   private static final ClassName ROUTE_TYPE = ClassName.get( "router.fu", "Route" );
+  private static final ClassName ROUTE_STATE_TYPE = ClassName.get( "router.fu", "RouteState" );
   private static final ClassName SEGMENT_TYPE = ClassName.get( "router.fu", "Segment" );
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
+  private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
 
   private Generator()
   {
@@ -53,7 +56,10 @@ final class Generator
       build() );
 
     buildGetLocationMethod( builder );
-    descriptor.getRoutes().forEach( route -> buildRouteMethod( builder, route ) );
+    descriptor.getRoutes().forEach( route -> {
+      buildRouteMethod( builder, route );
+      buildGetRouteStateMethod( builder, route );
+    } );
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
@@ -80,6 +86,17 @@ final class Generator
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     method.returns( ROUTE_TYPE );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildGetRouteStateMethod( @Nonnull final TypeSpec.Builder builder,
+                                                @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "RouteState" );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addAnnotation( Nullable.class );
+    method.returns( ROUTE_STATE_TYPE );
     builder.addMethod( method.build() );
   }
 
@@ -149,10 +166,15 @@ final class Generator
     //Add router field
     builder.addField( ROUTER_TYPE, FIELD_PREFIX + "router", Modifier.FINAL, Modifier.PRIVATE );
     builder.addField( Location.class, FIELD_PREFIX + "location", Modifier.PRIVATE );
+    descriptor.getRoutes().forEach( route -> buildRouteStateField( builder, route ) );
 
     buildConstructor( builder, descriptor );
 
-    descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
+    descriptor.getRoutes().forEach( route -> {
+      buildRouteMethodImpl( builder, route );
+      buildGetRouteStateMethodImpl( builder, route );
+      buildSetRouteStateMethodImpl( builder, route );
+    } );
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
@@ -224,6 +246,14 @@ final class Generator
     {
       field.initializer( "new $T( $S )", Parameter.class, parameter.getName() );
     }
+    builder.addField( field.build() );
+  }
+
+  private static void buildRouteStateField( @Nonnull final TypeSpec.Builder builder,
+                                            @Nonnull final RouteDescriptor route )
+  {
+    final FieldSpec.Builder field =
+      FieldSpec.builder( ROUTE_STATE_TYPE, ROUTE_STATE_FIELD_PREFIX + route.getName(), Modifier.PRIVATE );
     builder.addField( field.build() );
   }
 
@@ -341,6 +371,31 @@ final class Generator
     method.addAnnotation( Override.class );
     method.returns( ROUTE_TYPE );
     method.addStatement( "return $N", ROUTE_FIELD_PREFIX + route.getName() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildGetRouteStateMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "RouteState" );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Nullable.class );
+    method.addAnnotation( Override.class );
+    method.returns( ROUTE_STATE_TYPE );
+    method.addStatement( "return $N", ROUTE_STATE_FIELD_PREFIX + route.getName() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildSetRouteStateMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "set" + route.getPascalCaseName() + "RouteState" );
+    final ParameterSpec.Builder parameter =
+      ParameterSpec.builder( ROUTE_STATE_TYPE, "state", Modifier.FINAL ).addAnnotation( Nullable.class );
+    method.addParameter( parameter.build() );
+    method.addStatement( "$N = state", ROUTE_STATE_FIELD_PREFIX + route.getName() );
     builder.addMethod( method.build() );
   }
 

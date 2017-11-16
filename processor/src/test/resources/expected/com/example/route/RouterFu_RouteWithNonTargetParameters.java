@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import router.fu.Elemental2HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;
 import router.fu.Parameter;
 import router.fu.Route;
+import router.fu.RouteState;
 import router.fu.Router;
 import router.fu.Segment;
 
@@ -29,6 +31,10 @@ public class RouterFu_RouteWithNonTargetParameters extends RouteWithNonTargetPar
 
   private Location $fu$_location;
 
+  private RouteState $fu$_state_region;
+
+  private RouteState $fu$_state_regionFilter;
+
   RouterFu_RouteWithNonTargetParameters(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region, $fu$_route_regionFilter ) ) );
   }
@@ -39,10 +45,30 @@ public class RouterFu_RouteWithNonTargetParameters extends RouteWithNonTargetPar
     return $fu$_route_region;
   }
 
+  @Nullable
+  @Override
+  public RouteState getRegionRouteState() {
+    return $fu$_state_region;
+  }
+
+  void setRegionRouteState(@Nullable final RouteState state) {
+    $fu$_state_region = state;
+  }
+
   @Nonnull
   @Override
   public Route getRegionFilterRoute() {
     return $fu$_route_regionFilter;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionFilterRouteState() {
+    return $fu$_state_regionFilter;
+  }
+
+  void setRegionFilterRouteState(@Nullable final RouteState state) {
+    $fu$_state_regionFilter = state;
   }
 
   @Nonnull

@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import router.fu.Elemental2HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;
 import router.fu.Parameter;
 import router.fu.Route;
+import router.fu.RouteState;
 import router.fu.Router;
 import router.fu.Segment;
 
@@ -33,6 +35,12 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
 
   private Location $fu$_location;
 
+  private RouteState $fu$_state_regionEvent;
+
+  private RouteState $fu$_state_region;
+
+  private RouteState $fu$_state_regionEvents;
+
   RouterFu_RouteWithParameters(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionEvent, $fu$_route_region, $fu$_route_regionEvents ) ) );
   }
@@ -43,16 +51,46 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
     return $fu$_route_regionEvent;
   }
 
+  @Nullable
+  @Override
+  public RouteState getRegionEventRouteState() {
+    return $fu$_state_regionEvent;
+  }
+
+  void setRegionEventRouteState(@Nullable final RouteState state) {
+    $fu$_state_regionEvent = state;
+  }
+
   @Nonnull
   @Override
   public Route getRegionRoute() {
     return $fu$_route_region;
   }
 
+  @Nullable
+  @Override
+  public RouteState getRegionRouteState() {
+    return $fu$_state_region;
+  }
+
+  void setRegionRouteState(@Nullable final RouteState state) {
+    $fu$_state_region = state;
+  }
+
   @Nonnull
   @Override
   public Route getRegionEventsRoute() {
     return $fu$_route_regionEvents;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionEventsRouteState() {
+    return $fu$_state_regionEvents;
+  }
+
+  void setRegionEventsRouteState(@Nullable final RouteState state) {
+    $fu$_state_regionEvents = state;
   }
 
   @Nonnull
