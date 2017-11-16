@@ -14,7 +14,6 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
 
 final class RouterDescriptor
 {
@@ -97,12 +96,6 @@ final class RouterDescriptor
   }
 
   @Nonnull
-  DeclaredType getDeclaredType()
-  {
-    return (DeclaredType) _element.asType();
-  }
-
-  @Nonnull
   private String getServiceName()
   {
     return _element.getSimpleName() + "Service";
@@ -143,12 +136,6 @@ final class RouterDescriptor
       name.insert( 0, t.getSimpleName() + "$" );
     }
     return name.toString();
-  }
-
-  @Nonnull
-  ClassName getRouterClassNameToConstruct()
-  {
-    return toClassName( ( isArezComponent() ? "Arez_" : "" ) + getRouterName() );
   }
 
   boolean isArezComponent()
