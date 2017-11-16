@@ -129,6 +129,17 @@ define 'router-fu' do
     iml.main_generated_source_directories << _('generated/processors/main/java')
   end
 
+  doc.from(projects(%w(annotations core))).
+    using(:javadoc,
+          :windowtitle => 'RouterFu API Documentation',
+          :linksource => true,
+          :link => %w(https://arez.github.io/arez/api https://docs.oracle.com/javase/8/docs/api http://www.gwtproject.org/javadoc/latest/),
+          :group => {
+            'Core Packages' => 'router.fu.*',
+            'Annotation Packages' => 'router.fu.annotations*:router.fu.processor*'
+          }
+    )
+
   iml.excluded_directories << project._('tmp')
 
   ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development -Drouter-fu.output_fixture_data=false -Drouter-fu.fixture_dir=processor/src/test/resources')
