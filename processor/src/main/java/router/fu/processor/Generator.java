@@ -139,7 +139,7 @@ final class Generator
     descriptor.getRoutes().forEach( route -> buildBuildLocationMethodImpl( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildGotoLocationMethodImpl( builder, route ) );
 
-    buildrOnLocationChangedMethod( builder, descriptor );
+    buildOnLocationChangedMethod( builder, descriptor );
 
     return builder.build();
   }
@@ -384,8 +384,8 @@ final class Generator
     builder.addMethod( method.build() );
   }
 
-  private static void buildrOnLocationChangedMethod( @Nonnull final TypeSpec.Builder builder,
-                                                     @Nonnull final RouterDescriptor descriptor )
+  private static void buildOnLocationChangedMethod( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "onLocationChanged" );
     method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
