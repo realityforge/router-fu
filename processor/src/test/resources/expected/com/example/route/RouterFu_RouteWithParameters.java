@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import router.fu.Elemental2HashBackend;
@@ -22,13 +23,15 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
 
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Router $fu$_router;
-
   private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events/" ), new Segment( $fu$_eventCode ), }, new Parameter[]{$fu$_regionCode, $fu$_eventCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Route $fu$_route_regionEvents = new Route( "regionEvents", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events" ) }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+
+  private final Router $fu$_router;
+
+  private Location $fu$_location;
 
   RouterFu_RouteWithParameters(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionEvent, $fu$_route_region, $fu$_route_regionEvents ) ) );
@@ -95,6 +98,18 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
     $fu$_router.changeLocation( buildRegionEventsLocation( regionCode ) );
   }
 
+  @Nonnull
+  @Override
+  public Location getLocation() {
+    assert null != $fu$_location;
+    return $fu$_location;
+  }
+
+  void setLocation(@Nonnull final Location location) {
+    $fu$_location = location;
+  }
+
   void onLocationChanged(@Nonnull final Location location) {
+    setLocation( Objects.requireNonNull( location ) );
   }
 }

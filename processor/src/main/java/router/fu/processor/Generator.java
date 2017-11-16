@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Generated;
@@ -51,11 +52,21 @@ final class Generator
       addMember( "value", "$S", RouterProcessor.class.getName() ).
       build() );
 
+    buildGetLocationMethod( builder );
     descriptor.getRoutes().forEach( route -> buildRouteMethod( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildBuildLocationMethod( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildGotoLocationMethod( builder, route ) );
 
     return builder.build();
+  }
+
+  private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
+    method.addAnnotation( Nonnull.class );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.returns( Location.class );
+    builder.addMethod( method.build() );
   }
 
   private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder, @Nonnull final RouteDescriptor route )
@@ -130,15 +141,19 @@ final class Generator
       build() );
 
     buildParameterFields( builder, descriptor );
+    descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
     //Add router field
     builder.addField( ROUTER_TYPE, FIELD_PREFIX + "router", Modifier.FINAL, Modifier.PRIVATE );
+    builder.addField( Location.class, FIELD_PREFIX + "location", Modifier.PRIVATE );
+
     buildConstructor( builder, descriptor );
 
-    descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildRouteMethodImpl( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildBuildLocationMethodImpl( builder, route ) );
     descriptor.getRoutes().forEach( route -> buildGotoLocationMethodImpl( builder, route ) );
 
+    buildGetLocationImplMethod( builder );
+    buildSetLocationMethod( builder );
     buildOnLocationChangedMethod( builder, descriptor );
 
     return builder.build();
@@ -384,6 +399,28 @@ final class Generator
     builder.addMethod( method.build() );
   }
 
+  private static void buildGetLocationImplMethod( @Nonnull final TypeSpec.Builder builder )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
+    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( Override.class );
+    method.addModifiers( Modifier.PUBLIC );
+    method.returns( Location.class );
+    method.addStatement( "assert null != $N", FIELD_PREFIX + "location" );
+    method.addStatement( "return $N", FIELD_PREFIX + "location" );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildSetLocationMethod( @Nonnull final TypeSpec.Builder builder )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "setLocation" );
+    method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
+                           .addAnnotation( Nonnull.class )
+                           .build() );
+    method.addStatement( "$N = location", FIELD_PREFIX + "location" );
+    builder.addMethod( method.build() );
+  }
+
   private static void buildOnLocationChangedMethod( @Nonnull final TypeSpec.Builder builder,
                                                     @Nonnull final RouterDescriptor descriptor )
   {
@@ -391,6 +428,7 @@ final class Generator
     method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
                            .addAnnotation( Nonnull.class )
                            .build() );
+    method.addStatement( "setLocation( $T.requireNonNull( location ) )", Objects.class );
     builder.addMethod( method.build() );
   }
 }
