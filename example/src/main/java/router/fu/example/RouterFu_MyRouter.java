@@ -13,13 +13,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.ArezComponent;
 import router.fu.Elemental2HashBackend;
+import router.fu.Location;
 import router.fu.MatchResult;
 import router.fu.Parameter;
-import router.fu.Segment;
 import router.fu.Route;
-import router.fu.Location;
 import router.fu.RouteState;
 import router.fu.Router;
+import router.fu.Segment;
 
 @Generated( "router.fu" )
 @ArezComponent( type = "MyRouter", nameIncludesId = false, allowEmpty = true )
@@ -162,6 +162,11 @@ class RouterFu_MyRouter
     return $fu$_parameter_regionCode;
   }
 
+  void setRegionCode( @Nonnull final String regionCode )
+  {
+    $fu$_parameter_regionCode = regionCode;
+  }
+
   @Override
   public void updateRegionCode( @Nonnull final String regionCode )
   {
@@ -180,7 +185,7 @@ class RouterFu_MyRouter
       }
       else if ( route == $fu$_regionEvent )
       {
-        gotoRegionEvent( regionCode, terminalState.getParameters().get( "eventId" ) );
+        gotoRegionEvent( regionCode, terminalState.getParameterValue( $fu$_pathParam_eventId_1 ) );
       }
     }
   }
@@ -190,6 +195,11 @@ class RouterFu_MyRouter
   public String getEventId()
   {
     return $fu$_parameter_eventId;
+  }
+
+  void setEventId( @Nonnull final String eventId )
+  {
+    $fu$_parameter_eventId = eventId;
   }
 
   @Override
@@ -202,7 +212,7 @@ class RouterFu_MyRouter
       final Route route = terminalState.getRoute();
       if ( route == $fu$_regionEvent )
       {
-        gotoRegionEvent( terminalState.getParameters().get( "regionCode" ), eventId );
+        gotoRegionEvent( terminalState.getParameterValue( $fu$_pathParam_regionCode_1 ), eventId );
       }
     }
   }
@@ -335,8 +345,8 @@ class RouterFu_MyRouter
 
   void onLocationChanged( @Nonnull final Location location )
   {
-    $fu$_location = Objects.requireNonNull( location );
-    final List<RouteState> states = $fu$_location.getStates();
+    setLocation( Objects.requireNonNull( location ) );
+    final List<RouteState> states = location.getStates();
     int routeStartIndex = 0;
     for ( int i = 0; i < 5; i++ )
     {
@@ -344,31 +354,31 @@ class RouterFu_MyRouter
       switch ( i )
       {
         case 0:
-          $fu$_state_authFilter = state;
+          setAuthFilterRouteState( state );
           break;
         case 1:
-          $fu$_state_regions = state;
+          setRegionsRouteState( state );
           break;
         case 2:
-          $fu$_state_region = state;
+          setRegionRouteState( state );
           if ( null != state )
           {
-            $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
+            setRegionCode( state.getParameterValue( $fu$_pathParam_regionCode_1 ) );
           }
           break;
         case 3:
-          $fu$_state_regionEvents = state;
+          setRegionsRouteState( state );
           if ( null != state )
           {
-            $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
+            setRegionCode( state.getParameterValue( $fu$_pathParam_regionCode_1 ) );
           }
           break;
         case 4:
-          $fu$_state_regionEvent = state;
+          setRegionEventRouteState( state );
           if ( null != state )
           {
-            $fu$_parameter_regionCode = state.getParameters().get( "regionCode" );
-            $fu$_parameter_eventId = state.getParameters().get( "eventId" );
+            setRegionCode( state.getParameterValue( $fu$_pathParam_regionCode_1 ) );
+            setEventId( state.getParameterValue( $fu$_pathParam_eventId_1 ) );
           }
           break;
       }
