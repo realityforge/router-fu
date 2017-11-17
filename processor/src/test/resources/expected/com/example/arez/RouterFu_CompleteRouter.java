@@ -55,6 +55,12 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   private RouteState $fu$_state_regionEvents;
 
+  private String $fu$_param_eventCode;
+
+  private String $fu$_param_regionCode;
+
+  private String $fu$_param_eventCode2;
+
   RouterFu_CompleteRouter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionEvent, $fu$_route_region, $fu$_route_regionFilter, $fu$_route_regionEvents ) ) );
   }
@@ -123,6 +129,36 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_state_regionEvents = state;
   }
 
+  @Nullable
+  @Override
+  public String getEventCode() {
+    return $fu$_param_eventCode;
+  }
+
+  void setEventCode(@Nullable final String value) {
+    $fu$_param_eventCode = value;
+  }
+
+  @Nullable
+  @Override
+  public String getRegionCode() {
+    return $fu$_param_regionCode;
+  }
+
+  void setRegionCode(@Nullable final String value) {
+    $fu$_param_regionCode = value;
+  }
+
+  @Nullable
+  @Override
+  public String getEventCode2() {
+    return $fu$_param_eventCode2;
+  }
+
+  void setEventCode2(@Nullable final String value) {
+    $fu$_param_eventCode2 = value;
+  }
+
   @Nonnull
   @Override
   public String buildRegionEventLocation(@Nonnull final String regionCode, @Nonnull final String eventCode) {
@@ -188,15 +224,28 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
       switch ( i ) {
         case 0:;
         setRegionEventRouteState( state );
+        if ( null != state ) {
+          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          setEventCode2( state.getParameterValue( $fu$_eventCode_1643987249 ) );
+        }
         break;
         case 1:;
         setRegionRouteState( state );
+        if ( null != state ) {
+          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+        }
         break;
         case 2:;
         setRegionFilterRouteState( state );
+        if ( null != state ) {
+          setRegionCode( state.getParameterValue( $fu$_regionCode ) );
+        }
         break;
         case 3:;
         setRegionEventsRouteState( state );
+        if ( null != state ) {
+          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+        }
         break;
       }
     }

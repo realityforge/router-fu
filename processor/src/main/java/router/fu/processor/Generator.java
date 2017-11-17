@@ -41,6 +41,7 @@ final class Generator
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
+  private static final String BOUND_PARAMETER_FIELD_PREFIX = FIELD_PREFIX + "param_";
 
   private Generator()
   {
@@ -65,6 +66,8 @@ final class Generator
       buildRouteMethod( builder, descriptor, route );
       buildGetRouteStateMethod( builder, descriptor, route );
     } );
+    descriptor.getBoundParameters()
+      .forEach( boundParameter -> buildBoundParameterAccessor( builder, descriptor, boundParameter ) );
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
@@ -94,7 +97,7 @@ final class Generator
                                         @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "Route" );
+      MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "Route" );
     if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( OBSERVABLE_TYPE );
@@ -110,7 +113,7 @@ final class Generator
                                                 @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "RouteState" );
+      MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "RouteState" );
     if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( OBSERVABLE_TYPE );
@@ -125,7 +128,7 @@ final class Generator
                                                 @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "build" + route.getPascalCaseName() + "Location" );
+      MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
@@ -143,7 +146,7 @@ final class Generator
                                                @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "goto" + route.getPascalCaseName() );
+      MethodSpec.methodBuilder( "goto" + toPascalCaseName( route.getName() ) );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
@@ -191,6 +194,7 @@ final class Generator
     builder.addField( ROUTER_TYPE, FIELD_PREFIX + "router", Modifier.FINAL, Modifier.PRIVATE );
     builder.addField( Location.class, FIELD_PREFIX + "location", Modifier.PRIVATE );
     descriptor.getRoutes().forEach( route -> buildRouteStateField( builder, route ) );
+    descriptor.getBoundParameters().forEach( boundParameter -> buildBoundParameterField( builder, boundParameter ) );
 
     buildConstructor( builder, descriptor );
 
@@ -199,6 +203,12 @@ final class Generator
       buildGetRouteStateMethodImpl( builder, route );
       buildSetRouteStateMethodImpl( builder, route );
     } );
+
+    descriptor.getBoundParameters().forEach( boundParameter -> {
+      buildBoundParameterAccessorImpl( builder, boundParameter );
+      buildBoundParameterMutator( builder, boundParameter );
+    } );
+
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
@@ -278,6 +288,14 @@ final class Generator
   {
     final FieldSpec.Builder field =
       FieldSpec.builder( ROUTE_STATE_TYPE, ROUTE_STATE_FIELD_PREFIX + route.getName(), Modifier.PRIVATE );
+    builder.addField( field.build() );
+  }
+
+  private static void buildBoundParameterField( @Nonnull final TypeSpec.Builder builder,
+                                                @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    final FieldSpec.Builder field =
+      FieldSpec.builder( String.class, BOUND_PARAMETER_FIELD_PREFIX + boundParameter.getName(), Modifier.PRIVATE );
     builder.addField( field.build() );
   }
 
@@ -392,7 +410,7 @@ final class Generator
                                             @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "Route" );
+      MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "Route" );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nonnull.class );
     method.addAnnotation( Override.class );
@@ -401,11 +419,52 @@ final class Generator
     builder.addMethod( method.build() );
   }
 
+  private static void buildBoundParameterAccessor( @Nonnull final TypeSpec.Builder builder,
+                                                   @Nonnull final RouterDescriptor descriptor,
+                                                   @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" + toPascalCaseName( boundParameter.getName() ) );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addAnnotation( Nullable.class );
+    method.returns( String.class );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildBoundParameterAccessorImpl( @Nonnull final TypeSpec.Builder builder,
+                                                       @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" + toPascalCaseName( boundParameter.getName() ) );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Nullable.class );
+    method.addAnnotation( Override.class );
+    method.returns( String.class );
+    method.addStatement( "return $N", BOUND_PARAMETER_FIELD_PREFIX + boundParameter.getName() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildBoundParameterMutator( @Nonnull final TypeSpec.Builder builder,
+                                                  @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "set" + toPascalCaseName( boundParameter.getName() ) );
+    final ParameterSpec.Builder parameter =
+      ParameterSpec.builder( String.class, "value", Modifier.FINAL ).addAnnotation( Nullable.class );
+    method.addParameter( parameter.build() );
+    method.addStatement( "$N = value", BOUND_PARAMETER_FIELD_PREFIX + boundParameter.getName() );
+    builder.addMethod( method.build() );
+  }
+
   private static void buildGetRouteStateMethodImpl( @Nonnull final TypeSpec.Builder builder,
                                                     @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "get" + route.getPascalCaseName() + "RouteState" );
+      MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "RouteState" );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nullable.class );
     method.addAnnotation( Override.class );
@@ -418,7 +477,7 @@ final class Generator
                                                     @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "set" + route.getPascalCaseName() + "RouteState" );
+      MethodSpec.methodBuilder( "set" + toPascalCaseName( route.getName() ) + "RouteState" );
     final ParameterSpec.Builder parameter =
       ParameterSpec.builder( ROUTE_STATE_TYPE, "state", Modifier.FINAL ).addAnnotation( Nullable.class );
     method.addParameter( parameter.build() );
@@ -430,7 +489,7 @@ final class Generator
                                                     @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "build" + route.getPascalCaseName() + "Location" );
+      MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nonnull.class );
     method.addAnnotation( Override.class );
@@ -462,7 +521,7 @@ final class Generator
                                                    @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "goto" + route.getPascalCaseName() );
+      MethodSpec.methodBuilder( "goto" + toPascalCaseName( route.getName() ) );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nonnull.class );
     method.addAnnotation( Override.class );
@@ -477,7 +536,7 @@ final class Generator
     final ArrayList<Object> params = new ArrayList<>();
     sb.append( "$N.changeLocation( $N( " );
     params.add( FIELD_PREFIX + "router" );
-    params.add( "build" + route.getPascalCaseName() + "Location" );
+    params.add( "build" + toPascalCaseName( route.getName() ) + "Location" );
     sb.append( route.getParameters()
                  .stream()
                  .map( ParameterDescriptor::getName )
@@ -538,7 +597,21 @@ final class Generator
     for ( final RouteDescriptor route : routes )
     {
       switchBlock.addStatement( "case " + index + ":" );
-      switchBlock.addStatement( "$N( state )", "set" + route.getPascalCaseName() + "RouteState" );
+      switchBlock.addStatement( "$N( state )", "set" + toPascalCaseName( route.getName() ) + "RouteState" );
+      final HashMap<ParameterDescriptor, BoundParameterDescriptor> boundParameters = route.getBoundParameters();
+      if ( !boundParameters.isEmpty() )
+      {
+        final CodeBlock.Builder stateBlock = CodeBlock.builder();
+        stateBlock.beginControlFlow( "if ( null != state )" );
+        for ( final Map.Entry<ParameterDescriptor, BoundParameterDescriptor> entry : boundParameters.entrySet() )
+        {
+          stateBlock.addStatement( "$N( state.getParameterValue( $N ) )",
+                                   "set" + toPascalCaseName( entry.getValue().getName() ),
+                                   FIELD_PREFIX + entry.getKey().getFieldName() );
+        }
+        stateBlock.endControlFlow();
+        switchBlock.add( stateBlock.build() );
+      }
       switchBlock.addStatement( "break" );
       index++;
     }
@@ -548,5 +621,18 @@ final class Generator
     method.addCode( loop.build() );
 
     builder.addMethod( method.build() );
+  }
+
+  @Nonnull
+  private static String toPascalCaseName( @Nonnull final String name )
+  {
+    if ( Character.isUpperCase( name.charAt( 0 ) ) )
+    {
+      return name;
+    }
+    else
+    {
+      return Character.toUpperCase( name.charAt( 0 ) ) + ( name.length() > 1 ? name.substring( 1 ) : "" );
+    }
   }
 }

@@ -30,19 +30,6 @@ final class RouteDescriptor
     return _name;
   }
 
-  @Nonnull
-  String getPascalCaseName()
-  {
-    if ( Character.isUpperCase( _name.charAt( 0 ) ) )
-    {
-      return _name;
-    }
-    else
-    {
-      return Character.toUpperCase( _name.charAt( 0 ) ) + ( _name.length() > 1 ? _name.substring( 1 ) : "" );
-    }
-  }
-
   boolean isNavigationTarget()
   {
     return _navigationTarget;

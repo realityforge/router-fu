@@ -47,6 +47,18 @@ public interface CompleteRouterService {
   @Nullable
   RouteState getRegionEventsRouteState();
 
+  @Observable
+  @Nullable
+  String getEventCode();
+
+  @Observable
+  @Nullable
+  String getRegionCode();
+
+  @Observable
+  @Nullable
+  String getEventCode2();
+
   @Nonnull
   @Action(
       mutation = false
