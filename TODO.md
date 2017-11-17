@@ -1,5 +1,12 @@
 ## TODO
 
+### High Priority 
+
+* Test long static segments
+* Implement @RouteCallback
+
+### Low Priority 
+
 * Add mechanisms such that parameters from `RouteState` can be mapped to class fields or observable fields.
   Ideally the route/location would be updated if the application changes these fields rather than requiring
   that the application explicitly change the location.
@@ -12,8 +19,6 @@
 
 * Consider using an existing path syntax - http://router5.github.io/docs/path-syntax.html
 * Routing options: http://router5.github.io/docs/router-options.html
-
-* Test long static segments
 
 ### Mobx Examples to validate against
 
