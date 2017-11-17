@@ -76,7 +76,7 @@ final class Generator
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
-        buildBuildLocationMethod( builder, route );
+        buildBuildLocationMethod( builder, descriptor, route );
         buildGotoLocationMethod( builder, route );
       } );
 
@@ -130,13 +130,17 @@ final class Generator
   }
 
   private static void buildBuildLocationMethod( @Nonnull final TypeSpec.Builder builder,
+                                                @Nonnull final RouterDescriptor descriptor,
                                                 @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
-    method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
+    }
     method.returns( String.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {

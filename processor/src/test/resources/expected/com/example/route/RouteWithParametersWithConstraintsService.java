@@ -3,7 +3,6 @@ package com.example.route;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.realityforge.arez.annotations.Action;
 import router.fu.Location;
 import router.fu.Route;
 import router.fu.RouteState;
@@ -32,27 +31,18 @@ public interface RouteWithParametersWithConstraintsService {
   RouteState getRegionEventRouteState();
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
   String buildRegionLocation(@Nonnull String regionCode);
 
   @Nonnull
   void gotoRegion(@Nonnull String regionCode);
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
   String buildRegionEventsLocation(@Nonnull String regionCode);
 
   @Nonnull
   void gotoRegionEvents(@Nonnull String regionCode);
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
   String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
 
   @Nonnull
