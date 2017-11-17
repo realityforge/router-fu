@@ -12,9 +12,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Generated;
@@ -67,7 +69,10 @@ final class Generator
       buildGetRouteStateMethod( builder, descriptor, route );
     } );
     descriptor.getBoundParameters()
-      .forEach( boundParameter -> buildBoundParameterAccessor( builder, descriptor, boundParameter ) );
+      .forEach( boundParameter -> {
+        buildBoundParameterAccessor( builder, descriptor, boundParameter );
+        buildBoundParameterUpdater( builder, boundParameter );
+      } );
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
@@ -207,6 +212,7 @@ final class Generator
     descriptor.getBoundParameters().forEach( boundParameter -> {
       buildBoundParameterAccessorImpl( builder, boundParameter );
       buildBoundParameterMutator( builder, boundParameter );
+      buildBoundParameterUpdaterImpl( builder, boundParameter );
     } );
 
     descriptor.getRoutes().stream().
@@ -419,6 +425,18 @@ final class Generator
     builder.addMethod( method.build() );
   }
 
+  private static void buildBoundParameterUpdater( @Nonnull final TypeSpec.Builder builder,
+                                                  @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "update" + toPascalCaseName( boundParameter.getName() ) );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addParameter( ParameterSpec.builder( String.class, boundParameter.getName() )
+                           .addAnnotation( Nonnull.class )
+                           .build() );
+    builder.addMethod( method.build() );
+  }
+
   private static void buildBoundParameterAccessor( @Nonnull final TypeSpec.Builder builder,
                                                    @Nonnull final RouterDescriptor descriptor,
                                                    @Nonnull final BoundParameterDescriptor boundParameter )
@@ -432,6 +450,80 @@ final class Generator
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nullable.class );
     method.returns( String.class );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildBoundParameterUpdaterImpl( @Nonnull final TypeSpec.Builder builder,
+                                                      @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "update" + toPascalCaseName( boundParameter.getName() ) );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Override.class );
+    method.addParameter( ParameterSpec.builder( String.class, boundParameter.getName(), Modifier.FINAL )
+                           .addAnnotation( Nonnull.class )
+                           .build() );
+    method.addStatement( "final $T location = getLocation()", Location.class );
+    method.addStatement( "final $T terminalState = location.getTerminalState()", ROUTE_STATE_TYPE );
+    final CodeBlock.Builder block = CodeBlock.builder();
+    block.beginControlFlow( "if ( null != terminalState )" );
+    block.addStatement( "final $T route = terminalState.getRoute()", ROUTE_TYPE );
+
+    final CodeBlock.Builder routeBlocks = CodeBlock.builder();
+    final LinkedHashMap<RouteDescriptor, ParameterDescriptor> bindings = boundParameter.getBindings();
+    boolean needElse = false;
+    for ( final Map.Entry<RouteDescriptor, ParameterDescriptor> entry : bindings.entrySet() )
+    {
+      final RouteDescriptor route = entry.getKey();
+      if( !route.isNavigationTarget() )
+      {
+        continue;
+      }
+      if ( needElse )
+      {
+        routeBlocks.nextControlFlow( "else if ( route == $N )",
+                                     ROUTE_FIELD_PREFIX + route.getName() );
+
+      }
+      else
+      {
+
+        routeBlocks.beginControlFlow( "if ( route == $N )",
+                                      ROUTE_FIELD_PREFIX + route.getName() );
+        needElse = true;
+      }
+
+      final StringBuilder sb = new StringBuilder();
+      final ArrayList<Object> params = new ArrayList<>();
+
+      sb.append( "$N(" );
+      params.add( "goto" + toPascalCaseName( route.getName() ) );
+
+      final AtomicBoolean comma = new AtomicBoolean();
+      route.getParameters().forEach( p -> {
+        sb.append( comma.get() ? ", " : "" );
+        comma.set( true );
+        if ( p == boundParameter.getBindings().get( route ) )
+        {
+          sb.append( "$N" );
+          params.add( boundParameter.getName() );
+        }
+        else
+        {
+          sb.append( "terminalState.getParameterValue( $N )" );
+          params.add( FIELD_PREFIX +  p.getFieldName() );
+        }
+
+      } );
+
+      sb.append( ")" );
+      routeBlocks.addStatement( sb.toString(), params.toArray() );
+    }
+
+    routeBlocks.endControlFlow();
+    block.add( routeBlocks.build() );
+    block.endControlFlow();
+    method.addCode( block.build() );
     builder.addMethod( method.build() );
   }
 

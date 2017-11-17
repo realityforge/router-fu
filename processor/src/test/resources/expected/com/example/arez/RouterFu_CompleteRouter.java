@@ -139,6 +139,22 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_param_regionCode = value;
   }
 
+  @Override
+  public void updateRegionCode(@Nonnull final String regionCode) {
+    final Location location = getLocation();
+    final RouteState terminalState = location.getTerminalState();
+    if ( null != terminalState ) {
+      final Route route = terminalState.getRoute();
+      if ( route == $fu$_route_region ) {
+        gotoRegion(regionCode);
+      } else if ( route == $fu$_route_regionEvents ) {
+        gotoRegionEvents(regionCode);
+      } else if ( route == $fu$_route_regionEvent ) {
+        gotoRegionEvent(regionCode, terminalState.getParameterValue( $fu$_eventCode_1643987249 ));
+      }
+    }
+  }
+
   @Nullable
   @Override
   public String getEventCode() {
@@ -149,6 +165,18 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_param_eventCode = value;
   }
 
+  @Override
+  public void updateEventCode(@Nonnull final String eventCode) {
+    final Location location = getLocation();
+    final RouteState terminalState = location.getTerminalState();
+    if ( null != terminalState ) {
+      final Route route = terminalState.getRoute();
+      if ( route == $fu$_route_regionEvent ) {
+        gotoRegionEvent(terminalState.getParameterValue( $fu$_regionCode_821487049 ), eventCode);
+      }
+    }
+  }
+
   @Nullable
   @Override
   public String getEventCode2() {
@@ -157,6 +185,18 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   void setEventCode2(@Nullable final String value) {
     $fu$_param_eventCode2 = value;
+  }
+
+  @Override
+  public void updateEventCode2(@Nonnull final String eventCode2) {
+    final Location location = getLocation();
+    final RouteState terminalState = location.getTerminalState();
+    if ( null != terminalState ) {
+      final Route route = terminalState.getRoute();
+      if ( route == $fu$_route_regionEvent ) {
+        gotoRegionEvent(terminalState.getParameterValue( $fu$_regionCode_821487049 ), eventCode2);
+      }
+    }
   }
 
   @Nonnull

@@ -51,13 +51,19 @@ public interface CompleteRouterService {
   @Nullable
   String getRegionCode();
 
+  void updateRegionCode(@Nonnull String regionCode);
+
   @Observable
   @Nullable
   String getEventCode();
 
+  void updateEventCode(@Nonnull String eventCode);
+
   @Observable
   @Nullable
   String getEventCode2();
+
+  void updateEventCode2(@Nonnull String eventCode2);
 
   @Nonnull
   @Action(
