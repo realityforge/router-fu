@@ -3,10 +3,10 @@ package router.fu.example;
 import elemental2.dom.DomGlobal;
 import javax.annotation.Nonnull;
 import router.fu.MatchResult;
+import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
 import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
-import router.fu.annotations.BoundParameter;
 
 @Router( arez = true )
 // This first route is a filter and matches all locations but can not be navigated to
