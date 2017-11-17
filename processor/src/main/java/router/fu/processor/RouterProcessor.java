@@ -6,6 +6,9 @@ import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +22,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
 import router.fu.annotations.Router;
 import static javax.tools.Diagnostic.Kind.*;
@@ -110,17 +114,95 @@ public final class RouterProcessor
     descriptor.setArezComponent( component.arez() );
 
     parseRouteAnnotations( typeElement, descriptor );
+    parseBoundParameterAnnotations( typeElement, descriptor );
 
     return descriptor;
+  }
+
+  private void parseBoundParameterAnnotations( @Nonnull final TypeElement typeElement,
+                                               @Nonnull final RouterDescriptor descriptor )
+  {
+    Arrays.stream( typeElement.getAnnotationsByType( BoundParameter.class ) )
+      .forEach( routeAnnotation -> parseBoundParameterAnnotation( typeElement, descriptor, routeAnnotation ) );
+  }
+
+  private void parseBoundParameterAnnotation( @Nonnull final TypeElement typeElement,
+                                              @Nonnull final RouterDescriptor router,
+                                              @Nonnull final BoundParameter annotation )
+  {
+    final String name = annotation.name();
+    if ( !ProcessorUtil.isJavaIdentifier( name ) )
+    {
+      throw new RouterProcessorException( "@Router target has a @BoundParameter with an invalid name '" + name + "'",
+                                          typeElement );
+    }
+    final String parameterName = annotation.parameterName().isEmpty() ? name : annotation.parameterName();
+
+    final String[] routeNames = annotation.routeNames();
+
+    final Map<RouteDescriptor, ParameterDescriptor> bindings = new HashMap<>();
+    if ( 0 == routeNames.length )
+    {
+      for ( final RouteDescriptor route : router.getRoutes() )
+      {
+        for ( final ParameterDescriptor descriptor : route.getParameters() )
+        {
+          if ( descriptor.getName().equals( parameterName ) )
+          {
+            bindings.put( route, descriptor );
+          }
+        }
+      }
+      if ( bindings.isEmpty() )
+      {
+        throw new RouterProcessorException( "@Router target has a @BoundParameter that specifies a parameter " +
+                                            "named '" + parameterName + "' but parameter does not exist on " +
+                                            "any routes.", typeElement );
+      }
+    }
+    else
+    {
+      for ( final String routeName : routeNames )
+      {
+        if ( router.hasRouteNamed( routeName ) )
+        {
+          final RouteDescriptor routeDescriptor = router.getRouteByName( routeName );
+          final ParameterDescriptor parameterDescriptor = routeDescriptor.findParameterByName( parameterName );
+          if ( null != parameterDescriptor )
+          {
+            bindings.put( routeDescriptor, parameterDescriptor );
+          }
+          else
+          {
+            throw new RouterProcessorException( "@Router target has a @BoundParameter that specifies a route named '" +
+                                                routeName + "' for parameter named '" + parameterName +
+                                                "' but parameter does not exist.", typeElement );
+          }
+        }
+        else
+        {
+          throw new RouterProcessorException( "@Router target has a @BoundParameter that specifies a route named '" +
+                                              routeName + "' that does not exist.", typeElement );
+        }
+      }
+
+    }
+
+    final BoundParameterDescriptor boundParameter = new BoundParameterDescriptor( name, bindings );
+    if ( router.hasBoundParameterNamed( name ) )
+    {
+      throw new RouterProcessorException( "@Router target has multiple @BoundParameter annotations with the " +
+                                          "name '" + name + "'", typeElement );
+    }
+
+    router.addBoundParameter( boundParameter );
   }
 
   private void parseRouteAnnotations( @Nonnull final TypeElement typeElement,
                                       @Nonnull final RouterDescriptor descriptor )
   {
-    for ( final Route routeAnnotation : typeElement.getAnnotationsByType( Route.class ) )
-    {
-      parseRouteAnnotation( typeElement, descriptor, routeAnnotation );
-    }
+    Arrays.stream( typeElement.getAnnotationsByType( Route.class ) )
+      .forEach( routeAnnotation -> parseRouteAnnotation( typeElement, descriptor, routeAnnotation ) );
   }
 
   private void parseRouteAnnotation( @Nonnull final TypeElement typeElement,

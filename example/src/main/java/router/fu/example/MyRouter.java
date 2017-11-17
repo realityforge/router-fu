@@ -6,7 +6,7 @@ import router.fu.MatchResult;
 import router.fu.annotations.Route;
 import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
-import router.fu.annotations.RouteParameter;
+import router.fu.annotations.BoundParameter;
 
 @Router( arez = true )
 // This first route is a filter and matches all locations but can not be navigated to
@@ -20,9 +20,9 @@ import router.fu.annotations.RouteParameter;
 // Any route that has a regionCode parameter will have that parameter bound to a field. This assumes that
 // All instances of the parameter correspond to the same value. If this value is in a terminal route and it is changed
 // then the location will be update to reflect the change
-@RouteParameter( name = "regionCode" )
+@BoundParameter( name = "regionCode" )
 // Only the route "regionEvent" will have a eventId parameter will have that parameter bound to a field
-@RouteParameter( name = "eventId", routeNames = { "regionEvent" } )
+@BoundParameter( name = "eventId", routeNames = { "regionEvent" } )
 public class MyRouter
 {
   @Nonnull

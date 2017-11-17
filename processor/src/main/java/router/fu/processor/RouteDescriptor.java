@@ -1,10 +1,12 @@
 package router.fu.processor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 final class RouteDescriptor
 {
@@ -13,6 +15,7 @@ final class RouteDescriptor
   private final boolean _navigationTarget;
   private final boolean _partialMatch;
   private final ArrayList<Object> _parts = new ArrayList<>();
+  private final HashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new HashMap<>();
 
   RouteDescriptor( @Nonnull final String name, final boolean navigationTarget, final boolean partialMatch )
   {
@@ -73,5 +76,24 @@ final class RouteDescriptor
       .filter( ParameterDescriptor.class::isInstance )
       .map( ParameterDescriptor.class::cast ).
         collect( Collectors.toList() );
+  }
+
+  void bindParameter( @Nonnull final ParameterDescriptor parameter,
+                      @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    assert getParameters().contains( parameter );
+    _boundParameters.put( parameter, boundParameter );
+  }
+
+  @Nonnull
+  HashMap<ParameterDescriptor, BoundParameterDescriptor> getBoundParameters()
+  {
+    return _boundParameters;
+  }
+
+  @Nullable
+  ParameterDescriptor findParameterByName( @Nonnull final String parameterName )
+  {
+    return getParameters().stream().filter( p -> p.getName().equals( parameterName ) ).findAny().orElse( null );
   }
 }

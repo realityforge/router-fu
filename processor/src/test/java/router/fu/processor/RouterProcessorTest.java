@@ -45,6 +45,16 @@ public class RouterProcessorTest
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.parameter.BadParameterName",
+                      "@Router target has a @BoundParameter with an invalid name ''" },
+        new Object[]{ "com.example.parameter.DuplicateParameterName",
+                      "@Router target has multiple @BoundParameter annotations with the name 'regionCode'" },
+        new Object[]{ "com.example.parameter.NoSuchParameterInAnyRoute",
+                      "@Router target has a @BoundParameter that specifies a parameter named 'regionCode' but parameter does not exist on any routes." },
+        new Object[]{ "com.example.parameter.NoSuchParameterInSpecificRoute",
+                      "@Router target has a @BoundParameter that specifies a route named 'region' for parameter named 'regionCode' but parameter does not exist." },
+        new Object[]{ "com.example.parameter.NoSuchRoute",
+                      "@Router target has a @BoundParameter that specifies a route named 'region' that does not exist." },
         new Object[]{ "com.example.route.BadParameterName2Router",
                       "@Router target has a route with an invalid name ''" },
         new Object[]{ "com.example.route.BadParameterName3Router",

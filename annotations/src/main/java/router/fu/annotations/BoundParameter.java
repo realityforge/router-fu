@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
  */
 @Documented
 @Target( ElementType.TYPE )
-@Repeatable( RouteParameters.class )
-public @interface RouteParameter
+@Repeatable( BoundParameters.class )
+public @interface BoundParameter
 {
   /**
    * The name under which to expose parameter.

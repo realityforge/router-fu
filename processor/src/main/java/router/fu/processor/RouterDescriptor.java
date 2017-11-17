@@ -23,6 +23,7 @@ final class RouterDescriptor
   private final TypeElement _element;
   private boolean _arezComponent;
   private final Map<String, RouteDescriptor> _routes = new HashMap<>();
+  private final Map<String, BoundParameterDescriptor> _boundParameters = new HashMap<>();
 
   RouterDescriptor( @Nonnull final PackageElement packageElement,
                     @Nonnull final TypeElement element )
@@ -66,6 +67,14 @@ final class RouterDescriptor
     return _routes.containsKey( name );
   }
 
+  @Nonnull
+  RouteDescriptor getRouteByName( @Nonnull final String name )
+  {
+    final RouteDescriptor descriptor = _routes.get( name );
+    assert null != descriptor;
+    return descriptor;
+  }
+
   void addRoute( @Nonnull final RouteDescriptor route )
   {
     assert !hasRouteNamed( route.getName() );
@@ -75,6 +84,22 @@ final class RouterDescriptor
   Collection<RouteDescriptor> getRoutes()
   {
     return _routes.values();
+  }
+
+  boolean hasBoundParameterNamed( @Nonnull final String name )
+  {
+    return _boundParameters.containsKey( name );
+  }
+
+  void addBoundParameter( @Nonnull final BoundParameterDescriptor boundParameter )
+  {
+    assert !hasRouteNamed( boundParameter.getName() );
+    _boundParameters.put( boundParameter.getName(), boundParameter );
+  }
+
+  Collection<BoundParameterDescriptor> getBoundParameters()
+  {
+    return _boundParameters.values();
   }
 
   @Nonnull
