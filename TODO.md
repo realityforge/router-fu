@@ -5,6 +5,10 @@
 * Test long static segments
 * Implement @RouteCallback
 
+### Medium Priority 
+
+* Add mechanism for stripping trailing slash
+
 ### Low Priority 
 
 * Support routes that dynamically load routes. i.e. Add a route that dynamically loads a set of routes and
@@ -12,7 +16,6 @@
 * Support either child or peer routers. These routers pick up optional route data that are suffixed to the main
   route and delegated to separate components. Typically these will be things like popup dialogs that contain
   some state. This typically used to manage/expose user-interface state.
-* Routing options: http://router5.github.io/docs/router-options.html
 
 ### Mobx Examples to validate against
 
