@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
-import router.fu.Elemental2HashBackend;
+import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.RouteState;
 import router.fu.Router;
@@ -19,7 +19,7 @@ public class RouterFu_BasicRouter extends BasicRouter implements BasicRouterServ
   private Location $fu$_location;
 
   RouterFu_BasicRouter(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
+    $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
   }
 
   @Nonnull

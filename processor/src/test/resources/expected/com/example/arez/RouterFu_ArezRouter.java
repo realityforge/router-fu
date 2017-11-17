@@ -9,7 +9,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
-import router.fu.Elemental2HashBackend;
+import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.RouteState;
 import router.fu.Router;
@@ -26,7 +26,7 @@ public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService
   private Location $fu$_location;
 
   RouterFu_ArezRouter(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
+    $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
   }
 
   @Nonnull

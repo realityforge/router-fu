@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
-import router.fu.Elemental2HashBackend;
+import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.Parameter;
 
@@ -245,7 +245,7 @@ final class Generator
     sb.append( "$N = new $T( this::onLocationChanged, new $T( window ), $T.unmodifiableList( $T.asList( " );
     params.add( FIELD_PREFIX + "router" );
     params.add( ROUTER_TYPE );
-    params.add( Elemental2HashBackend.class );
+    params.add( HashBackend.class );
     params.add( Collections.class );
     params.add( Arrays.class );
     sb.append( descriptor.getRoutes()

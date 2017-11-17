@@ -11,7 +11,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import router.fu.Elemental2HashBackend;
+import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;
 import router.fu.Parameter;
@@ -33,7 +33,7 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
   private RouteState $fu$_state_A;
 
   RouterFu_RouteParametersWithShortName(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_A ) ) );
+    $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_A ) ) );
   }
 
   @Nonnull

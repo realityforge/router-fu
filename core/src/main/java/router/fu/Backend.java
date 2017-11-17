@@ -1,7 +1,6 @@
 package router.fu;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * Interface via which different routing backends can be implemented.

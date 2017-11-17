@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
-import router.fu.Elemental2HashBackend;
+import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;
 import router.fu.Parameter;
@@ -62,7 +62,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   private String $fu$_param_eventCode2;
 
   RouterFu_CompleteRouter(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionFilter, $fu$_route_region, $fu$_route_regionEvents, $fu$_route_regionEvent ) ) );
+    $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionFilter, $fu$_route_region, $fu$_route_regionEvents, $fu$_route_regionEvent ) ) );
   }
 
   @Nonnull

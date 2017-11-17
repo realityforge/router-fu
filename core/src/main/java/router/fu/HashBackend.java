@@ -10,7 +10,7 @@ import jsinterop.base.JsPropertyMap;
 /**
  * Hash based routing backend based on Elemental2.
  */
-public class Elemental2HashBackend
+public class HashBackend
   implements Backend
 {
   @Nonnull
@@ -19,7 +19,7 @@ public class Elemental2HashBackend
   /**
    * Create backend for routing for on current window.
    */
-  public Elemental2HashBackend()
+  public HashBackend()
   {
     this( DomGlobal.window );
   }
@@ -29,7 +29,7 @@ public class Elemental2HashBackend
    *
    * @param window the window.
    */
-  public Elemental2HashBackend( @Nonnull final Window window )
+  public HashBackend( @Nonnull final Window window )
   {
     _window = Objects.requireNonNull( window );
   }
