@@ -1,7 +1,7 @@
 package router.fu.processor;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ final class RouteDescriptor
   private final boolean _navigationTarget;
   private final boolean _partialMatch;
   private final ArrayList<Object> _parts = new ArrayList<>();
-  private final HashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new HashMap<>();
+  private final LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
 
   RouteDescriptor( @Nonnull final String name, final boolean navigationTarget, final boolean partialMatch )
   {
@@ -73,7 +73,7 @@ final class RouteDescriptor
   }
 
   @Nonnull
-  HashMap<ParameterDescriptor, BoundParameterDescriptor> getBoundParameters()
+  LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> getBoundParameters()
   {
     return _boundParameters;
   }
