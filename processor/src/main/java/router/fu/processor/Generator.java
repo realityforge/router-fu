@@ -479,7 +479,7 @@ final class Generator
     for ( final Map.Entry<RouteDescriptor, ParameterDescriptor> entry : bindings.entrySet() )
     {
       final RouteDescriptor route = entry.getKey();
-      if( !route.isNavigationTarget() )
+      if ( !route.isNavigationTarget() )
       {
         continue;
       }
@@ -515,7 +515,7 @@ final class Generator
         else
         {
           sb.append( "terminalState.getParameterValue( $N )" );
-          params.add( FIELD_PREFIX +  p.getFieldName() );
+          params.add( FIELD_PREFIX + p.getFieldName() );
         }
 
       } );
