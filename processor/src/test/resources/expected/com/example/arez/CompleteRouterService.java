@@ -17,11 +17,11 @@ public interface CompleteRouterService {
 
   @Observable
   @Nonnull
-  Route getRegionEventRoute();
+  Route getRegionFilterRoute();
 
   @Observable
   @Nullable
-  RouteState getRegionEventRouteState();
+  RouteState getRegionFilterRouteState();
 
   @Observable
   @Nonnull
@@ -33,14 +33,6 @@ public interface CompleteRouterService {
 
   @Observable
   @Nonnull
-  Route getRegionFilterRoute();
-
-  @Observable
-  @Nullable
-  RouteState getRegionFilterRouteState();
-
-  @Observable
-  @Nonnull
   Route getRegionEventsRoute();
 
   @Observable
@@ -48,8 +40,12 @@ public interface CompleteRouterService {
   RouteState getRegionEventsRouteState();
 
   @Observable
+  @Nonnull
+  Route getRegionEventRoute();
+
+  @Observable
   @Nullable
-  String getEventCode();
+  RouteState getRegionEventRouteState();
 
   @Observable
   @Nullable
@@ -57,16 +53,11 @@ public interface CompleteRouterService {
 
   @Observable
   @Nullable
+  String getEventCode();
+
+  @Observable
+  @Nullable
   String getEventCode2();
-
-  @Nonnull
-  @Action(
-      mutation = false
-  )
-  String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
-
-  @Nonnull
-  void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
 
   @Nonnull
   @Action(
@@ -85,4 +76,13 @@ public interface CompleteRouterService {
 
   @Nonnull
   void gotoRegionEvents(@Nonnull String regionCode);
+
+  @Nonnull
+  @Action(
+      mutation = false
+  )
+  String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
+
+  @Nonnull
+  void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
 }

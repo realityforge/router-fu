@@ -24,36 +24,20 @@ import router.fu.Segment;
 public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMatchParameters implements RouteWithPartialMatchParametersService {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
-
   private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)" ), ( location, route, parameters ) -> MatchResult.NON_TERMINAL );
+
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 
   private Location $fu$_location;
 
-  private RouteState $fu$_state_region;
-
   private RouteState $fu$_state_regionFilter;
 
+  private RouteState $fu$_state_region;
+
   RouterFu_RouteWithPartialMatchParameters(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region, $fu$_route_regionFilter ) ) );
-  }
-
-  @Nonnull
-  @Override
-  public Route getRegionRoute() {
-    return $fu$_route_region;
-  }
-
-  @Nullable
-  @Override
-  public RouteState getRegionRouteState() {
-    return $fu$_state_region;
-  }
-
-  void setRegionRouteState(@Nullable final RouteState state) {
-    $fu$_state_region = state;
+    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionFilter, $fu$_route_region ) ) );
   }
 
   @Nonnull
@@ -70,6 +54,22 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
 
   void setRegionFilterRouteState(@Nullable final RouteState state) {
     $fu$_state_regionFilter = state;
+  }
+
+  @Nonnull
+  @Override
+  public Route getRegionRoute() {
+    return $fu$_route_region;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionRouteState() {
+    return $fu$_state_region;
+  }
+
+  void setRegionRouteState(@Nullable final RouteState state) {
+    $fu$_state_region = state;
   }
 
   @Nonnull
@@ -106,10 +106,10 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
       routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setRegionRouteState( state );
+        setRegionFilterRouteState( state );
         break;
         case 1:;
-        setRegionFilterRouteState( state );
+        setRegionRouteState( state );
         break;
       }
     }

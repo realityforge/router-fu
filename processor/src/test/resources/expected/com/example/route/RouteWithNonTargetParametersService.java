@@ -14,16 +14,16 @@ public interface RouteWithNonTargetParametersService {
   Location getLocation();
 
   @Nonnull
-  Route getRegionRoute();
-
-  @Nullable
-  RouteState getRegionRouteState();
-
-  @Nonnull
   Route getRegionFilterRoute();
 
   @Nullable
   RouteState getRegionFilterRouteState();
+
+  @Nonnull
+  Route getRegionRoute();
+
+  @Nullable
+  RouteState getRegionRouteState();
 
   @Nonnull
   @Action(

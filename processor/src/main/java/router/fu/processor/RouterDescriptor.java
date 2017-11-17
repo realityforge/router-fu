@@ -2,9 +2,8 @@ package router.fu.processor;
 
 import com.squareup.javapoet.ClassName;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -22,8 +21,8 @@ final class RouterDescriptor
   @Nonnull
   private final TypeElement _element;
   private boolean _arezComponent;
-  private final Map<String, RouteDescriptor> _routes = new HashMap<>();
-  private final Map<String, BoundParameterDescriptor> _boundParameters = new HashMap<>();
+  private final LinkedHashMap<String, RouteDescriptor> _routes = new LinkedHashMap<>();
+  private final LinkedHashMap<String, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
 
   RouterDescriptor( @Nonnull final PackageElement packageElement,
                     @Nonnull final TypeElement element )

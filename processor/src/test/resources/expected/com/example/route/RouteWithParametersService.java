@@ -14,12 +14,6 @@ public interface RouteWithParametersService {
   Location getLocation();
 
   @Nonnull
-  Route getRegionEventRoute();
-
-  @Nullable
-  RouteState getRegionEventRouteState();
-
-  @Nonnull
   Route getRegionRoute();
 
   @Nullable
@@ -32,13 +26,10 @@ public interface RouteWithParametersService {
   RouteState getRegionEventsRouteState();
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
-  String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
+  Route getRegionEventRoute();
 
-  @Nonnull
-  void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
+  @Nullable
+  RouteState getRegionEventRouteState();
 
   @Nonnull
   @Action(
@@ -57,4 +48,13 @@ public interface RouteWithParametersService {
 
   @Nonnull
   void gotoRegionEvents(@Nonnull String regionCode);
+
+  @Nonnull
+  @Action(
+      mutation = false
+  )
+  String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
+
+  @Nonnull
+  void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
 }

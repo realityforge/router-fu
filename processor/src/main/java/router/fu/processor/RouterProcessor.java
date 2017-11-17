@@ -7,8 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -140,7 +139,7 @@ public final class RouterProcessor
 
     final String[] routeNames = annotation.routeNames();
 
-    final Map<RouteDescriptor, ParameterDescriptor> bindings = new HashMap<>();
+    final LinkedHashMap<RouteDescriptor, ParameterDescriptor> bindings = new LinkedHashMap<>();
     if ( 0 == routeNames.length )
     {
       for ( final RouteDescriptor route : router.getRoutes() )

@@ -1,6 +1,6 @@
 package router.fu.processor;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import javax.annotation.Nonnull;
@@ -9,10 +9,10 @@ final class BoundParameterDescriptor
 {
   @Nonnull
   private final String _name;
-  private Map<RouteDescriptor, ParameterDescriptor> _bindings = new HashMap<>();
+  private final LinkedHashMap<RouteDescriptor, ParameterDescriptor> _bindings;
 
   BoundParameterDescriptor( @Nonnull final String name,
-                            @Nonnull final Map<RouteDescriptor, ParameterDescriptor> bindings )
+                            @Nonnull final LinkedHashMap<RouteDescriptor, ParameterDescriptor> bindings )
   {
     _name = Objects.requireNonNull( name );
     _bindings = Objects.requireNonNull( bindings );
@@ -29,7 +29,7 @@ final class BoundParameterDescriptor
   }
 
   @Nonnull
-  Map<RouteDescriptor, ParameterDescriptor> getBindings()
+  LinkedHashMap<RouteDescriptor, ParameterDescriptor> getBindings()
   {
     return _bindings;
   }

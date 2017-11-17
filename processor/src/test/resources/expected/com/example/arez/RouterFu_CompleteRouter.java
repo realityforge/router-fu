@@ -35,66 +35,34 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new RegExp( "[a-zA-Z]+" ) );
 
-  private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode_821487049 ), new Segment( "/events/" ), new Segment( $fu$_eventCode_1643987249 ), }, new Parameter[]{$fu$_regionCode_821487049, $fu$_eventCode_1643987249, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.NON_TERMINAL );
 
   private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode_821487049 ), }, new Parameter[]{$fu$_regionCode_821487049, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
-  private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.NON_TERMINAL );
-
   private final Route $fu$_route_regionEvents = new Route( "regionEvents", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode_821487049 ), new Segment( "/events" ) }, new Parameter[]{$fu$_regionCode_821487049, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+
+  private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode_821487049 ), new Segment( "/events/" ), new Segment( $fu$_eventCode_1643987249 ), }, new Parameter[]{$fu$_regionCode_821487049, $fu$_eventCode_1643987249, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 
   private Location $fu$_location;
 
-  private RouteState $fu$_state_regionEvent;
+  private RouteState $fu$_state_regionFilter;
 
   private RouteState $fu$_state_region;
 
-  private RouteState $fu$_state_regionFilter;
-
   private RouteState $fu$_state_regionEvents;
 
-  private String $fu$_param_eventCode;
+  private RouteState $fu$_state_regionEvent;
 
   private String $fu$_param_regionCode;
+
+  private String $fu$_param_eventCode;
 
   private String $fu$_param_eventCode2;
 
   RouterFu_CompleteRouter(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionEvent, $fu$_route_region, $fu$_route_regionFilter, $fu$_route_regionEvents ) ) );
-  }
-
-  @Nonnull
-  @Override
-  public Route getRegionEventRoute() {
-    return $fu$_route_regionEvent;
-  }
-
-  @Nullable
-  @Override
-  public RouteState getRegionEventRouteState() {
-    return $fu$_state_regionEvent;
-  }
-
-  void setRegionEventRouteState(@Nullable final RouteState state) {
-    $fu$_state_regionEvent = state;
-  }
-
-  @Nonnull
-  @Override
-  public Route getRegionRoute() {
-    return $fu$_route_region;
-  }
-
-  @Nullable
-  @Override
-  public RouteState getRegionRouteState() {
-    return $fu$_state_region;
-  }
-
-  void setRegionRouteState(@Nullable final RouteState state) {
-    $fu$_state_region = state;
+    $fu$_router = new Router( this::onLocationChanged, new Elemental2HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionFilter, $fu$_route_region, $fu$_route_regionEvents, $fu$_route_regionEvent ) ) );
   }
 
   @Nonnull
@@ -115,6 +83,22 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   @Nonnull
   @Override
+  public Route getRegionRoute() {
+    return $fu$_route_region;
+  }
+
+  @Nullable
+  @Override
+  public RouteState getRegionRouteState() {
+    return $fu$_state_region;
+  }
+
+  void setRegionRouteState(@Nullable final RouteState state) {
+    $fu$_state_region = state;
+  }
+
+  @Nonnull
+  @Override
   public Route getRegionEventsRoute() {
     return $fu$_route_regionEvents;
   }
@@ -129,14 +113,20 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_state_regionEvents = state;
   }
 
-  @Nullable
+  @Nonnull
   @Override
-  public String getEventCode() {
-    return $fu$_param_eventCode;
+  public Route getRegionEventRoute() {
+    return $fu$_route_regionEvent;
   }
 
-  void setEventCode(@Nullable final String value) {
-    $fu$_param_eventCode = value;
+  @Nullable
+  @Override
+  public RouteState getRegionEventRouteState() {
+    return $fu$_state_regionEvent;
+  }
+
+  void setRegionEventRouteState(@Nullable final RouteState state) {
+    $fu$_state_regionEvent = state;
   }
 
   @Nullable
@@ -151,27 +141,22 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   @Nullable
   @Override
+  public String getEventCode() {
+    return $fu$_param_eventCode;
+  }
+
+  void setEventCode(@Nullable final String value) {
+    $fu$_param_eventCode = value;
+  }
+
+  @Nullable
+  @Override
   public String getEventCode2() {
     return $fu$_param_eventCode2;
   }
 
   void setEventCode2(@Nullable final String value) {
     $fu$_param_eventCode2 = value;
-  }
-
-  @Nonnull
-  @Override
-  public String buildRegionEventLocation(@Nonnull final String regionCode, @Nonnull final String eventCode) {
-    final Map<Parameter, String> $fu$_route_params = new HashMap<>();
-    $fu$_route_params.put( $fu$_regionCode_821487049, regionCode );
-    $fu$_route_params.put( $fu$_eventCode_1643987249, eventCode );
-    return $fu$_route_regionEvent.buildLocation( $fu$_route_params );
-  }
-
-  @Nonnull
-  @Override
-  public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
-    $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );
   }
 
   @Nonnull
@@ -204,6 +189,21 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   @Nonnull
   @Override
+  public String buildRegionEventLocation(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+    final Map<Parameter, String> $fu$_route_params = new HashMap<>();
+    $fu$_route_params.put( $fu$_regionCode_821487049, regionCode );
+    $fu$_route_params.put( $fu$_eventCode_1643987249, eventCode );
+    return $fu$_route_regionEvent.buildLocation( $fu$_route_params );
+  }
+
+  @Nonnull
+  @Override
+  public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+    $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );
+  }
+
+  @Nonnull
+  @Override
   public Location getLocation() {
     assert null != $fu$_location;
     return $fu$_location;
@@ -223,10 +223,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
       routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setRegionEventRouteState( state );
+        setRegionFilterRouteState( state );
         if ( null != state ) {
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-          setEventCode2( state.getParameterValue( $fu$_eventCode_1643987249 ) );
+          setRegionCode( state.getParameterValue( $fu$_regionCode ) );
         }
         break;
         case 1:;
@@ -236,15 +235,16 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
         }
         break;
         case 2:;
-        setRegionFilterRouteState( state );
-        if ( null != state ) {
-          setRegionCode( state.getParameterValue( $fu$_regionCode ) );
-        }
-        break;
-        case 3:;
         setRegionEventsRouteState( state );
         if ( null != state ) {
           setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+        }
+        break;
+        case 3:;
+        setRegionEventRouteState( state );
+        if ( null != state ) {
+          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          setEventCode2( state.getParameterValue( $fu$_eventCode_1643987249 ) );
         }
         break;
       }
