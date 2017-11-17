@@ -14,6 +14,10 @@ public class RouterProcessorTest
       {
         new Object[]{ "com.example.arez.ArezRouter" },
         new Object[]{ "com.example.arez.CompleteRouter" },
+        new Object[]{ "com.example.parameter.BasicBoundParameter" },
+        new Object[]{ "com.example.parameter.MultiRouteBoundParameter" },
+        new Object[]{ "com.example.parameter.NonDefaultNameParameter" },
+        new Object[]{ "com.example.parameter.SelectiveMultiRouteBoundParameter" },
         new Object[]{ "com.example.route.RouteParametersWithShortName" },
         new Object[]{ "com.example.route.RouteWithNonTargetParameters" },
         new Object[]{ "com.example.route.RouteWithParameters" },
