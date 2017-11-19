@@ -18,6 +18,9 @@ final class RouteDescriptor
   private final ArrayList<Object> _parts = new ArrayList<>();
   private final LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
   private ExecutableElement _callback;
+  private int _locationIndex;
+  private int _routeIndex;
+  private int _parametersIndex;
 
   RouteDescriptor( @Nonnull final String name, final boolean navigationTarget, final boolean partialMatch )
   {
@@ -98,9 +101,30 @@ final class RouteDescriptor
     return _callback;
   }
 
-  void setCallback( @Nonnull final ExecutableElement method )
+  void setCallback( @Nonnull final ExecutableElement method,
+                    final int locationIndex,
+                    final int routeIndex,
+                    final int parametersIndex )
   {
     assert null == _callback;
     _callback = Objects.requireNonNull( method );
+    _locationIndex = locationIndex;
+    _routeIndex = routeIndex;
+    _parametersIndex = parametersIndex;
+  }
+
+  int getLocationIndex()
+  {
+    return _locationIndex;
+  }
+
+  int getRouteIndex()
+  {
+    return _routeIndex;
+  }
+
+  int getParametersIndex()
+  {
+    return _parametersIndex;
   }
 }

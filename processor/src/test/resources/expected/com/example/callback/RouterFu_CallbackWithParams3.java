@@ -20,10 +20,10 @@ import router.fu.Router;
 import router.fu.Segment;
 
 @Generated("router.fu.processor.RouterProcessor")
-public class RouterFu_BasicCallback extends BasicCallback implements BasicCallbackService {
+public class RouterFu_CallbackWithParams3 extends CallbackWithParams3 implements CallbackWithParams3Service {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> super.regionCallback(  ) );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> super.regionCallback( parameters ) );
 
   private final Router $fu$_router;
 
@@ -31,7 +31,7 @@ public class RouterFu_BasicCallback extends BasicCallback implements BasicCallba
 
   private RouteState $fu$_state_region;
 
-  RouterFu_BasicCallback(@Nonnull final Window window) {
+  RouterFu_CallbackWithParams3(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
   }
 

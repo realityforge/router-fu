@@ -338,8 +338,40 @@ final class Generator
 
     if ( route.hasCallback() )
     {
-      sb.append( "( location, route, parameters ) -> super.$N() )" );
+      sb.append( "( location, route, parameters ) -> super.$N( " );
       params.add( route.getCallback().getSimpleName().toString() );
+      for ( int i = 0; i < 3; i++ )
+      {
+        if ( i == route.getLocationIndex() )
+        {
+          if ( i != 0 )
+          {
+            sb.append( ", " );
+          }
+          sb.append( "location" );
+        }
+        else if ( i == route.getRouteIndex() )
+        {
+          if ( i != 0 )
+          {
+            sb.append( ", " );
+          }
+          sb.append( "route" );
+        }
+        else if ( i == route.getParametersIndex() )
+        {
+          if ( i != 0 )
+          {
+            sb.append( ", " );
+          }
+          sb.append( "parameters" );
+        }
+        else
+        {
+          break;
+        }
+      }
+      sb.append( " ) )" );
     }
     else
     {

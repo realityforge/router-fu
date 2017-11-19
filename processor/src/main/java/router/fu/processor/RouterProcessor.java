@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +24,10 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.TypeKind;
+import javax.lang.model.type.TypeMirror;
 import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
 import router.fu.annotations.RouteCallback;
@@ -120,41 +125,129 @@ public final class RouterProcessor
     parseRouteAnnotations( typeElement, descriptor );
     parseBoundParameterAnnotations( typeElement, descriptor );
 
+    parseRouteCallbacks( typeElement, descriptor );
+
+    return descriptor;
+  }
+
+  private void parseRouteCallbacks( @Nonnull final TypeElement typeElement, @Nonnull final RouterDescriptor descriptor )
+  {
     for ( final ExecutableElement method : ProcessorUtil.getMethods( typeElement, processingEnv.getTypeUtils() ) )
     {
       final RouteCallback annotation = method.getAnnotation( RouteCallback.class );
       if ( null != annotation )
       {
-        final String name = deriveName( method, CALLBACK_PATTERN, annotation.name() );
-        if ( null == name )
-        {
-          throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
-                                              "according to pattern '[Name]Callback'", method );
-        }
-        else if ( !descriptor.hasRouteNamed( name ) )
-        {
-          throw new RouterProcessorException( "@RouteCallback target has name '" + name + "' but no corresponding " +
-                                              "route exists.", method );
-        }
-        else
-        {
-          final RouteDescriptor route = descriptor.getRouteByName( name );
-          if ( route.hasCallback() )
-          {
-            throw new RouterProcessorException( "@RouteCallback target duplicates an existing route callback method " +
-                                                "named '" + route.getCallback().getSimpleName().toString() +
-                                                "'route exists.", method );
-          }
-          else
-          {
-            ProcessorUtil.mustBeSubclassCallable( RouteCallback.class, method );
-            route.setCallback( method );
-          }
-        }
+        parseRouteCallback( descriptor, method, annotation );
       }
     }
+  }
 
-    return descriptor;
+  private void parseRouteCallback( @Nonnull final RouterDescriptor descriptor,
+                                   @Nonnull final ExecutableElement method,
+                                   @Nonnull final RouteCallback annotation )
+  {
+    final String name = deriveName( method, CALLBACK_PATTERN, annotation.name() );
+    if ( null == name )
+    {
+      throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
+                                          "according to pattern '[Name]Callback'", method );
+    }
+    else if ( !descriptor.hasRouteNamed( name ) )
+    {
+      throw new RouterProcessorException( "@RouteCallback target has name '" + name + "' but no corresponding " +
+                                          "route exists.", method );
+    }
+    else
+    {
+      final RouteDescriptor route = descriptor.getRouteByName( name );
+      if ( route.hasCallback() )
+      {
+        throw new RouterProcessorException( "@RouteCallback target duplicates an existing route callback method " +
+                                            "named '" + route.getCallback().getSimpleName().toString() +
+                                            "'route exists.", method );
+      }
+      else
+      {
+        ProcessorUtil.mustBeSubclassCallable( RouteCallback.class, method );
+
+        int locationIndex = -1;
+        int routeIndex = -1;
+        int parametersIndex = -1;
+
+        final ExecutableType methodType = toMethodType( descriptor.getElement(), method );
+        final List<? extends TypeMirror> parameterTypes = methodType.getParameterTypes();
+        for ( int i = 0; i < parameterTypes.size(); i++ )
+        {
+          final TypeMirror paramType = parameterTypes.get( i );
+          if ( TypeKind.DECLARED == paramType.getKind() )
+          {
+            final DeclaredType type = (DeclaredType) paramType;
+            if ( type.toString().equals( "java.lang.String" ) )
+            {
+              if ( -1 == locationIndex )
+              {
+                locationIndex = i;
+                continue;
+              }
+              else
+              {
+                throw duplicateCallbackParamException( method, "location", locationIndex, i );
+              }
+            }
+            else if ( type.toString().equals( "router.fu.Route" ) )
+            {
+              if ( -1 == routeIndex )
+              {
+                routeIndex = i;
+                continue;
+              }
+              else
+              {
+                throw duplicateCallbackParamException( method, "route", routeIndex, i );
+              }
+            }
+            else if ( type.toString().equals( "java.util.Map<router.fu.Parameter,java.lang.String>" ) )
+            {
+              if ( -1 == parametersIndex )
+              {
+                parametersIndex = i;
+                continue;
+              }
+              else
+              {
+                throw duplicateCallbackParamException( method, "parameters", parametersIndex, i );
+              }
+            }
+          }
+
+          final String paramName = method.getParameters().get( i ).getSimpleName().toString();
+          throw new RouterProcessorException( "@RouteCallback target has unexpected parameter named '" +
+                                              paramName + "' that does not an expected type. " +
+                                              "Actual type: " + paramType, method );
+        }
+
+        route.setCallback( method, locationIndex, routeIndex, parametersIndex );
+      }
+    }
+  }
+
+  @Nonnull
+  private RouterProcessorException duplicateCallbackParamException( @Nonnull final ExecutableElement method,
+                                                                    @Nonnull final String paramTypeName,
+                                                                    final int existingIndex,
+                                                                    final int newIndex )
+  {
+    final String existingName = method.getParameters().get( existingIndex ).getSimpleName().toString();
+    final String newName = method.getParameters().get( newIndex ).getSimpleName().toString();
+    return new RouterProcessorException( "@RouteCallback target has two '" + paramTypeName +
+                                         "' parameters named '" + existingName + "' and '" + newName + "'",
+                                         method );
+  }
+
+  private ExecutableType toMethodType( @Nonnull final TypeElement element, @Nonnull final ExecutableElement method )
+  {
+    final DeclaredType classType = (DeclaredType) element.asType();
+    return (ExecutableType) processingEnv.getTypeUtils().asMemberOf( classType, method );
   }
 
   private void parseBoundParameterAnnotations( @Nonnull final TypeElement typeElement,
