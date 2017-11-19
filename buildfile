@@ -108,6 +108,7 @@ define 'router-fu' do
                  project('annotations').compile.dependencies,
                  project('core').package(:jar),
                  project('core').compile.dependencies,
+                 project('processor').package(:jar),
                  :arez_annotations,
                  :arez_core,
                  :arez_processor,
