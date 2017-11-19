@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -19,10 +20,12 @@ import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
+import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
 import static javax.tools.Diagnostic.Kind.*;
 
@@ -37,6 +40,8 @@ import static javax.tools.Diagnostic.Kind.*;
 public final class RouterProcessor
   extends AbstractProcessor
 {
+  private static final Pattern CALLBACK_PATTERN = Pattern.compile( "^([a-z].*)Callback$" );
+
   private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
@@ -114,6 +119,40 @@ public final class RouterProcessor
 
     parseRouteAnnotations( typeElement, descriptor );
     parseBoundParameterAnnotations( typeElement, descriptor );
+
+    for ( final ExecutableElement method : ProcessorUtil.getMethods( typeElement, processingEnv.getTypeUtils() ) )
+    {
+      final RouteCallback annotation = method.getAnnotation( RouteCallback.class );
+      if ( null != annotation )
+      {
+        final String name = deriveName( method, CALLBACK_PATTERN, annotation.name() );
+        if ( null == name )
+        {
+          throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
+                                              "according to pattern '[Name]Callback'", method );
+        }
+        else if ( !descriptor.hasRouteNamed( name ) )
+        {
+          throw new RouterProcessorException( "@RouteCallback target has name '" + name + "' but no corresponding " +
+                                              "route exists.", method );
+        }
+        else
+        {
+          final RouteDescriptor route = descriptor.getRouteByName( name );
+          if ( route.hasCallback() )
+          {
+            throw new RouterProcessorException( "@RouteCallback target duplicates an existing route callback method " +
+                                                "named '" + route.getCallback().getSimpleName().toString() +
+                                                "'route exists.", method );
+          }
+          else
+          {
+            ProcessorUtil.mustBeSubclassCallable( RouteCallback.class, method );
+            route.setCallback( method );
+          }
+        }
+      }
+    }
 
     return descriptor;
   }
@@ -279,6 +318,32 @@ public final class RouterProcessor
       throw new RouterProcessorException( "@Route named '" + route.getName() + "' has a path that can not " +
                                           "be parsed: '" + path + "'",
                                           typeElement );
+    }
+  }
+
+  @Nullable
+  private String deriveName( @Nonnull final ExecutableElement method,
+                             @Nonnull final Pattern pattern,
+                             @Nonnull final String name )
+    throws RouterProcessorException
+  {
+    if ( name.isEmpty() )
+    {
+      final String methodName = method.getSimpleName().toString();
+      final Matcher matcher = pattern.matcher( methodName );
+      if ( matcher.find() )
+      {
+        final String candidate = matcher.group( 1 );
+        return Character.toLowerCase( candidate.charAt( 0 ) ) + candidate.substring( 1 );
+      }
+      else
+      {
+        return null;
+      }
+    }
+    else
+    {
+      return name;
     }
   }
 }

@@ -336,9 +336,17 @@ final class Generator
     params.add( REGEXP_TYPE );
     params.add( toJsRegExp( route ) );
 
-    sb.append( "( location, route, parameters ) -> $T.$N )" );
-    params.add( MATCH_RESULT_TYPE );
-    params.add( route.isNavigationTarget() ? "TERMINAL" : "NON_TERMINAL" );
+    if ( route.hasCallback() )
+    {
+      sb.append( "( location, route, parameters ) -> super.$N() )" );
+      params.add( route.getCallback().getSimpleName().toString() );
+    }
+    else
+    {
+      sb.append( "( location, route, parameters ) -> $T.$N )" );
+      params.add( MATCH_RESULT_TYPE );
+      params.add( route.isNavigationTarget() ? "TERMINAL" : "NON_TERMINAL" );
+    }
 
     field.initializer( sb.toString(), params.toArray() );
     builder.addField( field.build() );

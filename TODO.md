@@ -2,7 +2,6 @@
 
 ### High Priority 
 
-* Implement @RouteCallback
 * Move example to use annotation processor.
 * Make example a useful test case.
 

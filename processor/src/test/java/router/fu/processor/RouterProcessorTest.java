@@ -1,6 +1,8 @@
 package router.fu.processor;
 
+import java.util.Arrays;
 import javax.annotation.Nonnull;
+import javax.tools.JavaFileObject;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -14,6 +16,8 @@ public class RouterProcessorTest
       {
         new Object[]{ "com.example.arez.ArezRouter" },
         new Object[]{ "com.example.arez.CompleteRouter" },
+        new Object[]{ "com.example.callback.BasicCallback" },
+        new Object[]{ "com.example.callback.CallbackWithCustomName" },
         new Object[]{ "com.example.parameter.BasicBoundParameter" },
         new Object[]{ "com.example.parameter.MultiRouteBoundParameter" },
         new Object[]{ "com.example.parameter.NonDefaultNameParameter" },
@@ -45,11 +49,30 @@ public class RouterProcessorTest
                              "expected/com/example/nested/NestedRouter$RouterFu_InnerRouter.java" );
   }
 
+  @Test
+  public void callbackFromInterface()
+    throws Exception
+  {
+    final JavaFileObject source1 = fixture( "input/com/example/callback/CallbackFromInterface.java" );
+    final JavaFileObject source2 = fixture( "input/com/example/callback/CallbackInterface.java" );
+    assertSuccessfulCompile( Arrays.asList( source1, source2 ),
+                             Arrays.asList( "expected/com/example/callback/CallbackFromInterfaceService.java",
+                                            "expected/com/example/callback/RouterFu_CallbackFromInterface.java" ) );
+  }
+
   @DataProvider( name = "failedCompiles" )
   public Object[][] failedCompiles()
   {
     return new Object[][]
       {
+        new Object[]{ "com.example.callback.DuplicateCallback",
+                      "@RouteCallback target duplicates an existing route callback method named 'regionCallback'route exists." },
+        new Object[]{ "com.example.callback.NameNotMatchRouteCallback",
+                      "@RouteCallback target has name 'region' but no corresponding route exists." },
+        new Object[]{ "com.example.callback.NoDeriveNameCallback",
+                      "@RouteCallback target has not specified a name and is not named according to pattern '[Name]Callback'" },
+        new Object[]{ "com.example.callback.PrivateCallback", "@RouteCallback target must not be private" },
+        new Object[]{ "com.example.callback.StaticCallback", "@RouteCallback target must not be static" },
         new Object[]{ "com.example.parameter.BadParameterName",
                       "@Router target has a @BoundParameter with an invalid name ''" },
         new Object[]{ "com.example.parameter.DuplicateParameterName",

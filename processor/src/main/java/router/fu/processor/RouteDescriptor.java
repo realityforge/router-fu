@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.lang.model.element.ExecutableElement;
 
 final class RouteDescriptor
 {
@@ -16,6 +17,7 @@ final class RouteDescriptor
   private final boolean _partialMatch;
   private final ArrayList<Object> _parts = new ArrayList<>();
   private final LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
+  private ExecutableElement _callback;
 
   RouteDescriptor( @Nonnull final String name, final boolean navigationTarget, final boolean partialMatch )
   {
@@ -82,5 +84,23 @@ final class RouteDescriptor
   ParameterDescriptor findParameterByName( @Nonnull final String parameterName )
   {
     return getParameters().stream().filter( p -> p.getName().equals( parameterName ) ).findAny().orElse( null );
+  }
+
+  boolean hasCallback()
+  {
+    return null != _callback;
+  }
+
+  @Nonnull
+  ExecutableElement getCallback()
+  {
+    assert null != _callback;
+    return _callback;
+  }
+
+  void setCallback( @Nonnull final ExecutableElement method )
+  {
+    assert null == _callback;
+    _callback = Objects.requireNonNull( method );
   }
 }
