@@ -198,7 +198,7 @@ final class Generator
     } );
 
     descriptor.getBoundParameters().forEach( boundParameter -> {
-      buildBoundParameterAccessorImpl( builder, boundParameter );
+      buildBoundParameterAccessorImpl( builder, descriptor, boundParameter );
       buildBoundParameterMutator( builder, boundParameter );
       buildBoundParameterUpdaterImpl( builder, descriptor, boundParameter );
     } );
@@ -581,12 +581,17 @@ final class Generator
   }
 
   private static void buildBoundParameterAccessorImpl( @Nonnull final TypeSpec.Builder builder,
+                                                       @Nonnull final RouterDescriptor descriptor,
                                                        @Nonnull final BoundParameterDescriptor boundParameter )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( boundParameter.getName() ) );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nullable.class );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
     method.addAnnotation( Override.class );
     method.returns( String.class );
     method.addStatement( "return $N", BOUND_PARAMETER_FIELD_PREFIX + boundParameter.getName() );
