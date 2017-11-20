@@ -82,6 +82,10 @@ final class Generator
         buildGotoLocationMethod( builder, route );
       } );
 
+    builder.addMethod( MethodSpec.methodBuilder( "reRoute" )
+                         .addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT )
+                         .build() );
+
     return builder.build();
   }
 
@@ -233,7 +237,18 @@ final class Generator
       buildRouterRefMethod( builder, descriptor, routerRefMethod );
     } );
 
+    buildReRouteMethodImpl( builder );
+
     return builder.build();
+  }
+
+  private static void buildReRouteMethodImpl( @Nonnull final TypeSpec.Builder builder )
+  {
+    builder.addMethod( MethodSpec.methodBuilder( "reRoute" )
+                         .addAnnotation( Override.class )
+                         .addModifiers( Modifier.PUBLIC, Modifier.FINAL )
+                         .addStatement( "$N.reRoute()", FIELD_PREFIX + "router" )
+                         .build() );
   }
 
   private static void buildConstructor( @Nonnull final TypeSpec.Builder builder,
