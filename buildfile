@@ -146,8 +146,8 @@ define 'router-fu' do
   ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development -Drouter-fu.output_fixture_data=false -Drouter-fu.fixture_dir=processor/src/test/resources')
   ipr.add_component_from_artifact(:idea_codestyle)
 
-  ipr.add_gwt_configuration(project('core'),
-                            :gwt_module => 'router.fu.RouterFuDev',
+  ipr.add_gwt_configuration(project('example'),
+                            :gwt_module => 'router.fu.example.Example',
                             :start_javascript_debugger => false,
                             :vm_parameters => "-Xmx2G -Djava.io.tmpdir=#{_('tmp/gwt')}",
                             :shell_parameters => "-port 8888 -codeServerPort 8889 -bindAddress 0.0.0.0 -war #{_(:generated, 'gwt-export')}/")
