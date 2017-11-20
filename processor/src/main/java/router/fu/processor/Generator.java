@@ -747,6 +747,10 @@ final class Generator
                            .addAnnotation( Nonnull.class )
                            .build() );
     method.addStatement( "setLocation( $T.requireNonNull( location ) )", Objects.class );
+    for ( final BoundParameterDescriptor boundParameter : descriptor.getBoundParameters() )
+    {
+      method.addStatement( "$N( null )", "set" + toPascalCaseName( boundParameter.getName() ) );
+    }
     method.addStatement( "final $T<$T> states = location.getStates()", List.class, ROUTE_STATE_TYPE );
     method.addStatement( "int routeStartIndex = 0", List.class, ROUTE_STATE_TYPE );
 
@@ -755,28 +759,33 @@ final class Generator
     loop.beginControlFlow( "for ( int i = 0; i < " + routes.size() + "; i++ )" );
     loop.addStatement( "final $T state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null",
                        ROUTE_STATE_TYPE );
-    loop.addStatement( "routeStartIndex++" );
     final CodeBlock.Builder switchBlock = CodeBlock.builder();
     switchBlock.beginControlFlow( "switch ( i )" );
     int index = 0;
     for ( final RouteDescriptor route : routes )
     {
       switchBlock.addStatement( "case " + index + ":" );
-      switchBlock.addStatement( "$N( state )", "set" + toPascalCaseName( route.getName() ) + "RouteState" );
+      final CodeBlock.Builder caseBlock = CodeBlock.builder();
+      caseBlock.beginControlFlow( "if ( null != state && state.getRoute() == $N )",
+                                  ROUTE_FIELD_PREFIX + route.getName() );
+      caseBlock.addStatement( "$N( state )", "set" + toPascalCaseName( route.getName() ) + "RouteState" );
+      caseBlock.addStatement( "routeStartIndex++" );
       final HashMap<ParameterDescriptor, BoundParameterDescriptor> boundParameters = route.getBoundParameters();
       if ( !boundParameters.isEmpty() )
       {
-        final CodeBlock.Builder stateBlock = CodeBlock.builder();
-        stateBlock.beginControlFlow( "if ( null != state )" );
         for ( final Map.Entry<ParameterDescriptor, BoundParameterDescriptor> entry : boundParameters.entrySet() )
         {
-          stateBlock.addStatement( "$N( state.getParameterValue( $N ) )",
-                                   "set" + toPascalCaseName( entry.getValue().getName() ),
-                                   FIELD_PREFIX + entry.getKey().getFieldName() );
+          caseBlock.addStatement( "$N( state.getParameterValue( $N ) )",
+                                  "set" + toPascalCaseName( entry.getValue().getName() ),
+                                  FIELD_PREFIX + entry.getKey().getFieldName() );
         }
-        stateBlock.endControlFlow();
-        switchBlock.add( stateBlock.build() );
       }
+
+      caseBlock.nextControlFlow( "else" );
+      caseBlock.addStatement( "$N( null )", "set" + toPascalCaseName( route.getName() ) + "RouteState" );
+      caseBlock.endControlFlow();
+
+      switchBlock.add( caseBlock.build() );
       switchBlock.addStatement( "break" );
       index++;
     }
