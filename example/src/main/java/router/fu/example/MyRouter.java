@@ -23,10 +23,10 @@ import router.fu.annotations.Router;
 @BoundParameter( name = "regionCode" )
 // Only the route "regionEvent" will have a eventId parameter will have that parameter bound to a field
 @BoundParameter( name = "eventId", routeNames = { "regionEvent" } )
-public class MyRouter
+class MyRouter
 {
   @Nonnull
-  public static MyRouterService create()
+  static MyRouterService create()
   {
     return new Arez_RouterFu_MyRouter( DomGlobal.window );
   }
