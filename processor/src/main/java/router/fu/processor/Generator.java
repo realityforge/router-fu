@@ -233,9 +233,8 @@ final class Generator
     buildSetLocationMethod( builder );
     buildOnLocationChangedMethod( builder, descriptor );
 
-    descriptor.getRouterRefMethods().forEach( routerRefMethod -> {
-      buildRouterRefMethod( builder, descriptor, routerRefMethod );
-    } );
+    descriptor.getRouterRefMethods()
+      .forEach( routerRefMethod -> buildRouterRefMethod( builder, descriptor, routerRefMethod ) );
 
     buildReRouteMethodImpl( builder );
 
