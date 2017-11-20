@@ -510,9 +510,7 @@ final class Generator
     method.addModifiers( Modifier.PUBLIC );
     if ( descriptor.isArezComponent() )
     {
-      method.addAnnotation( AnnotationSpec.builder( OBSERVABLE_TYPE )
-                              .addMember( "name", "$S", boundParameter.getName() )
-                              .build() );
+      method.addAnnotation( ACTION_TYPE );
     }
     method.addAnnotation( Override.class );
     method.addParameter( ParameterSpec.builder( String.class, boundParameter.getName(), Modifier.FINAL )
