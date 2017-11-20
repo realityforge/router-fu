@@ -86,6 +86,7 @@ public class RouterProcessorTest
                       "@RouteCallback target has two 'parameters' parameters named 'parameters' and 'parameters2'" },
         new Object[]{ "com.example.callback.DuplicateRouteParameterCallback",
                       "@RouteCallback target has two 'route' parameters named 'route' and 'route2'" },
+        new Object[]{ "com.example.callback.FinalCallback", "@RouteCallback target must not be final" },
         new Object[]{ "com.example.callback.NameNotMatchRouteCallback",
                       "@RouteCallback target has name 'region' but no corresponding route exists." },
         new Object[]{ "com.example.callback.NoDeriveNameCallback",

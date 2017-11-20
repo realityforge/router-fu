@@ -211,7 +211,7 @@ public final class RouterProcessor
       }
       else
       {
-        ProcessorUtil.mustBeSubclassCallable( RouteCallback.class, method );
+        ProcessorUtil.mustBeOverridable( RouteCallback.class, method );
 
         int locationIndex = -1;
         int routeIndex = -1;
