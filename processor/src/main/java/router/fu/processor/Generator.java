@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import router.fu.HashBackend;
@@ -185,6 +186,10 @@ final class Generator
     descriptor.getBoundParameters().forEach( boundParameter -> buildBoundParameterField( builder, boundParameter ) );
 
     buildConstructor( builder, descriptor );
+    if ( descriptor.isArezComponent() )
+    {
+      buildPostConstruct( builder );
+    }
 
     descriptor.getRoutes().forEach( route -> {
       buildRouteMethodImpl( builder, route );
@@ -235,7 +240,28 @@ final class Generator
                  .collect( Collectors.joining( ", " ) ) );
     sb.append( " ) ) )" );
     ctor.addStatement( sb.toString(), params.toArray() );
+    if ( descriptor.isArezComponent() )
+    {
+      ctor.addStatement( "$N = new $T( $S, $T.emptyList() )",
+                         FIELD_PREFIX + "location",
+                         Location.class,
+                         "",
+                         Collections.class );
+    }
+    else
+    {
+      ctor.addStatement( "$N.activate()", FIELD_PREFIX + "router" );
+    }
     builder.addMethod( ctor.build() );
+  }
+
+  private static void buildPostConstruct( @Nonnull final TypeSpec.Builder builder )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "postConstruct" );
+    method.addModifiers( Modifier.FINAL );
+    method.addAnnotation( PostConstruct.class );
+    method.addStatement( "$N.activate()", FIELD_PREFIX + "router" );
+    builder.addMethod( method.build() );
   }
 
   private static void buildParameterFields( @Nonnull final TypeSpec.Builder builder,
