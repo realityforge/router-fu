@@ -1,9 +1,5 @@
 ## TODO
 
-### High Priority 
-
-* Make example a useful test case.
-
 ### Medium Priority 
 
 * Add mechanism for stripping trailing slash
