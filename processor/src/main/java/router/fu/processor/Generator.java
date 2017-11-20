@@ -377,7 +377,7 @@ final class Generator
 
     if ( route.hasCallback() )
     {
-      sb.append( "( location, route, parameters ) -> super.$N( " );
+      sb.append( "( location, route, parameters ) -> $N( " );
       params.add( route.getCallback().getSimpleName().toString() );
       for ( int i = 0; i < 3; i++ )
       {
