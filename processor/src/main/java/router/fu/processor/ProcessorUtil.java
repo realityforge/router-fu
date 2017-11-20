@@ -1,13 +1,18 @@
 package router.fu.processor;
 
+import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
+import javax.lang.model.AnnotatedConstruct;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -26,6 +31,39 @@ final class ProcessorUtil
   {
   }
 
+  static void mustNotThrowAnyExceptions( @Nonnull final Class<? extends Annotation> type,
+                                         @Nonnull final ExecutableElement method )
+    throws RouterProcessorException
+  {
+    if ( !method.getThrownTypes().isEmpty() )
+    {
+      throw new RouterProcessorException( "@" + type.getSimpleName() + " target must not throw any exceptions",
+                                          method );
+    }
+  }
+
+  static void mustNotHaveAnyParameters( @Nonnull final Class<? extends Annotation> type,
+                                        @Nonnull final ExecutableElement method )
+    throws RouterProcessorException
+  {
+    if ( !method.getParameters().isEmpty() )
+    {
+      throw new RouterProcessorException( "@" + type.getSimpleName() + " target must not have any parameters", method );
+    }
+  }
+
+  /**
+   * Verifies that the method is not final, static, abstract or private.
+   * The intent is to verify that it can be overridden in sub-class in same package.
+   */
+  static void mustBeOverridable( @Nonnull final Class<? extends Annotation> type,
+                                 @Nonnull final ExecutableElement method )
+    throws RouterProcessorException
+  {
+    mustNotBeFinal( type, method );
+    mustBeSubclassCallable( type, method );
+  }
+
   /**
    * Verifies that the method is not static, abstract or private.
    * The intent is to verify that it can be instance called by sub-class in same package.
@@ -36,6 +74,16 @@ final class ProcessorUtil
   {
     mustNotBeStatic( type, method );
     mustNotBePrivate( type, method );
+  }
+
+  private static void mustNotBeFinal( @Nonnull final Class<? extends Annotation> type,
+                                      @Nonnull final ExecutableElement method )
+    throws RouterProcessorException
+  {
+    if ( method.getModifiers().contains( Modifier.FINAL ) )
+    {
+      throw new RouterProcessorException( "@" + type.getSimpleName() + " target must not be final", method );
+    }
   }
 
   private static void mustNotBeStatic( @Nonnull final Class<? extends Annotation> type,
@@ -98,6 +146,32 @@ final class ProcessorUtil
     if ( element.getModifiers().contains( Modifier.PUBLIC ) )
     {
       builder.addModifiers( Modifier.PUBLIC );
+    }
+  }
+
+  static void copyAccessModifiers( @Nonnull final ExecutableElement element, @Nonnull final MethodSpec.Builder builder )
+  {
+    if ( element.getModifiers().contains( Modifier.PUBLIC ) )
+    {
+      builder.addModifiers( Modifier.PUBLIC );
+    }
+    else if ( element.getModifiers().contains( Modifier.PROTECTED ) )
+    {
+      builder.addModifiers( Modifier.PROTECTED );
+    }
+  }
+
+  static void copyDocumentedAnnotations( @Nonnull final AnnotatedConstruct element,
+                                         @Nonnull final MethodSpec.Builder builder )
+  {
+    for ( final AnnotationMirror annotation : element.getAnnotationMirrors() )
+    {
+      final DeclaredType annotationType = annotation.getAnnotationType();
+      if ( !annotationType.toString().startsWith( "router.fu.annotations." ) &&
+           null != annotationType.asElement().getAnnotation( Documented.class ) )
+      {
+        builder.addAnnotation( AnnotationSpec.get( annotation ) );
+      }
     }
   }
 

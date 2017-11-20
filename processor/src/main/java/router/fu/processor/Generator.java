@@ -23,6 +23,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import router.fu.HashBackend;
@@ -82,6 +83,20 @@ final class Generator
       } );
 
     return builder.build();
+  }
+
+  private static void buildRouterRefMethod( @Nonnull final TypeSpec.Builder builder,
+                                            @Nonnull final RouterDescriptor descriptor,
+                                            @Nonnull final ExecutableElement routerRefMethod )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( routerRefMethod.getSimpleName().toString() );
+    ProcessorUtil.copyAccessModifiers( routerRefMethod, method );
+    ProcessorUtil.copyDocumentedAnnotations( routerRefMethod, method );
+    method.addModifiers( Modifier.FINAL );
+    method.returns( descriptor.getServiceClassName() );
+    method.addStatement( "return this" );
+    builder.addMethod( method.build() );
   }
 
   private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder )
@@ -213,6 +228,10 @@ final class Generator
     buildGetLocationImplMethod( builder, descriptor );
     buildSetLocationMethod( builder );
     buildOnLocationChangedMethod( builder, descriptor );
+
+    descriptor.getRouterRefMethods().forEach( routerRefMethod -> {
+      buildRouterRefMethod( builder, descriptor, routerRefMethod );
+    } );
 
     return builder.build();
   }

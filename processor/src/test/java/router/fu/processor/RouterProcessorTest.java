@@ -35,7 +35,12 @@ public class RouterProcessorTest
         new Object[]{ "com.example.route.RouteWithParametersWithConstraints" },
         new Object[]{ "com.example.route.RouteWithPartialMatchParameters" },
         new Object[]{ "com.example.router.BasicRouter" },
-        new Object[]{ "com.example.router.RouterWithTypeParams" }
+        new Object[]{ "com.example.router.RouterWithTypeParams" },
+        new Object[]{ "com.example.router_ref.AnnotatedRouterRef" },
+        new Object[]{ "com.example.router_ref.BasicRouterRef" },
+        new Object[]{ "com.example.router_ref.MultiRouterRef" },
+        new Object[]{ "com.example.router_ref.ProtectedRouterRef" },
+        new Object[]{ "com.example.router_ref.PublicRouterRef" },
       };
   }
 
@@ -117,7 +122,16 @@ public class RouterProcessorTest
                       "@Router target must not be a non-static nested class" },
         new Object[]{ "com.example.router.PrivateCtorRouter",
                       "@Router target must have a single non-private, no-argument constructor or the default constructor" },
-        };
+        new Object[]{ "com.example.router_ref.BadType2RouterRef",
+                      "Method annotated with @RouterRef must return an instance of com.example.router_ref.BadType2RouterRefService" },
+        new Object[]{ "com.example.router_ref.BadTypeRouterRef",
+                      "Method annotated with @RouterRef must return an instance of com.example.router_ref.BadTypeRouterRefService" },
+        new Object[]{ "com.example.router_ref.ExceptionRouterRef", "@RouterRef target must not throw any exceptions" },
+        new Object[]{ "com.example.router_ref.FinalRouterRef", "@RouterRef target must not be final" },
+        new Object[]{ "com.example.router_ref.ParametersRouterRef", "@RouterRef target must not have any parameters" },
+        new Object[]{ "com.example.router_ref.PrivateRouterRef", "@RouterRef target must not be private" },
+        new Object[]{ "com.example.router_ref.StaticRouterRef", "@RouterRef target must not be static" }
+      };
   }
 
   @Test( dataProvider = "failedCompiles" )

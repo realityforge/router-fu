@@ -2,6 +2,7 @@ package router.fu.processor;
 
 import com.squareup.javapoet.ClassName;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +24,7 @@ final class RouterDescriptor
   private boolean _arezComponent;
   private final LinkedHashMap<String, RouteDescriptor> _routes = new LinkedHashMap<>();
   private final LinkedHashMap<String, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
+  private List<ExecutableElement> _routerRefMethods = Collections.emptyList();
 
   RouterDescriptor( @Nonnull final PackageElement packageElement,
                     @Nonnull final TypeElement element )
@@ -170,5 +172,16 @@ final class RouterDescriptor
   void setArezComponent( final boolean arezComponent )
   {
     _arezComponent = arezComponent;
+  }
+
+  void setRouterRefMethods( @Nonnull final List<ExecutableElement> routerRefMethods )
+  {
+    _routerRefMethods = Objects.requireNonNull( routerRefMethods );
+  }
+
+  @Nonnull
+  List<ExecutableElement> getRouterRefMethods()
+  {
+    return _routerRefMethods;
   }
 }

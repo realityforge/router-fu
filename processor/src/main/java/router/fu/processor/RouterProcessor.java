@@ -6,12 +6,14 @@ import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.processing.AbstractProcessor;
@@ -32,6 +34,7 @@ import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
 import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
+import router.fu.annotations.RouterRef;
 import static javax.tools.Diagnostic.Kind.*;
 
 /**
@@ -127,7 +130,47 @@ public final class RouterProcessor
 
     parseRouteCallbacks( typeElement, descriptor );
 
+    parseRouterRefs( descriptor, typeElement );
+
     return descriptor;
+  }
+
+  private void parseRouterRefs( @Nonnull final RouterDescriptor descriptor, @Nonnull final TypeElement typeElement )
+  {
+    final List<ExecutableElement> methods =
+      ProcessorUtil.getMethods( typeElement, processingEnv.getTypeUtils() ).stream().
+        filter( m -> null != m.getAnnotation( RouterRef.class ) ).collect( Collectors.toList() );
+
+    final ArrayList<ExecutableElement> routerRefMethods = new ArrayList<>();
+    for ( final ExecutableElement method : methods )
+    {
+      ProcessorUtil.mustBeOverridable( RouterRef.class, method );
+      ProcessorUtil.mustNotHaveAnyParameters( RouterRef.class, method );
+      ProcessorUtil.mustNotThrowAnyExceptions( RouterRef.class, method );
+      final String expectedServiceName = descriptor.getServiceClassName().toString();
+      final TypeMirror returnType = method.getReturnType();
+
+      if ( TypeKind.ERROR != returnType.getKind() )
+      {
+        if ( TypeKind.DECLARED != returnType.getKind() )
+        {
+          throw new RouterProcessorException( "Method annotated with @RouterRef must return an instance of " +
+                                              expectedServiceName, method );
+        }
+        else
+        {
+          final TypeElement returnTypeElement = (TypeElement) processingEnv.getTypeUtils().asElement( returnType );
+          if ( !returnTypeElement.getQualifiedName().toString().equals( expectedServiceName ) )
+          {
+            throw new RouterProcessorException( "Method annotated with @RouterRef must return an instance of " +
+                                                expectedServiceName, method );
+          }
+        }
+      }
+      routerRefMethods.add( method );
+    }
+
+    descriptor.setRouterRefMethods( routerRefMethods );
   }
 
   private void parseRouteCallbacks( @Nonnull final TypeElement typeElement, @Nonnull final RouterDescriptor descriptor )

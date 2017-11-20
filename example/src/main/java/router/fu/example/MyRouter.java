@@ -8,6 +8,7 @@ import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
 import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
+import router.fu.annotations.RouterRef;
 
 @Router( arez = true )
 @Route( name = "login", path = "login" )
@@ -34,6 +35,12 @@ class MyRouter
     return new Arez_RouterFu_MyRouter( DomGlobal.window );
   }
 
+  @RouterRef
+  MyRouterService getRouterService()
+  {
+    throw new IllegalStateException();
+  }
+
   @RouteCallback
   MatchResult authFilterCallback()
   {
@@ -44,6 +51,7 @@ class MyRouter
     }
     else
     {
+      getRouterService().gotoLogin();
       return MatchResult.TERMINAL;
     }
   }
