@@ -2,6 +2,7 @@ package router.fu.processor;
 
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeVariableName;
 import java.lang.annotation.Annotation;
@@ -68,8 +69,8 @@ final class ProcessorUtil
    * Verifies that the method is not static, abstract or private.
    * The intent is to verify that it can be instance called by sub-class in same package.
    */
-  static void mustBeSubclassCallable( @Nonnull final Class<? extends Annotation> type,
-                                      @Nonnull final ExecutableElement method )
+  private static void mustBeSubclassCallable( @Nonnull final Class<? extends Annotation> type,
+                                              @Nonnull final ExecutableElement method )
     throws RouterProcessorException
   {
     mustNotBeStatic( type, method );
@@ -169,6 +170,18 @@ final class ProcessorUtil
       final DeclaredType annotationType = annotation.getAnnotationType();
       if ( !annotationType.toString().startsWith( "router.fu.annotations." ) &&
            null != annotationType.asElement().getAnnotation( Documented.class ) )
+      {
+        builder.addAnnotation( AnnotationSpec.get( annotation ) );
+      }
+    }
+  }
+
+  static void copyDocumentedAnnotations( @Nonnull final AnnotatedConstruct element,
+                                         @Nonnull final ParameterSpec.Builder builder )
+  {
+    for ( final AnnotationMirror annotation : element.getAnnotationMirrors() )
+    {
+      if ( null != annotation.getAnnotationType().asElement().getAnnotation( Documented.class ) )
       {
         builder.addAnnotation( AnnotationSpec.get( annotation ) );
       }

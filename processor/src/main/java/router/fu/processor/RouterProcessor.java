@@ -269,7 +269,7 @@ public final class RouterProcessor
                                               "Actual type: " + paramType, method );
         }
 
-        route.setCallback( method, locationIndex, routeIndex, parametersIndex );
+        route.setCallback( method, methodType, locationIndex, routeIndex, parametersIndex );
       }
     }
   }

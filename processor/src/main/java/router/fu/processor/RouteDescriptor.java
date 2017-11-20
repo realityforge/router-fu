@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.type.ExecutableType;
 
 final class RouteDescriptor
 {
@@ -18,6 +19,7 @@ final class RouteDescriptor
   private final ArrayList<Object> _parts = new ArrayList<>();
   private final LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
   private ExecutableElement _callback;
+  private ExecutableType _callbackType;
   private int _locationIndex;
   private int _routeIndex;
   private int _parametersIndex;
@@ -101,13 +103,22 @@ final class RouteDescriptor
     return _callback;
   }
 
+  @Nonnull
+  ExecutableType getCallbackType()
+  {
+    assert null != _callbackType;
+    return _callbackType;
+  }
+
   void setCallback( @Nonnull final ExecutableElement method,
+                    @Nonnull final ExecutableType methodType,
                     final int locationIndex,
                     final int routeIndex,
                     final int parametersIndex )
   {
     assert null == _callback;
     _callback = Objects.requireNonNull( method );
+    _callbackType = Objects.requireNonNull( methodType );
     _locationIndex = locationIndex;
     _routeIndex = routeIndex;
     _parametersIndex = parametersIndex;

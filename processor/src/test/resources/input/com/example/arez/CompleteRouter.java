@@ -1,7 +1,9 @@
 package com.example.arez;
 
+import router.fu.MatchResult;
 import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
+import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
 
 @Router( arez = true )
@@ -14,4 +16,9 @@ import router.fu.annotations.Router;
 @BoundParameter( name = "eventCode2", parameterName = "eventCode" )
 public class CompleteRouter
 {
+  @RouteCallback
+  MatchResult regionFilterCallback()
+  {
+    return MatchResult.TERMINAL;
+  }
 }

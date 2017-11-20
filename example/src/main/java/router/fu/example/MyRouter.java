@@ -2,7 +2,6 @@ package router.fu.example;
 
 import elemental2.dom.DomGlobal;
 import javax.annotation.Nonnull;
-import org.realityforge.arez.Arez;
 import router.fu.MatchResult;
 import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
@@ -44,7 +43,7 @@ class MyRouter
   @RouteCallback
   MatchResult authFilterCallback()
   {
-    final boolean authenticated = Arez.context().safeAction( () -> null != AppState.AUTH.getUsername() );
+    final boolean authenticated = null != AppState.AUTH.getUsername();
     if ( authenticated )
     {
       return MatchResult.NON_TERMINAL;

@@ -6,6 +6,7 @@ import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,8 +27,11 @@ import javax.annotation.PostConstruct;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.ExecutableType;
 import router.fu.HashBackend;
 import router.fu.Location;
+import router.fu.MatchResult;
 import router.fu.Parameter;
 
 final class Generator
@@ -42,6 +46,9 @@ final class Generator
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
   private static final ClassName ACTION_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Action" );
   private static final ClassName OBSERVABLE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Observable" );
+  private static final ClassName TRACK_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Track" );
+  private static final ClassName ON_DEPS_CHANGED_TYPE =
+    ClassName.get( "org.realityforge.arez.annotations", "OnDepsChanged" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
@@ -214,6 +221,12 @@ final class Generator
       buildRouteMethodImpl( builder, route );
       buildGetRouteStateMethodImpl( builder, descriptor, route );
       buildSetRouteStateMethodImpl( builder, route );
+      if ( route.hasCallback() && descriptor.isArezComponent() )
+      {
+        // Override this to make it @Track method that causes a re-route on change
+        buildCallbackWrapperMethodImpl( builder, route );
+        buildCallbackDepsChangedMethodImpl( builder, route );
+      }
     } );
 
     descriptor.getBoundParameters().forEach( boundParameter -> {
@@ -670,6 +683,62 @@ final class Generator
       ParameterSpec.builder( ROUTE_STATE_TYPE, "state", Modifier.FINAL ).addAnnotation( Nullable.class );
     method.addParameter( parameter.build() );
     method.addStatement( "$N = state", ROUTE_STATE_FIELD_PREFIX + route.getName() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildCallbackWrapperMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                      @Nonnull final RouteDescriptor route )
+  {
+    final ExecutableElement callback = route.getCallback();
+    final ExecutableType callbackType = route.getCallbackType();
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( callback.getSimpleName().toString() );
+    method.addAnnotation( AnnotationSpec.builder( TRACK_TYPE )
+                            .addMember( "name", "$S", route.getName() + "Callback" )
+                            .build() );
+    method.returns( MatchResult.class );
+    ProcessorUtil.copyDocumentedAnnotations( callback, method );
+
+    final StringBuilder statement = new StringBuilder();
+    final ArrayList<Object> parameterNames = new ArrayList<>();
+    statement.append( "return super.$N(" );
+    parameterNames.add( callback.getSimpleName().toString() );
+
+    boolean firstParam = true;
+    final List<? extends VariableElement> parameters = callback.getParameters();
+    final int paramCount = parameters.size();
+    for ( int i = 0; i < paramCount; i++ )
+    {
+      final VariableElement element = parameters.get( i );
+      final TypeName parameterType = TypeName.get( callbackType.getParameterTypes().get( i ) );
+      final ParameterSpec.Builder param =
+        ParameterSpec.builder( parameterType, element.getSimpleName().toString(), Modifier.FINAL );
+      ProcessorUtil.copyDocumentedAnnotations( element, param );
+      method.addParameter( param.build() );
+
+      parameterNames.add( element.getSimpleName().toString() );
+      if ( !firstParam )
+      {
+        statement.append( "," );
+      }
+      firstParam = false;
+      statement.append( "$N" );
+    }
+    statement.append( ")" );
+    method.addStatement( statement.toString(), parameterNames.toArray() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildCallbackDepsChangedMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                          @Nonnull final RouteDescriptor route )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "on" + toPascalCaseName( route.getName() ) + "DepsChanged" );
+    method.addAnnotation( AnnotationSpec.builder( ON_DEPS_CHANGED_TYPE )
+                            .addMember( "name", "$S", route.getName() + "Callback" )
+                            .build() );
+    method.addModifiers( Modifier.FINAL );
+    method.addStatement( "reRoute()" );
     builder.addMethod( method.build() );
   }
 

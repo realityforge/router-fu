@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
 import org.realityforge.arez.annotations.Observable;
+import org.realityforge.arez.annotations.OnDepsChanged;
+import org.realityforge.arez.annotations.Track;
 import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;
@@ -37,7 +39,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new RegExp( "[a-zA-Z]+" ) );
 
-  private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.NON_TERMINAL );
+  private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> regionFilterCallback(  ) );
 
   private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode_821487049 ), }, new Parameter[]{$fu$_regionCode_821487049, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
@@ -88,6 +90,20 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   void setRegionFilterRouteState(@Nullable final RouteState state) {
     $fu$_state_regionFilter = state;
+  }
+
+  @Track(
+      name = "regionFilterCallback"
+  )
+  MatchResult regionFilterCallback() {
+    return super.regionFilterCallback();
+  }
+
+  @OnDepsChanged(
+      name = "regionFilterCallback"
+  )
+  final void onRegionFilterDepsChanged() {
+    reRoute();
   }
 
   @Nonnull
