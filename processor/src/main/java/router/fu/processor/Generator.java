@@ -417,6 +417,10 @@ final class Generator
                                      @Nonnull final RouteDescriptor route )
   {
     final StringBuilder accumulator = new StringBuilder();
+    if ( !route.getParts().isEmpty() )
+    {
+      accumulator.append( "/" );
+    }
     for ( final Object part : route.getParts() )
     {
       if ( part instanceof String )
