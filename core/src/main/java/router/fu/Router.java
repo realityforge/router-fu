@@ -62,6 +62,15 @@ public final class Router
   {
     deactivate();
     _callback = _backend.addListener( this::onLocationChange );
+    reRoute();
+  }
+
+  /**
+   * Re-run routing process based on current location.
+   * This is usually only useful if context used by routing hooks has changed and routing needs to be re-evaluated.
+   */
+  public void reRoute()
+  {
     onLocationChange( _backend.getLocation() );
   }
 
