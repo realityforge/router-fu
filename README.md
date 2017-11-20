@@ -29,15 +29,15 @@ on the `Route` that can perform custom behaviour and returns an enum that indica
 The `Router` is an ordered list of routes. During routing a path is passed to the `Router` that walks through
 each `Route` in order, until a terminal route is identified or there are no more routes. For each route matched
 a `RouteState` is created that contains the `Route` matched, the parameters extracted from the route and whether
-the route was "terminal". The routing method on the `Router` returns a `RouteLocation` which contains an ordered
+the route was "terminal". The routing method on the `Router` returns a `Location` which contains an ordered
 list of `RouteState` instances.
 
 The `Router` also exposes the routes so that application code can generate paths for the route given a set of
 parameters. It also provides methods via which the application can request that the location be changed.
 
-The `RouteLocation` object is effectively immutable and can easily be passed to other frameworks that have their
+The `Location` object is effectively immutable and can easily be passed to other frameworks that have their
 own state management tools. In an [`Arez`](https://github.com/realityforge/arez), it would expected that you wrap
-the `RouteLocation` to make it observable.
+the `Location` to make it observable.
 
 # Credit
 
