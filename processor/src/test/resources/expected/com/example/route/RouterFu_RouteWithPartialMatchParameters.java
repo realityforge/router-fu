@@ -38,6 +38,7 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
 
   RouterFu_RouteWithPartialMatchParameters(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionFilter, $fu$_route_region ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

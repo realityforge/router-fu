@@ -33,6 +33,7 @@ public class RouterFu_CallbackWithParams2 extends CallbackWithParams2 implements
 
   RouterFu_CallbackWithParams2(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

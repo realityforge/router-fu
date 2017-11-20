@@ -34,6 +34,7 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
 
   RouterFu_RouteParametersWithShortName(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_A ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

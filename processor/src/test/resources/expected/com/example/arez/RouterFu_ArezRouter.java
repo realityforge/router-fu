@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.PostConstruct;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
+import org.realityforge.arez.annotations.Observable;
 import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.RouteState;
@@ -27,9 +29,16 @@ public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService
 
   RouterFu_ArezRouter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
+    $fu$_location = new Location( "", Collections.emptyList() );
+  }
+
+  @PostConstruct
+  final void postConstruct() {
+    $fu$_router.activate();
   }
 
   @Nonnull
+  @Observable
   @Override
   public Location getLocation() {
     assert null != $fu$_location;

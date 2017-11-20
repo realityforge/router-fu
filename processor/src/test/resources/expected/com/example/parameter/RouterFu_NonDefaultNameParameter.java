@@ -36,6 +36,7 @@ public class RouterFu_NonDefaultNameParameter extends NonDefaultNameParameter im
 
   RouterFu_NonDefaultNameParameter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

@@ -20,6 +20,7 @@ public class NestedRouter$RouterFu_InnerRouter extends NestedRouter.InnerRouter 
 
   NestedRouter$RouterFu_InnerRouter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

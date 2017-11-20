@@ -11,8 +11,10 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
+import org.realityforge.arez.annotations.Observable;
 import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;
@@ -63,6 +65,12 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   RouterFu_CompleteRouter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_regionFilter, $fu$_route_region, $fu$_route_regionEvents, $fu$_route_regionEvent ) ) );
+    $fu$_location = new Location( "", Collections.emptyList() );
+  }
+
+  @PostConstruct
+  final void postConstruct() {
+    $fu$_router.activate();
   }
 
   @Nonnull
@@ -72,6 +80,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nullable
+  @Observable
   @Override
   public RouteState getRegionFilterRouteState() {
     return $fu$_state_regionFilter;
@@ -88,6 +97,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nullable
+  @Observable
   @Override
   public RouteState getRegionRouteState() {
     return $fu$_state_region;
@@ -104,6 +114,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nullable
+  @Observable
   @Override
   public RouteState getRegionEventsRouteState() {
     return $fu$_state_regionEvents;
@@ -120,6 +131,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nullable
+  @Observable
   @Override
   public RouteState getRegionEventRouteState() {
     return $fu$_state_regionEvent;
@@ -139,6 +151,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_param_regionCode = value;
   }
 
+  @Observable(
+      name = "regionCode"
+  )
   @Override
   public void updateRegionCode(@Nonnull final String regionCode) {
     final Location location = getLocation();
@@ -165,6 +180,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_param_eventCode = value;
   }
 
+  @Observable(
+      name = "eventCode"
+  )
   @Override
   public void updateEventCode(@Nonnull final String eventCode) {
     final Location location = getLocation();
@@ -187,6 +205,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_param_eventCode2 = value;
   }
 
+  @Observable(
+      name = "eventCode2"
+  )
   @Override
   public void updateEventCode2(@Nonnull final String eventCode2) {
     final Location location = getLocation();
@@ -200,6 +221,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nonnull
+  @Action(
+      mutation = false
+  )
   @Override
   public String buildRegionLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
@@ -214,6 +238,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nonnull
+  @Action(
+      mutation = false
+  )
   @Override
   public String buildRegionEventsLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
@@ -228,6 +255,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nonnull
+  @Action(
+      mutation = false
+  )
   @Override
   public String buildRegionEventLocation(@Nonnull final String regionCode, @Nonnull final String eventCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
@@ -243,6 +273,7 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   }
 
   @Nonnull
+  @Observable
   @Override
   public Location getLocation() {
     assert null != $fu$_location;

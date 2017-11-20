@@ -46,6 +46,7 @@ public class RouterFu_SelectiveMultiRouteBoundParameter extends SelectiveMultiRo
 
   RouterFu_SelectiveMultiRouteBoundParameter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region, $fu$_route_regionEvents, $fu$_route_regionEvent ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

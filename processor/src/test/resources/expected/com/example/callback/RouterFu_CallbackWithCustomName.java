@@ -33,6 +33,7 @@ public class RouterFu_CallbackWithCustomName extends CallbackWithCustomName impl
 
   RouterFu_CallbackWithCustomName(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

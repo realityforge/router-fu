@@ -20,6 +20,7 @@ public class RouterFu_BasicRouter extends BasicRouter implements BasicRouterServ
 
   RouterFu_BasicRouter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

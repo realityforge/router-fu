@@ -32,6 +32,7 @@ public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegm
 
   RouterFu_RouteWithLongStaticSegment(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull

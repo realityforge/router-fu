@@ -33,6 +33,7 @@ public class RouterFu_CallbackFromInterface extends CallbackFromInterface implem
 
   RouterFu_CallbackFromInterface(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
+    $fu$_router.activate();
   }
 
   @Nonnull
