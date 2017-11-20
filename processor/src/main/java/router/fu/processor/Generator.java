@@ -63,50 +63,39 @@ final class Generator
       addMember( "value", "$S", RouterProcessor.class.getName() ).
       build() );
 
-    buildGetLocationMethod( builder, descriptor );
+    buildGetLocationMethod( builder );
     descriptor.getRoutes().forEach( route -> {
-      buildRouteMethod( builder, descriptor, route );
-      buildGetRouteStateMethod( builder, descriptor, route );
+      buildRouteMethod( builder, route );
+      buildGetRouteStateMethod( builder, route );
     } );
     descriptor.getBoundParameters()
       .forEach( boundParameter -> {
-        buildBoundParameterAccessor( builder, descriptor, boundParameter );
+        buildBoundParameterAccessor( builder, boundParameter );
         buildBoundParameterUpdater( builder, boundParameter );
       } );
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
-        buildBuildLocationMethod( builder, descriptor, route );
+        buildBuildLocationMethod( builder, route );
         buildGotoLocationMethod( builder, route );
       } );
 
     return builder.build();
   }
 
-  private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder,
-                                              @Nonnull final RouterDescriptor descriptor )
+  private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
     method.addAnnotation( Nonnull.class );
-    if ( descriptor.isArezComponent() )
-    {
-      method.addAnnotation( OBSERVABLE_TYPE );
-    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.returns( Location.class );
     builder.addMethod( method.build() );
   }
 
-  private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder,
-                                        @Nonnull final RouterDescriptor descriptor,
-                                        @Nonnull final RouteDescriptor route )
+  private static void buildRouteMethod( @Nonnull final TypeSpec.Builder builder, @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "Route" );
-    if ( descriptor.isArezComponent() )
-    {
-      method.addAnnotation( OBSERVABLE_TYPE );
-    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
     method.returns( ROUTE_TYPE );
@@ -114,15 +103,10 @@ final class Generator
   }
 
   private static void buildGetRouteStateMethod( @Nonnull final TypeSpec.Builder builder,
-                                                @Nonnull final RouterDescriptor descriptor,
                                                 @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "RouteState" );
-    if ( descriptor.isArezComponent() )
-    {
-      method.addAnnotation( OBSERVABLE_TYPE );
-    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nullable.class );
     method.returns( ROUTE_STATE_TYPE );
@@ -130,17 +114,12 @@ final class Generator
   }
 
   private static void buildBuildLocationMethod( @Nonnull final TypeSpec.Builder builder,
-                                                @Nonnull final RouterDescriptor descriptor,
                                                 @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nonnull.class );
-    if ( descriptor.isArezComponent() )
-    {
-      method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
-    }
     method.returns( String.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
@@ -209,24 +188,24 @@ final class Generator
 
     descriptor.getRoutes().forEach( route -> {
       buildRouteMethodImpl( builder, route );
-      buildGetRouteStateMethodImpl( builder, route );
+      buildGetRouteStateMethodImpl( builder, descriptor, route );
       buildSetRouteStateMethodImpl( builder, route );
     } );
 
     descriptor.getBoundParameters().forEach( boundParameter -> {
       buildBoundParameterAccessorImpl( builder, boundParameter );
       buildBoundParameterMutator( builder, boundParameter );
-      buildBoundParameterUpdaterImpl( builder, boundParameter );
+      buildBoundParameterUpdaterImpl( builder, descriptor, boundParameter );
     } );
 
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
-        buildBuildLocationMethodImpl( builder, route );
+        buildBuildLocationMethodImpl( builder, descriptor, route );
         buildGotoLocationMethodImpl( builder, route );
       } );
 
-    buildGetLocationImplMethod( builder );
+    buildGetLocationImplMethod( builder, descriptor );
     buildSetLocationMethod( builder );
     buildOnLocationChangedMethod( builder, descriptor );
 
@@ -482,15 +461,10 @@ final class Generator
   }
 
   private static void buildBoundParameterAccessor( @Nonnull final TypeSpec.Builder builder,
-                                                   @Nonnull final RouterDescriptor descriptor,
                                                    @Nonnull final BoundParameterDescriptor boundParameter )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( boundParameter.getName() ) );
-    if ( descriptor.isArezComponent() )
-    {
-      method.addAnnotation( OBSERVABLE_TYPE );
-    }
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nullable.class );
     method.returns( String.class );
@@ -498,11 +472,18 @@ final class Generator
   }
 
   private static void buildBoundParameterUpdaterImpl( @Nonnull final TypeSpec.Builder builder,
+                                                      @Nonnull final RouterDescriptor descriptor,
                                                       @Nonnull final BoundParameterDescriptor boundParameter )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "update" + toPascalCaseName( boundParameter.getName() ) );
     method.addModifiers( Modifier.PUBLIC );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( AnnotationSpec.builder( OBSERVABLE_TYPE )
+                              .addMember( "name", "$S", boundParameter.getName() )
+                              .build() );
+    }
     method.addAnnotation( Override.class );
     method.addParameter( ParameterSpec.builder( String.class, boundParameter.getName(), Modifier.FINAL )
                            .addAnnotation( Nonnull.class )
@@ -597,12 +578,17 @@ final class Generator
   }
 
   private static void buildGetRouteStateMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouterDescriptor descriptor,
                                                     @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "RouteState" );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nullable.class );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
     method.addAnnotation( Override.class );
     method.returns( ROUTE_STATE_TYPE );
     method.addStatement( "return $N", ROUTE_STATE_FIELD_PREFIX + route.getName() );
@@ -622,12 +608,17 @@ final class Generator
   }
 
   private static void buildBuildLocationMethodImpl( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouterDescriptor descriptor,
                                                     @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( Nonnull.class );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
+    }
     method.addAnnotation( Override.class );
     method.returns( String.class );
 
@@ -684,10 +675,15 @@ final class Generator
     builder.addMethod( method.build() );
   }
 
-  private static void buildGetLocationImplMethod( @Nonnull final TypeSpec.Builder builder )
+  private static void buildGetLocationImplMethod( @Nonnull final TypeSpec.Builder builder,
+                                                  @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
     method.addAnnotation( Nonnull.class );
+    if ( descriptor.isArezComponent() )
+    {
+      method.addAnnotation( OBSERVABLE_TYPE );
+    }
     method.addAnnotation( Override.class );
     method.addModifiers( Modifier.PUBLIC );
     method.returns( Location.class );
