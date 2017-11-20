@@ -48,4 +48,9 @@ public class RouterFu_BasicRouterRef extends BasicRouterRef implements BasicRout
   final BasicRouterRefService getRouterService() {
     return this;
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

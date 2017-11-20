@@ -48,4 +48,9 @@ public class RouterFu_PublicRouterRef extends PublicRouterRef implements PublicR
   public final PublicRouterRefService getRouterService() {
     return this;
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

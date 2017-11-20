@@ -52,4 +52,9 @@ public class RouterFu_MultiRouterRef extends MultiRouterRef implements MultiRout
   final MultiRouterRefService getRouterService2() {
     return this;
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

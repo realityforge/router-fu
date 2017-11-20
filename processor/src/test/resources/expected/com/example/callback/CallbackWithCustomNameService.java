@@ -23,4 +23,6 @@ public interface CallbackWithCustomNameService {
 
   @Nonnull
   void gotoRegion(@Nonnull String regionCode);
+
+  void reRoute();
 }

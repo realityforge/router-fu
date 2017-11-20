@@ -124,4 +124,9 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

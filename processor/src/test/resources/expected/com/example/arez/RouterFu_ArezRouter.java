@@ -60,4 +60,9 @@ public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

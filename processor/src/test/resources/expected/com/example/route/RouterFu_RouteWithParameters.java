@@ -183,4 +183,9 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

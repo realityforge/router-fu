@@ -8,4 +8,6 @@ import router.fu.Location;
 public interface NestedRouter$InnerRouterService {
   @Nonnull
   Location getLocation();
+
+  void reRoute();
 }

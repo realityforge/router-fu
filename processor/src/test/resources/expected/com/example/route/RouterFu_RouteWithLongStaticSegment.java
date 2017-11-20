@@ -93,4 +93,9 @@ public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegm
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

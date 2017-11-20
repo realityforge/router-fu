@@ -52,4 +52,6 @@ public interface MultiRouteBoundParameterService {
 
   @Nonnull
   void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
+
+  void reRoute();
 }

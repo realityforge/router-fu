@@ -23,4 +23,6 @@ public interface RouteParametersWithShortNameService {
 
   @Nonnull
   void gotoA(@Nonnull String regionCode);
+
+  void reRoute();
 }

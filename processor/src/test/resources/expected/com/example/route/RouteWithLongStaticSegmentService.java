@@ -23,4 +23,6 @@ public interface RouteWithLongStaticSegmentService {
 
   @Nonnull
   void gotoRegion();
+
+  void reRoute();
 }

@@ -44,4 +44,9 @@ public class RouterFu_RouterWithTypeParams<T extends Integer> extends RouterWith
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

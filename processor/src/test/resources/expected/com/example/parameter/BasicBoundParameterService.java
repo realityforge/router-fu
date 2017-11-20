@@ -28,4 +28,6 @@ public interface BasicBoundParameterService {
 
   @Nonnull
   void gotoRegion(@Nonnull String regionCode);
+
+  void reRoute();
 }

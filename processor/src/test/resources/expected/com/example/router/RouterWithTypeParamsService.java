@@ -8,4 +8,6 @@ import router.fu.Location;
 public interface RouterWithTypeParamsService {
   @Nonnull
   Location getLocation();
+
+  void reRoute();
 }

@@ -29,4 +29,6 @@ public interface RouteWithNonTargetParametersService {
 
   @Nonnull
   void gotoRegion(@Nonnull String regionCode);
+
+  void reRoute();
 }

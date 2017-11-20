@@ -124,4 +124,9 @@ public class RouterFu_RouteWithNonTargetParameters extends RouteWithNonTargetPar
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

@@ -332,4 +332,9 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
       }
     }
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

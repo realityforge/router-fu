@@ -48,4 +48,9 @@ public class RouterFu_ProtectedRouterRef extends ProtectedRouterRef implements P
   protected final ProtectedRouterRefService getRouterService() {
     return this;
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }

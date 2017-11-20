@@ -49,4 +49,9 @@ public class RouterFu_AnnotatedRouterRef extends AnnotatedRouterRef implements A
   final AnnotatedRouterRefService getRouterService() {
     return this;
   }
+
+  @Override
+  public final void reRoute() {
+    $fu$_router.reRoute();
+  }
 }
