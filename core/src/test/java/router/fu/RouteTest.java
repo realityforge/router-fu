@@ -304,33 +304,6 @@ public class RouteTest
   }
 
   @Test
-  public void buildLocation_no_match()
-  {
-    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
-    final String name = ValueUtil.randomString();
-    final Parameter eventParameter = new Parameter( "event" );
-    final Segment[] segments =
-      {
-        new Segment( "/events/" ),
-        new Segment( eventParameter )
-      };
-    final Parameter[] parameters = new Parameter[]{ eventParameter };
-    final String expectedPath = "/events/77";
-    final String[] resultGroups = { expectedPath, "77" };
-    final Route route =
-      new Route( name, segments, parameters, new TestRegExp( resultGroups ), matchCallback );
-
-    final HashMap<Parameter, String> input = new HashMap<>();
-    input.put( eventParameter, "42" );
-    final IllegalStateException exception =
-      expectThrows( IllegalStateException.class, () -> route.buildLocation( input ) );
-    assertEquals( exception.getMessage(),
-                  "Route named '" + name + "' had buildPath() invoked with parameters {event=42} produced " +
-                  "path '/events/42' and if this is matched against the same route it produces different " +
-                  "parameters: {event=77}" );
-  }
-
-  @Test
   public void getParameterByIndex_withBadIndex()
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();

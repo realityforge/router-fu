@@ -131,11 +131,6 @@ public final class Route
       apiInvariant( unusedParameters::isEmpty,
                     () -> "Route named '" + _name + "' expects all parameters to be used when building " +
                           "path but the following parameters are unused. Parameters: " + unusedParameters );
-      final HashMap<Parameter, String> matchedParameters = locationMatch( location );
-      invariant( () -> null != matchedParameters && Objects.equals( matchedParameters, parameters ),
-                 () -> "Route named '" + _name + "' had buildPath() invoked with parameters " + parameters +
-                       " produced path '" + location + "' and if this is matched against the same route it produces " +
-                       "different parameters: " + matchedParameters );
     }
     return location;
   }
