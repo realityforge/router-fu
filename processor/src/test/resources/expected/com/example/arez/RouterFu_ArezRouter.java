@@ -56,7 +56,6 @@ public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService
     int routeStartIndex = 0;
     for ( int i = 0; i < 0; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
       }
     }

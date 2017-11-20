@@ -26,11 +26,11 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
 
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
-  private final Route $fu$_route_regionEvents = new Route( "regionEvents", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events" ) }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_regionEvents = new Route( "regionEvents", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events" ) }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
-  private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events/" ), new Segment( $fu$_eventCode ), }, new Parameter[]{$fu$_regionCode, $fu$_eventCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events/" ), new Segment( $fu$_eventCode ), }, new Parameter[]{$fu$_regionCode, $fu$_eventCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)/events/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 
@@ -155,16 +155,30 @@ public class RouterFu_RouteWithParameters extends RouteWithParameters implements
     int routeStartIndex = 0;
     for ( int i = 0; i < 3; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setRegionRouteState( state );
+        if ( null != state && state.getRoute() == $fu$_route_region ) {
+          setRegionRouteState( state );
+          routeStartIndex++;
+        } else {
+          setRegionRouteState( null );
+        }
         break;
         case 1:;
-        setRegionEventsRouteState( state );
+        if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
+          setRegionEventsRouteState( state );
+          routeStartIndex++;
+        } else {
+          setRegionEventsRouteState( null );
+        }
         break;
         case 2:;
-        setRegionEventRouteState( state );
+        if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
+          setRegionEventRouteState( state );
+          routeStartIndex++;
+        } else {
+          setRegionEventRouteState( null );
+        }
         break;
       }
     }

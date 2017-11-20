@@ -24,7 +24,7 @@ import router.fu.Segment;
 public class RouterFu_BasicBoundParameter extends BasicBoundParameter implements BasicBoundParameterService {
   private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new RegExp( "[a-zA-Z]+" ) );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode_821487049 ), }, new Parameter[]{$fu$_regionCode_821487049, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode_821487049 ), }, new Parameter[]{$fu$_regionCode_821487049, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 
@@ -104,16 +104,19 @@ public class RouterFu_BasicBoundParameter extends BasicBoundParameter implements
 
   void onLocationChanged(@Nonnull final Location location) {
     setLocation( Objects.requireNonNull( location ) );
+    setRegionCode( null );
     final List<RouteState> states = location.getStates();
     int routeStartIndex = 0;
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setRegionRouteState( state );
-        if ( null != state ) {
+        if ( null != state && state.getRoute() == $fu$_route_region ) {
+          setRegionRouteState( state );
+          routeStartIndex++;
           setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+        } else {
+          setRegionRouteState( null );
         }
         break;
       }

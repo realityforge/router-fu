@@ -22,7 +22,7 @@ import router.fu.Segment;
 
 @Generated("router.fu.processor.RouterProcessor")
 public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegment implements RouteWithLongStaticSegmentService {
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/ballarat/events/23/coordination/now/shift1/crew23/position2" ) }, new Parameter[]{}, new RegExp( "^/regions/ballarat/events/23/coordination/now/shift1/crew23/position2$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/ballarat/events/23/coordination/now/shift1/crew23/position2" ) }, new Parameter[]{}, new RegExp( "^/regions/ballarat/events/23/coordination/now/shift1/crew23/position2$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 
@@ -81,10 +81,14 @@ public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegm
     int routeStartIndex = 0;
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setRegionRouteState( state );
+        if ( null != state && state.getRoute() == $fu$_route_region ) {
+          setRegionRouteState( state );
+          routeStartIndex++;
+        } else {
+          setRegionRouteState( null );
+        }
         break;
       }
     }

@@ -23,7 +23,7 @@ import router.fu.Segment;
 public class RouterFu_CallbackWithParams5 extends CallbackWithParams5 implements CallbackWithParams5Service {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> super.regionCallback( route, parameters, location ) );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> super.regionCallback( route, parameters, location ) );
 
   private final Router $fu$_router;
 
@@ -83,10 +83,14 @@ public class RouterFu_CallbackWithParams5 extends CallbackWithParams5 implements
     int routeStartIndex = 0;
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setRegionRouteState( state );
+        if ( null != state && state.getRoute() == $fu$_route_region ) {
+          setRegionRouteState( state );
+          routeStartIndex++;
+        } else {
+          setRegionRouteState( null );
+        }
         break;
       }
     }

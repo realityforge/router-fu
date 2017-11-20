@@ -24,7 +24,7 @@ import router.fu.Segment;
 public class RouterFu_RouteParametersWithShortName extends RouteParametersWithShortName implements RouteParametersWithShortNameService {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_A = new Route( "A", new Segment[]{new Segment( "regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_A = new Route( "A", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 
@@ -84,10 +84,14 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
     int routeStartIndex = 0;
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
         case 0:;
-        setARouteState( state );
+        if ( null != state && state.getRoute() == $fu$_route_A ) {
+          setARouteState( state );
+          routeStartIndex++;
+        } else {
+          setARouteState( null );
+        }
         break;
       }
     }

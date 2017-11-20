@@ -40,7 +40,6 @@ public class NestedRouter$RouterFu_InnerRouter extends NestedRouter.InnerRouter 
     int routeStartIndex = 0;
     for ( int i = 0; i < 0; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      routeStartIndex++;
       switch ( i ) {
       }
     }
