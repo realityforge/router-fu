@@ -10,6 +10,8 @@ import router.fu.annotations.RouteCallback;
 import router.fu.annotations.Router;
 
 @Router( arez = true )
+@Route( name = "login", path = "login" )
+@Route( name = "logout", path = "logout" )
 // This first route is a filter and matches all locations but can not be navigated to
 @Route( name = "authFilter", path = "", navigationTarget = false, partialMatch = true )
 @Route( name = "regions", path = "regions" )
