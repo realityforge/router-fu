@@ -3,6 +3,8 @@
 ### Medium Priority 
 
 * Add mechanism for stripping trailing slash
+* Figure out a way that if a re-render occurs and a callback is not invoked then dependencies of
+  callback are cleared ... somehow.
 
 ### Low Priority 
 
