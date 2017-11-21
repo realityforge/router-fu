@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
 import org.realityforge.arez.annotations.Observable;
+import org.realityforge.arez.annotations.PreDispose;
 import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.RouteState;
@@ -35,6 +36,11 @@ public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService
   @PostConstruct
   final void postConstruct() {
     $fu$_router.activate();
+  }
+
+  @PreDispose
+  final void preDispose() {
+    $fu$_router.deactivate();
   }
 
   @Nonnull

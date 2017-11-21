@@ -16,6 +16,7 @@ import org.realityforge.arez.annotations.Action;
 import org.realityforge.arez.annotations.ArezComponent;
 import org.realityforge.arez.annotations.Observable;
 import org.realityforge.arez.annotations.OnDepsChanged;
+import org.realityforge.arez.annotations.PreDispose;
 import org.realityforge.arez.annotations.Track;
 import router.fu.HashBackend;
 import router.fu.Location;
@@ -73,6 +74,11 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
   @PostConstruct
   final void postConstruct() {
     $fu$_router.activate();
+  }
+
+  @PreDispose
+  final void preDispose() {
+    $fu$_router.deactivate();
   }
 
   @Nonnull

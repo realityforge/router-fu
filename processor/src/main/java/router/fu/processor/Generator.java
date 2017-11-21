@@ -44,6 +44,7 @@ final class Generator
   private static final ClassName SEGMENT_TYPE = ClassName.get( "router.fu", "Segment" );
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
+  private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "PreDispose" );
   private static final ClassName ACTION_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Action" );
   private static final ClassName OBSERVABLE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Observable" );
   private static final ClassName TRACK_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Track" );
@@ -231,6 +232,7 @@ final class Generator
     if ( descriptor.isArezComponent() )
     {
       buildPostConstruct( builder );
+      buildPreDispose( builder );
     }
 
     descriptor.getRoutes().forEach( route -> {
@@ -324,6 +326,15 @@ final class Generator
     method.addModifiers( Modifier.FINAL );
     method.addAnnotation( PostConstruct.class );
     method.addStatement( "$N.activate()", FIELD_PREFIX + "router" );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildPreDispose( @Nonnull final TypeSpec.Builder builder )
+  {
+    final MethodSpec.Builder method = MethodSpec.methodBuilder( "preDispose" );
+    method.addModifiers( Modifier.FINAL );
+    method.addAnnotation( PRE_DISPOSE_TYPE );
+    method.addStatement( "$N.deactivate()", FIELD_PREFIX + "router" );
     builder.addMethod( method.build() );
   }
 
