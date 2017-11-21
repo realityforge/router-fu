@@ -36,7 +36,6 @@ public class Example
 
   private void renderView()
   {
-
     final String username = AppState.AUTH.getUsername();
     DomGlobal.document.querySelector( "#username" ).innerHTML = null == username ? "" : username;
     DomGlobal.document.querySelector( "#location" ).innerHTML = AppState.ROUTER.getLocation().getPath();
