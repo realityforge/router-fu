@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import router.fu.Location;
+import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
@@ -19,16 +20,28 @@ public interface SelectiveMultiRouteBoundParameterService {
   RouteState getRegionRouteState();
 
   @Nonnull
+  Parameter getRegionRegionCodeParameter();
+
+  @Nonnull
   Route getRegionEventsRoute();
 
   @Nullable
   RouteState getRegionEventsRouteState();
 
   @Nonnull
+  Parameter getRegionEventsRegionCodeParameter();
+
+  @Nonnull
   Route getRegionEventRoute();
 
   @Nullable
   RouteState getRegionEventRouteState();
+
+  @Nonnull
+  Parameter getRegionEventRegionCodeParameter();
+
+  @Nonnull
+  Parameter getRegionEventEventCodeParameter();
 
   @Nullable
   String getRegionCode();

@@ -54,6 +54,12 @@ public class RouterFu_CallbackWithParams3 extends CallbackWithParams3 implements
 
   @Nonnull
   @Override
+  public Parameter getRegionRegionCodeParameter() {
+    return $fu$_regionCode;
+  }
+
+  @Nonnull
+  @Override
   public String buildRegionLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode, regionCode );

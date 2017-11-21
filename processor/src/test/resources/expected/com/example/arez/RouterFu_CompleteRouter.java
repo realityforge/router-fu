@@ -92,6 +92,12 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
     $fu$_state_regionFilter = state;
   }
 
+  @Nonnull
+  @Override
+  public Parameter getRegionFilterRegionCodeParameter() {
+    return $fu$_regionCode;
+  }
+
   @Track(
       name = "regionFilterCallback"
   )
@@ -125,6 +131,12 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   @Nonnull
   @Override
+  public Parameter getRegionRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
+  @Nonnull
+  @Override
   public Route getRegionEventsRoute() {
     return $fu$_route_regionEvents;
   }
@@ -142,6 +154,12 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   @Nonnull
   @Override
+  public Parameter getRegionEventsRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
+  @Nonnull
+  @Override
   public Route getRegionEventRoute() {
     return $fu$_route_regionEvent;
   }
@@ -155,6 +173,18 @@ public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteR
 
   void setRegionEventRouteState(@Nullable final RouteState state) {
     $fu$_state_regionEvent = state;
+  }
+
+  @Nonnull
+  @Override
+  public Parameter getRegionEventRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
+  @Nonnull
+  @Override
+  public Parameter getRegionEventEventCodeParameter() {
+    return $fu$_eventCode_1643987249;
   }
 
   @Nullable

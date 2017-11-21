@@ -76,6 +76,7 @@ final class Generator
     descriptor.getRoutes().forEach( route -> {
       buildRouteMethod( builder, route );
       buildGetRouteStateMethod( builder, route );
+      route.getParameters().forEach( parameter -> buildParameterAccessorMethod( builder, route, parameter ) );
     } );
     descriptor.getBoundParameters()
       .forEach( boundParameter -> {
@@ -137,6 +138,21 @@ final class Generator
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addAnnotation( Nullable.class );
     method.returns( ROUTE_STATE_TYPE );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildParameterAccessorMethod( @Nonnull final TypeSpec.Builder builder,
+                                                    @Nonnull final RouteDescriptor route,
+                                                    @Nonnull final ParameterDescriptor parameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" +
+                                toPascalCaseName( route.getName() ) +
+                                toPascalCaseName( parameter.getName() ) +
+                                "Parameter" );
+    method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
+    method.addAnnotation( Nonnull.class );
+    method.returns( Parameter.class );
     builder.addMethod( method.build() );
   }
 
@@ -221,6 +237,7 @@ final class Generator
       buildRouteMethodImpl( builder, route );
       buildGetRouteStateMethodImpl( builder, descriptor, route );
       buildSetRouteStateMethodImpl( builder, route );
+      route.getParameters().forEach( parameter -> buildParameterAccessorImplMethod( builder, route, parameter ) );
       if ( route.hasCallback() && descriptor.isArezComponent() )
       {
         // Override this to make it @Track method that causes a re-route on change
@@ -683,6 +700,23 @@ final class Generator
       ParameterSpec.builder( ROUTE_STATE_TYPE, "state", Modifier.FINAL ).addAnnotation( Nullable.class );
     method.addParameter( parameter.build() );
     method.addStatement( "$N = state", ROUTE_STATE_FIELD_PREFIX + route.getName() );
+    builder.addMethod( method.build() );
+  }
+
+  private static void buildParameterAccessorImplMethod( @Nonnull final TypeSpec.Builder builder,
+                                                        @Nonnull final RouteDescriptor route,
+                                                        @Nonnull final ParameterDescriptor parameter )
+  {
+    final MethodSpec.Builder method =
+      MethodSpec.methodBuilder( "get" +
+                                toPascalCaseName( route.getName() ) +
+                                toPascalCaseName( parameter.getName() ) +
+                                "Parameter" );
+    method.addModifiers( Modifier.PUBLIC );
+    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( Override.class );
+    method.returns( Parameter.class );
+    method.addStatement( "return $N", FIELD_PREFIX + parameter.getFieldName() );
     builder.addMethod( method.build() );
   }
 

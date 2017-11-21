@@ -65,6 +65,12 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
 
   @Nonnull
   @Override
+  public Parameter getRegionRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
+  @Nonnull
+  @Override
   public Route getRegionEventsRoute() {
     return $fu$_route_regionEvents;
   }
@@ -81,6 +87,12 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
 
   @Nonnull
   @Override
+  public Parameter getRegionEventsRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
+  @Nonnull
+  @Override
   public Route getRegionEventRoute() {
     return $fu$_route_regionEvent;
   }
@@ -93,6 +105,18 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
 
   void setRegionEventRouteState(@Nullable final RouteState state) {
     $fu$_state_regionEvent = state;
+  }
+
+  @Nonnull
+  @Override
+  public Parameter getRegionEventRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
+  @Nonnull
+  @Override
+  public Parameter getRegionEventEventCodeParameter() {
+    return $fu$_eventCode_1643987249;
   }
 
   @Nonnull

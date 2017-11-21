@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import router.fu.Location;
+import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
@@ -17,6 +18,9 @@ public interface RouteParametersWithShortNameService {
 
   @Nullable
   RouteState getARouteState();
+
+  @Nonnull
+  Parameter getARegionCodeParameter();
 
   @Nonnull
   String buildALocation(@Nonnull String regionCode);

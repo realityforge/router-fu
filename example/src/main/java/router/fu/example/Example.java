@@ -4,6 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import elemental2.dom.DomGlobal;
 import java.util.Random;
 import org.realityforge.arez.Arez;
+import router.fu.RouteState;
 
 public class Example
   implements EntryPoint
@@ -43,5 +44,16 @@ public class Example
     DomGlobal.document.querySelector( "#regionCode" ).innerHTML = null == regionCode ? "" : regionCode;
     final String eventId = AppState.ROUTER.getEventId();
     DomGlobal.document.querySelector( "#eventId" ).innerHTML = null == eventId ? "" : eventId;
+
+    final RouteState state = AppState.ROUTER.getRegionFilterRouteState();
+    if ( null != state )
+    {
+      final String regionCode2 = state.getParameterValue( AppState.ROUTER.getRegionFilterRegionCodeParameter() );
+      DomGlobal.console.log( "RegionCode: " + regionCode2 );
+    }
+    else
+    {
+      DomGlobal.console.log( "No RegionCode" );
+    }
   }
 }

@@ -59,6 +59,12 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
 
   @Nonnull
   @Override
+  public Parameter getRegionFilterRegionCodeParameter() {
+    return $fu$_regionCode;
+  }
+
+  @Nonnull
+  @Override
   public Route getRegionRoute() {
     return $fu$_route_region;
   }
@@ -71,6 +77,12 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
 
   void setRegionRouteState(@Nullable final RouteState state) {
     $fu$_state_region = state;
+  }
+
+  @Nonnull
+  @Override
+  public Parameter getRegionRegionCodeParameter() {
+    return $fu$_regionCode;
   }
 
   @Nonnull

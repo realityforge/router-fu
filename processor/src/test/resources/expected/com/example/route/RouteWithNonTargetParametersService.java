@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import router.fu.Location;
+import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
@@ -19,10 +20,16 @@ public interface RouteWithNonTargetParametersService {
   RouteState getRegionFilterRouteState();
 
   @Nonnull
+  Parameter getRegionFilterRegionCodeParameter();
+
+  @Nonnull
   Route getRegionRoute();
 
   @Nullable
   RouteState getRegionRouteState();
+
+  @Nonnull
+  Parameter getRegionRegionCodeParameter();
 
   @Nonnull
   String buildRegionLocation(@Nonnull String regionCode);

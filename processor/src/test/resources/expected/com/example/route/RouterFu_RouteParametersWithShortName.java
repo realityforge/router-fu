@@ -55,6 +55,12 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
 
   @Nonnull
   @Override
+  public Parameter getARegionCodeParameter() {
+    return $fu$_regionCode;
+  }
+
+  @Nonnull
+  @Override
   public String buildALocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode, regionCode );

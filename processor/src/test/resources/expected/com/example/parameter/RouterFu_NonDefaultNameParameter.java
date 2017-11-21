@@ -55,6 +55,12 @@ public class RouterFu_NonDefaultNameParameter extends NonDefaultNameParameter im
     $fu$_state_region = state;
   }
 
+  @Nonnull
+  @Override
+  public Parameter getRegionRegionCodeParameter() {
+    return $fu$_regionCode_821487049;
+  }
+
   @Nullable
   @Override
   public String getFoo() {
