@@ -2,11 +2,11 @@
 * -text
 *.html text
 *.java text
-*.json text
 *.md text
 *.rake text
-*.txt text
+*.rb text
 *.xml text
+*.yaml text
 *.yml text
 .gitattributes text
 .gitignore text

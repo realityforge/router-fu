@@ -1,4 +1,4 @@
-# Router-Fu: A framework agnostic, state producing router 
+# Router-Fu: A framework agnostic, state producing router
 
 [![Build Status](https://secure.travis-ci.org/realityforge/router-fu.png?branch=master)](http://travis-ci.org/realityforge/router-fu)
 [![codecov](https://codecov.io/gh/realityforge/router-fu/branch/master/graph/badge.svg)](https://codecov.io/gh/realityforge/router-fu)
