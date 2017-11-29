@@ -89,6 +89,24 @@ define 'router-fu' do
     package(:sources)
     package(:javadoc)
 
+    package(:jar).enhance do |jar|
+      jar.merge(artifact(:javapoet))
+      jar.merge(artifact(:guava))
+      jar.enhance do |f|
+        shaded_jar = (f.to_s + '-shaded')
+        Buildr.ant 'shade_jar' do |ant|
+          artifact = Buildr.artifact(:shade_task)
+          artifact.invoke
+          ant.taskdef :name => 'shade', :classname => 'org.realityforge.ant.shade.Shade', :classpath => artifact.to_s
+          ant.shade :jar => f.to_s, :uberJar => shaded_jar do
+            ant.relocation :pattern => 'com.squareup.javapoet', :shadedPattern => 'router.fu.processor.vendor.javapoet'
+            ant.relocation :pattern => 'com.google', :shadedPattern => 'router.fu.processor.vendor.google'
+          end
+        end
+        FileUtils.mv shaded_jar, f.to_s
+      end
+    end
+
     test.using :testng
     test.options[:properties] = { 'router-fu.fixture_dir' => _('src/test/resources') }
     test.compile.with TEST_DEPS
