@@ -72,8 +72,7 @@ define 'router-fu' do
                  :autocommon,
                  :javapoet,
                  :guava,
-                 :javax_jsr305,
-                 project('annotations').package(:jar)
+                 :javax_jsr305
 
     test.with :compile_testing,
               Java.tools_jar,

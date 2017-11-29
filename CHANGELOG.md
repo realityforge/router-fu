@@ -12,7 +12,8 @@
 * Remove unused dependency `org.mockito:mockito-all:jar:1.10.19`
 * **\[processor\]** Remove the direct dependency on the `javax.annotation.Nonnull` and
   `javax.annotation.Nullable` annotations from the processor module.
-* **\[processor\]** Remove the direct dependency on the `router.fu` package from the processor module.
+* **\[processor\]** Remove the direct dependency on the `router.fu` and `router.fu.annotations` packages from the
+  processor module.
 
 ### [v0.02](https://github.com/realityforge/router-fu/tree/v0.02) (2017-11-21)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.01...v0.02)

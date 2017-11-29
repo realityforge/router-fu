@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +21,8 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
@@ -30,11 +31,6 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import router.fu.annotations.BoundParameter;
-import router.fu.annotations.Route;
-import router.fu.annotations.RouteCallback;
-import router.fu.annotations.Router;
-import router.fu.annotations.RouterRef;
 import static javax.tools.Diagnostic.Kind.*;
 
 /**
@@ -60,7 +56,9 @@ public final class RouterProcessor
   @Override
   public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
   {
-    final Set<? extends Element> elements = env.getElementsAnnotatedWith( Router.class );
+    final TypeElement annotation =
+      processingEnv.getElementUtils().getTypeElement( Constants.ROUTER_ANNOTATION_CLASSNAME );
+    final Set<? extends Element> elements = env.getElementsAnnotatedWith( annotation );
     processElements( elements );
     return false;
   }
@@ -119,11 +117,12 @@ public final class RouterProcessor
   @Nonnull
   private RouterDescriptor parse( @Nonnull final TypeElement typeElement )
   {
-    final Router component = typeElement.getAnnotation( Router.class );
-    assert null != component;
+    final AnnotationMirror annotation =
+      ProcessorUtil.getAnnotationByType( typeElement, Constants.ROUTER_ANNOTATION_CLASSNAME );
+    final boolean arezComponent = getAnnotationParameter( annotation, "arez" );
     final PackageElement packageElement = processingEnv.getElementUtils().getPackageOf( typeElement );
     final RouterDescriptor descriptor = new RouterDescriptor( packageElement, typeElement );
-    descriptor.setArezComponent( component.arez() );
+    descriptor.setArezComponent( arezComponent );
 
     parseRouteAnnotations( typeElement, descriptor );
     parseBoundParameterAnnotations( typeElement, descriptor );
@@ -139,14 +138,15 @@ public final class RouterProcessor
   {
     final List<ExecutableElement> methods =
       ProcessorUtil.getMethods( typeElement, processingEnv.getTypeUtils() ).stream().
-        filter( m -> null != m.getAnnotation( RouterRef.class ) ).collect( Collectors.toList() );
+        filter( m -> null != ProcessorUtil.findAnnotationByType( m, Constants.ROUTER_REF_ANNOTATION_CLASSNAME ) ).
+        collect( Collectors.toList() );
 
     final ArrayList<ExecutableElement> routerRefMethods = new ArrayList<>();
     for ( final ExecutableElement method : methods )
     {
-      ProcessorUtil.mustBeOverridable( RouterRef.class, method );
-      ProcessorUtil.mustNotHaveAnyParameters( RouterRef.class, method );
-      ProcessorUtil.mustNotThrowAnyExceptions( RouterRef.class, method );
+      ProcessorUtil.mustBeOverridable( Constants.ROUTER_REF_ANNOTATION_CLASSNAME, method );
+      ProcessorUtil.mustNotHaveAnyParameters( Constants.ROUTER_REF_ANNOTATION_CLASSNAME, method );
+      ProcessorUtil.mustNotThrowAnyExceptions( Constants.ROUTER_REF_ANNOTATION_CLASSNAME, method );
       final String expectedServiceName = descriptor.getServiceClassName().toString();
       final TypeMirror returnType = method.getReturnType();
 
@@ -177,7 +177,8 @@ public final class RouterProcessor
   {
     for ( final ExecutableElement method : ProcessorUtil.getMethods( typeElement, processingEnv.getTypeUtils() ) )
     {
-      final RouteCallback annotation = method.getAnnotation( RouteCallback.class );
+      final AnnotationMirror annotation =
+        ProcessorUtil.findAnnotationByType( method, Constants.ROUTE_CALLBACK_ANNOTATION_CLASSNAME );
       if ( null != annotation )
       {
         parseRouteCallback( descriptor, method, annotation );
@@ -187,9 +188,9 @@ public final class RouterProcessor
 
   private void parseRouteCallback( @Nonnull final RouterDescriptor descriptor,
                                    @Nonnull final ExecutableElement method,
-                                   @Nonnull final RouteCallback annotation )
+                                   @Nonnull final AnnotationMirror annotation )
   {
-    final String name = deriveName( method, CALLBACK_PATTERN, annotation.name() );
+    final String name = deriveName( method, CALLBACK_PATTERN, getAnnotationParameter( annotation, "name" ) );
     if ( null == name )
     {
       throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
@@ -211,7 +212,7 @@ public final class RouterProcessor
       }
       else
       {
-        ProcessorUtil.mustBeOverridable( RouteCallback.class, method );
+        ProcessorUtil.mustBeOverridable( Constants.ROUTE_CALLBACK_ANNOTATION_CLASSNAME, method );
 
         int locationIndex = -1;
         int routeIndex = -1;
@@ -296,26 +297,30 @@ public final class RouterProcessor
   private void parseBoundParameterAnnotations( @Nonnull final TypeElement typeElement,
                                                @Nonnull final RouterDescriptor descriptor )
   {
-    Arrays.stream( typeElement.getAnnotationsByType( BoundParameter.class ) )
+    ProcessorUtil.getRepeatingAnnotations( processingEnv.getElementUtils(),
+                                           typeElement,
+                                           Constants.BOUND_PARAMETERS_ANNOTATION_CLASSNAME,
+                                           Constants.BOUND_PARAMETER_ANNOTATION_CLASSNAME )
       .forEach( routeAnnotation -> parseBoundParameterAnnotation( typeElement, descriptor, routeAnnotation ) );
   }
 
   private void parseBoundParameterAnnotation( @Nonnull final TypeElement typeElement,
                                               @Nonnull final RouterDescriptor router,
-                                              @Nonnull final BoundParameter annotation )
+                                              @Nonnull final AnnotationMirror annotation )
   {
-    final String name = annotation.name();
+    final String name = getAnnotationParameter( annotation, "name" );
     if ( !ProcessorUtil.isJavaIdentifier( name ) )
     {
       throw new RouterProcessorException( "@Router target has a @BoundParameter with an invalid name '" + name + "'",
                                           typeElement );
     }
-    final String parameterName = annotation.parameterName().isEmpty() ? name : annotation.parameterName();
+    final String declaredParameterName = getAnnotationParameter( annotation, "parameterName" );
+    final String parameterName = declaredParameterName.isEmpty() ? name : declaredParameterName;
 
-    final String[] routeNames = annotation.routeNames();
+    final List<AnnotationValue> routeNames = getAnnotationParameter( annotation, "routeNames" );
 
     final LinkedHashMap<RouteDescriptor, ParameterDescriptor> bindings = new LinkedHashMap<>();
-    if ( 0 == routeNames.length )
+    if ( routeNames.isEmpty() )
     {
       for ( final RouteDescriptor route : router.getRoutes() )
       {
@@ -336,8 +341,9 @@ public final class RouterProcessor
     }
     else
     {
-      for ( final String routeName : routeNames )
+      for ( final AnnotationValue route : routeNames )
       {
+        final String routeName = (String) route.getValue();
         if ( router.hasRouteNamed( routeName ) )
         {
           final RouteDescriptor routeDescriptor = router.getRouteByName( routeName );
@@ -375,23 +381,27 @@ public final class RouterProcessor
   private void parseRouteAnnotations( @Nonnull final TypeElement typeElement,
                                       @Nonnull final RouterDescriptor descriptor )
   {
-    Arrays.stream( typeElement.getAnnotationsByType( Route.class ) )
+
+    ProcessorUtil.getRepeatingAnnotations( processingEnv.getElementUtils(),
+                                           typeElement,
+                                           Constants.ROUTES_ANNOTATION_CLASSNAME,
+                                           Constants.ROUTE_ANNOTATION_CLASSNAME )
       .forEach( routeAnnotation -> parseRouteAnnotation( typeElement, descriptor, routeAnnotation ) );
   }
 
   private void parseRouteAnnotation( @Nonnull final TypeElement typeElement,
                                      @Nonnull final RouterDescriptor router,
-                                     @Nonnull final Route annotation )
+                                     @Nonnull final AnnotationMirror annotation )
   {
-    final String name = annotation.name();
+    final String name = getAnnotationParameter( annotation, "name" );
     if ( !ProcessorUtil.isJavaIdentifier( name ) )
     {
       throw new RouterProcessorException( "@Router target has a route with an invalid name '" + name + "'",
                                           typeElement );
 
     }
-    final boolean navigationTarget = annotation.navigationTarget();
-    final boolean partialMatch = annotation.partialMatch();
+    final boolean navigationTarget = getAnnotationParameter( annotation, "navigationTarget" );
+    final boolean partialMatch = getAnnotationParameter( annotation, "partialMatch" );
     final RouteDescriptor route = new RouteDescriptor( name, navigationTarget, partialMatch );
 
     if ( router.hasRouteNamed( name ) )
@@ -400,7 +410,7 @@ public final class RouterProcessor
                                           typeElement );
     }
 
-    parseRoutePath( typeElement, route, annotation.path() );
+    parseRoutePath( typeElement, route, getAnnotationParameter( annotation, "path" ) );
 
     router.addRoute( route );
   }
@@ -481,5 +491,14 @@ public final class RouterProcessor
     {
       return name;
     }
+  }
+
+  @SuppressWarnings( "unchecked" )
+  private <T> T getAnnotationParameter( @Nonnull final AnnotationMirror annotation,
+                                        @Nonnull final String parameterName )
+  {
+    return (T) ProcessorUtil.getAnnotationValue( processingEnv.getElementUtils(),
+                                                 annotation,
+                                                 parameterName ).getValue();
   }
 }
