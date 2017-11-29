@@ -72,10 +72,8 @@ define 'router-fu' do
                  :autocommon,
                  :javapoet,
                  :guava,
-                 project('annotations').package(:jar),
-                 project('annotations').compile.dependencies,
-                 project('core').package(:jar),
-                 project('core').compile.dependencies
+                 :javax_jsr305,
+                 project('annotations').package(:jar)
 
     test.with :compile_testing,
               Java.tools_jar,
@@ -83,7 +81,11 @@ define 'router-fu' do
               :arez_annotations,
               :arez_core,
               :arez_processor,
-              :arez_component
+              :arez_component,
+              project('annotations').package(:jar),
+              project('annotations').compile.dependencies,
+              project('core').package(:jar),
+              project('core').compile.dependencies
 
     package(:jar)
     package(:sources)

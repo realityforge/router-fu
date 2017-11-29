@@ -22,20 +22,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.ExecutableType;
-import router.fu.HashBackend;
-import router.fu.Location;
-import router.fu.MatchResult;
-import router.fu.Parameter;
 
 final class Generator
 {
+  private static final ClassName NONNULL_CLASSNAME = ClassName.get( "javax.annotation", "Nonnull" );
+  private static final ClassName NULLABLE_CLASSNAME = ClassName.get( "javax.annotation", "Nullable" );
   private static final ClassName REGEXP_TYPE = ClassName.get( "elemental2.core", "RegExp" );
   private static final ClassName WINDOW_TYPE = ClassName.get( "elemental2.dom", "Window" );
   private static final ClassName ROUTER_TYPE = ClassName.get( "router.fu", "Router" );
@@ -44,6 +41,8 @@ final class Generator
   private static final ClassName SEGMENT_TYPE = ClassName.get( "router.fu", "Segment" );
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
+  private static final ClassName HASH_BACKEND_TYPE = ClassName.get( "router.fu", "HashBackend" );
+  private static final ClassName LOCATION_TYPE = ClassName.get( "router.fu", "Location" );
   private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "PreDispose" );
   private static final ClassName ACTION_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Action" );
   private static final ClassName OBSERVABLE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Observable" );
@@ -115,9 +114,9 @@ final class Generator
   private static void buildGetLocationMethod( @Nonnull final TypeSpec.Builder builder )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.returns( Location.class );
+    method.returns( LOCATION_TYPE );
     builder.addMethod( method.build() );
   }
 
@@ -126,7 +125,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "Route" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     method.returns( ROUTE_TYPE );
     builder.addMethod( method.build() );
   }
@@ -137,7 +136,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "RouteState" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( Nullable.class );
+    method.addAnnotation( NULLABLE_CLASSNAME );
     method.returns( ROUTE_STATE_TYPE );
     builder.addMethod( method.build() );
   }
@@ -152,8 +151,8 @@ final class Generator
                                 toPascalCaseName( parameter.getName() ) +
                                 "Parameter" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( Nonnull.class );
-    method.returns( Parameter.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
+    method.returns( PARAMETER_TYPE );
     builder.addMethod( method.build() );
   }
 
@@ -163,12 +162,12 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     method.returns( String.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
       method.addParameter( ParameterSpec.builder( String.class, parameter.getName() )
-                             .addAnnotation( Nonnull.class )
+                             .addAnnotation( NONNULL_CLASSNAME )
                              .build() );
     }
     builder.addMethod( method.build() );
@@ -180,11 +179,11 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "goto" + toPascalCaseName( route.getName() ) );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
       method.addParameter( ParameterSpec.builder( String.class, parameter.getName() )
-                             .addAnnotation( Nonnull.class )
+                             .addAnnotation( NONNULL_CLASSNAME )
                              .build() );
     }
     builder.addMethod( method.build() );
@@ -224,7 +223,7 @@ final class Generator
     descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
     //Add router field
     builder.addField( ROUTER_TYPE, FIELD_PREFIX + "router", Modifier.FINAL, Modifier.PRIVATE );
-    builder.addField( Location.class, FIELD_PREFIX + "location", Modifier.PRIVATE );
+    builder.addField( LOCATION_TYPE, FIELD_PREFIX + "location", Modifier.PRIVATE );
     descriptor.getRoutes().forEach( route -> buildRouteStateField( builder, route ) );
     descriptor.getBoundParameters().forEach( boundParameter -> buildBoundParameterField( builder, boundParameter ) );
 
@@ -287,14 +286,14 @@ final class Generator
   {
     final MethodSpec.Builder ctor = MethodSpec.constructorBuilder();
     ctor.addParameter( ParameterSpec.builder( WINDOW_TYPE, "window", Modifier.FINAL ).
-      addAnnotation( Nonnull.class ).build() );
+      addAnnotation( NONNULL_CLASSNAME ).build() );
 
     final StringBuilder sb = new StringBuilder();
     final ArrayList<Object> params = new ArrayList<>();
     sb.append( "$N = new $T( this::onLocationChanged, new $T( window ), $T.unmodifiableList( $T.asList( " );
     params.add( FIELD_PREFIX + "router" );
     params.add( ROUTER_TYPE );
-    params.add( HashBackend.class );
+    params.add( HASH_BACKEND_TYPE );
     params.add( Collections.class );
     params.add( Arrays.class );
     sb.append( descriptor.getRoutes()
@@ -309,7 +308,7 @@ final class Generator
     {
       ctor.addStatement( "$N = new $T( $S, $T.emptyList() )",
                          FIELD_PREFIX + "location",
-                         Location.class,
+                         LOCATION_TYPE,
                          "",
                          Collections.class );
     }
@@ -353,21 +352,21 @@ final class Generator
                                            @Nonnull final ParameterDescriptor parameter )
   {
     final FieldSpec.Builder field =
-      FieldSpec.builder( Parameter.class,
+      FieldSpec.builder( PARAMETER_TYPE,
                          FIELD_PREFIX + parameter.getFieldName(),
                          Modifier.FINAL,
                          Modifier.PRIVATE );
     if ( null != parameter.getConstraint() )
     {
       field.initializer( "new $T( $S, new $T( $S ) )",
-                         Parameter.class,
+                         PARAMETER_TYPE,
                          parameter.getName(),
                          REGEXP_TYPE,
                          parameter.getConstraint() );
     }
     else
     {
-      field.initializer( "new $T( $S )", Parameter.class, parameter.getName() );
+      field.initializer( "new $T( $S )", PARAMETER_TYPE, parameter.getName() );
     }
     builder.addField( field.build() );
   }
@@ -545,7 +544,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "Route" );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     method.addAnnotation( Override.class );
     method.returns( ROUTE_TYPE );
     method.addStatement( "return $N", ROUTE_FIELD_PREFIX + route.getName() );
@@ -559,7 +558,7 @@ final class Generator
       MethodSpec.methodBuilder( "update" + toPascalCaseName( boundParameter.getName() ) );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
     method.addParameter( ParameterSpec.builder( String.class, boundParameter.getName() )
-                           .addAnnotation( Nonnull.class )
+                           .addAnnotation( NONNULL_CLASSNAME )
                            .build() );
     builder.addMethod( method.build() );
   }
@@ -570,7 +569,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( boundParameter.getName() ) );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( Nullable.class );
+    method.addAnnotation( NULLABLE_CLASSNAME );
     method.returns( String.class );
     builder.addMethod( method.build() );
   }
@@ -588,9 +587,9 @@ final class Generator
     }
     method.addAnnotation( Override.class );
     method.addParameter( ParameterSpec.builder( String.class, boundParameter.getName(), Modifier.FINAL )
-                           .addAnnotation( Nonnull.class )
+                           .addAnnotation( NONNULL_CLASSNAME )
                            .build() );
-    method.addStatement( "final $T location = getLocation()", Location.class );
+    method.addStatement( "final $T location = getLocation()", LOCATION_TYPE );
     method.addStatement( "final $T terminalState = location.getTerminalState()", ROUTE_STATE_TYPE );
     final CodeBlock.Builder block = CodeBlock.builder();
     block.beginControlFlow( "if ( null != terminalState )" );
@@ -661,7 +660,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( boundParameter.getName() ) );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( Nullable.class );
+    method.addAnnotation( NULLABLE_CLASSNAME );
     if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( OBSERVABLE_TYPE );
@@ -678,7 +677,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "set" + toPascalCaseName( boundParameter.getName() ) );
     final ParameterSpec.Builder parameter =
-      ParameterSpec.builder( String.class, "value", Modifier.FINAL ).addAnnotation( Nullable.class );
+      ParameterSpec.builder( String.class, "value", Modifier.FINAL ).addAnnotation( NULLABLE_CLASSNAME );
     method.addParameter( parameter.build() );
     method.addStatement( "$N = value", BOUND_PARAMETER_FIELD_PREFIX + boundParameter.getName() );
     builder.addMethod( method.build() );
@@ -691,7 +690,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "get" + toPascalCaseName( route.getName() ) + "RouteState" );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( Nullable.class );
+    method.addAnnotation( NULLABLE_CLASSNAME );
     if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( OBSERVABLE_TYPE );
@@ -708,7 +707,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "set" + toPascalCaseName( route.getName() ) + "RouteState" );
     final ParameterSpec.Builder parameter =
-      ParameterSpec.builder( ROUTE_STATE_TYPE, "state", Modifier.FINAL ).addAnnotation( Nullable.class );
+      ParameterSpec.builder( ROUTE_STATE_TYPE, "state", Modifier.FINAL ).addAnnotation( NULLABLE_CLASSNAME );
     method.addParameter( parameter.build() );
     method.addStatement( "$N = state", ROUTE_STATE_FIELD_PREFIX + route.getName() );
     builder.addMethod( method.build() );
@@ -724,9 +723,9 @@ final class Generator
                                 toPascalCaseName( parameter.getName() ) +
                                 "Parameter" );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     method.addAnnotation( Override.class );
-    method.returns( Parameter.class );
+    method.returns( PARAMETER_TYPE );
     method.addStatement( "return $N", FIELD_PREFIX + parameter.getFieldName() );
     builder.addMethod( method.build() );
   }
@@ -741,7 +740,7 @@ final class Generator
     method.addAnnotation( AnnotationSpec.builder( TRACK_TYPE )
                             .addMember( "name", "$S", route.getName() + "Callback" )
                             .build() );
-    method.returns( MatchResult.class );
+    method.returns( MATCH_RESULT_TYPE );
     ProcessorUtil.copyDocumentedAnnotations( callback, method );
 
     final StringBuilder statement = new StringBuilder();
@@ -794,7 +793,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
@@ -811,7 +810,7 @@ final class Generator
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
       method.addParameter( ParameterSpec.builder( String.class, parameter.getName(), Modifier.FINAL )
-                             .addAnnotation( Nonnull.class )
+                             .addAnnotation( NONNULL_CLASSNAME )
                              .build() );
       method.addStatement( "$N.put( $N, $N )",
                            ROUTE_FIELD_PREFIX + "params",
@@ -830,12 +829,12 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "goto" + toPascalCaseName( route.getName() ) );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     method.addAnnotation( Override.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
       method.addParameter( ParameterSpec.builder( String.class, parameter.getName(), Modifier.FINAL )
-                             .addAnnotation( Nonnull.class )
+                             .addAnnotation( NONNULL_CLASSNAME )
                              .build() );
     }
 
@@ -859,14 +858,14 @@ final class Generator
                                                   @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "getLocation" );
-    method.addAnnotation( Nonnull.class );
+    method.addAnnotation( NONNULL_CLASSNAME );
     if ( descriptor.isArezComponent() )
     {
       method.addAnnotation( OBSERVABLE_TYPE );
     }
     method.addAnnotation( Override.class );
     method.addModifiers( Modifier.PUBLIC );
-    method.returns( Location.class );
+    method.returns( LOCATION_TYPE );
     method.addStatement( "assert null != $N", FIELD_PREFIX + "location" );
     method.addStatement( "return $N", FIELD_PREFIX + "location" );
     builder.addMethod( method.build() );
@@ -875,8 +874,8 @@ final class Generator
   private static void buildSetLocationMethod( @Nonnull final TypeSpec.Builder builder )
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "setLocation" );
-    method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
-                           .addAnnotation( Nonnull.class )
+    method.addParameter( ParameterSpec.builder( LOCATION_TYPE, "location", Modifier.FINAL )
+                           .addAnnotation( NONNULL_CLASSNAME )
                            .build() );
     method.addStatement( "$N = location", FIELD_PREFIX + "location" );
     builder.addMethod( method.build() );
@@ -890,8 +889,8 @@ final class Generator
     {
       method.addAnnotation( ACTION_TYPE );
     }
-    method.addParameter( ParameterSpec.builder( Location.class, "location", Modifier.FINAL )
-                           .addAnnotation( Nonnull.class )
+    method.addParameter( ParameterSpec.builder( LOCATION_TYPE, "location", Modifier.FINAL )
+                           .addAnnotation( NONNULL_CLASSNAME )
                            .build() );
     method.addStatement( "setLocation( $T.requireNonNull( location ) )", Objects.class );
     for ( final BoundParameterDescriptor boundParameter : descriptor.getBoundParameters() )
