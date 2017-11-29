@@ -177,7 +177,8 @@ public class RouterFu_MultiRouteBoundParameter extends MultiRouteBoundParameter 
 
   @Nonnull
   @Override
-  public String buildRegionEventLocation(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+  public String buildRegionEventLocation(@Nonnull final String regionCode,
+      @Nonnull final String eventCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode_821487049, regionCode );
     $fu$_route_params.put( $fu$_eventCode_1643987249, eventCode );

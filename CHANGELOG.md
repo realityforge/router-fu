@@ -7,6 +7,7 @@
 * **\[processor\]** Shade the processor dependencies so that the only jar required during annotation processing
   is the annotation processor jar. This eliminates the possibility of processorpath conflicts causing issues in
   the future.
+* **\[processor\]** Upgrade javapoet to version 1.8.0.
 
 ### [v0.02](https://github.com/realityforge/router-fu/tree/v0.02) (2017-11-21)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.01...v0.02)
