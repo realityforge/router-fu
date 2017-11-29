@@ -29,7 +29,6 @@ artifacts:
 
   braincheck: org.realityforge.braincheck:braincheck:jar:gwt:1.3.0
 
-  mockito: org.mockito:mockito-all:jar:1.10.19
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.94
 
   arez_annotations: org.realityforge.arez:arez-annotations:jar:gwt:0.30
