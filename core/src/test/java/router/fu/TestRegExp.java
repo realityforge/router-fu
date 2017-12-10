@@ -1,10 +1,10 @@
 package router.fu;
 
-import elemental2.core.RegExp;
+import elemental2.core.JsRegExp;
 import javax.annotation.Nullable;
 
 public class TestRegExp
-  extends RegExp
+  extends JsRegExp
 {
   private String[] _resultGroups;
 
@@ -20,13 +20,13 @@ public class TestRegExp
   }
 
   @Override
-  public String[] exec( final Object str )
+  public String[] exec( final String str )
   {
     return _resultGroups;
   }
 
   @Override
-  public boolean test( final Object str )
+  public boolean test( final String str )
   {
     return null != _resultGroups;
   }

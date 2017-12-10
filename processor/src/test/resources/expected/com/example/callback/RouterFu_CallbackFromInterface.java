@@ -1,6 +1,6 @@
 package com.example.callback;
 
-import elemental2.core.RegExp;
+import elemental2.core.JsRegExp;
 import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import router.fu.Segment;
 public class RouterFu_CallbackFromInterface extends CallbackFromInterface implements CallbackFromInterfaceService {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> regionCallback(  ) );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new JsRegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> regionCallback(  ) );
 
   private final Router $fu$_router;
 

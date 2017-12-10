@@ -1,6 +1,6 @@
 package com.example.route;
 
-import elemental2.core.RegExp;
+import elemental2.core.JsRegExp;
 import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,7 +22,7 @@ import router.fu.Segment;
 
 @Generated("router.fu.processor.RouterProcessor")
 public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegment implements RouteWithLongStaticSegmentService {
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/ballarat/events/23/coordination/now/shift1/crew23/position2" ) }, new Parameter[]{}, new RegExp( "^/regions/ballarat/events/23/coordination/now/shift1/crew23/position2$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/ballarat/events/23/coordination/now/shift1/crew23/position2" ) }, new Parameter[]{}, new JsRegExp( "^/regions/ballarat/events/23/coordination/now/shift1/crew23/position2$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 

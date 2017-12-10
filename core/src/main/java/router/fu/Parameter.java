@@ -1,6 +1,6 @@
 package router.fu;
 
-import elemental2.core.RegExp;
+import elemental2.core.JsRegExp;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,14 +13,14 @@ public final class Parameter
   @Nonnull
   private final String _name;
   @Nullable
-  private final RegExp _validator;
+  private final JsRegExp _validator;
 
   public Parameter( @Nonnull final String name )
   {
     this( name, null );
   }
 
-  public Parameter( @Nonnull final String name, @Nullable final RegExp validator )
+  public Parameter( @Nonnull final String name, @Nullable final JsRegExp validator )
   {
     _name = Objects.requireNonNull( name );
     _validator = validator;
@@ -43,7 +43,7 @@ public final class Parameter
    * @return the validator for parameter if any.
    */
   @Nullable
-  public RegExp getValidator()
+  public JsRegExp getValidator()
   {
     return _validator;
   }

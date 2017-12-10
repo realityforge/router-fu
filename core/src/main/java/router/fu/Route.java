@@ -1,6 +1,6 @@
 package router.fu;
 
-import elemental2.core.RegExp;
+import elemental2.core.JsRegExp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +43,7 @@ public final class Route
    * The regular expression that matches the path and extracts parameters.
    */
   @Nonnull
-  private final RegExp _matcher;
+  private final JsRegExp _matcher;
   /**
    * The callback that makes the final decision whether a route matches.
    */
@@ -58,7 +58,7 @@ public final class Route
   public Route( @Nonnull final String name,
                 @Nullable final Segment[] segments,
                 @Nonnull final Parameter[] parameters,
-                @Nonnull final RegExp matcher,
+                @Nonnull final JsRegExp matcher,
                 @Nonnull final RouteMatchCallback matchCallback )
   {
     _name = Objects.requireNonNull( name );
@@ -175,7 +175,7 @@ public final class Route
         final String value = groups[ i ];
         final int paramIndex = i - 1;
         final Parameter parameter = getParameterByIndex( paramIndex );
-        final RegExp validator = parameter.getValidator();
+        final JsRegExp validator = parameter.getValidator();
         if ( null != validator && !validator.test( value ) )
         {
           return null;

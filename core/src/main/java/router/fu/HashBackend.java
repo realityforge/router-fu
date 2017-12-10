@@ -5,7 +5,6 @@ import elemental2.dom.EventListener;
 import elemental2.dom.Window;
 import java.util.Objects;
 import javax.annotation.Nonnull;
-import jsinterop.base.JsPropertyMap;
 
 /**
  * Hash based routing backend based on Elemental2.
@@ -41,7 +40,7 @@ public class HashBackend
   @Override
   public String getLocation()
   {
-    final String hash = (String) JsPropertyMap.of( _window.location ).get( "hash" );
+    final String hash = _window.location.getHash();
     return null == hash ? "" : hash.substring( 1 );
   }
 
@@ -52,7 +51,7 @@ public class HashBackend
   public void setLocation( @Nonnull final String hash )
   {
     final String value = hash.isEmpty() ? null : "#" + hash;
-    JsPropertyMap.of( _window.location ).set( "hash", value );
+    _window.location.setHash( value );
   }
 
   /**
