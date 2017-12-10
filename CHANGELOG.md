@@ -4,9 +4,10 @@
 
 ##### Changed
 * Upgrade Buildr to version 1.5.4.
-* ð¥ **\[core\]** Upgrade `com.google.jsinterop:jsinterop-annotations` library to version `1.0.2`.
-* ð¥ **\[core\]** Upgrade Arez library to version `0.34`.
-* ð¥ **\[core\]** Upgrade `com.google.elemental2:*` libraries to version `1.0.0-beta-3`.
+* 💥 **\[core\]** Upgrade `com.google.jsinterop:jsinterop-annotations` library to version `1.0.2`.
+* 💥 **\[core\]** Upgrade `com.google.jsinterop:base` library to version `1.0.0-beta-3`.
+* 💥 **\[core\]** Upgrade `com.google.elemental2:*` libraries to version `1.0.0-beta-3`.
+* 💥 **\[core\]** Upgrade Arez library to version `0.34`.
 
 ### [v0.03](https://github.com/realityforge/router-fu/tree/v0.03) (2017-11-29)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.02...v0.03)
