@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.04](https://github.com/realityforge/router-fu/tree/v0.04) (2017-12-11)
+[Full Changelog](https://github.com/realityforge/router-fu/compare/v0.03...v0.04)
 
 ##### Changed
 * Upgrade Buildr to version 1.5.4.
