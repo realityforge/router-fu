@@ -21,7 +21,7 @@ script: buildr clean package jacoco:report publish_if_tagged
 after_success:
 - bash <(curl -s https://codecov.io/bash)
 git:
-  depth: 10
+  depth: false
 env:
   global:
   - secure: lVFVwJa5PT8XC0HO27H/Z5c9eotNrqmHaoR9yQCN+urfWUSF18Pe8VkMi9BoXMWMECBQKhypF0lROAs2+XfbCclSrskTu//K1O5M7PHgjcsF+rRZcvzyk0JHLTecckZYHCCU4L9BExU4ggFXzQg+y8gQ7CMdF3sdI3yGqZ0N48Rnafeg2ojSLgOLhz3zNAS2IIgBMU9wjoaN7ZTaG9wN0jPHQM0w9aIlkNjx6OiK2UIeiRoOYlN55FvF6Zb2QO2JrHbVd3x+wiTNdThWIhLF/RLX4hQ9nq0A0g+lPtzn8syv6O0HQsnnPjuNYAXfR5Bh60ejp2pwyewEh9GqskxnDaZfPt6HFW4HFFLI+0RDjqaLkZ6ufAnvfMK/ZwqYecN6fVaxsScvGUSDRlqsA4NxfUSkbYXC1pUM8SuYjXQUwzvdsgzIgfyRqhr/v5yjvokH2P+/APcJdIH2iX6hlN5iuB4azxUWooHTDMMGLEd24ivwQZiYDYoRJ8OgXuF836Is2Uom0fIfxW5lr7VZUgbexOdixubwmpx46/f5+2xnhN/yI7xL0pUmbyoTEl0zBsf/vTNIJaehWG6f3VwjnRE4F9cGez5F8fhXlo7YJCHl2qnC8ByzS0eQtd7sOnJED+PdvFH+b47TSIAYf6NFoNTMC1cQqXcFjwn+wJWhB78wIyQ=
