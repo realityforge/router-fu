@@ -43,12 +43,11 @@ final class Generator
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
   private static final ClassName HASH_BACKEND_TYPE = ClassName.get( "router.fu", "HashBackend" );
   private static final ClassName LOCATION_TYPE = ClassName.get( "router.fu", "Location" );
-  private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "PreDispose" );
-  private static final ClassName ACTION_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Action" );
-  private static final ClassName OBSERVABLE_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Observable" );
-  private static final ClassName TRACK_TYPE = ClassName.get( "org.realityforge.arez.annotations", "Track" );
-  private static final ClassName ON_DEPS_CHANGED_TYPE =
-    ClassName.get( "org.realityforge.arez.annotations", "OnDepsChanged" );
+  private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "arez.annotations", "PreDispose" );
+  private static final ClassName ACTION_TYPE = ClassName.get( "arez.annotations", "Action" );
+  private static final ClassName OBSERVABLE_TYPE = ClassName.get( "arez.annotations", "Observable" );
+  private static final ClassName TRACK_TYPE = ClassName.get( "arez.annotations", "Track" );
+  private static final ClassName ON_DEPS_CHANGED_TYPE = ClassName.get( "arez.annotations", "OnDepsChanged" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
@@ -203,7 +202,7 @@ final class Generator
     if ( descriptor.isArezComponent() )
     {
       final AnnotationSpec.Builder annotation =
-        AnnotationSpec.builder( ClassName.get( "org.realityforge.arez.annotations", "ArezComponent" ) ).
+        AnnotationSpec.builder( ClassName.get( "arez.annotations", "ArezComponent" ) ).
           addMember( "type", "$S", descriptor.getClassName().simpleName() ).
           addMember( "nameIncludesId", "false" ).
           addMember( "allowEmpty", "true" );

@@ -1,9 +1,9 @@
 package router.fu.example;
 
+import arez.Arez;
 import com.google.gwt.core.client.EntryPoint;
 import elemental2.dom.DomGlobal;
 import java.util.Random;
-import org.realityforge.arez.Arez;
 import router.fu.RouteState;
 
 public class Example

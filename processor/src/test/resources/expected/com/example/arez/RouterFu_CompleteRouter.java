@@ -1,5 +1,11 @@
 package com.example.arez;
 
+import arez.annotations.Action;
+import arez.annotations.ArezComponent;
+import arez.annotations.Observable;
+import arez.annotations.OnDepsChanged;
+import arez.annotations.PreDispose;
+import arez.annotations.Track;
 import elemental2.core.JsRegExp;
 import elemental2.dom.Window;
 import java.util.Arrays;
@@ -12,12 +18,6 @@ import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
-import org.realityforge.arez.annotations.Action;
-import org.realityforge.arez.annotations.ArezComponent;
-import org.realityforge.arez.annotations.Observable;
-import org.realityforge.arez.annotations.OnDepsChanged;
-import org.realityforge.arez.annotations.PreDispose;
-import org.realityforge.arez.annotations.Track;
 import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.MatchResult;

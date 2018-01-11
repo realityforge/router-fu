@@ -1,5 +1,9 @@
 package com.example.arez;
 
+import arez.annotations.Action;
+import arez.annotations.ArezComponent;
+import arez.annotations.Observable;
+import arez.annotations.PreDispose;
 import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,10 +12,6 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.PostConstruct;
-import org.realityforge.arez.annotations.Action;
-import org.realityforge.arez.annotations.ArezComponent;
-import org.realityforge.arez.annotations.Observable;
-import org.realityforge.arez.annotations.PreDispose;
 import router.fu.HashBackend;
 import router.fu.Location;
 import router.fu.RouteState;
