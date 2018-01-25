@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.06](https://github.com/realityforge/router-fu/tree/v0.06) (2018-01-25)
+[Full Changelog](https://github.com/realityforge/router-fu/compare/v0.05...v0.06)
 
 ##### Changed
 * 💥 **\[core\]** Upgrade Arez to version `0.43`.
