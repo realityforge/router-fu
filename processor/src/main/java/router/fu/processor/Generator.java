@@ -22,7 +22,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
-import javax.annotation.PostConstruct;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -43,6 +42,7 @@ final class Generator
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
   private static final ClassName HASH_BACKEND_TYPE = ClassName.get( "router.fu", "HashBackend" );
   private static final ClassName LOCATION_TYPE = ClassName.get( "router.fu", "Location" );
+  private static final ClassName POST_CONSTRUCT_TYPE = ClassName.get( "arez.annotations", "PostConstruct" );
   private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "arez.annotations", "PreDispose" );
   private static final ClassName ACTION_TYPE = ClassName.get( "arez.annotations", "Action" );
   private static final ClassName OBSERVABLE_TYPE = ClassName.get( "arez.annotations", "Observable" );
@@ -322,7 +322,7 @@ final class Generator
   {
     final MethodSpec.Builder method = MethodSpec.methodBuilder( "postConstruct" );
     method.addModifiers( Modifier.FINAL );
-    method.addAnnotation( PostConstruct.class );
+    method.addAnnotation( POST_CONSTRUCT_TYPE );
     method.addStatement( "$N.activate()", FIELD_PREFIX + "router" );
     builder.addMethod( method.build() );
   }
