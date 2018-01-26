@@ -23,7 +23,7 @@ import router.fu.Router;
     allowEmpty = true
 )
 @Generated("router.fu.processor.RouterProcessor")
-public class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService {
+public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService {
   private final Router $fu$_router;
 
   private Location $fu$_location;

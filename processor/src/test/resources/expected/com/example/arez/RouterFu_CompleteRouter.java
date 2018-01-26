@@ -33,7 +33,7 @@ import router.fu.Segment;
     allowEmpty = true
 )
 @Generated("router.fu.processor.RouterProcessor")
-public class RouterFu_CompleteRouter extends CompleteRouter implements CompleteRouterService {
+public abstract class RouterFu_CompleteRouter extends CompleteRouter implements CompleteRouterService {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
   private final Parameter $fu$_eventCode_1643987249 = new Parameter( "eventCode", new JsRegExp( "[0-9]+" ) );

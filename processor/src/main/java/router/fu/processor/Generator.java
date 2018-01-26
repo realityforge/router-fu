@@ -207,6 +207,7 @@ final class Generator
           addMember( "nameIncludesId", "false" ).
           addMember( "allowEmpty", "true" );
       builder.addAnnotation( annotation.build() );
+      builder.addModifiers( Modifier.ABSTRACT );
     }
 
     ProcessorUtil.copyAccessModifiers( element, builder );
