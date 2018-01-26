@@ -4,7 +4,7 @@ import arez.annotations.ArezComponent;
 import arez.annotations.Observable;
 
 @ArezComponent
-public class AuthState
+public abstract class AuthState
 {
   private String _username;
 
