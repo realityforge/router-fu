@@ -18,7 +18,7 @@ import router.fu.RouteState;
 import router.fu.Router;
 
 @ArezComponent(
-    type = "ArezRouter",
+    name = "ArezRouter",
     nameIncludesId = false,
     allowEmpty = true
 )

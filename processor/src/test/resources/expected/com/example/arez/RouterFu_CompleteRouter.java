@@ -28,7 +28,7 @@ import router.fu.Router;
 import router.fu.Segment;
 
 @ArezComponent(
-    type = "CompleteRouter",
+    name = "CompleteRouter",
     nameIncludesId = false,
     allowEmpty = true
 )

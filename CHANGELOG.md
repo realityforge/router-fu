@@ -3,6 +3,7 @@
 ### Unreleased
 
 ##### Changed
+* 💥 **\[core\]** Upgrade Arez to version `0.60`.
 * 💥 **\[core\]** Upgrade BrainCheck library to version `1.4.0`.
 
 ### [v0.07](https://github.com/realityforge/router-fu/tree/v0.07) (2018-01-26)

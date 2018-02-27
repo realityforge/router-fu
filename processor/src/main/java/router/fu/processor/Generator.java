@@ -203,7 +203,7 @@ final class Generator
     {
       final AnnotationSpec.Builder annotation =
         AnnotationSpec.builder( ClassName.get( "arez.annotations", "ArezComponent" ) ).
-          addMember( "type", "$S", descriptor.getClassName().simpleName() ).
+          addMember( "name", "$S", descriptor.getClassName().simpleName() ).
           addMember( "nameIncludesId", "false" ).
           addMember( "allowEmpty", "true" );
       builder.addAnnotation( annotation.build() );
