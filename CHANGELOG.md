@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+##### Changed
+* 💥 **\[core\]** Upgrade BrainCheck library to version `1.4.0`.
+
 ### [v0.07](https://github.com/realityforge/router-fu/tree/v0.07) (2018-01-26)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.06...v0.07)
 
