@@ -31,11 +31,11 @@ artifacts:
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.94
 
-  arez_annotations: org.realityforge.arez:arez-annotations:jar:gwt:0.61
-  arez_core: org.realityforge.arez:arez-core:jar:gwt:0.61
-  arez_processor: org.realityforge.arez:arez-processor:jar:0.61
-  arez_component: org.realityforge.arez:arez-component:jar:gwt:0.61
-  arez_extras: org.realityforge.arez:arez-extras:jar:gwt:0.61
+  arez_annotations: org.realityforge.arez:arez-annotations:jar:0.75
+  arez_core: org.realityforge.arez:arez-core:jar:0.75
+  arez_processor: org.realityforge.arez:arez-processor:jar:0.75
+  arez_component: org.realityforge.arez:arez-component:jar:0.75
+  arez_extras: org.realityforge.arez:arez-extras:jar:0.75
 
   autoservice: com.google.auto.service:auto-service:jar:1.0-rc3
   autocommon: com.google.auto:auto-common:jar:0.8
