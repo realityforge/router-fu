@@ -2,11 +2,13 @@ package router.fu.processor;
 
 import arez.processor.ArezProcessor;
 import com.google.common.collect.ImmutableList;
+import com.google.testing.compile.Compilation;
 import com.google.testing.compile.Compiler;
 import com.google.testing.compile.JavaFileObjects;
 import com.google.testing.compile.JavaSourceSubjectFactory;
 import com.google.testing.compile.JavaSourcesSubjectFactory;
 import java.io.File;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -71,13 +73,28 @@ abstract class AbstractRouterProcessorTest
     // when outputFiles() is true
     if ( outputFiles() )
     {
-      final ImmutableList<JavaFileObject> fileObjects =
-        Compiler.javac().withProcessors( new RouterProcessor(), new ArezProcessor() ).
-          compile( inputs ).generatedSourceFiles();
+      final Compilation compilation =
+        Compiler.javac().withProcessors( new RouterProcessor(), new ArezProcessor() ).compile( inputs );
+
+      final Compilation.Status status = compilation.status();
+      if ( Compilation.Status.SUCCESS != status )
+      {
+        /*
+         * Ugly hackery that marks the compile as successful so we can emit output onto filesystem. This could
+         * result in java code that is not compilable emitted to filesystem. This re-running determining problems
+         * a little easier even if it does make re-running tests from IDE a little harder
+         */
+        final Field field = compilation.getClass().getDeclaredField( "status" );
+        field.setAccessible( true );
+        field.set( compilation, Compilation.Status.SUCCESS );
+      }
+
+      final ImmutableList<JavaFileObject> fileObjects = compilation.generatedSourceFiles();
       for ( final JavaFileObject fileObject : fileObjects )
       {
         final Path target = fixtureDir().resolve( "expected/" + fileObject.getName().replace( "/SOURCE_OUTPUT/", "" ) );
-        if ( target.toFile().getName().startsWith( "Arez_" ) )
+        final String filename = target.toFile().getName();
+        if ( filename.startsWith( "Arez_" ) || filename.contains( "_Arez_" ) )
         {
           continue;
         }
@@ -93,11 +110,18 @@ abstract class AbstractRouterProcessorTest
         }
         Files.copy( fileObject.openInputStream(), target );
       }
-    }
-    for ( final String output : outputs )
-    {
-      final Path path = fixtureDir().resolve( output );
-      assertTrue( path.toFile().exists(), "Expected output file to exist: " + path );
+
+      if ( Compilation.Status.SUCCESS != status )
+      {
+        // Restore old status
+        final Field field = compilation.getClass().getDeclaredField( "status" );
+        field.setAccessible( true );
+        field.set( compilation, status );
+
+        // This next line will generate an error
+        //noinspection ResultOfMethodCallIgnored
+        compilation.generatedSourceFiles();
+      }
     }
     final JavaFileObject firstExpected = fixture( outputs.get( 0 ) );
     final JavaFileObject[] restExpected =

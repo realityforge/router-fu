@@ -117,22 +117,25 @@ public class RouterFu_RouteWithNonTargetParameters extends RouteWithNonTargetPar
     for ( int i = 0; i < 2; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
-        case 0:;
-        if ( null != state && state.getRoute() == $fu$_route_regionFilter ) {
-          setRegionFilterRouteState( state );
-          routeStartIndex++;
-        } else {
-          setRegionFilterRouteState( null );
+        case 0: {
+          if ( null != state && state.getRoute() == $fu$_route_regionFilter ) {
+            setRegionFilterRouteState( state );
+            routeStartIndex++;
+          } else {
+            setRegionFilterRouteState( null );
+          }
+          break;
+        } case 1: {
+          if ( null != state && state.getRoute() == $fu$_route_region ) {
+            setRegionRouteState( state );
+            routeStartIndex++;
+          } else {
+            setRegionRouteState( null );
+          }
+          break;
+        } default: {
+          break;
         }
-        break;
-        case 1:;
-        if ( null != state && state.getRoute() == $fu$_route_region ) {
-          setRegionRouteState( state );
-          routeStartIndex++;
-        } else {
-          setRegionRouteState( null );
-        }
-        break;
       }
     }
   }

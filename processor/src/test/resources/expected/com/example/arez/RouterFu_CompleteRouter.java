@@ -345,43 +345,46 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
     for ( int i = 0; i < 4; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
-        case 0:;
-        if ( null != state && state.getRoute() == $fu$_route_regionFilter ) {
-          setRegionFilterRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode ) );
-        } else {
-          setRegionFilterRouteState( null );
+        case 0: {
+          if ( null != state && state.getRoute() == $fu$_route_regionFilter ) {
+            setRegionFilterRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode ) );
+          } else {
+            setRegionFilterRouteState( null );
+          }
+          break;
+        } case 1: {
+          if ( null != state && state.getRoute() == $fu$_route_region ) {
+            setRegionRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          } else {
+            setRegionRouteState( null );
+          }
+          break;
+        } case 2: {
+          if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
+            setRegionEventsRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          } else {
+            setRegionEventsRouteState( null );
+          }
+          break;
+        } case 3: {
+          if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
+            setRegionEventRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+            setEventCode2( state.getParameterValue( $fu$_eventCode_1643987249 ) );
+          } else {
+            setRegionEventRouteState( null );
+          }
+          break;
+        } default: {
+          break;
         }
-        break;
-        case 1:;
-        if ( null != state && state.getRoute() == $fu$_route_region ) {
-          setRegionRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-        } else {
-          setRegionRouteState( null );
-        }
-        break;
-        case 2:;
-        if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
-          setRegionEventsRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-        } else {
-          setRegionEventsRouteState( null );
-        }
-        break;
-        case 3:;
-        if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
-          setRegionEventRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-          setEventCode2( state.getParameterValue( $fu$_eventCode_1643987249 ) );
-        } else {
-          setRegionEventRouteState( null );
-        }
-        break;
       }
     }
   }

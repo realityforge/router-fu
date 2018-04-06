@@ -116,15 +116,18 @@ public class RouterFu_NonDefaultNameParameter extends NonDefaultNameParameter im
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
-        case 0:;
-        if ( null != state && state.getRoute() == $fu$_route_region ) {
-          setRegionRouteState( state );
-          routeStartIndex++;
-          setFoo( state.getParameterValue( $fu$_regionCode_821487049 ) );
-        } else {
-          setRegionRouteState( null );
+        case 0: {
+          if ( null != state && state.getRoute() == $fu$_route_region ) {
+            setRegionRouteState( state );
+            routeStartIndex++;
+            setFoo( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          } else {
+            setRegionRouteState( null );
+          }
+          break;
+        } default: {
+          break;
         }
-        break;
       }
     }
   }

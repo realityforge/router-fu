@@ -5,6 +5,8 @@
 ##### Changed
 * 💥 **\[core\]** Upgrade Arez to version `0.75`.
 * 💥 **\[core\]** Upgrade BrainCheck library to version `1.5.0`.
+* **\[processor\]** Improve the generation of switch statement in router so it is easier to read and
+  so that findbugs does not generate warnings.
 
 ### [v0.08](https://github.com/realityforge/router-fu/tree/v0.08) (2018-02-28)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.07...v0.08)

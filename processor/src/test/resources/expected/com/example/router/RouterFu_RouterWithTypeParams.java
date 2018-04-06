@@ -41,6 +41,9 @@ public class RouterFu_RouterWithTypeParams<T extends Integer> extends RouterWith
     for ( int i = 0; i < 0; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
+        default: {
+          break;
+        }
       }
     }
   }

@@ -91,14 +91,17 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
-        case 0:;
-        if ( null != state && state.getRoute() == $fu$_route_A ) {
-          setARouteState( state );
-          routeStartIndex++;
-        } else {
-          setARouteState( null );
+        case 0: {
+          if ( null != state && state.getRoute() == $fu$_route_A ) {
+            setARouteState( state );
+            routeStartIndex++;
+          } else {
+            setARouteState( null );
+          }
+          break;
+        } default: {
+          break;
         }
-        break;
       }
     }
   }

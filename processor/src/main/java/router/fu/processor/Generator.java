@@ -907,10 +907,18 @@ final class Generator
                        ROUTE_STATE_TYPE );
     final CodeBlock.Builder switchBlock = CodeBlock.builder();
     switchBlock.beginControlFlow( "switch ( i )" );
+    final CodeBlock.Builder bodyBlock = CodeBlock.builder();
     int index = 0;
     for ( final RouteDescriptor route : routes )
     {
-      switchBlock.addStatement( "case " + index + ":" );
+      if ( 0 == index )
+      {
+        bodyBlock.beginControlFlow( "case " + index + ":" );
+      }
+      else
+      {
+        bodyBlock.nextControlFlow( "case " + index + ":" );
+      }
       final CodeBlock.Builder caseBlock = CodeBlock.builder();
       caseBlock.beginControlFlow( "if ( null != state && state.getRoute() == $N )",
                                   ROUTE_FIELD_PREFIX + route.getName() );
@@ -931,10 +939,22 @@ final class Generator
       caseBlock.addStatement( "$N( null )", "set" + toPascalCaseName( route.getName() ) + "RouteState" );
       caseBlock.endControlFlow();
 
-      switchBlock.add( caseBlock.build() );
-      switchBlock.addStatement( "break" );
+      bodyBlock.add( caseBlock.build() );
+      bodyBlock.addStatement( "break" );
       index++;
     }
+    if ( 0 == index )
+    {
+      bodyBlock.beginControlFlow( "default:" );
+    }
+    else
+    {
+      bodyBlock.nextControlFlow( "default:" );
+    }
+
+    bodyBlock.addStatement( "break" );
+    bodyBlock.endControlFlow();
+    switchBlock.add( bodyBlock.build() );
     switchBlock.endControlFlow();
     loop.add( switchBlock.build() );
     loop.endControlFlow();

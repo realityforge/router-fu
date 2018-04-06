@@ -63,6 +63,9 @@ public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRout
     for ( int i = 0; i < 0; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
+        default: {
+          break;
+        }
       }
     }
   }

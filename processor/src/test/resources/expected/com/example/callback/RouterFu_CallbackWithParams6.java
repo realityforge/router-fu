@@ -90,14 +90,17 @@ public class RouterFu_CallbackWithParams6 extends CallbackWithParams6 implements
     for ( int i = 0; i < 1; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
-        case 0:;
-        if ( null != state && state.getRoute() == $fu$_route_region ) {
-          setRegionRouteState( state );
-          routeStartIndex++;
-        } else {
-          setRegionRouteState( null );
+        case 0: {
+          if ( null != state && state.getRoute() == $fu$_route_region ) {
+            setRegionRouteState( state );
+            routeStartIndex++;
+          } else {
+            setRegionRouteState( null );
+          }
+          break;
+        } default: {
+          break;
         }
-        break;
       }
     }
   }

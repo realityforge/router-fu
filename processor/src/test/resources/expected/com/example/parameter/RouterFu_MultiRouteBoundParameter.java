@@ -210,33 +210,36 @@ public class RouterFu_MultiRouteBoundParameter extends MultiRouteBoundParameter 
     for ( int i = 0; i < 3; i++ ) {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
       switch ( i ) {
-        case 0:;
-        if ( null != state && state.getRoute() == $fu$_route_region ) {
-          setRegionRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-        } else {
-          setRegionRouteState( null );
+        case 0: {
+          if ( null != state && state.getRoute() == $fu$_route_region ) {
+            setRegionRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          } else {
+            setRegionRouteState( null );
+          }
+          break;
+        } case 1: {
+          if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
+            setRegionEventsRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          } else {
+            setRegionEventsRouteState( null );
+          }
+          break;
+        } case 2: {
+          if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
+            setRegionEventRouteState( state );
+            routeStartIndex++;
+            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+          } else {
+            setRegionEventRouteState( null );
+          }
+          break;
+        } default: {
+          break;
         }
-        break;
-        case 1:;
-        if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
-          setRegionEventsRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-        } else {
-          setRegionEventsRouteState( null );
-        }
-        break;
-        case 2:;
-        if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
-          setRegionEventRouteState( state );
-          routeStartIndex++;
-          setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-        } else {
-          setRegionEventRouteState( null );
-        }
-        break;
       }
     }
   }
