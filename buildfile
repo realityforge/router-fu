@@ -134,7 +134,6 @@ define 'router-fu' do
                  :arez_core,
                  :arez_processor,
                  :arez_component,
-                 :arez_extras,
                  :javapoet,
                  :guava,
                  :gwt_user
