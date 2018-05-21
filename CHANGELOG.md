@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* 💥 **\[core\]** Upgrade Arez to version `0.84`.
 * 💥 **\[core\]** Upgrade `com.google.jsinterop:base` library to version `1.0.0-beta-3`.
 * 💥 **\[core\]** Upgrade `com.google.elemental2:*` libraries to version `1.0.0-beta-3`.
 * Fix bug that resulted in inclusion in the package of the gwt compile output.
