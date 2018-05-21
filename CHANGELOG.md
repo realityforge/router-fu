@@ -4,6 +4,7 @@
 
 * 💥 **\[core\]** Upgrade `com.google.jsinterop:base` library to version `1.0.0-beta-3`.
 * 💥 **\[core\]** Upgrade `com.google.elemental2:*` libraries to version `1.0.0-beta-3`.
+* Fix bug that resulted in inclusion in the package of the gwt compile output.
 
 ### [v0.09](https://github.com/realityforge/router-fu/tree/v0.09) (2018-04-06)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.08...v0.09)
