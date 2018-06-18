@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.11](https://github.com/realityforge/router-fu/tree/v0.11) (2018-06-18)
+[Full Changelog](https://github.com/realityforge/router-fu/compare/v0.10...v0.11)
 
 * Remove dependency on anodoc library.
 * 💥 **\[core\]** Upgrade Arez to version `0.92`.
