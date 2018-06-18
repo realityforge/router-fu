@@ -4,7 +4,6 @@ require 'buildr/single_intermediate_layout'
 require 'buildr/gwt'
 require 'buildr/jacoco'
 
-PROVIDED_DEPS = [:javax_jsr305]
 TEST_DEPS = [:guiceyloops]
 
 # JDK options passed to test environment. Essentially turns assertions on.
@@ -24,9 +23,7 @@ define 'router-fu' do
 
   desc 'Annotations for defining a router'
   define 'annotations' do
-    pom.provided_dependencies.concat PROVIDED_DEPS
-
-    compile.with PROVIDED_DEPS
+    compile.with :javax_annotation
 
     gwt_enhance(project)
 
@@ -41,9 +38,7 @@ define 'router-fu' do
 
   desc 'The core router-fu code'
   define 'core' do
-    pom.provided_dependencies.concat PROVIDED_DEPS
-
-    compile.with PROVIDED_DEPS,
+    compile.with :javax_annotation,
                  :jsinterop_base,
                  :jsinterop_annotations,
                  :elemental2_core,
@@ -66,13 +61,11 @@ define 'router-fu' do
 
   desc 'The Annotation processor'
   define 'processor' do
-    pom.provided_dependencies.concat PROVIDED_DEPS
-
     compile.with :autoservice,
                  :autocommon,
                  :javapoet,
                  :guava,
-                 :javax_jsr305
+                 :javax_annotation
 
     test.with :compile_testing,
               Java.tools_jar,
@@ -121,8 +114,6 @@ define 'router-fu' do
   end
 
   define 'example' do
-    pom.provided_dependencies.concat PROVIDED_DEPS
-
     compile.with project('annotations').package(:jar),
                  project('annotations').compile.dependencies,
                  project('core').package(:jar),
