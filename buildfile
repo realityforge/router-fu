@@ -127,13 +127,7 @@ define 'router-fu' do
                  :guava,
                  :gwt_user
 
-    test.options[:properties] = TEST_OPTIONS
-    test.options[:java_args] = ['-ea']
-
     gwt_enhance(project, :modules_complete => true, :package_jars => false)
-
-    test.using :testng
-    test.compile.with TEST_DEPS
 
     # The generators are configured to generate to here.
     iml.main_generated_source_directories << _('generated/processors/main/java')
