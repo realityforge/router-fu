@@ -4,14 +4,6 @@ require 'buildr/single_intermediate_layout'
 require 'buildr/gwt'
 require 'buildr/jacoco'
 
-TEST_DEPS = [:guiceyloops]
-
-# JDK options passed to test environment. Essentially turns assertions on.
-TEST_OPTIONS =
-  {
-    'braincheck.environment' => 'development'
-  }
-
 desc 'router-fu: A GWT based state router'
 define 'router-fu' do
   project.group = 'org.realityforge.router.fu'
@@ -46,7 +38,7 @@ define 'router-fu' do
                  :elemental2_promise,
                  :braincheck
 
-    test.options[:properties] = TEST_OPTIONS
+    test.options[:properties] = { 'braincheck.environment' => 'development' }
     test.options[:java_args] = ['-ea']
 
     gwt_enhance(project)
@@ -56,7 +48,7 @@ define 'router-fu' do
     package(:javadoc)
 
     test.using :testng
-    test.compile.with TEST_DEPS
+    test.compile.with :guiceyloops
   end
 
   desc 'The Annotation processor'
@@ -103,7 +95,7 @@ define 'router-fu' do
 
     test.using :testng
     test.options[:properties] = { 'router-fu.fixture_dir' => _('src/test/resources') }
-    test.compile.with TEST_DEPS
+    test.compile.with :guiceyloops
 
     # The generators are configured to generate to here.
     iml.test_source_directories << _('generated/processors/test/java')
