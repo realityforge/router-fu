@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import org.realityforge.anodoc.TestOnly;
 
 /**
  * Primary interface for performing routing.
@@ -122,7 +121,6 @@ public final class Router
     return new Location( location, states );
   }
 
-  @TestOnly
   @Nullable
   Object getCallback()
   {
