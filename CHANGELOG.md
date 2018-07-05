@@ -3,6 +3,10 @@
 ### Unreleased
 
 * 💥 **\[core\]** Upgrade Arez to version `0.96`.
+* Ensure that all `BrainCheck` invariant calls are contained within a guard such as
+  `if ( BrainCheckConfig.checkApiInvariants() ) { ... }`. This ensures that GWT2.x is
+  able to perform dead code elimination, including removing the class literals for the
+  lambdas.
 
 ### [v0.11](https://github.com/realityforge/router-fu/tree/v0.11) (2018-06-18)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.10...v0.11)

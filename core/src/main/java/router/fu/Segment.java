@@ -3,6 +3,7 @@ package router.fu;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.realityforge.braincheck.BrainCheckConfig;
 import static org.realityforge.braincheck.Guards.*;
 
 /**
@@ -45,9 +46,12 @@ public final class Segment
   @Nonnull
   public String getPath()
   {
-    apiInvariant( () -> null != _path,
-                  () -> "Segment.getPath() invoked on parameter path element with parameter named '" +
-                        _parameter + "'" );
+    if ( BrainCheckConfig.checkApiInvariants() )
+    {
+      apiInvariant( () -> null != _path,
+                    () -> "Segment.getPath() invoked on parameter path element with parameter named '" +
+                          _parameter + "'" );
+    }
     assert null != _path;
     return _path;
   }
@@ -60,8 +64,11 @@ public final class Segment
   @Nonnull
   public Parameter getParameter()
   {
-    apiInvariant( () -> null != _parameter,
-                  () -> "Segment.getParameter() invoked on non-parameter path element with value '" + _path + "'" );
+    if ( BrainCheckConfig.checkApiInvariants() )
+    {
+      apiInvariant( () -> null != _parameter,
+                    () -> "Segment.getParameter() invoked on non-parameter path element with value '" + _path + "'" );
+    }
     assert null != _parameter;
     return _parameter;
   }

@@ -91,8 +91,11 @@ public final class Route
   @Nonnull
   public String buildLocation( @Nonnull final Map<Parameter, String> parameters )
   {
-    apiInvariant( this::isNavigationTarget,
-                  () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
+    if ( BrainCheckConfig.checkApiInvariants() )
+    {
+      apiInvariant( this::isNavigationTarget,
+                    () -> "Route named '" + _name + "' can not have buildPath() invoked on it as is not a target." );
+    }
     assert null != _segments;
     final HashSet<Parameter> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
     final StringBuilder sb = new StringBuilder();
@@ -101,20 +104,23 @@ public final class Route
       if ( segment.isParameter() )
       {
         final Parameter parameterKey = segment.getParameter();
-        apiInvariant( () -> parameters.containsKey( parameterKey ),
-                      () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
-                            "supplied when building path but no such parameter was supplied. " +
-                            "Parameters: " + parameters );
         if ( BrainCheckConfig.checkApiInvariants() )
         {
+          apiInvariant( () -> parameters.containsKey( parameterKey ),
+                        () -> "Route named '" + _name + "' expects a parameter named '" + parameterKey + "' to be " +
+                              "supplied when building path but no such parameter was supplied. " +
+                              "Parameters: " + parameters );
           assert null != usedParameters;
           usedParameters.add( parameterKey );
         }
         final String parameterValue = parameters.get( parameterKey );
-        apiInvariant( () -> null == segment.getParameter().getValidator() ||
-                            segment.getParameter().getValidator().test( parameterValue ),
-                      () -> "Route named '" + _name + "' has a parameter named '" + parameterKey + "' and " +
-                            "a value '" + parameterValue + "' has been passed that does not pass validation check." );
+        if ( BrainCheckConfig.checkApiInvariants() )
+        {
+          apiInvariant( () -> null == segment.getParameter().getValidator() ||
+                              segment.getParameter().getValidator().test( parameterValue ),
+                        () -> "Route named '" + _name + "' has a parameter named '" + parameterKey + "' and " +
+                              "a value '" + parameterValue + "' has been passed that does not pass validation check." );
+        }
         sb.append( parameterValue );
       }
       else
@@ -198,9 +204,12 @@ public final class Route
   @Nonnull
   Parameter getParameterByIndex( final int index )
   {
-    invariant( () -> _parameters.length > index,
-               () -> "Route named '" + _name + "' expects a parameter at index " + index + " when matching " +
-                     "location but no such parameter has been defined." );
+    if ( BrainCheckConfig.checkInvariants() )
+    {
+      invariant( () -> _parameters.length > index,
+                 () -> "Route named '" + _name + "' expects a parameter at index " + index + " when matching " +
+                       "location but no such parameter has been defined." );
+    }
     return _parameters[ index ];
   }
 }
