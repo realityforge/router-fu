@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public class SegmentTest
+  extends AbstractRouterFuTest
 {
   @Test
   public void staticPath()

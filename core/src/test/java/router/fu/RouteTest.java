@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public class RouteTest
+  extends AbstractRouterFuTest
 {
   @DataProvider( name = "pathToRegex" )
   public static Object[][] pathToRegexData()

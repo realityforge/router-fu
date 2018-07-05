@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 public class LocationTest
+  extends AbstractRouterFuTest
 {
   @Test
   public void basicOperation()
