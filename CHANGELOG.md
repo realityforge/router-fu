@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.13](https://github.com/realityforge/router-fu/tree/v0.13) (2018-07-12)
+[Full Changelog](https://github.com/realityforge/router-fu/compare/v0.12...v0.13)
 
 * 💥 **\[core\]** Upgrade Arez to version `0.97`.
 * **\[processor\]** Stop annotating the generated `build*Location(...)` methods with
