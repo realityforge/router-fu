@@ -3,6 +3,9 @@
 ### Unreleased
 
 * 💥 **\[core\]** Upgrade Arez to version `0.97`.
+* **\[processor\]** Stop annotating the generated `build*Location(...)` methods with
+  `@arez.annotations.Action` as they do not read or write arez state and thus it is
+  not needed.
 
 ### [v0.12](https://github.com/realityforge/router-fu/tree/v0.12) (2018-07-06)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.11...v0.12)

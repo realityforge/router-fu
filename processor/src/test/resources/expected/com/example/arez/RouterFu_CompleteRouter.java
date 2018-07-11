@@ -270,9 +270,6 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
   @Override
   public String buildRegionLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
@@ -287,9 +284,6 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
   @Override
   public String buildRegionEventsLocation(@Nonnull final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
@@ -304,9 +298,6 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @Nonnull
-  @Action(
-      mutation = false
-  )
   @Override
   public String buildRegionEventLocation(@Nonnull final String regionCode,
       @Nonnull final String eventCode) {

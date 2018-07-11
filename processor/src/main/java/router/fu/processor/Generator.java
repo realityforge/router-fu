@@ -794,10 +794,6 @@ final class Generator
       MethodSpec.methodBuilder( "build" + toPascalCaseName( route.getName() ) + "Location" );
     method.addModifiers( Modifier.PUBLIC );
     method.addAnnotation( NONNULL_CLASSNAME );
-    if ( descriptor.isArezComponent() )
-    {
-      method.addAnnotation( AnnotationSpec.builder( ACTION_TYPE ).addMember( "mutation", "false" ).build() );
-    }
     method.addAnnotation( Override.class );
     method.returns( String.class );
 
