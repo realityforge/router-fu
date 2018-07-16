@@ -25,7 +25,7 @@ artifacts:
 
   braincheck: org.realityforge.braincheck:braincheck:jar:1.9.0
 
-  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.94
+  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.95
 
   arez_core: org.realityforge.arez:arez-core:jar:0.97
   arez_processor: org.realityforge.arez:arez-processor:jar:0.97
