@@ -3,6 +3,7 @@
 ### Unreleased
 
 * 💥 **\[core\]** Upgrade Arez to version `0.105`.
+* 💥 Merge the `router-fu-annotations` artifact into `router-fu-core` to simplify usage.
 
 ### [v0.13](https://github.com/realityforge/router-fu/tree/v0.13) (2018-07-12)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.12...v0.13)

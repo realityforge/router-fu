@@ -13,21 +13,6 @@ define 'router-fu' do
 
   project.version = ENV['PRODUCT_VERSION'] if ENV['PRODUCT_VERSION']
 
-  desc 'Annotations for defining a router'
-  define 'annotations' do
-    compile.with :javax_annotation
-
-    gwt_enhance(project)
-
-    package(:jar)
-    package(:sources)
-    package(:javadoc)
-
-    # This dependency is added to make it easy to cross reference
-    # core classes in javadocs but code should not make use of it.
-    iml.main_dependencies << project('core').package(:jar)
-  end
-
   desc 'The core router-fu code'
   define 'core' do
     compile.with :javax_annotation,
@@ -64,8 +49,6 @@ define 'router-fu' do
               :truth,
               :arez_core,
               :arez_processor,
-              project('annotations').package(:jar),
-              project('annotations').compile.dependencies,
               project('core').package(:jar),
               project('core').compile.dependencies
 
@@ -104,9 +87,7 @@ define 'router-fu' do
   end
 
   define 'example' do
-    compile.with project('annotations').package(:jar),
-                 project('annotations').compile.dependencies,
-                 project('core').package(:jar),
+    compile.with project('core').package(:jar),
                  project('core').compile.dependencies,
                  project('processor').package(:jar),
                  :arez_core,
@@ -121,7 +102,7 @@ define 'router-fu' do
     iml.main_generated_source_directories << _('generated/processors/main/java')
   end
 
-  doc.from(projects(%w(annotations core))).
+  doc.from(projects(%w(core))).
     using(:javadoc,
           :windowtitle => 'RouterFu API Documentation',
           :linksource => true,
