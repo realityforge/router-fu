@@ -32,7 +32,7 @@ public class Example
       addEventListener( "click", e -> AppState.ROUTER.updateRegionCode( String.valueOf( new Random().nextInt() ) ) );
     DomGlobal.document.querySelector( "#randomize_eventId" ).
       addEventListener( "click", e -> AppState.ROUTER.updateEventId( String.valueOf( new Random().nextInt() ) ) );
-    Arez.context().autorun( this::renderView );
+    Arez.context().observer( this::renderView );
   }
 
   private void renderView()
