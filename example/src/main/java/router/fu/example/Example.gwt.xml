@@ -3,6 +3,7 @@
   <inherits name="router.fu.RouterFuDev"/>
   <inherits name="arez.ArezDev"/>
   <inherits name="arez.component.Component"/>
+  <inherits name="com.google.gwt.core.Core"/>
 
   <entry-point class='router.fu.example.Example'/>
 
