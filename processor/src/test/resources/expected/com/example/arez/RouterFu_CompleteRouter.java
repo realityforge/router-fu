@@ -2,11 +2,12 @@ package com.example.arez;
 
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
+import arez.annotations.Executor;
 import arez.annotations.Observable;
-import arez.annotations.OnDepsChanged;
+import arez.annotations.Observe;
+import arez.annotations.OnDepsChange;
 import arez.annotations.PostConstruct;
 import arez.annotations.PreDispose;
-import arez.annotations.Track;
 import elemental2.core.JsRegExp;
 import elemental2.dom.Window;
 import java.util.Arrays;
@@ -103,14 +104,15 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
     return $fu$_regionCode;
   }
 
-  @Track(
-      name = "regionFilterCallback"
+  @Observe(
+      name = "regionFilterCallback",
+      executor = Executor.APPLICATION
   )
   MatchResult regionFilterCallback() {
     return super.regionFilterCallback();
   }
 
-  @OnDepsChanged(
+  @OnDepsChange(
       name = "regionFilterCallback"
   )
   final void onRegionFilterDepsChanged() {

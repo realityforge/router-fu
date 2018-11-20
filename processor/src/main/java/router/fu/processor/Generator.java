@@ -46,8 +46,9 @@ final class Generator
   private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "arez.annotations", "PreDispose" );
   private static final ClassName ACTION_TYPE = ClassName.get( "arez.annotations", "Action" );
   private static final ClassName OBSERVABLE_TYPE = ClassName.get( "arez.annotations", "Observable" );
-  private static final ClassName TRACK_TYPE = ClassName.get( "arez.annotations", "Track" );
-  private static final ClassName ON_DEPS_CHANGED_TYPE = ClassName.get( "arez.annotations", "OnDepsChanged" );
+  private static final ClassName OBSERVE_TYPE = ClassName.get( "arez.annotations", "Observe" );
+  private static final ClassName EXECUTOR_TYPE = ClassName.get( "arez.annotations", "Executor" );
+  private static final ClassName ON_DEPS_CHANGE_TYPE = ClassName.get( "arez.annotations", "OnDepsChange" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
@@ -736,8 +737,9 @@ final class Generator
     final ExecutableType callbackType = route.getCallbackType();
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( callback.getSimpleName().toString() );
-    method.addAnnotation( AnnotationSpec.builder( TRACK_TYPE )
+    method.addAnnotation( AnnotationSpec.builder( OBSERVE_TYPE )
                             .addMember( "name", "$S", route.getName() + "Callback" )
+                            .addMember( "executor", "$T.APPLICATION", EXECUTOR_TYPE )
                             .build() );
     method.returns( MATCH_RESULT_TYPE );
     ProcessorUtil.copyDocumentedAnnotations( callback, method );
@@ -777,7 +779,7 @@ final class Generator
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "on" + toPascalCaseName( route.getName() ) + "DepsChanged" );
-    method.addAnnotation( AnnotationSpec.builder( ON_DEPS_CHANGED_TYPE )
+    method.addAnnotation( AnnotationSpec.builder( ON_DEPS_CHANGE_TYPE )
                             .addMember( "name", "$S", route.getName() + "Callback" )
                             .build() );
     method.addModifiers( Modifier.FINAL );
