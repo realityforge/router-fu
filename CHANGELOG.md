@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Remove deployment from TravisCI infrastructure as it is no longer feasible.
+
 ### [v0.15](https://github.com/realityforge/router-fu/tree/v0.15) (2018-11-20)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.14...v0.15)
 
