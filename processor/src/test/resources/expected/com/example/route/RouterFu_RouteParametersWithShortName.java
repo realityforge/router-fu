@@ -24,7 +24,7 @@ import router.fu.Segment;
 public class RouterFu_RouteParametersWithShortName extends RouteParametersWithShortName implements RouteParametersWithShortNameService {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_A = new Route( "A", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new JsRegExp( "^/regions/([a-zA-Z0-9\\-_]+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_A = new Route( "A", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new JsRegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 

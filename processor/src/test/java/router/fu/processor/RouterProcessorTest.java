@@ -25,6 +25,7 @@ public class RouterProcessorTest
         new Object[]{ "com.example.callback.CallbackWithParams5" },
         new Object[]{ "com.example.callback.CallbackWithParams6" },
         new Object[]{ "com.example.parameter.BasicBoundParameter" },
+        new Object[]{ "com.example.parameter.URIEncodedParameter" },
         new Object[]{ "com.example.parameter.MultiRouteBoundParameter" },
         new Object[]{ "com.example.parameter.NonDefaultNameParameter" },
         new Object[]{ "com.example.parameter.SelectiveMultiRouteBoundParameter" },
