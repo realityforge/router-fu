@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.16](https://github.com/realityforge/router-fu/tree/v0.16) (2018-12-18)
+[Full Changelog](https://github.com/realityforge/router-fu/compare/v0.15...v0.16)
 
 * Remove deployment from TravisCI infrastructure as it is no longer feasible.
 * **\[processor\]** Allow uri encoding of parameters.
