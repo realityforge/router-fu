@@ -475,7 +475,7 @@ final class Generator
       }
       else
       {
-        sb.append( "([a-zA-Z0-9\\-_]+)" );
+        sb.append( "((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)" );
       }
     }
     if ( !route.isPartialMatch() )
