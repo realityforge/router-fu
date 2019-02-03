@@ -739,7 +739,7 @@ final class Generator
       MethodSpec.methodBuilder( callback.getSimpleName().toString() );
     method.addAnnotation( AnnotationSpec.builder( OBSERVE_TYPE )
                             .addMember( "name", "$S", route.getName() + "Callback" )
-                            .addMember( "executor", "$T.APPLICATION", EXECUTOR_TYPE )
+                            .addMember( "executor", "$T.EXTERNAL", EXECUTOR_TYPE )
                             .build() );
     method.returns( MATCH_RESULT_TYPE );
     ProcessorUtil.copyDocumentedAnnotations( callback, method );

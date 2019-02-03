@@ -106,7 +106,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
 
   @Observe(
       name = "regionFilterCallback",
-      executor = Executor.APPLICATION
+      executor = Executor.EXTERNAL
   )
   MatchResult regionFilterCallback() {
     return super.regionFilterCallback();
