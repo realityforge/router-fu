@@ -5,6 +5,7 @@
 * Upgrade Elemental2 artifacts from to groupId `org.realityforge.com.google.elemental2`
   and version `1.0.0-b14-2f97dbe`. This makes it possible to use a newer version of the
   Elemental2 library in downstream products.
+* 💥 **\[core\]** Upgrade Arez to version `0.127`.
 
 ### [v0.16](https://github.com/realityforge/router-fu/tree/v0.16) (2018-12-18)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.15...v0.16)
