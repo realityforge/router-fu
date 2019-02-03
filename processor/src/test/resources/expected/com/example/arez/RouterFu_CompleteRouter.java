@@ -105,17 +105,14 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @Observe(
-      name = "regionFilterCallback",
       executor = Executor.EXTERNAL
   )
   MatchResult regionFilterCallback() {
     return super.regionFilterCallback();
   }
 
-  @OnDepsChange(
-      name = "regionFilterCallback"
-  )
-  final void onRegionFilterDepsChanged() {
+  @OnDepsChange
+  final void onRegionFilterCallbackDepsChange() {
     reRoute();
   }
 

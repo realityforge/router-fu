@@ -738,7 +738,6 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( callback.getSimpleName().toString() );
     method.addAnnotation( AnnotationSpec.builder( OBSERVE_TYPE )
-                            .addMember( "name", "$S", route.getName() + "Callback" )
                             .addMember( "executor", "$T.EXTERNAL", EXECUTOR_TYPE )
                             .build() );
     method.returns( MATCH_RESULT_TYPE );
@@ -778,10 +777,8 @@ final class Generator
                                                           @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "on" + toPascalCaseName( route.getName() ) + "DepsChanged" );
-    method.addAnnotation( AnnotationSpec.builder( ON_DEPS_CHANGE_TYPE )
-                            .addMember( "name", "$S", route.getName() + "Callback" )
-                            .build() );
+      MethodSpec.methodBuilder( "on" + toPascalCaseName( route.getName() + "Callback" ) + "DepsChange" );
+    method.addAnnotation( ON_DEPS_CHANGE_TYPE );
     method.addModifiers( Modifier.FINAL );
     method.addStatement( "reRoute()" );
     builder.addMethod( method.build() );
