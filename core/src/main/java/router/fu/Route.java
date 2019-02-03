@@ -1,6 +1,7 @@
 package router.fu;
 
 import elemental2.core.JsRegExp;
+import elemental2.core.RegExpResult;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -171,14 +172,14 @@ public final class Route
   @Nullable
   private HashMap<Parameter, String> locationMatch( @Nonnull final String location )
   {
-    final String[] groups = _matcher.exec( Objects.requireNonNull( location ) );
+    final RegExpResult groups = _matcher.exec( Objects.requireNonNull( location ) );
     if ( null != groups )
     {
       final HashMap<Parameter, String> matchData = new HashMap<>();
       //Group 0 is the whole string so we can skip it
       for ( int i = 1; i < groups.length; i++ )
       {
-        final String value = groups[ i ];
+        final String value = groups.getAt( i );
         final int paramIndex = i - 1;
         final Parameter parameter = getParameterByIndex( paramIndex );
         final JsRegExp validator = parameter.getValidator();
