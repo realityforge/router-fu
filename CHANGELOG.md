@@ -1,6 +1,7 @@
 # Change Log
 
-### Unreleased
+### [v0.17](https://github.com/realityforge/router-fu/tree/v0.17) (2019-02-04)
+[Full Changelog](https://github.com/realityforge/router-fu/compare/v0.16...v0.17)
 
 * Upgrade Elemental2 artifacts from to groupId `org.realityforge.com.google.elemental2`
   and version `1.0.0-b14-2f97dbe`. This makes it possible to use a newer version of the
