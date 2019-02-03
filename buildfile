@@ -47,6 +47,8 @@ define 'router-fu' do
     test.with :compile_testing,
               Java.tools_jar,
               :truth,
+              :junit,
+              :hamcrest_core,
               :arez_core,
               :arez_processor,
               project('core').package(:jar),
