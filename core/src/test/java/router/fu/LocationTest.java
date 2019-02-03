@@ -40,7 +40,7 @@ public class LocationTest
     assertEquals( location.getStates().size(), 2 );
     assertEquals( location.getStates().get( 0 ), state1 );
     assertEquals( location.getStates().get( 1 ), state2 );
-    assertEquals( location.getTerminalState(), null );
+    assertNull( location.getTerminalState() );
   }
 
   @Test
@@ -48,7 +48,7 @@ public class LocationTest
   {
     final Location location = new Location( ValueUtil.randomString(), Collections.emptyList() );
     assertEquals( location.getStates().size(), 0 );
-    assertEquals( location.getTerminalState(), null );
+    assertNull( location.getTerminalState() );
   }
 
   @Nonnull

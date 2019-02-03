@@ -24,7 +24,7 @@ public class ParameterTest
     final String name = ValueUtil.randomString();
     final Parameter parameter = new Parameter( name );
     assertEquals( parameter.getName(), name );
-    assertEquals( parameter.getValidator(), null );
+    assertNull( parameter.getValidator() );
     assertEquals( parameter.toString(), name );
   }
 }

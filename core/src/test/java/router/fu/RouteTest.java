@@ -41,8 +41,8 @@ public class RouteTest
     assertNotNull( state );
 
     assertEquals( state.getRoute(), route );
-    assertEquals( state.getParameters().isEmpty(), true );
-    assertEquals( state.isTerminal(), true );
+    assertTrue( state.getParameters().isEmpty() );
+    assertTrue( state.isTerminal() );
   }
 
   @Test
@@ -58,8 +58,8 @@ public class RouteTest
     assertNotNull( state );
 
     assertEquals( state.getRoute(), route );
-    assertEquals( state.getParameters().isEmpty(), true );
-    assertEquals( state.isTerminal(), false );
+    assertTrue( state.getParameters().isEmpty() );
+    assertFalse( state.isTerminal() );
   }
 
   @Test
@@ -116,7 +116,7 @@ public class RouteTest
     assertEquals( state.getParameters().size(), 2 );
     assertEquals( state.getParameters().get( paramA ), "ballarat" );
     assertEquals( state.getParameters().get( paramB ), "42" );
-    assertEquals( state.isTerminal(), true );
+    assertTrue( state.isTerminal() );
   }
 
   @Test
@@ -142,7 +142,7 @@ public class RouteTest
     assertEquals( state.getParameters().size(), 2 );
     assertEquals( state.getParameters().get( paramA ), "ballarat" );
     assertEquals( state.getParameters().get( paramB ), "42" );
-    assertEquals( state.isTerminal(), true );
+    assertTrue( state.isTerminal() );
   }
 
   @Test

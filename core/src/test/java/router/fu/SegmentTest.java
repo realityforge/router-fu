@@ -13,7 +13,7 @@ public class SegmentTest
     final String path = ValueUtil.randomString();
     final Segment segment = new Segment( path );
 
-    assertEquals( segment.isParameter(), false );
+    assertFalse( segment.isParameter() );
     assertEquals( segment.getPath(), path );
 
     final IllegalStateException exception = expectThrows( IllegalStateException.class, segment::getParameter );
@@ -28,7 +28,7 @@ public class SegmentTest
     final Parameter parameter = new Parameter( parameterName, null );
     final Segment segment = new Segment( parameter );
 
-    assertEquals( segment.isParameter(), true );
+    assertTrue( segment.isParameter() );
     assertEquals( segment.getParameter(), parameter );
 
     final IllegalStateException exception = expectThrows( IllegalStateException.class, segment::getPath );
