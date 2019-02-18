@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Update the `org.realityforge.com.google.elemental2` dependency to version `1.0.0-b17-6897368`.
+* Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `1.0.0-b17-6897368`.
 
 ### [v0.17](https://github.com/realityforge/router-fu/tree/v0.17) (2019-02-04)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.16...v0.17)
