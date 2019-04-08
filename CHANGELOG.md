@@ -5,7 +5,7 @@
 * Upgrade the `org.realityforge.arez` artifacts to version `0.133`.
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.15.0`.
 * Upgrade the `org.realityforge.com.google.jsinterop` artifact to version `1.0.0-b2-e6d791f`.
-* Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `1.0.0-b20-bfe6e22`.
+* Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `1.0.0-b21-6a027d2`.
 
 ### [v0.17](https://github.com/realityforge/router-fu/tree/v0.17) (2019-02-04)
 [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.16...v0.17)
