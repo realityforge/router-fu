@@ -28,8 +28,8 @@ artifacts:
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.98
 
-  arez_core: org.realityforge.arez:arez-core:jar:0.133
-  arez_processor: org.realityforge.arez:arez-processor:jar:0.133
+  arez_core: org.realityforge.arez:arez-core:jar:0.135
+  arez_processor: org.realityforge.arez:arez-processor:jar:0.135
 
   autoservice: com.google.auto.service:auto-service:jar:1.0-rc3
   autocommon: com.google.auto:auto-common:jar:0.10
