@@ -222,41 +222,38 @@ public final class RouterProcessor
           if ( TypeKind.DECLARED == paramType.getKind() )
           {
             final DeclaredType type = (DeclaredType) paramType;
-            if ( type.toString().equals( "java.lang.String" ) )
+            switch ( type.toString() )
             {
-              if ( -1 == locationIndex )
-              {
-                locationIndex = i;
-                continue;
-              }
-              else
-              {
-                throw duplicateCallbackParamException( method, "location", locationIndex, i );
-              }
-            }
-            else if ( type.toString().equals( "router.fu.Route" ) )
-            {
-              if ( -1 == routeIndex )
-              {
-                routeIndex = i;
-                continue;
-              }
-              else
-              {
-                throw duplicateCallbackParamException( method, "route", routeIndex, i );
-              }
-            }
-            else if ( type.toString().equals( "java.util.Map<router.fu.Parameter,java.lang.String>" ) )
-            {
-              if ( -1 == parametersIndex )
-              {
-                parametersIndex = i;
-                continue;
-              }
-              else
-              {
-                throw duplicateCallbackParamException( method, "parameters", parametersIndex, i );
-              }
+              case "java.lang.String":
+                if ( -1 == locationIndex )
+                {
+                  locationIndex = i;
+                  continue;
+                }
+                else
+                {
+                  throw duplicateCallbackParamException( method, "location", locationIndex, i );
+                }
+              case "router.fu.Route":
+                if ( -1 == routeIndex )
+                {
+                  routeIndex = i;
+                  continue;
+                }
+                else
+                {
+                  throw duplicateCallbackParamException( method, "route", routeIndex, i );
+                }
+              case "java.util.Map<router.fu.Parameter,java.lang.String>":
+                if ( -1 == parametersIndex )
+                {
+                  parametersIndex = i;
+                  continue;
+                }
+                else
+                {
+                  throw duplicateCallbackParamException( method, "parameters", parametersIndex, i );
+                }
             }
           }
 
