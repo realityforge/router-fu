@@ -45,7 +45,6 @@ public final class RouterProcessor
   extends AbstractProcessor
 {
   private static final Pattern CALLBACK_PATTERN = Pattern.compile( "^([a-z].*)Callback$" );
-
   private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
