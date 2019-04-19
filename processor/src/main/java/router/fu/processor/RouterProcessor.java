@@ -186,7 +186,7 @@ public final class RouterProcessor
                                    @Nonnull final ExecutableElement method,
                                    @Nonnull final AnnotationMirror annotation )
   {
-    final String name = deriveName( method, CALLBACK_PATTERN, getAnnotationParameter( annotation, "name" ) );
+    final String name = deriveCallbackName( method, getAnnotationParameter( annotation, "name" ) );
     if ( null == name )
     {
       throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
@@ -461,15 +461,13 @@ public final class RouterProcessor
   }
 
   @Nullable
-  private String deriveName( @Nonnull final ExecutableElement method,
-                             @Nonnull final Pattern pattern,
-                             @Nonnull final String name )
+  private String deriveCallbackName( @Nonnull final ExecutableElement method, @Nonnull final String name )
     throws RouterProcessorException
   {
     if ( name.isEmpty() )
     {
       final String methodName = method.getSimpleName().toString();
-      final Matcher matcher = pattern.matcher( methodName );
+      final Matcher matcher = RouterProcessor.CALLBACK_PATTERN.matcher( methodName );
       if ( matcher.find() )
       {
         final String candidate = matcher.group( 1 );
