@@ -33,9 +33,6 @@ public class HashBackend
     _window = Objects.requireNonNull( window );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Nonnull
   @Override
   public String getLocation()
@@ -44,9 +41,6 @@ public class HashBackend
     return null == hash ? "" : hash.substring( 1 );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void setLocation( @Nonnull final String hash )
   {
@@ -54,9 +48,6 @@ public class HashBackend
     _window.location.setHash( value );
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Nonnull
   @Override
   public Object addListener( @Nonnull final LocationChangeListener handler )
@@ -66,9 +57,6 @@ public class HashBackend
     return eventListener;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void removeListener( @Nonnull final Object handle )
   {

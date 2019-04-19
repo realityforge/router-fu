@@ -48,9 +48,6 @@ public final class Parameter
     return _validator;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString()
   {
