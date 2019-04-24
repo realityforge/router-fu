@@ -5,7 +5,7 @@
 * Upgrade the `org.realityforge.arez` artifacts to version `0.135`.
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.16.0`.
 * Upgrade the `org.realityforge.com.google.jsinterop` artifact to version `1.0.0-b2-e6d791f`.
-* Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `2.22`.
+* Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `2.23`.
 * Remove `{@inheritDoc}` as it only explicitly indicates that the default behaviour at the expense of significant visual clutter.
 
 ### [v0.17](https://github.com/realityforge/router-fu/tree/v0.17) (2019-02-04)
