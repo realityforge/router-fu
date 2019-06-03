@@ -37,15 +37,26 @@ public class HashBackend
   @Override
   public String getLocation()
   {
-    final String hash = _window.location.getHash();
+    final String hash = _window.location.hash;
     return null == hash ? "" : hash.substring( 1 );
   }
 
   @Override
   public void setLocation( @Nonnull final String hash )
   {
-    final String value = hash.isEmpty() ? null : "#" + hash;
-    _window.location.setHash( value );
+    if ( 0 == hash.length() )
+    {
+      /*
+       * This code is needed to remove the stray #.
+       * See https://stackoverflow.com/questions/1397329/how-to-remove-the-hash-from-window-location-url-with-javascript-without-page-r/5298684#5298684
+       */
+      final String url = _window.location.pathname + _window.location.search;
+      _window.history.pushState( "", DomGlobal.document.title, url );
+    }
+    else
+    {
+      _window.location.hash = hash;
+    }
   }
 
   @Nonnull
