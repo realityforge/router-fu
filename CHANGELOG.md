@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.guiceyloops` artifact to version `0.102`.
 * Upgrade the `au.com.stocksoftware.idea.codestyle` artifact to version `1.14`.
 * Upgrade the `org.realityforge.arez` artifacts to version `0.135`.
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.20.0`.
