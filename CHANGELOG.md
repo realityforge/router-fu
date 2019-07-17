@@ -4,7 +4,7 @@
 
 * Upgrade the `org.realityforge.guiceyloops` artifact to version `0.102`.
 * Upgrade the `au.com.stocksoftware.idea.codestyle` artifact to version `1.14`.
-* Upgrade the `org.realityforge.arez` artifacts to version `0.135`.
+* Upgrade the `org.realityforge.arez` artifacts to version `0.143`.
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.20.0`.
 * Upgrade the `org.realityforge.com.google.jsinterop` artifact to version `1.0.0-b2-e6d791f`.
 * Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `2.24`.
