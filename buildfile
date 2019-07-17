@@ -123,7 +123,7 @@ define 'router-fu' do
   ipr.add_gwt_configuration(project('example'),
                             :gwt_module => 'router.fu.example.Example',
                             :start_javascript_debugger => false,
-                            :vm_parameters => "-Xmx2G -Djava.io.tmpdir=#{_('tmp/gwt')}",
+                            :vm_parameters => '-Xmx2G',
                             :shell_parameters => "-port 8888 -codeServerPort 8889 -bindAddress 0.0.0.0 -war #{_(:generated, 'gwt-export')}/")
 
   ipr.add_component('CompilerConfiguration') do |component|

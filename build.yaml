@@ -1,12 +1,12 @@
 repositories:
   remote:
-   - http://repo1.maven.org/maven2
+   - https://repo.maven.apache.org/maven2
    - https://stocksoftware.artifactoryonline.com/stocksoftware/public
    - https://stocksoftware.artifactoryonline.com/stocksoftware/oss
    - https://stocksoftware.artifactoryonline.com/stocksoftware/staging
 
 artifacts:
-  idea_codestyle: au.com.stocksoftware.idea.codestyle:idea-codestyle:xml:1.13
+  idea_codestyle: au.com.stocksoftware.idea.codestyle:idea-codestyle:xml:1.14
 
   shade_task: org.realityforge.ant.shade:ant-shade-task:jar:0.1
 
@@ -18,18 +18,18 @@ artifacts:
 
   jsinterop_annotations: com.google.jsinterop:jsinterop-annotations:jar:1.0.2
 
-  jsinterop_base: com.google.jsinterop:base:jar:1.0.0-RC1
+  jsinterop_base: org.realityforge.com.google.jsinterop:base:jar:1.0.0-b2-e6d791f
 
-  elemental2_core: org.realityforge.com.google.elemental2:elemental2-core:jar:1.0.0-b14-2f97dbe
-  elemental2_dom: org.realityforge.com.google.elemental2:elemental2-dom:jar:1.0.0-b14-2f97dbe
-  elemental2_promise: org.realityforge.com.google.elemental2:elemental2-promise:jar:1.0.0-b14-2f97dbe
+  elemental2_core: org.realityforge.com.google.elemental2:elemental2-core:jar:2.24
+  elemental2_dom: org.realityforge.com.google.elemental2:elemental2-dom:jar:2.24
+  elemental2_promise: org.realityforge.com.google.elemental2:elemental2-promise:jar:2.24
 
-  braincheck: org.realityforge.braincheck:braincheck:jar:1.12.0
+  braincheck: org.realityforge.braincheck:braincheck:jar:1.20.0
 
-  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.96
+  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.102
 
-  arez_core: org.realityforge.arez:arez-core:jar:0.127
-  arez_processor: org.realityforge.arez:arez-processor:jar:0.127
+  arez_core: org.realityforge.arez:arez-core:jar:0.135
+  arez_processor: org.realityforge.arez:arez-processor:jar:0.135
 
   autoservice: com.google.auto.service:auto-service:jar:1.0-rc3
   autocommon: com.google.auto:auto-common:jar:0.10

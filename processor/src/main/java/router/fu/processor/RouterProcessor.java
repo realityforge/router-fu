@@ -45,14 +45,10 @@ public final class RouterProcessor
   extends AbstractProcessor
 {
   private static final Pattern CALLBACK_PATTERN = Pattern.compile( "^([a-z].*)Callback$" );
-
   private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
   {
@@ -190,7 +186,7 @@ public final class RouterProcessor
                                    @Nonnull final ExecutableElement method,
                                    @Nonnull final AnnotationMirror annotation )
   {
-    final String name = deriveName( method, CALLBACK_PATTERN, getAnnotationParameter( annotation, "name" ) );
+    final String name = deriveCallbackName( method, getAnnotationParameter( annotation, "name" ) );
     if ( null == name )
     {
       throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
@@ -226,41 +222,38 @@ public final class RouterProcessor
           if ( TypeKind.DECLARED == paramType.getKind() )
           {
             final DeclaredType type = (DeclaredType) paramType;
-            if ( type.toString().equals( "java.lang.String" ) )
+            switch ( type.toString() )
             {
-              if ( -1 == locationIndex )
-              {
-                locationIndex = i;
-                continue;
-              }
-              else
-              {
-                throw duplicateCallbackParamException( method, "location", locationIndex, i );
-              }
-            }
-            else if ( type.toString().equals( "router.fu.Route" ) )
-            {
-              if ( -1 == routeIndex )
-              {
-                routeIndex = i;
-                continue;
-              }
-              else
-              {
-                throw duplicateCallbackParamException( method, "route", routeIndex, i );
-              }
-            }
-            else if ( type.toString().equals( "java.util.Map<router.fu.Parameter,java.lang.String>" ) )
-            {
-              if ( -1 == parametersIndex )
-              {
-                parametersIndex = i;
-                continue;
-              }
-              else
-              {
-                throw duplicateCallbackParamException( method, "parameters", parametersIndex, i );
-              }
+              case "java.lang.String":
+                if ( -1 == locationIndex )
+                {
+                  locationIndex = i;
+                  continue;
+                }
+                else
+                {
+                  throw duplicateCallbackParamException( method, "location", locationIndex, i );
+                }
+              case "router.fu.Route":
+                if ( -1 == routeIndex )
+                {
+                  routeIndex = i;
+                  continue;
+                }
+                else
+                {
+                  throw duplicateCallbackParamException( method, "route", routeIndex, i );
+                }
+              case "java.util.Map<router.fu.Parameter,java.lang.String>":
+                if ( -1 == parametersIndex )
+                {
+                  parametersIndex = i;
+                  continue;
+                }
+                else
+                {
+                  throw duplicateCallbackParamException( method, "parameters", parametersIndex, i );
+                }
             }
           }
 
@@ -468,15 +461,13 @@ public final class RouterProcessor
   }
 
   @Nullable
-  private String deriveName( @Nonnull final ExecutableElement method,
-                             @Nonnull final Pattern pattern,
-                             @Nonnull final String name )
+  private String deriveCallbackName( @Nonnull final ExecutableElement method, @Nonnull final String name )
     throws RouterProcessorException
   {
     if ( name.isEmpty() )
     {
       final String methodName = method.getSimpleName().toString();
-      final Matcher matcher = pattern.matcher( methodName );
+      final Matcher matcher = RouterProcessor.CALLBACK_PATTERN.matcher( methodName );
       if ( matcher.find() )
       {
         final String candidate = matcher.group( 1 );
