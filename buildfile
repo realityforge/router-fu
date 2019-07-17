@@ -13,6 +13,10 @@ define 'router-fu' do
 
   project.version = ENV['PRODUCT_VERSION'] if ENV['PRODUCT_VERSION']
 
+  pom.add_apache_v2_license
+  pom.add_github_project('realityforge/router-fu')
+  pom.add_developer('realityforge', 'Peter Donald')
+
   desc 'The core router-fu code'
   define 'core' do
     compile.with :javax_annotation,
