@@ -44,6 +44,10 @@ task 'perform_release' do
       raise 'Uncommitted changes in git repository. Please commit them prior to release.' if 0 != status_output.size
     end
 
+    stage('StagingCleanup', 'Remove artifacts from staging repository') do
+      task('staging:cleanup').invoke
+    end
+
     stage('Build', 'Build the project to ensure that the tests pass') do
       task('package').invoke
     end
@@ -63,6 +67,12 @@ HEADER
 
     stage('TagProject', 'Tag the project') do
       sh "git tag v#{ENV['PRODUCT_VERSION']}"
+    end
+
+    stage('StageRelease', 'Stage the release') do
+      IO.write('_buildr.rb', "repositories.release_to = { :url => 'https://stocksoftware.jfrog.io/stocksoftware/staging', :username => '#{ENV['STAGING_USERNAME']}', :password => '#{ENV['STAGING_PASSWORD']}' }")
+      sh 'bundle exec buildr clean upload TEST=no GWT=no'
+      sh 'rm -f _buildr.rb'
     end
 
     stage('MavenCentralPublish', 'Publish artifacts to Maven Central') do
