@@ -22,10 +22,14 @@ define 'router-fu' do
     compile.with :javax_annotation,
                  :jsinterop_base,
                  :jsinterop_annotations,
+                 :grim_annotations,
+                 :jetbrains_annotations,
                  :elemental2_core,
                  :elemental2_dom,
                  :elemental2_promise,
                  :braincheck
+
+    project.processorpath << artifacts(:grim_processor, :javax_json)
 
     test.options[:properties] = { 'braincheck.environment' => 'development' }
     test.options[:java_args] = ['-ea']

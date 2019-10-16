@@ -12,6 +12,8 @@ artifacts:
 
   javax_annotation: org.realityforge.javax.annotation:javax.annotation:jar:1.0.1
 
+  jetbrains_annotations: org.realityforge.org.jetbrains.annotations:org.jetbrains.annotations:jar:1.1.0
+
   # GWT deps
   gwt_user: com.google.gwt:gwt-user:jar:2.8.2
   gwt_dev: com.google.gwt:gwt-dev:jar:2.8.2
@@ -25,6 +27,9 @@ artifacts:
   elemental2_promise: org.realityforge.com.google.elemental2:elemental2-promise:jar:2.25
 
   braincheck: org.realityforge.braincheck:braincheck:jar:1.25.0
+
+  grim_annotations: org.realityforge.grim:grim-annotations:jar:0.03
+  grim_processor: org.realityforge.grim:grim-processor:jar:0.03
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.102
 
@@ -40,3 +45,5 @@ artifacts:
   truth: com.google.truth:truth:jar:0.39
   junit: junit:junit:jar:4.12
   hamcrest_core: org.hamcrest:hamcrest-core:jar:1.3
+
+  javax_json: org.glassfish:javax.json:jar:1.1
