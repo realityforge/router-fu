@@ -3,7 +3,7 @@
 ### Unreleased
 
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.2.0`.
-* Upgrade the `org.realityforge.arez` artifacts to version `0.152`.
+* Upgrade the `org.realityforge.arez` artifacts to version `0.153`.
 
 ### [v0.19](https://github.com/realityforge/router-fu/tree/v0.19) (2019-10-17) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.18...v0.19)
 
