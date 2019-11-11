@@ -8,4 +8,5 @@
   <entry-point class='router.fu.example.Example'/>
 
   <source path=''/>
+  <public path='public'/>
 </module>
