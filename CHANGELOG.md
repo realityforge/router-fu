@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `2.27`.
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.2.0`.
 * Upgrade the `org.realityforge.arez` artifacts to version `0.154`.
 
