@@ -29,8 +29,7 @@ import router.fu.Router;
 import router.fu.Segment;
 
 @ArezComponent(
-    name = "CompleteRouter",
-    nameIncludesId = false
+    name = "CompleteRouter"
 )
 @Generated("router.fu.processor.RouterProcessor")
 public abstract class RouterFu_CompleteRouter extends CompleteRouter implements CompleteRouterService {

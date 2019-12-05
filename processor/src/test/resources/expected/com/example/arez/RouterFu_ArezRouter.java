@@ -18,8 +18,7 @@ import router.fu.RouteState;
 import router.fu.Router;
 
 @ArezComponent(
-    name = "ArezRouter",
-    nameIncludesId = false
+    name = "ArezRouter"
 )
 @Generated("router.fu.processor.RouterProcessor")
 public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService {
