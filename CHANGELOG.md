@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.20](https://github.com/realityforge/router-fu/tree/v0.20) (2019-12-06) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.19...v0.20)
 
 * Upgrade the `org.realityforge.com.google.elemental2` artifacts to version `2.27`.
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.2.0`.
