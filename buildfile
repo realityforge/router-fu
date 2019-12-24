@@ -47,6 +47,7 @@ define 'router-fu' do
   desc 'The Annotation processor'
   define 'processor' do
     compile.with :autoservice,
+                 :proton_processor_pack,
                  :autocommon,
                  :javapoet,
                  :guava,
@@ -69,6 +70,7 @@ define 'router-fu' do
     package(:jar).enhance do |jar|
       jar.merge(artifact(:javapoet))
       jar.merge(artifact(:guava))
+      jar.merge(artifact(:proton_processor_pack))
       jar.enhance do |f|
         shaded_jar = (f.to_s + '-shaded')
         Buildr.ant 'shade_jar' do |ant|
@@ -78,6 +80,7 @@ define 'router-fu' do
           ant.shade :jar => f.to_s, :uberJar => shaded_jar do
             ant.relocation :pattern => 'com.squareup.javapoet', :shadedPattern => 'router.fu.processor.vendor.javapoet'
             ant.relocation :pattern => 'com.google', :shadedPattern => 'router.fu.processor.vendor.google'
+            ant.relocation :pattern => 'org.realityforge.proton', :shadedPattern => 'router.fu.processor.vendor.proton'
           end
         end
         FileUtils.mv shaded_jar, f.to_s

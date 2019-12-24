@@ -27,6 +27,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.ExecutableType;
+import org.realityforge.proton.GeneratorUtil;
 
 final class Generator
 {
@@ -65,7 +66,7 @@ final class Generator
 
     final TypeSpec.Builder builder = TypeSpec.interfaceBuilder( descriptor.getServiceClassName() );
 
-    ProcessorUtil.copyAccessModifiers( element, builder );
+    GeneratorUtil.copyAccessModifiers( element, builder );
 
     // Mark it as generated
     builder.addAnnotation( AnnotationSpec.builder( Generated.class ).
@@ -103,7 +104,7 @@ final class Generator
   {
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( routerRefMethod.getSimpleName().toString() );
-    ProcessorUtil.copyAccessModifiers( routerRefMethod, method );
+    GeneratorUtil.copyAccessModifiers( routerRefMethod, method );
     ProcessorUtil.copyDocumentedAnnotations( routerRefMethod, method );
     method.addModifiers( Modifier.FINAL );
     method.returns( descriptor.getServiceClassName() );
@@ -196,7 +197,7 @@ final class Generator
 
     final TypeSpec.Builder builder = TypeSpec.classBuilder( descriptor.getRouterClassName() );
 
-    ProcessorUtil.copyTypeParameters( descriptor.getElement(), builder );
+    GeneratorUtil.copyTypeParameters( descriptor.getElement(), builder );
 
     builder.superclass( descriptor.getClassName() );
 
@@ -209,7 +210,7 @@ final class Generator
       builder.addModifiers( Modifier.ABSTRACT );
     }
 
-    ProcessorUtil.copyAccessModifiers( element, builder );
+    GeneratorUtil.copyAccessModifiers( element, builder );
 
     builder.addSuperinterface( descriptor.getServiceClassName() );
 
