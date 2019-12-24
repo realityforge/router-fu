@@ -68,6 +68,7 @@ define 'router-fu' do
     package(:javadoc)
 
     package(:jar).enhance do |jar|
+      jar.merge(artifact(:autocommon))
       jar.merge(artifact(:javapoet))
       jar.merge(artifact(:guava))
       jar.merge(artifact(:proton_processor_pack))
