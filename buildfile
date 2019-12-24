@@ -88,7 +88,7 @@ define 'router-fu' do
     end
 
     test.using :testng
-    test.options[:properties] = { 'router-fu.fixture_dir' => _('src/test/fixtures') }
+    test.options[:properties] = { 'router.fu.fixture_dir' => _('src/test/fixtures') }
     test.compile.with :guiceyloops
 
     # The generators are configured to generate to here.
@@ -128,7 +128,7 @@ define 'router-fu' do
 
   iml.excluded_directories << project._('tmp')
 
-  ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development -Drouter-fu.output_fixture_data=false -Drouter-fu.fixture_dir=processor/src/test/resources')
+  ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development -Drouter.fu.output_fixture_data=false -Drouter.fu.fixture_dir=processor/src/test/resources')
   ipr.add_component_from_artifact(:idea_codestyle)
 
   ipr.add_gwt_configuration(project('example'),

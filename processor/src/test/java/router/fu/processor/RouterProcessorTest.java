@@ -1,13 +1,16 @@
 package router.fu.processor;
 
+import arez.processor.ArezProcessor;
+import java.nio.file.Path;
 import java.util.Arrays;
 import javax.annotation.Nonnull;
+import javax.annotation.processing.Processor;
 import javax.tools.JavaFileObject;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class RouterProcessorTest
-  extends AbstractRouterProcessorTest
+public final class RouterProcessorTest
+  extends AbstractProcessorTest
 {
   @DataProvider( name = "successfulCompiles" )
   public Object[][] successfulCompiles()
@@ -140,5 +143,70 @@ public class RouterProcessorTest
   public void processFailedCompile( @Nonnull final String classname, @Nonnull final String errorMessageFragment )
   {
     assertFailedCompile( classname, errorMessageFragment );
+  }
+
+  @Nonnull
+  @Override
+  protected Processor processor()
+  {
+    return new RouterProcessor();
+  }
+
+  @Nonnull
+  @Override
+  protected Processor[] additionalProcessors()
+  {
+    return new Processor[]{ new ArezProcessor() };
+  }
+
+  @Nonnull
+  @Override
+  protected String getOptionPrefix()
+  {
+    return "router.fu";
+  }
+
+  @Override
+  protected boolean emitGeneratedFile( @Nonnull final JavaFileObject target )
+  {
+    final Path path = fixtureDir().resolve( "expected/" + target.getName().replace( "/SOURCE_OUTPUT/", "" ) );
+    final String filename = path.toFile().getName();
+    return !( filename.startsWith( "Arez_" ) || filename.contains( "_Arez_" ) );
+  }
+
+  void assertSuccessfulCompile( @Nonnull final String classname )
+    throws Exception
+  {
+    assertSuccessfulCompile( toFilename( "input", classname ), deriveExpectedOutputs( classname ) );
+  }
+
+  @Nonnull
+  private String[] deriveExpectedOutputs( @Nonnull final String classname )
+  {
+    // It should be noted that we do not test the output of any Arez artifact
+    // emitted. We assume the Arez project adequately tests this scenario
+    final String[] elements = classname.contains( "." ) ? classname.split( "\\." ) : new String[]{ classname };
+    final StringBuilder service = new StringBuilder();
+    final StringBuilder impl = new StringBuilder();
+    service.append( "expected" );
+    impl.append( "expected" );
+    for ( int i = 0; i < elements.length; i++ )
+    {
+      service.append( '/' );
+      service.append( elements[ i ] );
+      if ( i == elements.length - 1 )
+      {
+        service.append( "Service" );
+      }
+      impl.append( '/' );
+      if ( i == elements.length - 1 )
+      {
+        impl.append( "RouterFu_" );
+      }
+      impl.append( elements[ i ] );
+    }
+    service.append( ".java" );
+    impl.append( ".java" );
+    return new String[]{ service.toString(), impl.toString() };
   }
 }
