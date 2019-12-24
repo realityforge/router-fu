@@ -7,6 +7,7 @@
 * Use builtin `SourceVersion.isIdentifier(String)` method rather than custom code that emulates behaviour.
 * When generating the router, stop copying all `@Documented` annotated annotations and instead copy the specific set of whitelisted annotations that developers typically care about. These include the nullability annotations `@Nonnull` and `@Nullable` as well ass `@Deprecated`.
 * Decouple from `com.google.auto.service:auto-service` by defining service manually.
+* Optimize the annotation processor by indicating the specific annotation that is processed in the list of supported annotations types.
 
 ### [v0.21](https://github.com/realityforge/router-fu/tree/v0.21) (2019-12-17) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.20...v0.21)
 

@@ -40,7 +40,7 @@ import static javax.tools.Diagnostic.Kind.*;
  * implementation from the annotations.
  */
 @SuppressWarnings( "Duplicates" )
-@SupportedAnnotationTypes( { "router.fu.annotations.*" } )
+@SupportedAnnotationTypes( Constants.ROUTER_ANNOTATION_CLASSNAME )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
 public final class RouterProcessor
   extends AbstractProcessor
