@@ -88,15 +88,15 @@ define 'router-fu' do
     end
 
     test.using :testng
-    test.options[:properties] = { 'router-fu.fixture_dir' => _('src/test/resources') }
+    test.options[:properties] = { 'router-fu.fixture_dir' => _('src/test/fixtures') }
     test.compile.with :guiceyloops
 
     # The generators are configured to generate to here.
     iml.test_source_directories << _('generated/processors/test/java')
 
-    iml.test_source_directories << _('src/test/resources/input')
-    iml.test_source_directories << _('src/test/resources/expected')
-    iml.test_source_directories << _('src/test/resources/bad_input')
+    iml.test_source_directories << _('src/test/fixtures/input')
+    iml.test_source_directories << _('src/test/fixtures/expected')
+    iml.test_source_directories << _('src/test/fixtures/bad_input')
   end
 
   define 'example' do
