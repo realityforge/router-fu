@@ -14,6 +14,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import org.realityforge.proton.GeneratorUtil;
 import org.realityforge.proton.ProcessorException;
 
 final class RouterDescriptor
@@ -123,46 +124,15 @@ final class RouterDescriptor
   }
 
   @Nonnull
-  private String getServiceName()
-  {
-    return _element.getSimpleName() + "Service";
-  }
-
-  @Nonnull
   ClassName getServiceClassName()
   {
-    return toClassName( getServiceName() );
-  }
-
-  @Nonnull
-  private String getRouterName()
-  {
-    return "RouterFu_" + _element.getSimpleName();
+    return GeneratorUtil.getGeneratedClassName( _element, "", "Service" );
   }
 
   @Nonnull
   ClassName getRouterClassName()
   {
-    return toClassName( getRouterName() );
-  }
-
-  @Nonnull
-  private ClassName toClassName( @Nonnull final String cname )
-  {
-    return ClassName.get( getPackageName(), getNestedClassPrefix() + cname );
-  }
-
-  @Nonnull
-  private String getNestedClassPrefix()
-  {
-    final StringBuilder name = new StringBuilder();
-    TypeElement t = getElement();
-    while ( NestingKind.TOP_LEVEL != t.getNestingKind() )
-    {
-      t = (TypeElement) t.getEnclosingElement();
-      name.insert( 0, t.getSimpleName() + "$" );
-    }
-    return name.toString();
+    return GeneratorUtil.getGeneratedClassName( _element, "RouterFu_", "" );
   }
 
   boolean isArezComponent()

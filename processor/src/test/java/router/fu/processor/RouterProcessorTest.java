@@ -60,8 +60,8 @@ public final class RouterProcessorTest
     throws Exception
   {
     assertSuccessfulCompile( "input/com/example/nested/NestedRouter.java",
-                             "expected/com/example/nested/NestedRouter$InnerRouterService.java",
-                             "expected/com/example/nested/NestedRouter$RouterFu_InnerRouter.java" );
+                             "expected/com/example/nested/NestedRouter_InnerRouterService.java",
+                             "expected/com/example/nested/NestedRouter_RouterFu_InnerRouter.java" );
   }
 
   @Test

@@ -13,12 +13,12 @@ import router.fu.RouteState;
 import router.fu.Router;
 
 @Generated("router.fu.processor.RouterProcessor")
-public class NestedRouter$RouterFu_InnerRouter extends NestedRouter.InnerRouter implements NestedRouter$InnerRouterService {
+public class NestedRouter_RouterFu_InnerRouter extends NestedRouter.InnerRouter implements NestedRouter_InnerRouterService {
   private final Router $fu$_router;
 
   private Location $fu$_location;
 
-  NestedRouter$RouterFu_InnerRouter(@Nonnull final Window window) {
+  NestedRouter_RouterFu_InnerRouter(@Nonnull final Window window) {
     $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
     $fu$_router.activate();
   }
