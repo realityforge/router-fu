@@ -1,6 +1,5 @@
 package router.fu.processor;
 
-import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
@@ -41,7 +40,6 @@ import static javax.tools.Diagnostic.Kind.*;
  * implementation from the annotations.
  */
 @SuppressWarnings( "Duplicates" )
-@AutoService( Processor.class )
 @SupportedAnnotationTypes( { "router.fu.annotations.*" } )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
 public final class RouterProcessor

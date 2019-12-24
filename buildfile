@@ -46,8 +46,7 @@ define 'router-fu' do
 
   desc 'The Annotation processor'
   define 'processor' do
-    compile.with :autoservice,
-                 :proton_processor_pack,
+    compile.with :proton_processor_pack,
                  :autocommon,
                  :javapoet,
                  :guava,
