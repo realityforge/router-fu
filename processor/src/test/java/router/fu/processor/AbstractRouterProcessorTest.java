@@ -74,7 +74,11 @@ abstract class AbstractRouterProcessorTest
     if ( outputFiles() )
     {
       final Compilation compilation =
-        Compiler.javac().withProcessors( new RouterProcessor(), new ArezProcessor() ).compile( inputs );
+        Compiler
+          .javac()
+          .withOptions( "-Xlint:all,-processing", "-implicit:none", "-Arouter.fu.defer.errors=false" )
+          .withProcessors( new RouterProcessor(), new ArezProcessor() )
+          .compile( inputs );
 
       final Compilation.Status status = compilation.status();
       if ( Compilation.Status.SUCCESS != status )
@@ -130,6 +134,7 @@ abstract class AbstractRouterProcessorTest
         toArray( new JavaFileObject[ 0 ] );
     assert_().about( JavaSourcesSubjectFactory.javaSources() ).
       that( inputs ).
+      withCompilerOptions( "-Xlint:all,-processing", "-implicit:none", "-Arouter.fu.defer.errors=false" ).
       processedWith( new RouterProcessor(), new ArezProcessor() ).
       compilesWithoutError().
       and().
@@ -158,6 +163,7 @@ abstract class AbstractRouterProcessorTest
     final JavaFileObject source = fixture( inputResource );
     assert_().about( JavaSourceSubjectFactory.javaSource() ).
       that( source ).
+      withCompilerOptions( "-Xlint:all,-processing", "-implicit:none", "-Arouter.fu.defer.errors=false" ).
       processedWith( new RouterProcessor(), new ArezProcessor() ).
       failsToCompile().
       withErrorContaining( errorMessageFragment );

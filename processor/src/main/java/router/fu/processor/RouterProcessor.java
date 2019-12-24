@@ -3,8 +3,6 @@ package router.fu.processor;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,15 +12,13 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedOptions;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
@@ -30,10 +26,11 @@ import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
+import org.realityforge.proton.AbstractStandardProcessor;
 import org.realityforge.proton.AnnotationsUtil;
 import org.realityforge.proton.ElementsUtil;
 import org.realityforge.proton.MemberChecks;
-import static javax.tools.Diagnostic.Kind.*;
+import org.realityforge.proton.ProcessorException;
 
 /**
  * Annotation processor that analyzes Router annotated source and generates a router
@@ -42,60 +39,42 @@ import static javax.tools.Diagnostic.Kind.*;
 @SuppressWarnings( "Duplicates" )
 @SupportedAnnotationTypes( Constants.ROUTER_ANNOTATION_CLASSNAME )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
+@SupportedOptions( { "router.fu.defer.unresolved", "router.fu.defer.errors" } )
 public final class RouterProcessor
-  extends AbstractProcessor
+  extends AbstractStandardProcessor
 {
   private static final Pattern CALLBACK_PATTERN = Pattern.compile( "^([a-z].*)Callback$" );
   private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
 
+  @SuppressWarnings( "unchecked" )
+  @Nonnull
   @Override
-  public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
+  protected Set<TypeElement> getTypeElementsToProcess( @Nonnull final RoundEnvironment env )
   {
     final TypeElement annotation =
       processingEnv.getElementUtils().getTypeElement( Constants.ROUTER_ANNOTATION_CLASSNAME );
-    final Set<? extends Element> elements = env.getElementsAnnotatedWith( annotation );
-    processElements( elements );
-    return false;
+    return (Set<TypeElement>) env.getElementsAnnotatedWith( annotation );
   }
 
-  private void processElements( @Nonnull final Set<? extends Element> elements )
+  @Nonnull
+  @Override
+  protected String getIssueTrackerURL()
   {
-    for ( final Element element : elements )
-    {
-      try
-      {
-        process( (TypeElement) element );
-      }
-      catch ( final IOException ioe )
-      {
-        processingEnv.getMessager().printMessage( ERROR, ioe.getMessage(), element );
-      }
-      catch ( final RouterProcessorException e )
-      {
-        processingEnv.getMessager().printMessage( ERROR, e.getMessage(), e.getElement() );
-      }
-      catch ( final Throwable e )
-      {
-        final StringWriter sw = new StringWriter();
-        e.printStackTrace( new PrintWriter( sw ) );
-        sw.flush();
-
-        final String message =
-          "Unexpected error will running the " + getClass().getName() + " processor. This has " +
-          "resulted in a failure to process the code and has left the compiler in an invalid " +
-          "state. Please report the failure to the developers so that it can be fixed.\n" +
-          " Report the error at: https://github.com/realityforge/router-fu/issues\n" +
-          "\n\n" +
-          sw.toString();
-        processingEnv.getMessager().printMessage( ERROR, message, element );
-      }
-    }
+    return "https://github.com/realityforge/router-fu/issues";
   }
 
-  private void process( @Nonnull final TypeElement element )
-    throws IOException, RouterProcessorException
+  @Nonnull
+  @Override
+  protected String getOptionPrefix()
+  {
+    return "router.fu";
+  }
+
+  @Override
+  protected void process( @Nonnull final TypeElement element )
+    throws IOException, ProcessorException
   {
     final RouterDescriptor descriptor = parse( element );
     emitTypeSpec( descriptor.getPackageName(), Generator.buildService( descriptor ) );
@@ -154,16 +133,16 @@ public final class RouterProcessor
       {
         if ( TypeKind.DECLARED != returnType.getKind() )
         {
-          throw new RouterProcessorException( "Method annotated with @RouterRef must return an instance of " +
-                                              expectedServiceName, method );
+          throw new ProcessorException( "Method annotated with @RouterRef must return an instance of " +
+                                        expectedServiceName, method );
         }
         else
         {
           final TypeElement returnTypeElement = (TypeElement) processingEnv.getTypeUtils().asElement( returnType );
           if ( !returnTypeElement.getQualifiedName().toString().equals( expectedServiceName ) )
           {
-            throw new RouterProcessorException( "Method annotated with @RouterRef must return an instance of " +
-                                                expectedServiceName, method );
+            throw new ProcessorException( "Method annotated with @RouterRef must return an instance of " +
+                                          expectedServiceName, method );
           }
         }
       }
@@ -199,22 +178,22 @@ public final class RouterProcessor
     final String name = deriveCallbackName( method, AnnotationsUtil.getAnnotationValue( annotation, "name" ) );
     if ( null == name )
     {
-      throw new RouterProcessorException( "@RouteCallback target has not specified a name and is not named " +
-                                          "according to pattern '[Name]Callback'", method );
+      throw new ProcessorException( "@RouteCallback target has not specified a name and is not named " +
+                                    "according to pattern '[Name]Callback'", method );
     }
     else if ( !descriptor.hasRouteNamed( name ) )
     {
-      throw new RouterProcessorException( "@RouteCallback target has name '" + name + "' but no corresponding " +
-                                          "route exists.", method );
+      throw new ProcessorException( "@RouteCallback target has name '" + name + "' but no corresponding " +
+                                    "route exists.", method );
     }
     else
     {
       final RouteDescriptor route = descriptor.getRouteByName( name );
       if ( route.hasCallback() )
       {
-        throw new RouterProcessorException( "@RouteCallback target duplicates an existing route callback method " +
-                                            "named '" + route.getCallback().getSimpleName().toString() +
-                                            "'route exists.", method );
+        throw new ProcessorException( "@RouteCallback target duplicates an existing route callback method " +
+                                      "named '" + route.getCallback().getSimpleName().toString() +
+                                      "'route exists.", method );
       }
       else
       {
@@ -271,9 +250,9 @@ public final class RouterProcessor
           }
 
           final String paramName = method.getParameters().get( i ).getSimpleName().toString();
-          throw new RouterProcessorException( "@RouteCallback target has unexpected parameter named '" +
-                                              paramName + "' that does not an expected type. " +
-                                              "Actual type: " + paramType, method );
+          throw new ProcessorException( "@RouteCallback target has unexpected parameter named '" +
+                                        paramName + "' that does not an expected type. " +
+                                        "Actual type: " + paramType, method );
         }
 
         route.setCallback( method, methodType, locationIndex, routeIndex, parametersIndex );
@@ -282,16 +261,16 @@ public final class RouterProcessor
   }
 
   @Nonnull
-  private RouterProcessorException duplicateCallbackParamException( @Nonnull final ExecutableElement method,
-                                                                    @Nonnull final String paramTypeName,
-                                                                    final int existingIndex,
-                                                                    final int newIndex )
+  private ProcessorException duplicateCallbackParamException( @Nonnull final ExecutableElement method,
+                                                              @Nonnull final String paramTypeName,
+                                                              final int existingIndex,
+                                                              final int newIndex )
   {
     final String existingName = method.getParameters().get( existingIndex ).getSimpleName().toString();
     final String newName = method.getParameters().get( newIndex ).getSimpleName().toString();
-    return new RouterProcessorException( "@RouteCallback target has two '" + paramTypeName +
-                                         "' parameters named '" + existingName + "' and '" + newName + "'",
-                                         method );
+    return new ProcessorException( "@RouteCallback target has two '" + paramTypeName +
+                                   "' parameters named '" + existingName + "' and '" + newName + "'",
+                                   method );
   }
 
   private ExecutableType toMethodType( @Nonnull final TypeElement element, @Nonnull final ExecutableElement method )
@@ -317,8 +296,8 @@ public final class RouterProcessor
     final String name = AnnotationsUtil.getAnnotationValue( annotation, "name" );
     if ( !SourceVersion.isIdentifier( name ) )
     {
-      throw new RouterProcessorException( "@Router target has a @BoundParameter with an invalid name '" + name + "'",
-                                          typeElement );
+      throw new ProcessorException( "@Router target has a @BoundParameter with an invalid name '" + name + "'",
+                                    typeElement );
     }
     final String declaredParameterName = AnnotationsUtil.getAnnotationValue( annotation, "parameterName" );
     final String parameterName = declaredParameterName.isEmpty() ? name : declaredParameterName;
@@ -341,9 +320,9 @@ public final class RouterProcessor
       }
       if ( bindings.isEmpty() )
       {
-        throw new RouterProcessorException( "@Router target has a @BoundParameter that specifies a parameter " +
-                                            "named '" + parameterName + "' but parameter does not exist on " +
-                                            "any routes.", typeElement );
+        throw new ProcessorException( "@Router target has a @BoundParameter that specifies a parameter " +
+                                      "named '" + parameterName + "' but parameter does not exist on " +
+                                      "any routes.", typeElement );
       }
     }
     else
@@ -361,15 +340,15 @@ public final class RouterProcessor
           }
           else
           {
-            throw new RouterProcessorException( "@Router target has a @BoundParameter that specifies a route named '" +
-                                                routeName + "' for parameter named '" + parameterName +
-                                                "' but parameter does not exist.", typeElement );
+            throw new ProcessorException( "@Router target has a @BoundParameter that specifies a route named '" +
+                                          routeName + "' for parameter named '" + parameterName +
+                                          "' but parameter does not exist.", typeElement );
           }
         }
         else
         {
-          throw new RouterProcessorException( "@Router target has a @BoundParameter that specifies a route named '" +
-                                              routeName + "' that does not exist.", typeElement );
+          throw new ProcessorException( "@Router target has a @BoundParameter that specifies a route named '" +
+                                        routeName + "' that does not exist.", typeElement );
         }
       }
 
@@ -378,8 +357,8 @@ public final class RouterProcessor
     final BoundParameterDescriptor boundParameter = new BoundParameterDescriptor( name, bindings );
     if ( router.hasBoundParameterNamed( name ) )
     {
-      throw new RouterProcessorException( "@Router target has multiple @BoundParameter annotations with the " +
-                                          "name '" + name + "'", typeElement );
+      throw new ProcessorException( "@Router target has multiple @BoundParameter annotations with the " +
+                                    "name '" + name + "'", typeElement );
     }
 
     router.addBoundParameter( boundParameter );
@@ -399,8 +378,8 @@ public final class RouterProcessor
     final String name = AnnotationsUtil.getAnnotationValue( annotation, "name" );
     if ( !SourceVersion.isIdentifier( name ) )
     {
-      throw new RouterProcessorException( "@Router target has a route with an invalid name '" + name + "'",
-                                          descriptor.getElement() );
+      throw new ProcessorException( "@Router target has a route with an invalid name '" + name + "'",
+                                    descriptor.getElement() );
 
     }
     final boolean navigationTarget = AnnotationsUtil.getAnnotationValue( annotation, "navigationTarget" );
@@ -409,8 +388,8 @@ public final class RouterProcessor
 
     if ( descriptor.hasRouteNamed( name ) )
     {
-      throw new RouterProcessorException( "@Router target has multiple routes with the name '" + name + "'",
-                                          descriptor.getElement() );
+      throw new ProcessorException( "@Router target has multiple routes with the name '" + name + "'",
+                                    descriptor.getElement() );
     }
 
     parseRoutePath( descriptor.getElement(), route, AnnotationsUtil.getAnnotationValue( annotation, "path" ) );
@@ -464,15 +443,15 @@ public final class RouterProcessor
         }
       }
 
-      throw new RouterProcessorException( "@Route named '" + route.getName() + "' has a path that can not " +
-                                          "be parsed: '" + path + "'",
-                                          typeElement );
+      throw new ProcessorException( "@Route named '" + route.getName() + "' has a path that can not " +
+                                    "be parsed: '" + path + "'",
+                                    typeElement );
     }
   }
 
   @Nullable
   private String deriveCallbackName( @Nonnull final ExecutableElement method, @Nonnull final String name )
-    throws RouterProcessorException
+    throws ProcessorException
   {
     if ( name.isEmpty() )
     {

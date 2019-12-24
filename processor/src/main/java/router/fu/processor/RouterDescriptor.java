@@ -14,6 +14,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import org.realityforge.proton.ProcessorException;
 
 final class RouterDescriptor
 {
@@ -34,20 +35,20 @@ final class RouterDescriptor
 
     if ( ElementKind.CLASS != element.getKind() )
     {
-      throw new RouterProcessorException( "@Router target must be a class", element );
+      throw new ProcessorException( "@Router target must be a class", element );
     }
     else if ( element.getModifiers().contains( Modifier.ABSTRACT ) )
     {
-      throw new RouterProcessorException( "@Router target must not be abstract", element );
+      throw new ProcessorException( "@Router target must not be abstract", element );
     }
     else if ( element.getModifiers().contains( Modifier.FINAL ) )
     {
-      throw new RouterProcessorException( "@Router target must not be final", element );
+      throw new ProcessorException( "@Router target must not be final", element );
     }
     else if ( NestingKind.TOP_LEVEL != element.getNestingKind() &&
               !element.getModifiers().contains( Modifier.STATIC ) )
     {
-      throw new RouterProcessorException( "@Router target must not be a non-static nested class", element );
+      throw new ProcessorException( "@Router target must not be a non-static nested class", element );
     }
 
     final List<ExecutableElement> constructors = element.getEnclosedElements().stream().
@@ -58,8 +59,8 @@ final class RouterDescriptor
             constructors.get( 0 ).getParameters().isEmpty() &&
             !constructors.get( 0 ).getModifiers().contains( Modifier.PRIVATE ) ) )
     {
-      throw new RouterProcessorException( "@Router target must have a single non-private, no-argument " +
-                                          "constructor or the default constructor", element );
+      throw new ProcessorException( "@Router target must have a single non-private, no-argument " +
+                                    "constructor or the default constructor", element );
     }
   }
 
