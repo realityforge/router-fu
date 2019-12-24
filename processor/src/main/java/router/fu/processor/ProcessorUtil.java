@@ -12,11 +12,8 @@ import javax.lang.model.AnnotatedConstruct;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.type.DeclaredType;
-import javax.lang.model.util.Elements;
 import org.realityforge.proton.AnnotationsUtil;
-import org.realityforge.proton.MemberChecks;
 
 final class ProcessorUtil
 {
@@ -48,27 +45,6 @@ final class ProcessorUtil
       {
         builder.addAnnotation( AnnotationSpec.get( annotation ) );
       }
-    }
-  }
-
-  static boolean isJavaIdentifier( @Nonnull final String value )
-  {
-    if ( value.isEmpty() || !Character.isJavaIdentifierStart( value.charAt( 0 ) ) )
-    {
-      return false;
-    }
-    else
-    {
-      final int length = value.length();
-      for ( int i = 1; i < length; i++ )
-      {
-        if ( !Character.isJavaIdentifierPart( value.charAt( i ) ) )
-        {
-          return false;
-        }
-      }
-
-      return true;
     }
   }
 

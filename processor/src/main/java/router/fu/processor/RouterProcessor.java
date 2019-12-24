@@ -317,7 +317,7 @@ public final class RouterProcessor
                                               @Nonnull final AnnotationMirror annotation )
   {
     final String name = AnnotationsUtil.getAnnotationValue( annotation, "name" );
-    if ( !ProcessorUtil.isJavaIdentifier( name ) )
+    if ( !SourceVersion.isIdentifier( name ) )
     {
       throw new RouterProcessorException( "@Router target has a @BoundParameter with an invalid name '" + name + "'",
                                           typeElement );
@@ -399,7 +399,7 @@ public final class RouterProcessor
                                      @Nonnull final AnnotationMirror annotation )
   {
     final String name = AnnotationsUtil.getAnnotationValue( annotation, "name" );
-    if ( !ProcessorUtil.isJavaIdentifier( name ) )
+    if ( !SourceVersion.isIdentifier( name ) )
     {
       throw new RouterProcessorException( "@Router target has a route with an invalid name '" + name + "'",
                                           descriptor.getElement() );

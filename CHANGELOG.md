@@ -4,6 +4,7 @@
 
 * Use the `org.realityforge.proton:proton-processor-pack` project for processor utility methods.
 * Shade the `auto-common` artifact in the annotation processor.
+* Use builtin `SourceVersion.isIdentifier(String)` method rather than custom code that emulates behaviour.
 
 ### [v0.21](https://github.com/realityforge/router-fu/tree/v0.21) (2019-12-17) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.20...v0.21)
 
