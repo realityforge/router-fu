@@ -139,7 +139,6 @@ abstract class AbstractRouterProcessorTest
   }
 
   void assertFailedCompile( @Nonnull final String classname, @Nonnull final String errorMessageFragment )
-    throws Exception
   {
     final String[] elements = classname.contains( "." ) ? classname.split( "\\." ) : new String[]{ classname };
     final StringBuilder input = new StringBuilder();
@@ -155,7 +154,6 @@ abstract class AbstractRouterProcessorTest
 
   private void assertFailedCompileResource( @Nonnull final String inputResource,
                                             @Nonnull final String errorMessageFragment )
-    throws Exception
   {
     final JavaFileObject source = fixture( inputResource );
     assert_().about( JavaSourceSubjectFactory.javaSource() ).

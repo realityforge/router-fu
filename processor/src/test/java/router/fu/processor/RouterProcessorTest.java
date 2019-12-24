@@ -42,7 +42,7 @@ public class RouterProcessorTest
         new Object[]{ "com.example.router_ref.MultiRouterRef" },
         new Object[]{ "com.example.router_ref.ProtectedRouterRef" },
         new Object[]{ "com.example.router_ref.PublicRouterRef" },
-      };
+        };
   }
 
   @Test( dataProvider = "successfulCompiles" )
@@ -138,7 +138,6 @@ public class RouterProcessorTest
 
   @Test( dataProvider = "failedCompiles" )
   public void processFailedCompile( @Nonnull final String classname, @Nonnull final String errorMessageFragment )
-    throws Exception
   {
     assertFailedCompile( classname, errorMessageFragment );
   }
