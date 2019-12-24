@@ -105,7 +105,7 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( routerRefMethod.getSimpleName().toString() );
     GeneratorUtil.copyAccessModifiers( routerRefMethod, method );
-    ProcessorUtil.copyDocumentedAnnotations( routerRefMethod, method );
+    GeneratorUtil.copyWhitelistedAnnotations( routerRefMethod, method );
     method.addModifiers( Modifier.FINAL );
     method.returns( descriptor.getServiceClassName() );
     method.addStatement( "return this" );
@@ -741,7 +741,7 @@ final class Generator
                             .addMember( "executor", "$T.EXTERNAL", EXECUTOR_TYPE )
                             .build() );
     method.returns( MATCH_RESULT_TYPE );
-    ProcessorUtil.copyDocumentedAnnotations( callback, method );
+    GeneratorUtil.copyWhitelistedAnnotations( callback, method );
 
     final StringBuilder statement = new StringBuilder();
     final ArrayList<Object> parameterNames = new ArrayList<>();
@@ -757,7 +757,7 @@ final class Generator
       final TypeName parameterType = TypeName.get( callbackType.getParameterTypes().get( i ) );
       final ParameterSpec.Builder param =
         ParameterSpec.builder( parameterType, element.getSimpleName().toString(), Modifier.FINAL );
-      ProcessorUtil.copyDocumentedAnnotations( element, param );
+      GeneratorUtil.copyWhitelistedAnnotations( element, param );
       method.addParameter( param.build() );
 
       parameterNames.add( element.getSimpleName().toString() );
