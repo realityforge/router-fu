@@ -304,9 +304,9 @@ public final class RouterProcessor
 
   private void parseBoundParameterAnnotations( @Nonnull final RouterDescriptor descriptor )
   {
-    ProcessorUtil.getRepeatingAnnotations( descriptor.getElement(),
-                                           Constants.BOUND_PARAMETERS_ANNOTATION_CLASSNAME,
-                                           Constants.BOUND_PARAMETER_ANNOTATION_CLASSNAME )
+    AnnotationsUtil.getRepeatingAnnotations( descriptor.getElement(),
+                                             Constants.BOUND_PARAMETERS_ANNOTATION_CLASSNAME,
+                                             Constants.BOUND_PARAMETER_ANNOTATION_CLASSNAME )
       .forEach( routeAnnotation -> parseBoundParameterAnnotation( descriptor.getElement(),
                                                                   descriptor,
                                                                   routeAnnotation ) );
@@ -389,9 +389,9 @@ public final class RouterProcessor
 
   private void parseRouteAnnotations( @Nonnull final RouterDescriptor descriptor )
   {
-    ProcessorUtil.getRepeatingAnnotations( descriptor.getElement(),
-                                           Constants.ROUTES_ANNOTATION_CLASSNAME,
-                                           Constants.ROUTE_ANNOTATION_CLASSNAME )
+    AnnotationsUtil.getRepeatingAnnotations( descriptor.getElement(),
+                                             Constants.ROUTES_ANNOTATION_CLASSNAME,
+                                             Constants.ROUTE_ANNOTATION_CLASSNAME )
       .forEach( routeAnnotation -> parseRouteAnnotation( descriptor, routeAnnotation ) );
   }
 
