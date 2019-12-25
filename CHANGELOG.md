@@ -2,8 +2,7 @@
 
 ### Unreleased
 
-* Upgrade the `org.realityforge.proton` artifact to version `0.05`.
-* Use the `org.realityforge.proton:proton-processor-pack` project for processor utility methods.
+* Use the `org.realityforge.proton` project for processor utility methods.
 * Shade the `auto-common` artifact in the annotation processor.
 * Use builtin `SourceVersion.isIdentifier(String)` method rather than custom code that emulates behaviour.
 * When generating the router, stop copying all `@Documented` annotated annotations and instead copy the specific set of whitelisted annotations that developers typically care about. These include the nullability annotations `@Nonnull` and `@Nullable` as well ass `@Deprecated`.
