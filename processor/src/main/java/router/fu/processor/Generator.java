@@ -26,6 +26,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.ExecutableType;
 import org.realityforge.proton.GeneratorUtil;
 
@@ -199,7 +200,7 @@ final class Generator
 
     GeneratorUtil.copyTypeParameters( descriptor.getElement(), builder );
 
-    builder.superclass( descriptor.getClassName() );
+    builder.superclass( TypeName.get( descriptor.getElement().asType() ) );
 
     if ( descriptor.isArezComponent() )
     {

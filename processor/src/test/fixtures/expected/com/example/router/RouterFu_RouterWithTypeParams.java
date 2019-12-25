@@ -13,7 +13,7 @@ import router.fu.RouteState;
 import router.fu.Router;
 
 @Generated("router.fu.processor.RouterProcessor")
-public class RouterFu_RouterWithTypeParams<T extends Integer> extends RouterWithTypeParams implements RouterWithTypeParamsService {
+public class RouterFu_RouterWithTypeParams<T extends Integer> extends RouterWithTypeParams<T> implements RouterWithTypeParamsService {
   private final Router $fu$_router;
 
   private Location $fu$_location;
