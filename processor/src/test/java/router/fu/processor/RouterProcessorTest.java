@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.Processor;
 import javax.tools.JavaFileObject;
+import org.realityforge.proton.qa.AbstractProcessorTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

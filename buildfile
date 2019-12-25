@@ -46,7 +46,7 @@ define 'router-fu' do
 
   desc 'The Annotation processor'
   define 'processor' do
-    compile.with :proton_processor_pack,
+    compile.with :proton_core,
                  :autocommon,
                  :javapoet,
                  :guava,
@@ -57,6 +57,7 @@ define 'router-fu' do
               :truth,
               :junit,
               :hamcrest_core,
+              :proton_qa,
               :arez_core,
               :arez_processor,
               project('core').package(:jar),
@@ -70,7 +71,7 @@ define 'router-fu' do
       jar.merge(artifact(:autocommon))
       jar.merge(artifact(:javapoet))
       jar.merge(artifact(:guava))
-      jar.merge(artifact(:proton_processor_pack))
+      jar.merge(artifact(:proton_core))
       jar.enhance do |f|
         shaded_jar = (f.to_s + '-shaded')
         Buildr.ant 'shade_jar' do |ant|
