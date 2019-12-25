@@ -81,6 +81,12 @@ public final class RouterProcessor
     emitTypeSpec( descriptor.getPackageName(), Generator.buildRouterImpl( descriptor ) );
   }
 
+  @Override
+  protected boolean shouldDeferUnresolved()
+  {
+    return false;
+  }
+
   private void emitTypeSpec( @Nonnull final String packageName, @Nonnull final TypeSpec typeSpec )
     throws IOException
   {
