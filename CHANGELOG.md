@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Upgrade the `org.realityforge.proton` artifact to version `0.04`.
+* Upgrade the `org.realityforge.proton` artifact to version `0.05`.
 * Use the `org.realityforge.proton:proton-processor-pack` project for processor utility methods.
 * Shade the `auto-common` artifact in the annotation processor.
 * Use builtin `SourceVersion.isIdentifier(String)` method rather than custom code that emulates behaviour.
