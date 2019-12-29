@@ -1,6 +1,5 @@
 package router.fu.processor;
 
-import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,7 +27,6 @@ import javax.lang.model.type.TypeMirror;
 import org.realityforge.proton.AbstractStandardProcessor;
 import org.realityforge.proton.AnnotationsUtil;
 import org.realityforge.proton.ElementsUtil;
-import org.realityforge.proton.GeneratorUtil;
 import org.realityforge.proton.MemberChecks;
 import org.realityforge.proton.ProcessorException;
 
@@ -85,12 +83,6 @@ public final class RouterProcessor
   protected boolean shouldDeferUnresolved()
   {
     return false;
-  }
-
-  private void emitTypeSpec( @Nonnull final String packageName, @Nonnull final TypeSpec typeSpec )
-    throws IOException
-  {
-    GeneratorUtil.emitJavaType( packageName, typeSpec, processingEnv.getFiler() );
   }
 
   @Nonnull
