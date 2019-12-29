@@ -45,8 +45,8 @@ public final class RouterProcessorTest
         new Object[]{ "com.example.router_ref.BasicRouterRef" },
         new Object[]{ "com.example.router_ref.MultiRouterRef" },
         new Object[]{ "com.example.router_ref.ProtectedRouterRef" },
-        new Object[]{ "com.example.router_ref.PublicRouterRef" },
-        };
+        new Object[]{ "com.example.router_ref.PublicRouterRef" }
+      };
   }
 
   @Test( dataProvider = "successfulCompiles" )
