@@ -3,7 +3,6 @@
 ### Unreleased
 
 * Upgrade the `org.realityforge.arez` artifacts to version `0.162`.
-* Upgrade the `org.realityforge.proton` artifacts to version `0.07`.
 * Use the `org.realityforge.proton` project for processor utility methods.
 * Shade the `auto-common` artifact in the annotation processor.
 * Use builtin `SourceVersion.isIdentifier(String)` method rather than custom code that emulates behaviour.
