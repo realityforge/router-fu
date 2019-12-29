@@ -60,7 +60,7 @@ public final class RouterProcessorTest
   public void nestedReactComponent()
     throws Exception
   {
-    assertSuccessfulCompile( "input/com/example/nested/NestedRouter.java",
+    assertSuccessfulCompile( "com.example.nested.NestedRouter",
                              "expected/com/example/nested/NestedRouter_InnerRouterService.java",
                              "expected/com/example/nested/NestedRouter_RouterFu_InnerRouter.java" );
   }
@@ -178,7 +178,7 @@ public final class RouterProcessorTest
   void assertSuccessfulCompile( @Nonnull final String classname )
     throws Exception
   {
-    assertSuccessfulCompile( toFilename( "input", classname ), deriveExpectedOutputs( classname ) );
+    assertSuccessfulCompile( classname, deriveExpectedOutputs( classname ) );
   }
 
   @Nonnull
