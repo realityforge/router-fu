@@ -11,6 +11,7 @@
 * Optimize the annotation processor by indicating the specific annotation that is processed in the list of supported annotations types.
 * Change the name of the generated class when processing a nested class to follow the same conventions as Arez, Dagger, React4j etc. Namely the generated classname components are separated by `_` rather than `$`.
 * Make sure that the generated classes can extend parameterized types without warnings.
+* Decouple the `processor` artifact from the `com.google.auto:auto-common` dependency and thus the `com.google.guava:guava` dependency. This significantly reduces the build time for the processor and the size of the processor artifact.
 
 ### [v0.21](https://github.com/realityforge/router-fu/tree/v0.21) (2019-12-17) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.20...v0.21)
 
