@@ -33,8 +33,8 @@ artifacts:
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.102
 
-  arez_core: org.realityforge.arez:arez-core:jar:0.159
-  arez_processor: org.realityforge.arez:arez-processor:jar:0.159
+  arez_core: org.realityforge.arez:arez-core:jar:0.162
+  arez_processor: org.realityforge.arez:arez-processor:jar:0.162
 
   autocommon: com.google.auto:auto-common:jar:0.10
   javapoet: com.squareup:javapoet:jar:1.11.1
