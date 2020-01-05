@@ -172,7 +172,7 @@ public final class RouterProcessorTest
   {
     final Path path = fixtureDir().resolve( "expected/" + target.getName().replace( "/SOURCE_OUTPUT/", "" ) );
     final String filename = path.toFile().getName();
-    return !( filename.startsWith( "Arez_" ) || filename.contains( "_Arez_" ) );
+    return super.emitGeneratedFile( target ) && !( filename.startsWith( "Arez_" ) || filename.contains( "_Arez_" ) );
   }
 
   void assertSuccessfulCompile( @Nonnull final String classname )

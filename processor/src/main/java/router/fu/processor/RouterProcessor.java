@@ -2,6 +2,7 @@ package router.fu.processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -47,13 +48,15 @@ public final class RouterProcessor
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
 
   @SuppressWarnings( "unchecked" )
-  @Nonnull
   @Override
-  protected Set<TypeElement> getTypeElementsToProcess( @Nonnull final RoundEnvironment env )
+  public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
   {
     final TypeElement annotation =
       processingEnv.getElementUtils().getTypeElement( Constants.ROUTER_ANNOTATION_CLASSNAME );
-    return (Set<TypeElement>) env.getElementsAnnotatedWith( annotation );
+    final Collection<TypeElement> elementsTo = (Collection<TypeElement>) env.getElementsAnnotatedWith( annotation );
+    processTypeElements( env, elementsTo, this::process );
+    errorIfProcessingOverAndInvalidTypesDetected( env );
+    return true;
   }
 
   @Nonnull
@@ -70,8 +73,7 @@ public final class RouterProcessor
     return "router.fu";
   }
 
-  @Override
-  protected void process( @Nonnull final TypeElement element )
+  private void process( @Nonnull final TypeElement element )
     throws IOException, ProcessorException
   {
     final RouterDescriptor descriptor = parse( element );
