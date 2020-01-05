@@ -178,36 +178,8 @@ public final class RouterProcessorTest
   void assertSuccessfulCompile( @Nonnull final String classname )
     throws Exception
   {
-    assertSuccessfulCompile( classname, deriveExpectedOutputs( classname ) );
-  }
-
-  @Nonnull
-  private String[] deriveExpectedOutputs( @Nonnull final String classname )
-  {
-    // It should be noted that we do not test the output of any Arez artifact
-    // emitted. We assume the Arez project adequately tests this scenario
-    final String[] elements = classname.contains( "." ) ? classname.split( "\\." ) : new String[]{ classname };
-    final StringBuilder service = new StringBuilder();
-    final StringBuilder impl = new StringBuilder();
-    service.append( "expected" );
-    impl.append( "expected" );
-    for ( int i = 0; i < elements.length; i++ )
-    {
-      service.append( '/' );
-      service.append( elements[ i ] );
-      if ( i == elements.length - 1 )
-      {
-        service.append( "Service" );
-      }
-      impl.append( '/' );
-      if ( i == elements.length - 1 )
-      {
-        impl.append( "RouterFu_" );
-      }
-      impl.append( elements[ i ] );
-    }
-    service.append( ".java" );
-    impl.append( ".java" );
-    return new String[]{ service.toString(), impl.toString() };
+    assertSuccessfulCompile( classname,
+                             toFilename( "expected", classname, "RouterFu_", ".java" ),
+                             toFilename( "expected", classname, "", "Service.java" ) );
   }
 }
