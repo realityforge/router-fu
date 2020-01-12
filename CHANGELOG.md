@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.23](https://github.com/realityforge/router-fu/tree/v0.23) (2020-01-13) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.22...v0.23)
 
 * Upgrade the `org.realityforge.proton` artifacts to version `0.14`.
 * Upgrade the `org.realityforge.arez` artifacts to version `0.165`.
