@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Upgrade the `com.squareup` artifact to version `1.12.0`.
+* Upgrade the `com.squareup:javapoet` artifact to version `1.12.0`.
 * Upgrade the `org.realityforge.proton` artifacts to version `0.16`.
 
 ### [v0.23](https://github.com/realityforge/router-fu/tree/v0.23) (2020-01-13) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.22...v0.23)
