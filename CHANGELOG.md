@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.guiceyloops` artifact to version `0.106`.
+
 ### [v0.24](https://github.com/realityforge/router-fu/tree/v0.24) (2020-01-16) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.23...v0.24)
 
 * Upgrade the `com.squareup:javapoet` artifact to version `1.12.0`.
