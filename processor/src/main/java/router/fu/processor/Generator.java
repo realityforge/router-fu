@@ -256,7 +256,7 @@ final class Generator
     descriptor.getRoutes().stream().
       filter( RouteDescriptor::isNavigationTarget ).
       forEach( route -> {
-        buildBuildLocationMethodImpl( builder, descriptor, route );
+        buildBuildLocationMethodImpl( builder, route );
         buildGotoLocationMethodImpl( builder, route );
       } );
 
@@ -785,7 +785,6 @@ final class Generator
   }
 
   private static void buildBuildLocationMethodImpl( @Nonnull final TypeSpec.Builder builder,
-                                                    @Nonnull final RouterDescriptor descriptor,
                                                     @Nonnull final RouteDescriptor route )
   {
     final MethodSpec.Builder method =
