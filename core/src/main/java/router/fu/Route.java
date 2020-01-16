@@ -70,6 +70,17 @@ public final class Route
   }
 
   /**
+   * Return the name of the route
+   *
+   * @return the name of the route.
+   */
+  @Nonnull
+  public String getName()
+  {
+    return _name;
+  }
+
+  /**
    * Return true if it is valid to navigate to the location identified by this route.
    * As some routes only act as filters (i.e. for applying security) they are not valid navigation
    * targets and should return false from this method.
