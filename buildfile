@@ -56,6 +56,7 @@ define 'router-fu' do
               :junit,
               :hamcrest_core,
               :guava,
+              :guava_failureaccess,
               :proton_qa,
               :arez_core,
               :arez_processor,
