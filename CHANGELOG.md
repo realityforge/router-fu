@@ -7,7 +7,7 @@
 * Upgrade the `com.google.guava` artifact to version `27.1-jre`.
 * Upgrade the `com.google.truth` artifact to version `0.45`.
 * Upgrade the `com.google.testing.compile` artifact to version `0.18-rf`.
-* Upgrade the `org.realityforge.proton` artifacts to version `0.34`.
+* Upgrade the `org.realityforge.proton` artifacts to version `0.35`.
 * Upgrade the `org.realityforge.guiceyloops` artifact to version `0.106`.
 
 ### [v0.24](https://github.com/realityforge/router-fu/tree/v0.24) (2020-01-16) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.23...v0.24)
