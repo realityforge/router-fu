@@ -2,7 +2,6 @@ package router.fu.processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +26,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import org.realityforge.proton.AbstractStandardProcessor;
 import org.realityforge.proton.AnnotationsUtil;
+import org.realityforge.proton.DeferredElementSet;
 import org.realityforge.proton.ElementsUtil;
 import org.realityforge.proton.MemberChecks;
 import org.realityforge.proton.ProcessorException;
@@ -46,15 +46,13 @@ public final class RouterProcessor
   private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
+  @Nonnull
+  private final DeferredElementSet _deferredTypes = new DeferredElementSet();
 
-  @SuppressWarnings( "unchecked" )
   @Override
   public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
   {
-    final TypeElement annotation =
-      processingEnv.getElementUtils().getTypeElement( Constants.ROUTER_ANNOTATION_CLASSNAME );
-    final Collection<TypeElement> elementsTo = (Collection<TypeElement>) env.getElementsAnnotatedWith( annotation );
-    processTypeElements( env, elementsTo, this::process );
+    processTypeElements( annotations, env, Constants.ROUTER_ANNOTATION_CLASSNAME, _deferredTypes, this::process );
     errorIfProcessingOverAndInvalidTypesDetected( env );
     return true;
   }
@@ -92,7 +90,7 @@ public final class RouterProcessor
   {
     final AnnotationMirror annotation =
       AnnotationsUtil.getAnnotationByType( typeElement, Constants.ROUTER_ANNOTATION_CLASSNAME );
-    final boolean arezComponent = AnnotationsUtil.getAnnotationValue( annotation, "arez" );
+    final boolean arezComponent = AnnotationsUtil.getAnnotationValueValue( annotation, "arez" );
     final PackageElement packageElement = processingEnv.getElementUtils().getPackageOf( typeElement );
     final RouterDescriptor descriptor = new RouterDescriptor( packageElement, typeElement );
     descriptor.setArezComponent( arezComponent );
@@ -172,7 +170,7 @@ public final class RouterProcessor
                                    @Nonnull final ExecutableElement method,
                                    @Nonnull final AnnotationMirror annotation )
   {
-    final String name = deriveCallbackName( method, AnnotationsUtil.getAnnotationValue( annotation, "name" ) );
+    final String name = deriveCallbackName( method, AnnotationsUtil.getAnnotationValueValue( annotation, "name" ) );
     if ( null == name )
     {
       throw new ProcessorException( "@RouteCallback target has not specified a name and is not named " +
@@ -290,17 +288,17 @@ public final class RouterProcessor
                                               @Nonnull final RouterDescriptor router,
                                               @Nonnull final AnnotationMirror annotation )
   {
-    final String name = AnnotationsUtil.getAnnotationValue( annotation, "name" );
+    final String name = AnnotationsUtil.getAnnotationValueValue( annotation, "name" );
     if ( !SourceVersion.isIdentifier( name ) )
     {
       throw new ProcessorException( "@Router target has a @BoundParameter with an invalid name '" + name + "'",
                                     typeElement );
     }
-    final String declaredParameterName = AnnotationsUtil.getAnnotationValue( annotation, "parameterName" );
+    final String declaredParameterName = AnnotationsUtil.getAnnotationValueValue( annotation, "parameterName" );
     final String parameterName = declaredParameterName.isEmpty() ? name : declaredParameterName;
 
     final List<AnnotationValue> routeNames =
-      AnnotationsUtil.getAnnotationValue( annotation, "routeNames" );
+      AnnotationsUtil.getAnnotationValueValue( annotation, "routeNames" );
 
     final LinkedHashMap<RouteDescriptor, ParameterDescriptor> bindings = new LinkedHashMap<>();
     if ( routeNames.isEmpty() )
@@ -372,15 +370,15 @@ public final class RouterProcessor
   private void parseRouteAnnotation( @Nonnull final RouterDescriptor descriptor,
                                      @Nonnull final AnnotationMirror annotation )
   {
-    final String name = AnnotationsUtil.getAnnotationValue( annotation, "name" );
+    final String name = AnnotationsUtil.getAnnotationValueValue( annotation, "name" );
     if ( !SourceVersion.isIdentifier( name ) )
     {
       throw new ProcessorException( "@Router target has a route with an invalid name '" + name + "'",
                                     descriptor.getElement() );
 
     }
-    final boolean navigationTarget = AnnotationsUtil.getAnnotationValue( annotation, "navigationTarget" );
-    final boolean partialMatch = AnnotationsUtil.getAnnotationValue( annotation, "partialMatch" );
+    final boolean navigationTarget = AnnotationsUtil.getAnnotationValueValue( annotation, "navigationTarget" );
+    final boolean partialMatch = AnnotationsUtil.getAnnotationValueValue( annotation, "partialMatch" );
     final RouteDescriptor route = new RouteDescriptor( name, navigationTarget, partialMatch );
 
     if ( descriptor.hasRouteNamed( name ) )
@@ -389,7 +387,7 @@ public final class RouterProcessor
                                     descriptor.getElement() );
     }
 
-    parseRoutePath( descriptor.getElement(), route, AnnotationsUtil.getAnnotationValue( annotation, "path" ) );
+    parseRoutePath( descriptor.getElement(), route, AnnotationsUtil.getAnnotationValueValue( annotation, "path" ) );
 
     descriptor.addRoute( route );
   }
