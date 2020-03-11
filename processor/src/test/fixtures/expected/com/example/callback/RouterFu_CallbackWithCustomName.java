@@ -1,7 +1,6 @@
 package com.example.callback;
 
 import elemental2.core.JsRegExp;
-import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import router.fu.HashBackend;
+import router.fu.Backend;
 import router.fu.Location;
 import router.fu.Parameter;
 import router.fu.Route;
@@ -31,8 +30,8 @@ public class RouterFu_CallbackWithCustomName extends CallbackWithCustomName impl
 
   private RouteState $fu$_state_region;
 
-  RouterFu_CallbackWithCustomName(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
+  RouterFu_CallbackWithCustomName(@Nonnull final Backend backend) {
+    $fu$_router = new Router( this::onLocationChanged, backend, Collections.unmodifiableList( Arrays.asList( $fu$_route_region ) ) );
     $fu$_router.activate();
   }
 

@@ -34,14 +34,13 @@ final class Generator
   private static final ClassName NONNULL_CLASSNAME = ClassName.get( "javax.annotation", "Nonnull" );
   private static final ClassName NULLABLE_CLASSNAME = ClassName.get( "javax.annotation", "Nullable" );
   private static final ClassName REGEXP_TYPE = ClassName.get( "elemental2.core", "JsRegExp" );
-  private static final ClassName WINDOW_TYPE = ClassName.get( "elemental2.dom", "Window" );
   private static final ClassName ROUTER_TYPE = ClassName.get( "router.fu", "Router" );
   private static final ClassName ROUTE_TYPE = ClassName.get( "router.fu", "Route" );
   private static final ClassName ROUTE_STATE_TYPE = ClassName.get( "router.fu", "RouteState" );
   private static final ClassName SEGMENT_TYPE = ClassName.get( "router.fu", "Segment" );
   private static final ClassName PARAMETER_TYPE = ClassName.get( "router.fu", "Parameter" );
   private static final ClassName MATCH_RESULT_TYPE = ClassName.get( "router.fu", "MatchResult" );
-  private static final ClassName HASH_BACKEND_TYPE = ClassName.get( "router.fu", "HashBackend" );
+  private static final ClassName BACKEND_TYPE = ClassName.get( "router.fu", "Backend" );
   private static final ClassName LOCATION_TYPE = ClassName.get( "router.fu", "Location" );
   private static final ClassName POST_CONSTRUCT_TYPE = ClassName.get( "arez.annotations", "PostConstruct" );
   private static final ClassName PRE_DISPOSE_TYPE = ClassName.get( "arez.annotations", "PreDispose" );
@@ -285,15 +284,14 @@ final class Generator
                                         @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder ctor = MethodSpec.constructorBuilder();
-    ctor.addParameter( ParameterSpec.builder( WINDOW_TYPE, "window", Modifier.FINAL ).
+    ctor.addParameter( ParameterSpec.builder( BACKEND_TYPE, "backend", Modifier.FINAL ).
       addAnnotation( NONNULL_CLASSNAME ).build() );
 
     final StringBuilder sb = new StringBuilder();
     final ArrayList<Object> params = new ArrayList<>();
-    sb.append( "$N = new $T( this::onLocationChanged, new $T( window ), $T.unmodifiableList( $T.asList( " );
+    sb.append( "$N = new $T( this::onLocationChanged, backend, $T.unmodifiableList( $T.asList( " );
     params.add( FIELD_PREFIX + "router" );
     params.add( ROUTER_TYPE );
-    params.add( HASH_BACKEND_TYPE );
     params.add( Collections.class );
     params.add( Arrays.class );
     sb.append( descriptor.getRoutes()

@@ -1,13 +1,12 @@
 package com.example.router;
 
-import elemental2.dom.Window;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
-import router.fu.HashBackend;
+import router.fu.Backend;
 import router.fu.Location;
 import router.fu.RouteState;
 import router.fu.Router;
@@ -18,8 +17,8 @@ public class RouterFu_BasicRouter extends BasicRouter implements BasicRouterServ
 
   private Location $fu$_location;
 
-  RouterFu_BasicRouter(@Nonnull final Window window) {
-    $fu$_router = new Router( this::onLocationChanged, new HashBackend( window ), Collections.unmodifiableList( Arrays.asList(  ) ) );
+  RouterFu_BasicRouter(@Nonnull final Backend backend) {
+    $fu$_router = new Router( this::onLocationChanged, backend, Collections.unmodifiableList( Arrays.asList(  ) ) );
     $fu$_router.activate();
   }
 
