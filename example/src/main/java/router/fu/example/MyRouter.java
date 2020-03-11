@@ -2,6 +2,7 @@ package router.fu.example;
 
 import elemental2.dom.DomGlobal;
 import javax.annotation.Nonnull;
+import router.fu.HashBackend;
 import router.fu.MatchResult;
 import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
@@ -31,7 +32,7 @@ class MyRouter
   @Nonnull
   static MyRouterService create()
   {
-    return new Arez_RouterFu_MyRouter( DomGlobal.window );
+    return new Arez_RouterFu_MyRouter( new HashBackend( DomGlobal.window ) );
   }
 
   @RouterRef
