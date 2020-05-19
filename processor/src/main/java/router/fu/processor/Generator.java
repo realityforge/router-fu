@@ -275,7 +275,7 @@ final class Generator
   {
     builder.addMethod( MethodSpec.methodBuilder( "reRoute" )
                          .addAnnotation( Override.class )
-                         .addModifiers( Modifier.PUBLIC, Modifier.FINAL )
+                         .addModifiers( Modifier.PUBLIC )
                          .addStatement( "$N.reRoute()", FIELD_PREFIX + "router" )
                          .build() );
   }
@@ -319,20 +319,20 @@ final class Generator
 
   private static void buildPostConstruct( @Nonnull final TypeSpec.Builder builder )
   {
-    final MethodSpec.Builder method = MethodSpec.methodBuilder( "postConstruct" );
-    method.addModifiers( Modifier.FINAL );
-    method.addAnnotation( POST_CONSTRUCT_TYPE );
-    method.addStatement( "$N.activate()", FIELD_PREFIX + "router" );
-    builder.addMethod( method.build() );
+    builder.addMethod( MethodSpec
+                         .methodBuilder( "postConstruct" )
+                         .addAnnotation( POST_CONSTRUCT_TYPE )
+                         .addStatement( "$N.activate()", FIELD_PREFIX + "router" )
+                         .build() );
   }
 
   private static void buildPreDispose( @Nonnull final TypeSpec.Builder builder )
   {
-    final MethodSpec.Builder method = MethodSpec.methodBuilder( "preDispose" );
-    method.addModifiers( Modifier.FINAL );
-    method.addAnnotation( PRE_DISPOSE_TYPE );
-    method.addStatement( "$N.deactivate()", FIELD_PREFIX + "router" );
-    builder.addMethod( method.build() );
+    builder.addMethod( MethodSpec
+                         .methodBuilder( "preDispose" )
+                         .addAnnotation( PRE_DISPOSE_TYPE )
+                         .addStatement( "$N.deactivate()", FIELD_PREFIX + "router" )
+                         .build() );
   }
 
   private static void buildParameterFields( @Nonnull final TypeSpec.Builder builder,
@@ -774,12 +774,11 @@ final class Generator
   private static void buildCallbackDepsChangedMethodImpl( @Nonnull final TypeSpec.Builder builder,
                                                           @Nonnull final RouteDescriptor route )
   {
-    final MethodSpec.Builder method =
-      MethodSpec.methodBuilder( "on" + toPascalCaseName( route.getName() + "Callback" ) + "DepsChange" );
-    method.addAnnotation( ON_DEPS_CHANGE_TYPE );
-    method.addModifiers( Modifier.FINAL );
-    method.addStatement( "reRoute()" );
-    builder.addMethod( method.build() );
+    builder.addMethod( MethodSpec
+                         .methodBuilder( "on" + toPascalCaseName( route.getName() + "Callback" ) + "DepsChange" )
+                         .addAnnotation( ON_DEPS_CHANGE_TYPE )
+                         .addStatement( "reRoute()" )
+                         .build() );
   }
 
   private static void buildBuildLocationMethodImpl( @Nonnull final TypeSpec.Builder builder,

@@ -105,7 +105,7 @@ public class RouterFu_CallbackWithParams1 extends CallbackWithParams1 implements
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

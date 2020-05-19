@@ -52,7 +52,7 @@ public class RouterFu_PublicRouterRef extends PublicRouterRef implements PublicR
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

@@ -105,7 +105,7 @@ public class RouterFu_CallbackWithCustomName extends CallbackWithCustomName impl
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

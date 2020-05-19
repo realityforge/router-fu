@@ -132,7 +132,7 @@ public class RouterFu_NonDefaultNameParameter extends NonDefaultNameParameter im
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

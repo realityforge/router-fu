@@ -105,7 +105,7 @@ public class RouterFu_CallbackFromInterface extends CallbackFromInterface implem
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

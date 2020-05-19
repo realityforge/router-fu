@@ -52,7 +52,7 @@ public class RouterFu_BasicRouterRef extends BasicRouterRef implements BasicRout
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

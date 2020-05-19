@@ -132,7 +132,7 @@ public class RouterFu_URIEncodedParameter extends URIEncodedParameter implements
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

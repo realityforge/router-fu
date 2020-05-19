@@ -132,7 +132,7 @@ public class RouterFu_BasicBoundParameter extends BasicBoundParameter implements
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

@@ -52,7 +52,7 @@ public class RouterFu_ProtectedRouterRef extends ProtectedRouterRef implements P
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

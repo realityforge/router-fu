@@ -106,7 +106,7 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

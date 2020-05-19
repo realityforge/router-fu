@@ -70,12 +70,12 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @PostConstruct
-  final void postConstruct() {
+  void postConstruct() {
     $fu$_router.activate();
   }
 
   @PreDispose
-  final void preDispose() {
+  void preDispose() {
     $fu$_router.deactivate();
   }
 
@@ -110,7 +110,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @OnDepsChange
-  final void onRegionFilterCallbackDepsChange() {
+  void onRegionFilterCallbackDepsChange() {
     reRoute();
   }
 
@@ -377,7 +377,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter implements 
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

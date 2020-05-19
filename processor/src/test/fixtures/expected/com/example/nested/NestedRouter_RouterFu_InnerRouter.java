@@ -48,7 +48,7 @@ public class NestedRouter_RouterFu_InnerRouter extends NestedRouter.InnerRouter 
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

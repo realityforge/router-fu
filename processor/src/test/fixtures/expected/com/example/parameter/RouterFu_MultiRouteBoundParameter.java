@@ -244,7 +244,7 @@ public class RouterFu_MultiRouteBoundParameter extends MultiRouteBoundParameter 
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

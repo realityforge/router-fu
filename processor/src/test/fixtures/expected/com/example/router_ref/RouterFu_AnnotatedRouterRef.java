@@ -53,7 +53,7 @@ public class RouterFu_AnnotatedRouterRef extends AnnotatedRouterRef implements A
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

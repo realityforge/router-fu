@@ -31,12 +31,12 @@ public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRout
   }
 
   @PostConstruct
-  final void postConstruct() {
+  void postConstruct() {
     $fu$_router.activate();
   }
 
   @PreDispose
-  final void preDispose() {
+  void preDispose() {
     $fu$_router.deactivate();
   }
 
@@ -68,7 +68,7 @@ public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRout
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

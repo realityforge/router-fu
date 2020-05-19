@@ -105,7 +105,7 @@ public class RouterFu_BasicCallback extends BasicCallback implements BasicCallba
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }

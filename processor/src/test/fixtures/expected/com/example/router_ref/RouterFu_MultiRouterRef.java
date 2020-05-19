@@ -56,7 +56,7 @@ public class RouterFu_MultiRouterRef extends MultiRouterRef implements MultiRout
   }
 
   @Override
-  public final void reRoute() {
+  public void reRoute() {
     $fu$_router.reRoute();
   }
 }
