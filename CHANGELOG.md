@@ -3,7 +3,7 @@
 ### Unreleased
 
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.28.0`.
-* Upgrade the `org.realityforge.arez` artifacts to version `0.177`.
+* Upgrade the `org.realityforge.arez` artifacts to version `0.178`.
 * Upgrade the `org.realityforge.proton` artifacts to version `0.48`.
 
 ### [v0.25](https://github.com/realityforge/router-fu/tree/v0.25) (2020-03-11) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.24...v0.25)
