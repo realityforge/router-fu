@@ -47,11 +47,11 @@ public class RouterFu_MultiRouterRef extends MultiRouterRef implements MultiRout
     }
   }
 
-  final MultiRouterRefService getRouterService() {
+  MultiRouterRefService getRouterService() {
     return this;
   }
 
-  final MultiRouterRefService getRouterService2() {
+  MultiRouterRefService getRouterService2() {
     return this;
   }
 

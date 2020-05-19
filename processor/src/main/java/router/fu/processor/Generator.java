@@ -105,7 +105,6 @@ final class Generator
       MethodSpec.methodBuilder( routerRefMethod.getSimpleName().toString() );
     GeneratorUtil.copyAccessModifiers( routerRefMethod, method );
     GeneratorUtil.copyWhitelistedAnnotations( routerRefMethod, method );
-    method.addModifiers( Modifier.FINAL );
     method.returns( descriptor.getServiceClassName() );
     method.addStatement( "return this" );
     builder.addMethod( method.build() );

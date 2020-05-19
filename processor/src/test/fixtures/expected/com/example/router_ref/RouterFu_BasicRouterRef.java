@@ -47,7 +47,7 @@ public class RouterFu_BasicRouterRef extends BasicRouterRef implements BasicRout
     }
   }
 
-  final BasicRouterRefService getRouterService() {
+  BasicRouterRefService getRouterService() {
     return this;
   }
 

@@ -47,7 +47,7 @@ public class RouterFu_ProtectedRouterRef extends ProtectedRouterRef implements P
     }
   }
 
-  protected final ProtectedRouterRefService getRouterService() {
+  protected ProtectedRouterRefService getRouterService() {
     return this;
   }
 

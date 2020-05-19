@@ -48,7 +48,7 @@ public class RouterFu_AnnotatedRouterRef extends AnnotatedRouterRef implements A
   }
 
   @Nonnull
-  final AnnotatedRouterRefService getRouterService() {
+  AnnotatedRouterRefService getRouterService() {
     return this;
   }
 

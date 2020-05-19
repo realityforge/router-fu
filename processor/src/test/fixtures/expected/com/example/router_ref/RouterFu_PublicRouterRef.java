@@ -47,7 +47,7 @@ public class RouterFu_PublicRouterRef extends PublicRouterRef implements PublicR
     }
   }
 
-  public final PublicRouterRefService getRouterService() {
+  public PublicRouterRefService getRouterService() {
     return this;
   }
 
