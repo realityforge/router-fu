@@ -39,8 +39,8 @@ artifacts:
   guava: com.google.guava:guava:jar:27.1-jre
   guava_failureaccess: com.google.guava:failureaccess:jar:1.0.1
 
-  proton_core: org.realityforge.proton:proton-core:jar:0.46
-  proton_qa: org.realityforge.proton:proton-qa:jar:0.46
+  proton_core: org.realityforge.proton:proton-core:jar:0.47
+  proton_qa: org.realityforge.proton:proton-qa:jar:0.47
 
   compile_testing: com.google.testing.compile:compile-testing:jar:0.18-rf
   truth: com.google.truth:truth:jar:0.45
