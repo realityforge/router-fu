@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.26](https://github.com/realityforge/router-fu/tree/v0.26) (2020-05-19) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.25...v0.26)
 
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.28.0`.
 * Upgrade the `org.realityforge.arez` artifacts to version `0.178`.
