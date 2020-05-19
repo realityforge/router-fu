@@ -17,7 +17,7 @@
 * Upgrade the `com.google.testing.compile` artifact to version `0.18-rf`.
 * Upgrade the `org.realityforge.proton` artifacts to version `0.41`.
 * Upgrade the `org.realityforge.guiceyloops` artifact to version `0.106`.
-* Change constructor argument in the generated router from accepting a `window` object to accepting a `router.Backend`. This makes it possible to support arbitrary backends rather than justthe `HashBackend`. This is a breaking change.
+* Change constructor argument in the generated router from accepting a `window` object to accepting a `router.Backend`. This makes it possible to support arbitrary backends rather than just the `HashBackend`. This is a breaking change.
 
 ### [v0.24](https://github.com/realityforge/router-fu/tree/v0.24) (2020-01-16) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.23...v0.24)
 
