@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Upgrade the `org.realityforge.proton` artifacts to version `0.49`.
+* Upgrade the `org.realityforge.proton` artifacts to version `0.50`.
 
 ### [v0.26](https://github.com/realityforge/router-fu/tree/v0.26) (2020-05-19) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.25...v0.26)
 
