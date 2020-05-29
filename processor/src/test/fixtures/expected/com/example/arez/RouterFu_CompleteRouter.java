@@ -3,6 +3,7 @@ package com.example.arez;
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
 import arez.annotations.Executor;
+import arez.annotations.Feature;
 import arez.annotations.Observable;
 import arez.annotations.Observe;
 import arez.annotations.OnDepsChange;
@@ -28,7 +29,9 @@ import router.fu.Router;
 import router.fu.Segment;
 
 @ArezComponent(
-    name = "CompleteRouter"
+    name = "CompleteRouter",
+    requireId = Feature.DISABLE,
+    disposeNotifier = Feature.DISABLE
 )
 @Generated("router.fu.processor.RouterProcessor")
 public abstract class RouterFu_CompleteRouter extends CompleteRouter implements CompleteRouterService {

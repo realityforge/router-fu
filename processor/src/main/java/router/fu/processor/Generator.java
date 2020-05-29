@@ -49,6 +49,7 @@ final class Generator
   private static final ClassName OBSERVE_TYPE = ClassName.get( "arez.annotations", "Observe" );
   private static final ClassName EXECUTOR_TYPE = ClassName.get( "arez.annotations", "Executor" );
   private static final ClassName ON_DEPS_CHANGE_TYPE = ClassName.get( "arez.annotations", "OnDepsChange" );
+  private static final ClassName FEATURE_TYPE = ClassName.get( "arez.annotations", "Feature" );
   private static final String FIELD_PREFIX = "$fu$_";
   private static final String ROUTE_FIELD_PREFIX = FIELD_PREFIX + "route_";
   private static final String ROUTE_STATE_FIELD_PREFIX = FIELD_PREFIX + "state_";
@@ -203,7 +204,9 @@ final class Generator
     {
       final AnnotationSpec.Builder annotation =
         AnnotationSpec.builder( ClassName.get( "arez.annotations", "ArezComponent" ) ).
-          addMember( "name", "$S", descriptor.getClassName().simpleName() );
+          addMember( "name", "$S", descriptor.getClassName().simpleName() ).
+          addMember( "requireId", "$T.DISABLE", FEATURE_TYPE ).
+          addMember( "disposeNotifier", "$T.DISABLE", FEATURE_TYPE );
       builder.addAnnotation( annotation.build() );
       builder.addModifiers( Modifier.ABSTRACT );
     }

@@ -2,6 +2,7 @@ package com.example.arez;
 
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
+import arez.annotations.Feature;
 import arez.annotations.Observable;
 import arez.annotations.PostConstruct;
 import arez.annotations.PreDispose;
@@ -17,7 +18,9 @@ import router.fu.RouteState;
 import router.fu.Router;
 
 @ArezComponent(
-    name = "ArezRouter"
+    name = "ArezRouter",
+    requireId = Feature.DISABLE,
+    disposeNotifier = Feature.DISABLE
 )
 @Generated("router.fu.processor.RouterProcessor")
 public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService {
