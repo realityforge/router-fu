@@ -17,7 +17,9 @@ final class RouteDescriptor
   private final String _name;
   private final boolean _navigationTarget;
   private final boolean _partialMatch;
+  @Nonnull
   private final List<Object> _parts = new ArrayList<>();
+  @Nonnull
   private final Map<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
   private ExecutableElement _callback;
   private ExecutableType _callbackType;
