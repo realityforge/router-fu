@@ -26,7 +26,7 @@ final class ParameterDescriptor
   @Nonnull
   String getFieldName()
   {
-    return getName() + ( null == getConstraint() ? "" : "_" + Math.abs( getConstraint().hashCode() ) );
+    return getName() + ( null == _constraint ? "" : "_" + Math.abs( _constraint.hashCode() ) );
   }
 
   @Nonnull
