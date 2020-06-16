@@ -21,9 +21,9 @@ import router.fu.Segment;
 
 @Generated("router.fu.processor.RouterProcessor")
 public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParametersWithConstraints implements RouteWithParametersWithConstraintsService {
-  private final Parameter $fu$_eventCode_1643987249 = new Parameter( "eventCode", new JsRegExp( "[0-9]+" ) );
+  private final Parameter $fu$_eventCode_1643987249 = new Parameter( "eventCode", new JsRegExp( "^[0-9]+$" ) );
 
-  private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new JsRegExp( "[a-zA-Z]+" ) );
+  private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new JsRegExp( "^[a-zA-Z]+$" ) );
 
   private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode_821487049 ), }, new Parameter[]{$fu$_regionCode_821487049, }, new JsRegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 

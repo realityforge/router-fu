@@ -21,7 +21,7 @@ import router.fu.Segment;
 
 @Generated("router.fu.processor.RouterProcessor")
 public class RouterFu_URIEncodedParameter extends URIEncodedParameter implements URIEncodedParameterService {
-  private final Parameter $fu$_keyword_755992427 = new Parameter( "keyword", new JsRegExp( "((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)" ) );
+  private final Parameter $fu$_keyword_755992427 = new Parameter( "keyword", new JsRegExp( "^((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$" ) );
 
   private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_keyword_755992427 ), }, new Parameter[]{$fu$_keyword_755992427, }, new JsRegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
 

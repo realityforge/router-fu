@@ -37,9 +37,9 @@ import router.fu.Segment;
 public abstract class RouterFu_CompleteRouter extends CompleteRouter implements CompleteRouterService {
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Parameter $fu$_eventCode_1643987249 = new Parameter( "eventCode", new JsRegExp( "[0-9]+" ) );
+  private final Parameter $fu$_eventCode_1643987249 = new Parameter( "eventCode", new JsRegExp( "^[0-9]+$" ) );
 
-  private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new JsRegExp( "[a-zA-Z]+" ) );
+  private final Parameter $fu$_regionCode_821487049 = new Parameter( "regionCode", new JsRegExp( "^[a-zA-Z]+$" ) );
 
   private final Route $fu$_route_regionFilter = new Route( "regionFilter", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new JsRegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$" ), ( location, route, parameters ) -> regionFilterCallback(  ) );
 
