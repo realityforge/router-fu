@@ -3,6 +3,7 @@ package router.fu.processor;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
@@ -16,8 +17,8 @@ final class RouteDescriptor
   private final String _name;
   private final boolean _navigationTarget;
   private final boolean _partialMatch;
-  private final ArrayList<Object> _parts = new ArrayList<>();
-  private final LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
+  private final List<Object> _parts = new ArrayList<>();
+  private final Map<ParameterDescriptor, BoundParameterDescriptor> _boundParameters = new LinkedHashMap<>();
   private ExecutableElement _callback;
   private ExecutableType _callbackType;
   private int _locationIndex;
@@ -58,7 +59,7 @@ final class RouteDescriptor
   }
 
   @Nonnull
-  ArrayList<Object> getParts()
+  List<Object> getParts()
   {
     return _parts;
   }
@@ -80,7 +81,7 @@ final class RouteDescriptor
   }
 
   @Nonnull
-  LinkedHashMap<ParameterDescriptor, BoundParameterDescriptor> getBoundParameters()
+  Map<ParameterDescriptor, BoundParameterDescriptor> getBoundParameters()
   {
     return _boundParameters;
   }

@@ -916,7 +916,7 @@ final class Generator
                                   ROUTE_FIELD_PREFIX + route.getName() );
       caseBlock.addStatement( "$N( state )", "set" + toPascalCaseName( route.getName() ) + "RouteState" );
       caseBlock.addStatement( "routeStartIndex++" );
-      final HashMap<ParameterDescriptor, BoundParameterDescriptor> boundParameters = route.getBoundParameters();
+      final Map<ParameterDescriptor, BoundParameterDescriptor> boundParameters = route.getBoundParameters();
       if ( !boundParameters.isEmpty() )
       {
         for ( final Map.Entry<ParameterDescriptor, BoundParameterDescriptor> entry : boundParameters.entrySet() )
