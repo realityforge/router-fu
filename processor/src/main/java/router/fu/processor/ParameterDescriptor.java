@@ -20,7 +20,7 @@ final class ParameterDescriptor
   @Nonnull
   String getKey()
   {
-    return getName() + ( null == getConstraint() ? "" : "<" + getConstraint() + ">" );
+    return getName() + ( null == _constraint ? "" : "<" + _constraint + ">" );
   }
 
   @Nonnull
