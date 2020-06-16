@@ -356,13 +356,10 @@ final class Generator
                          FIELD_PREFIX + parameter.getFieldName(),
                          Modifier.FINAL,
                          Modifier.PRIVATE );
-    if ( null != parameter.getConstraint() )
+    final String constraint = parameter.getConstraint();
+    if ( null != constraint )
     {
-      field.initializer( "new $T( $S, new $T( $S ) )",
-                         PARAMETER_TYPE,
-                         parameter.getName(),
-                         REGEXP_TYPE,
-                         parameter.getConstraint() );
+      field.initializer( "new $T( $S, new $T( $S ) )", PARAMETER_TYPE, parameter.getName(), REGEXP_TYPE, constraint );
     }
     else
     {
