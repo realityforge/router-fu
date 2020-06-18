@@ -90,7 +90,6 @@ public class RouterFu_NonDefaultNameParameter extends NonDefaultNameParameter im
     return $fu$_route_region.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegion(@Nonnull final String regionCode) {
     $fu$_router.changeLocation( buildRegionLocation( regionCode ) );

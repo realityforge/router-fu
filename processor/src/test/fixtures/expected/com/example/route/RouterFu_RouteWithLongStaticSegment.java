@@ -57,7 +57,6 @@ public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegm
     return $fu$_route_region.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegion() {
     $fu$_router.changeLocation( buildRegionLocation(  ) );

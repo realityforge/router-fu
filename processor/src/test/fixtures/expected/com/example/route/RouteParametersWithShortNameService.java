@@ -25,7 +25,6 @@ public interface RouteParametersWithShortNameService {
   @Nonnull
   String buildALocation(@Nonnull String regionCode);
 
-  @Nonnull
   void gotoA(@Nonnull String regionCode);
 
   void reRoute();

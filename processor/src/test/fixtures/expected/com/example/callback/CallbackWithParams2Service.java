@@ -25,7 +25,6 @@ public interface CallbackWithParams2Service {
   @Nonnull
   String buildRegionLocation(@Nonnull String regionCode);
 
-  @Nonnull
   void gotoRegion(@Nonnull String regionCode);
 
   void reRoute();

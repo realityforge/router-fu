@@ -65,7 +65,6 @@ public class RouterFu_CallbackWithParams2 extends CallbackWithParams2 implements
     return $fu$_route_region.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegion(@Nonnull final String regionCode) {
     $fu$_router.changeLocation( buildRegionLocation( regionCode ) );

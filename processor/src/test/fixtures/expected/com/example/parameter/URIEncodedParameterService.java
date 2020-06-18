@@ -30,7 +30,6 @@ public interface URIEncodedParameterService {
   @Nonnull
   String buildRegionLocation(@Nonnull String keyword);
 
-  @Nonnull
   void gotoRegion(@Nonnull String keyword);
 
   void reRoute();

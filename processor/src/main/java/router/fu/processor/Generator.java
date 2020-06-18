@@ -179,7 +179,6 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "goto" + toPascalCaseName( route.getName() ) );
     method.addModifiers( Modifier.PUBLIC, Modifier.ABSTRACT );
-    method.addAnnotation( NONNULL_CLASSNAME );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {
       method.addParameter( ParameterSpec.builder( String.class, parameter.getName() )
@@ -822,7 +821,6 @@ final class Generator
     final MethodSpec.Builder method =
       MethodSpec.methodBuilder( "goto" + toPascalCaseName( route.getName() ) );
     method.addModifiers( Modifier.PUBLIC );
-    method.addAnnotation( NONNULL_CLASSNAME );
     method.addAnnotation( Override.class );
     for ( final ParameterDescriptor parameter : route.getParameters() )
     {

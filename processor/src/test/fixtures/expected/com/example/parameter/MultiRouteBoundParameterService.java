@@ -51,19 +51,16 @@ public interface MultiRouteBoundParameterService {
   @Nonnull
   String buildRegionLocation(@Nonnull String regionCode);
 
-  @Nonnull
   void gotoRegion(@Nonnull String regionCode);
 
   @Nonnull
   String buildRegionEventsLocation(@Nonnull String regionCode);
 
-  @Nonnull
   void gotoRegionEvents(@Nonnull String regionCode);
 
   @Nonnull
   String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
 
-  @Nonnull
   void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
 
   void reRoute();

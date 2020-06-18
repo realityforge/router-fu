@@ -66,7 +66,6 @@ public class RouterFu_RouteParametersWithShortName extends RouteParametersWithSh
     return $fu$_route_A.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoA(@Nonnull final String regionCode) {
     $fu$_router.changeLocation( buildALocation( regionCode ) );

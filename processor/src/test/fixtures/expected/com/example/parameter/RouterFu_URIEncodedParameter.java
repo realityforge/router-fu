@@ -90,7 +90,6 @@ public class RouterFu_URIEncodedParameter extends URIEncodedParameter implements
     return $fu$_route_region.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegion(@Nonnull final String keyword) {
     $fu$_router.changeLocation( buildRegionLocation( keyword ) );

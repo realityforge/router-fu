@@ -126,7 +126,6 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
     return $fu$_route_region.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegion(@Nonnull final String regionCode) {
     $fu$_router.changeLocation( buildRegionLocation( regionCode ) );
@@ -140,7 +139,6 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
     return $fu$_route_regionEvents.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegionEvents(@Nonnull final String regionCode) {
     $fu$_router.changeLocation( buildRegionEventsLocation( regionCode ) );
@@ -156,7 +154,6 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
     return $fu$_route_regionEvent.buildLocation( $fu$_route_params );
   }
 
-  @Nonnull
   @Override
   public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
     $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );

@@ -25,7 +25,6 @@ public interface BasicCallbackService {
   @Nonnull
   String buildRegionLocation(@Nonnull String regionCode);
 
-  @Nonnull
   void gotoRegion(@Nonnull String regionCode);
 
   void reRoute();

@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Remove the `@Nonnull` annotations added to void methods in generated code.
+
 ### [v0.28](https://github.com/realityforge/router-fu/tree/v0.28) (2020-06-16) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.27...v0.28)
 
 * Upgrade the `org.realityforge.arez` artifacts to version `0.182`.
