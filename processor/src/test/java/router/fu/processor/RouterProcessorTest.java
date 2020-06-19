@@ -34,6 +34,7 @@ public final class RouterProcessorTest
         new Object[]{ "com.example.parameter.NonDefaultNameParameter" },
         new Object[]{ "com.example.parameter.SelectiveMultiRouteBoundParameter" },
         new Object[]{ "com.example.route.RouteParametersWithShortName" },
+        new Object[]{ "com.example.route.RouteWithEmptyPath" },
         new Object[]{ "com.example.route.RouteWithLongStaticSegment" },
         new Object[]{ "com.example.route.RouteWithNonTargetParameters" },
         new Object[]{ "com.example.route.RouteWithParameters" },

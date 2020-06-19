@@ -465,24 +465,31 @@ final class Generator
   @Nonnull
   private static String toJsRegExp( @Nonnull final RouteDescriptor route )
   {
-    final StringBuilder sb = new StringBuilder();
-    sb.append( "^/" );
-    for ( final Object part : route.getParts() )
+    if ( route.getParts().isEmpty() )
     {
-      if ( part instanceof String )
-      {
-        sb.append( part );
-      }
-      else
-      {
-        sb.append( "((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)" );
-      }
+      return "^$";
     }
-    if ( !route.isPartialMatch() )
+    else
     {
-      sb.append( "$" );
+      final StringBuilder sb = new StringBuilder();
+      sb.append( "^/" );
+      for ( final Object part : route.getParts() )
+      {
+        if ( part instanceof String )
+        {
+          sb.append( part );
+        }
+        else
+        {
+          sb.append( "((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)" );
+        }
+      }
+      if ( !route.isPartialMatch() )
+      {
+        sb.append( "$" );
+      }
+      return sb.toString();
     }
-    return sb.toString();
   }
 
   private static void buildSegments( @Nonnull final StringBuilder sb,
