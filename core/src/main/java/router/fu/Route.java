@@ -162,7 +162,7 @@ public final class Route
   @Nullable
   public RouteState match( @Nonnull final String location )
   {
-    final HashMap<Parameter, String> parameters = locationMatch( location );
+    final Map<Parameter, String> parameters = locationMatch( location );
     if ( null != parameters )
     {
       final MatchResult matchResult = _matchCallback.shouldMatch( location, this, parameters );
@@ -181,12 +181,12 @@ public final class Route
    * @return the parameters if match, else null.
    */
   @Nullable
-  private HashMap<Parameter, String> locationMatch( @Nonnull final String location )
+  private Map<Parameter, String> locationMatch( @Nonnull final String location )
   {
     final RegExpResult groups = _matcher.exec( Objects.requireNonNull( location ) );
     if ( null != groups )
     {
-      final HashMap<Parameter, String> matchData = new HashMap<>();
+      final Map<Parameter, String> matchData = new HashMap<>();
       //Group 0 is the whole string so we can skip it
       for ( int i = 1; i < groups.length; i++ )
       {
