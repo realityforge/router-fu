@@ -53,7 +53,7 @@ public final class Route
 
   static String pathToPattern( @Nonnull final String path )
   {
-    return "^" + path.replaceAll( "([\\-/\\\\\\^$\\*\\+\\?\\.\\(\\)\\|\\[\\]\\{\\}])", "\\\\$1" ) + "$";
+    return "^" + path.replaceAll( "([\\-/\\\\^$*+?.()|\\[\\]{}])", "\\\\$1" ) + "$";
   }
 
   public Route( @Nonnull final String name,
