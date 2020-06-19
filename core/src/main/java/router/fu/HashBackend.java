@@ -47,6 +47,11 @@ public class HashBackend
     if ( 0 == hash.length() )
     {
       /*
+       * "hashchanged" event handler is not invoked if only use pushState to
+       * change the url so we set it to empty before also using pushState.
+       */
+      _window.location.hash = "";
+      /*
        * This code is needed to remove the stray #.
        * See https://stackoverflow.com/questions/1397329/how-to-remove-the-hash-from-window-location-url-with-javascript-without-page-r/5298684#5298684
        */
