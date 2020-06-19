@@ -3,7 +3,6 @@
 ### Unreleased
 
 * Upgrade the `com.squareup:javapoet` artifact to version `1.13.0`.
-* Migrate to the official `com.google.elemental2` artifact version `1.1.0`.
 
 ### [v0.29](https://github.com/realityforge/router-fu/tree/v0.29) (2020-06-18) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.28...v0.29)
 
