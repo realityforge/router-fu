@@ -105,7 +105,7 @@ public final class Router
   @Nonnull
   Location route( @Nonnull final String location )
   {
-    final ArrayList<RouteState> states = new ArrayList<>();
+    final List<RouteState> states = new ArrayList<>();
     for ( final Route route : _routes )
     {
       final RouteState state = route.match( location );
