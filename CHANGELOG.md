@@ -1,6 +1,6 @@
 # Change Log
 
-### Unreleased
+### [v0.30](https://github.com/realityforge/router-fu/tree/v0.30) (2020-06-19) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.29...v0.30)
 
 * Upgrade the `com.squareup:javapoet` artifact to version `1.13.0`.
 * Update the annotation processor so that the hash suffixes like `"#/"`, `"#"` and `""` are treated as an empty path.
