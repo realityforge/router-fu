@@ -56,7 +56,7 @@ public class HashBackend
        * See https://stackoverflow.com/questions/1397329/how-to-remove-the-hash-from-window-location-url-with-javascript-without-page-r/5298684#5298684
        */
       final String url = _window.location.pathname + _window.location.search;
-      _window.history.pushState( "", DomGlobal.document.title, url );
+      _window.history.replaceState( "", DomGlobal.document.title, url );
     }
     else
     {

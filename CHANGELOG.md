@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Update the `HashBackend` so that visiting the empty path does not create an additional history element and thus back button works as expected.
+
 ### [v0.30](https://github.com/realityforge/router-fu/tree/v0.30) (2020-06-19) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.29...v0.30)
 
 * Upgrade the `com.squareup:javapoet` artifact to version `1.13.0`.
