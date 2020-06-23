@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.arez` artifacts to version `0.183`.
+
 ### [v0.31](https://github.com/realityforge/router-fu/tree/v0.31) (2020-06-23) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.30...v0.31)
 
 * Update the `HashBackend` so that visiting the empty path does not create an additional history element and thus back button works as expected.
