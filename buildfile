@@ -53,7 +53,7 @@ define 'router-fu' do
                  :javax_annotation
 
     test.with :compile_testing,
-              Java.tools_jar,
+              Buildr::Util.tools_jar,
               :truth,
               :junit,
               :hamcrest_core,
