@@ -123,7 +123,6 @@ define 'router-fu' do
   iml.excluded_directories << project._('tmp')
 
   ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development -Drouter.fu.output_fixture_data=false -Drouter.fu.fixture_dir=processor/src/test/resources')
-  ipr.add_component_from_artifact(:idea_codestyle)
 
   ipr.add_gwt_configuration(project('example'),
                             :gwt_module => 'router.fu.example.Example',
@@ -131,13 +130,8 @@ define 'router-fu' do
                             :vm_parameters => '-Xmx2G',
                             :shell_parameters => "-strict -style PRETTY -XmethodNameDisplayMode FULL -nostartServer -incremental -codeServerPort 8889 -bindAddress 0.0.0.0 -deploy #{_(:generated, :gwt, 'deploy')} -extra #{_(:generated, :gwt, 'extra')} -war #{_(:generated, :gwt, 'war')}")
 
-  ipr.add_component('CompilerConfiguration') do |component|
-    component.annotationProcessing do |xml|
-      xml.profile(:default => true, :name => 'Default', :enabled => true) do
-        xml.sourceOutputDir :name => 'generated/processors/main/java'
-        xml.sourceTestOutputDir :name => 'generated/processors/test/java'
-        xml.outputRelativeToContentRoot :value => true
-      end
-    end
-  end
+  ipr.add_component_from_artifact(:idea_codestyle)
+  ipr.add_code_insight_settings
+  ipr.add_nullable_manager
+  ipr.add_javac_settings('-Xlint:all,-processing,-serial -Werror -Xmaxerrs 10000 -Xmaxwarns 10000')
 end
