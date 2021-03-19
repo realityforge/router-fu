@@ -3,6 +3,7 @@ require 'buildr/gpg'
 require 'buildr/single_intermediate_layout'
 require 'buildr/gwt'
 require 'buildr/jacoco'
+require 'buildr/shade'
 
 desc 'router-fu: A GWT based state router'
 define 'router-fu' do
@@ -73,17 +74,10 @@ define 'router-fu' do
       jar.merge(artifact(:javapoet))
       jar.merge(artifact(:proton_core))
       jar.enhance do |f|
-        shaded_jar = (f.to_s + '-shaded')
-        Buildr.ant 'shade_jar' do |ant|
-          artifact = Buildr.artifact(:shade_task)
-          artifact.invoke
-          ant.taskdef :name => 'shade', :classname => 'org.realityforge.ant.shade.Shade', :classpath => artifact.to_s
-          ant.shade :jar => f.to_s, :uberJar => shaded_jar do
-            ant.relocation :pattern => 'com.squareup.javapoet', :shadedPattern => 'router.fu.processor.vendor.javapoet'
-            ant.relocation :pattern => 'org.realityforge.proton', :shadedPattern => 'router.fu.processor.vendor.proton'
-          end
-        end
-        FileUtils.mv shaded_jar, f.to_s
+        Buildr::Shade.shade(f,
+                            f,
+                            'com.squareup.javapoet' => 'router.fu.processor.vendor.javapoet',
+                            'org.realityforge.proton' => 'router.fu.processor.vendor.proton')
       end
     end
 
