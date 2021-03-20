@@ -32,7 +32,7 @@ define 'router-fu' do
                  :elemental2_promise,
                  :braincheck
 
-    project.processorpath << artifacts(:grim_processor, :javax_json)
+    compile.options[:processor_path] << artifacts(:grim_processor, :javax_json)
 
     test.options[:properties] = { 'braincheck.environment' => 'development' }
     test.options[:java_args] = ['-ea']
