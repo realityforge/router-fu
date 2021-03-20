@@ -5,6 +5,8 @@ require 'buildr/gwt'
 require 'buildr/jacoco'
 require 'buildr/shade'
 
+Buildr::MavenCentral.define_publish_tasks(:profile_name => 'org.realityforge', :username => 'realityforge')
+
 desc 'router-fu: A GWT based state router'
 define 'router-fu' do
   project.group = 'org.realityforge.router.fu'
