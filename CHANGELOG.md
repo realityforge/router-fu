@@ -5,7 +5,7 @@
 * Upgrade the `org.realityforge.grim` artifacts to version `0.05`.
 * Upgrade the `au.com.stocksoftware.idea.codestyle` artifact to version `1.17`.
 * Upgrade the `org.realityforge.org.jetbrains.annotations` artifact to version `1.7.0`.
-* Upgrade the `org.realityforge.arez` artifacts to version `0.183`.
+* Upgrade the `org.realityforge.arez` artifacts to version `0.193`.
 
 ### [v0.31](https://github.com/realityforge/router-fu/tree/v0.31) (2020-06-23) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.30...v0.31)
 
