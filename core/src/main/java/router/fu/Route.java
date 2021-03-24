@@ -1,7 +1,6 @@
 package router.fu;
 
-import elemental2.core.JsRegExp;
-import elemental2.core.RegExpResult;
+import akasha.core.RegExp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +43,7 @@ public final class Route
    * The regular expression that matches the path and extracts parameters.
    */
   @Nonnull
-  private final JsRegExp _matcher;
+  private final RegExMatcher _matcher;
   /**
    * The callback that makes the final decision whether a route matches.
    */
@@ -59,8 +58,17 @@ public final class Route
   public Route( @Nonnull final String name,
                 @Nullable final Segment[] segments,
                 @Nonnull final Parameter[] parameters,
-                @Nonnull final JsRegExp matcher,
+                @Nonnull final RegExp matcher,
                 @Nonnull final RouteMatchCallback matchCallback )
+  {
+    this( name, segments, parameters, new BrowserMatcher( matcher ), matchCallback );
+  }
+
+  Route( @Nonnull final String name,
+         @Nullable final Segment[] segments,
+         @Nonnull final Parameter[] parameters,
+         @Nonnull final RegExMatcher matcher,
+         @Nonnull final RouteMatchCallback matchCallback )
   {
     _name = Objects.requireNonNull( name );
     _segments = segments;
@@ -129,7 +137,7 @@ public final class Route
         if ( BrainCheckConfig.checkApiInvariants() )
         {
           apiInvariant( () -> null == segment.getParameter().getValidator() ||
-                              segment.getParameter().getValidator().test( parameterValue ),
+                              null != segment.getParameter().getValidator().match( parameterValue ),
                         () -> "Route named '" + _name + "' has a parameter named '" + parameterKey + "' and " +
                               "a value '" + parameterValue + "' has been passed that does not pass validation check." );
         }
@@ -183,18 +191,18 @@ public final class Route
   @Nullable
   private Map<Parameter, String> locationMatch( @Nonnull final String location )
   {
-    final RegExpResult groups = _matcher.exec( Objects.requireNonNull( location ) );
+    final RegExMatchResult groups = _matcher.match( Objects.requireNonNull( location ) );
     if ( null != groups )
     {
       final Map<Parameter, String> matchData = new HashMap<>();
       //Group 0 is the whole string so we can skip it
-      for ( int i = 1; i < groups.length; i++ )
+      for ( int i = 1; i < groups.getGroupCount(); i++ )
       {
-        final String value = groups.getAt( i );
+        final String value = groups.getGroup( i );
         final int paramIndex = i - 1;
         final Parameter parameter = getParameterByIndex( paramIndex );
-        final JsRegExp validator = parameter.getValidator();
-        if ( null != validator && !validator.test( value ) )
+        final RegExMatcher validator = parameter.getValidator();
+        if ( null != validator && null != value && null == validator.match( value ) )
         {
           return null;
         }

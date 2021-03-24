@@ -1,8 +1,9 @@
 package router.fu;
 
-import elemental2.dom.DomGlobal;
-import elemental2.dom.EventListener;
-import elemental2.dom.Window;
+import akasha.EventListener;
+import akasha.Global;
+import akasha.Location;
+import akasha.Window;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
@@ -20,7 +21,7 @@ public class HashBackend
    */
   public HashBackend()
   {
-    this( DomGlobal.window );
+    this( Global.window() );
   }
 
   /**
@@ -37,30 +38,29 @@ public class HashBackend
   @Override
   public String getLocation()
   {
-    final String hash = _window.location.hash;
-    return null == hash ? "" : hash.substring( 1 );
+    return _window.location().hash.substring( 1 );
   }
 
   @Override
   public void setLocation( @Nonnull final String hash )
   {
+    final Location location = _window.location();
     if ( 0 == hash.length() )
     {
       /*
        * "hashchanged" event handler is not invoked if only use pushState to
        * change the url so we set it to empty before also using pushState.
        */
-      _window.location.hash = "";
+      location.hash = "";
       /*
        * This code is needed to remove the stray #.
        * See https://stackoverflow.com/questions/1397329/how-to-remove-the-hash-from-window-location-url-with-javascript-without-page-r/5298684#5298684
        */
-      final String url = _window.location.pathname + _window.location.search;
-      _window.history.replaceState( "", DomGlobal.document.title, url );
+      _window.history().replaceState( "", Global.document().title, location.pathname + location.search );
     }
     else
     {
-      _window.location.hash = hash;
+      location.hash = hash;
     }
   }
 

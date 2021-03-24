@@ -1,6 +1,7 @@
 package router.fu;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.realityforge.guiceyloops.shared.ValueUtil;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
@@ -73,9 +74,9 @@ public class RouterTest
   @Test
   public void basicRouting()
   {
-    final ArrayList<Location> locations = new ArrayList<>();
+    final List<Location> locations = new ArrayList<>();
     final TestBackend backend = new TestBackend();
-    final ArrayList<Route> routes = new ArrayList<>();
+    final List<Route> routes = new ArrayList<>();
 
     final String location = "/locations/ballarat/events/42";
 
@@ -93,7 +94,7 @@ public class RouterTest
       new Route( "security",
                  null,
                  new Parameter[ 0 ],
-                 new TestRegExp( new String[]{ location } ),
+                 new TestRegExp( location ),
                  new TestRouteMatchCallback( MatchResult.NON_TERMINAL ) );
     final Route route2 =
       new Route( "event",
@@ -111,14 +112,14 @@ public class RouterTest
       new Route( "eventAtLocation",
                  null,
                  new Parameter[]{ new Parameter( "location" ), new Parameter( "eventId" ) },
-                 new TestRegExp( new String[]{ location, "ballarat", "42" } ),
+                 new TestRegExp( location, "ballarat", "42" ),
                  new TestRouteMatchCallback() );
     // 404 would match everything if it gets to here
     final Route route5 =
       new Route( "404",
                  null,
                  new Parameter[ 0 ],
-                 new TestRegExp( new String[]{ location } ),
+                 new TestRegExp( location ),
                  new TestRouteMatchCallback() );
 
     routes.add( route1 );

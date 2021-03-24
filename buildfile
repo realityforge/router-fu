@@ -29,9 +29,7 @@ define 'router-fu' do
                  :jsinterop_annotations,
                  :grim_annotations,
                  :jetbrains_annotations,
-                 :elemental2_core,
-                 :elemental2_dom,
-                 :elemental2_promise,
+                 :akasha,
                  :braincheck
 
     compile.options[:processor_path] << artifacts(:grim_processor, :javax_json)

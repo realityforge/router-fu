@@ -33,7 +33,7 @@ final class Generator
 {
   private static final ClassName NONNULL_CLASSNAME = ClassName.get( "javax.annotation", "Nonnull" );
   private static final ClassName NULLABLE_CLASSNAME = ClassName.get( "javax.annotation", "Nullable" );
-  private static final ClassName REGEXP_TYPE = ClassName.get( "elemental2.core", "JsRegExp" );
+  private static final ClassName REGEXP_TYPE = ClassName.get( "akasha.core", "RegExp" );
   private static final ClassName ROUTER_TYPE = ClassName.get( "router.fu", "Router" );
   private static final ClassName ROUTE_TYPE = ClassName.get( "router.fu", "Route" );
   private static final ClassName ROUTE_STATE_TYPE = ClassName.get( "router.fu", "RouteState" );

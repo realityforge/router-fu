@@ -25,7 +25,7 @@ public class SegmentTest
   public void parameterPath()
   {
     final String parameterName = ValueUtil.randomString();
-    final Parameter parameter = new Parameter( parameterName, null );
+    final Parameter parameter = new Parameter( parameterName );
     final Segment segment = new Segment( parameter );
 
     assertTrue( segment.isParameter() );

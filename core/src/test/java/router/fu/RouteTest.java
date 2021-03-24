@@ -23,7 +23,6 @@ public class RouteTest
 
   @Test( dataProvider = "pathToRegex" )
   public void pathToPattern( @Nonnull final String path, @Nonnull final String expected )
-    throws Exception
   {
     assertEquals( Route.pathToPattern( path ), expected );
   }
@@ -34,7 +33,7 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     final String location = ValueUtil.randomString();
-    final TestRegExp matcher = new TestRegExp( new String[]{ location } );
+    final TestRegExp matcher = new TestRegExp( location );
     final Route route = new Route( name, null, new Parameter[ 0 ], matcher, matchCallback );
 
     final RouteState state = route.match( location );
@@ -51,7 +50,7 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback( MatchResult.NON_TERMINAL );
     final String name = ValueUtil.randomString();
     final String location = ValueUtil.randomString();
-    final TestRegExp matcher = new TestRegExp( new String[]{ location } );
+    final TestRegExp matcher = new TestRegExp( location );
     final Route route = new Route( name, null, new Parameter[ 0 ], matcher, matchCallback );
 
     final RouteState state = route.match( location );
@@ -68,7 +67,7 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback( MatchResult.NO_MATCH );
     final String name = ValueUtil.randomString();
     final String location = ValueUtil.randomString();
-    final TestRegExp matcher = new TestRegExp( new String[]{ location } );
+    final TestRegExp matcher = new TestRegExp( location );
     final Route route = new Route( name, null, new Parameter[ 0 ], matcher, matchCallback );
 
     final RouteState state = route.match( location );
@@ -124,16 +123,14 @@ public class RouteTest
   {
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
-    final Parameter paramA = new Parameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) );
-    final Parameter paramB = new Parameter( "paramB", new TestRegExp( new String[]{ "42" } ) );
-    final Parameter[] parameters = { paramA, paramB };
+    final Parameter paramA = new Parameter( "paramA", new TestRegExp( "ballarat" ) );
+    final Parameter paramB = new Parameter( "paramB", new TestRegExp(  "42"  ) );
     final String location = "/locations/ballarat/events/42";
-    final String[] resultGroups = { location, "ballarat", "42" };
 
     //Assume a regexp like "^/locations/([^/]+)/events/(\d+)$"
-    final TestRegExp matcher = new TestRegExp( resultGroups );
+    final TestRegExp matcher = new TestRegExp( location, "ballarat", "42" );
     final Route route =
-      new Route( name, null, parameters, matcher, matchCallback );
+      new Route( name, null, new Parameter[]{ paramA, paramB }, matcher, matchCallback );
 
     final RouteState state = route.match( location );
     assertNotNull( state );
@@ -151,7 +148,7 @@ public class RouteTest
     final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
     final String name = ValueUtil.randomString();
     final Parameter[] parameters = {
-      new Parameter( "paramA", new TestRegExp( new String[]{ "ballarat" } ) ),
+      new Parameter( "paramA", new TestRegExp( "ballarat" ) ),
       new Parameter( "paramB", new TestRegExp() )
     };
     final String location = "/locations/ballarat/events/42";

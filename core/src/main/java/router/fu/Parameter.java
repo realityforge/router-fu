@@ -1,6 +1,6 @@
 package router.fu;
 
-import elemental2.core.JsRegExp;
+import akasha.core.RegExp;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,14 +13,19 @@ public final class Parameter
   @Nonnull
   private final String _name;
   @Nullable
-  private final JsRegExp _validator;
+  private final RegExMatcher _validator;
 
   public Parameter( @Nonnull final String name )
   {
-    this( name, null );
+    this( name, (RegExMatcher) null );
   }
 
-  public Parameter( @Nonnull final String name, @Nullable final JsRegExp validator )
+  public Parameter( @Nonnull final String name, @Nullable final RegExp validator )
+  {
+    this( name, null == validator ? null : new BrowserMatcher( validator ) );
+  }
+
+  Parameter( @Nonnull final String name, @Nullable final RegExMatcher validator )
   {
     _name = Objects.requireNonNull( name );
     _validator = validator;
@@ -43,7 +48,7 @@ public final class Parameter
    * @return the validator for parameter if any.
    */
   @Nullable
-  public JsRegExp getValidator()
+  public RegExMatcher getValidator()
   {
     return _validator;
   }

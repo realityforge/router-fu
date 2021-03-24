@@ -1,22 +1,26 @@
 package router.fu;
 
-import elemental2.core.RegExpResult;
 import javax.annotation.Nonnull;
 
 public class TestRegExpResult
-  extends RegExpResult
+  implements RegExMatchResult
 {
-  private String[] _resultGroups;
+  private final String[] _resultGroups;
 
   TestRegExpResult( @Nonnull final String[] resultGroups )
   {
-    length = resultGroups.length;
     _resultGroups = resultGroups;
   }
 
   @Override
-  public String getAt( final int index )
+  public int getGroupCount()
   {
-    return _resultGroups[ index ];
+    return _resultGroups.length;
+  }
+
+  @Override
+  public String getGroup( final int i )
+  {
+    return _resultGroups[ i ];
   }
 }

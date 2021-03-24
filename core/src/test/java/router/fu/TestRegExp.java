@@ -1,17 +1,16 @@
 package router.fu;
 
-import elemental2.core.JsRegExp;
-import elemental2.core.RegExpResult;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TestRegExp
-  extends JsRegExp
+  implements RegExMatcher
 {
-  private RegExpResult _resultGroups;
+  @Nullable
+  private final RegExMatchResult _resultGroups;
 
-  TestRegExp( @Nonnull final String[] resultGroups )
+  TestRegExp( @Nonnull final String... resultGroups )
   {
-    super( new Object() );
     _resultGroups = new TestRegExpResult( resultGroups );
   }
 
@@ -20,15 +19,10 @@ public class TestRegExp
     _resultGroups = null;
   }
 
+  @Nullable
   @Override
-  public RegExpResult exec( final String str )
+  public RegExMatchResult match( @Nonnull final String text )
   {
     return _resultGroups;
-  }
-
-  @Override
-  public boolean test( final String str )
-  {
-    return null != _resultGroups;
   }
 }
