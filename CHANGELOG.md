@@ -4,7 +4,7 @@
 
 * Upgrade the `org.realityforge.arez` artifacts to version `0.196`.
 * Upgrade the `org.realityforge.braincheck` artifact to version `1.31.0`.
-* Upgrade the `org.realityforge.akasha` artifact to version `0.06`.
+* Upgrade the `org.realityforge.akasha` artifact to version `0.07`.
 
 ### [v0.32](https://github.com/realityforge/router-fu/tree/v0.32) (2021-03-25) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.31...v0.32)
 
