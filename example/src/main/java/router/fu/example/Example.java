@@ -2,7 +2,7 @@ package router.fu.example;
 
 import akasha.Console;
 import akasha.Document;
-import akasha.Global;
+import akasha.WindowGlobal;
 import arez.Arez;
 import com.google.gwt.core.client.EntryPoint;
 import java.util.Random;
@@ -18,7 +18,7 @@ public class Example
     @SuppressWarnings( "unused" )
     final MyRouterService router = AppState.ROUTER;
 
-    final Document document = Global.document();
+    final Document document = WindowGlobal.document();
     document.querySelector( "#login" ).
       addClickListener( e -> Arez.context().safeAction( () -> AppState.AUTH.setUsername( "Bob" ) ) );
     document.querySelector( "#logout" ).
@@ -40,7 +40,7 @@ public class Example
 
   private void renderView()
   {
-    final Document document = Global.document();
+    final Document document = WindowGlobal.document();
     final String username = AppState.AUTH.getUsername();
     document.querySelector( "#username" ).innerHTML = null == username ? "" : username;
     document.querySelector( "#location" ).innerHTML = AppState.ROUTER.getLocation().getPath();

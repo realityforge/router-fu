@@ -1,6 +1,6 @@
 package router.fu.example;
 
-import akasha.Global;
+import akasha.WindowGlobal;
 import javax.annotation.Nonnull;
 import router.fu.HashBackend;
 import router.fu.MatchResult;
@@ -32,7 +32,7 @@ class MyRouter
   @Nonnull
   static MyRouterService create()
   {
-    return new Arez_RouterFu_MyRouter( new HashBackend( Global.window() ) );
+    return new Arez_RouterFu_MyRouter( new HashBackend( WindowGlobal.window() ) );
   }
 
   @RouterRef

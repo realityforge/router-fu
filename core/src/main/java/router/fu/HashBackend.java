@@ -1,9 +1,9 @@
 package router.fu;
 
 import akasha.EventListener;
-import akasha.Global;
 import akasha.Location;
 import akasha.Window;
+import akasha.WindowGlobal;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
@@ -21,7 +21,7 @@ public class HashBackend
    */
   public HashBackend()
   {
-    this( Global.window() );
+    this( WindowGlobal.window() );
   }
 
   /**
@@ -56,7 +56,7 @@ public class HashBackend
        * This code is needed to remove the stray #.
        * See https://stackoverflow.com/questions/1397329/how-to-remove-the-hash-from-window-location-url-with-javascript-without-page-r/5298684#5298684
        */
-      _window.history().replaceState( "", Global.document().title, location.pathname + location.search );
+      _window.history().replaceState( "", WindowGlobal.document().title, location.pathname + location.search );
     }
     else
     {
