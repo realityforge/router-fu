@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Upgrade the `org.realityforge.arez` artifacts to version `0.198`.
+
 ### [v0.33](https://github.com/realityforge/router-fu/tree/v0.33) (2021-07-26) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.32...v0.33)
 
 * Upgrade the `org.realityforge.akasha` artifacts to version `0.15`.
