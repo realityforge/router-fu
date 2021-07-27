@@ -8,7 +8,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 
 /**
- * Hash based routing backend based on Elemental2.
+ * Hash based routing backend based on Akasha.
  */
 public class HashBackend
   implements Backend
