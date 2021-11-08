@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.akasha` artifacts to version `0.29`.
+
 ### [v0.35](https://github.com/realityforge/router-fu/tree/v0.35) (2021-11-08) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.34...v0.35)
 
 Changes in this release:
