@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.36](https://github.com/realityforge/router-fu/tree/v0.36) (2021-11-10) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.35...v0.36)
+
+Changes in this release:
 
 * Update the `org.realityforge.akasha` artifacts to version `0.29`.
 * Upgrade the `org.realityforge.proton` artifacts to version `0.52`. This fixes a crash that occurs with concurrent, incremental builds within the IntelliJ IDE. (This is the crash reported with message `javax.annotation.processing.FilerException: Attempt to recreate a file for type ...`).
