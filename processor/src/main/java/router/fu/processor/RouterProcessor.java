@@ -52,8 +52,11 @@ public final class RouterProcessor
   @Override
   public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
   {
+    debugAnnotationProcessingRootElements( env );
+    collectRootTypeNames( env );
     processTypeElements( annotations, env, Constants.ROUTER_ANNOTATION_CLASSNAME, _deferredTypes, this::process );
     errorIfProcessingOverAndInvalidTypesDetected( env );
+    clearRootTypeNamesIfProcessingOver( env );
     return true;
   }
 
