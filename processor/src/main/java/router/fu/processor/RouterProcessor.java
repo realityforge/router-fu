@@ -42,9 +42,13 @@ import org.realityforge.proton.ProcessorException;
 public final class RouterProcessor
   extends AbstractStandardProcessor
 {
+  @Nonnull
   private static final Pattern CALLBACK_PATTERN = Pattern.compile( "^([a-z].*)Callback$" );
+  @Nonnull
   private final Pattern _urlParameterPattern = Pattern.compile( "^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?" );
+  @Nonnull
   private final Pattern _separatorPattern = Pattern.compile( "^([!&\\-/_.;])" );
+  @Nonnull
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
   @Nonnull
   private final DeferredElementSet _deferredTypes = new DeferredElementSet();
