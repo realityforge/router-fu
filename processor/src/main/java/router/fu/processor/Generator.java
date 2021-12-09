@@ -69,9 +69,10 @@ final class Generator
     GeneratorUtil.copyAccessModifiers( element, builder );
 
     // Mark it as generated
-    builder.addAnnotation( AnnotationSpec.builder( Generated.class ).
-      addMember( "value", "$S", RouterProcessor.class.getName() ).
-      build() );
+    builder.addAnnotation( AnnotationSpec
+                             .builder( Generated.class )
+                             .addMember( "value", "$S", RouterProcessor.class.getName() )
+                             .build() );
 
     buildGetLocationMethod( builder );
     descriptor.getRoutes().forEach( route -> {
@@ -215,9 +216,10 @@ final class Generator
     builder.addSuperinterface( descriptor.getServiceClassName() );
 
     // Mark it as generated
-    builder.addAnnotation( AnnotationSpec.builder( Generated.class ).
-      addMember( "value", "$S", RouterProcessor.class.getName() ).
-      build() );
+    builder.addAnnotation( AnnotationSpec
+                             .builder( Generated.class )
+                             .addMember( "value", "$S", RouterProcessor.class.getName() )
+                             .build() );
 
     buildParameterFields( builder, descriptor );
     descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
@@ -285,8 +287,10 @@ final class Generator
                                         @Nonnull final RouterDescriptor descriptor )
   {
     final MethodSpec.Builder ctor = MethodSpec.constructorBuilder();
-    ctor.addParameter( ParameterSpec.builder( BACKEND_TYPE, "backend", Modifier.FINAL ).
-      addAnnotation( NONNULL_CLASSNAME ).build() );
+    ctor.addParameter( ParameterSpec
+                         .builder( BACKEND_TYPE, "backend", Modifier.FINAL )
+                         .addAnnotation( NONNULL_CLASSNAME )
+                         .build() );
 
     final StringBuilder sb = new StringBuilder();
     final ArrayList<Object> params = new ArrayList<>();
