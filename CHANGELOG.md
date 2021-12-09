@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.37](https://github.com/realityforge/router-fu/tree/v0.37) (2021-12-09) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.36...v0.37)
+
+Changes in this release:
 
 * Update the `org.realityforge.guiceyloops` artifact to version `0.110`.
 * Update the `org.realityforge.grim` artifacts to version `0.06`.
