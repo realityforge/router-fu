@@ -69,7 +69,8 @@ final class RouteDescriptor
   @Nonnull
   List<ParameterDescriptor> getParameters()
   {
-    return getParts().stream()
+    return getParts()
+      .stream()
       .filter( ParameterDescriptor.class::isInstance )
       .map( ParameterDescriptor.class::cast ).
         collect( Collectors.toList() );
