@@ -368,9 +368,10 @@ public final class RouterProcessor
 
   private void parseRouteAnnotations( @Nonnull final RouterDescriptor descriptor )
   {
-    AnnotationsUtil.getRepeatingAnnotations( descriptor.getElement(),
-                                             Constants.ROUTES_ANNOTATION_CLASSNAME,
-                                             Constants.ROUTE_ANNOTATION_CLASSNAME )
+    AnnotationsUtil
+      .getRepeatingAnnotations( descriptor.getElement(),
+                                Constants.ROUTES_ANNOTATION_CLASSNAME,
+                                Constants.ROUTE_ANNOTATION_CLASSNAME )
       .forEach( routeAnnotation -> parseRouteAnnotation( descriptor, routeAnnotation ) );
   }
 
