@@ -25,7 +25,7 @@ public @interface Route
   String name();
 
   /**
-   * The path pattern to match against. The echanisms for defining parameters are as follows:
+   * The path pattern to match against. The mechanisms for defining parameters are as follows:
    *
    * <ul>
    * <li><b>:param</b>: for URL parameters.</li>
