@@ -4,6 +4,7 @@
 
 * Update the `org.realityforge.guiceyloops` artifact to version `0.110`.
 * Update the `org.realityforge.grim` artifacts to version `0.06`.
+* Add support for `Route.optionalParameters` parameter that define names of parameters that can be empty strings.
 
 ### [v0.36](https://github.com/realityforge/router-fu/tree/v0.36) (2021-11-10) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.35...v0.36)
 

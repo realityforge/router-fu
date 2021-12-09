@@ -2,6 +2,7 @@ package router.fu.processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -387,6 +388,8 @@ public final class RouterProcessor
     }
     final boolean navigationTarget = AnnotationsUtil.getAnnotationValueValue( annotation, "navigationTarget" );
     final boolean partialMatch = AnnotationsUtil.getAnnotationValueValue( annotation, "partialMatch" );
+    final List<AnnotationValue> optionalParameters =
+      AnnotationsUtil.getAnnotationValueValue( annotation, "optionalParameters" );
     final RouteDescriptor route = new RouteDescriptor( name, navigationTarget, partialMatch );
 
     if ( descriptor.hasRouteNamed( name ) )
@@ -395,17 +398,27 @@ public final class RouterProcessor
                                     descriptor.getElement() );
     }
 
-    parseRoutePath( descriptor.getElement(), route, AnnotationsUtil.getAnnotationValueValue( annotation, "path" ) );
+    parseRoutePath( descriptor.getElement(),
+                    route,
+                    AnnotationsUtil.getAnnotationValueValue( annotation, "path" ),
+                    optionalParameters
+                      .stream()
+                      .map( AnnotationValue::getValue )
+                      .map( Object::toString )
+                      .collect( Collectors.toList() ) );
 
     descriptor.addRoute( route );
   }
 
   private void parseRoutePath( @Nonnull final TypeElement typeElement,
                                @Nonnull final RouteDescriptor route,
-                               @Nonnull final String path )
+                               @Nonnull final String path,
+                               @Nonnull final List<String> optionalParameters )
   {
     final int length = path.length();
     int start = 0;
+
+    final Set<String> optionals = new HashSet<>( optionalParameters );
 
     while ( start < length )
     {
@@ -418,7 +431,8 @@ public final class RouterProcessor
           start += matched.length();
           final String name = matcher.group( 1 );
           final String constraint = matcher.groupCount() > 1 ? matcher.group( 3 ) : null;
-          route.addParameter( new ParameterDescriptor( name, constraint ) );
+          final boolean optional = optionals.remove( name );
+          route.addParameter( new ParameterDescriptor( name, constraint, optional ) );
           continue;
         }
       }
@@ -448,6 +462,19 @@ public final class RouterProcessor
 
       throw new ProcessorException( "@Route named '" + route.getName() + "' has a path that can not " +
                                     "be parsed: '" + path + "'",
+                                    typeElement );
+    }
+
+    if ( !optionals.isEmpty() )
+    {
+      throw new ProcessorException( "@Route named '" + route.getName() + "' declares an optionalParameters that " +
+                                    "are not defined as part of the path: '" + path + "', optionalParameters: " +
+                                    optionals
+                                      .stream()
+                                      .map( Object::toString )
+                                      .sorted()
+                                      .collect( Collectors.joining( "," ) )
+                                      .replace( "\"", "" ),
                                     typeElement );
     }
   }

@@ -10,11 +10,13 @@ final class ParameterDescriptor
   private final String _name;
   @Nullable
   private final String _constraint;
+  private final boolean _optional;
 
-  ParameterDescriptor( @Nonnull final String name, @Nullable final String constraint )
+  ParameterDescriptor( @Nonnull final String name, @Nullable final String constraint, final boolean optional )
   {
     _name = Objects.requireNonNull( name );
     _constraint = constraint;
+    _optional = optional;
   }
 
   @Nonnull
@@ -39,5 +41,10 @@ final class ParameterDescriptor
   String getConstraint()
   {
     return _constraint;
+  }
+
+  boolean isOptional()
+  {
+    return _optional;
   }
 }

@@ -46,6 +46,14 @@ public @interface Route
   String path();
 
   /**
+   * The set of parameters defined in the path that are "optional" and may have a zero length value.
+   *
+   * @return the set of optional parameters.
+   */
+  @Nonnull
+  String[] optionalParameters() default {};
+
+  /**
    * Return true if this route can be navigated to.
    *
    * @return true if this route can be navigated to.
