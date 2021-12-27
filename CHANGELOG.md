@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.38](https://github.com/realityforge/router-fu/tree/v0.38) (2021-12-28) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.37...v0.38)
+
+Changes in this release:
 
 * Upgrade the `org.realityforge.proton` artifacts to version `0.54`. To improve debuggability and profiling of the annotation processor. This has added the `router.fu.debug` and `router.fu.profile` annotation processor options.
 
