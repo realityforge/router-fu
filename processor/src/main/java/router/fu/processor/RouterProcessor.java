@@ -2,6 +2,7 @@ package router.fu.processor;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.realityforge.proton.DeferredElementSet;
 import org.realityforge.proton.ElementsUtil;
 import org.realityforge.proton.MemberChecks;
 import org.realityforge.proton.ProcessorException;
+import org.realityforge.proton.StopWatch;
 
 /**
  * Annotation processor that analyzes Router annotated source and generates a router
@@ -39,7 +41,10 @@ import org.realityforge.proton.ProcessorException;
 @SuppressWarnings( "Duplicates" )
 @SupportedAnnotationTypes( Constants.ROUTER_ANNOTATION_CLASSNAME )
 @SupportedSourceVersion( SourceVersion.RELEASE_8 )
-@SupportedOptions( { "router.fu.defer.unresolved", "router.fu.defer.errors" } )
+@SupportedOptions( { "router.fu.defer.unresolved",
+                     "router.fu.defer.errors",
+                     "router.fu.debug",
+                     "router.fu.profile" } )
 public final class RouterProcessor
   extends AbstractStandardProcessor
 {
@@ -53,15 +58,36 @@ public final class RouterProcessor
   private final Pattern _fragmentPattern = Pattern.compile( "^([0-9a-zA-Z]+)" );
   @Nonnull
   private final DeferredElementSet _deferredTypes = new DeferredElementSet();
+  @Nonnull
+  private final StopWatch _processRouterAnnotationStopWatch = new StopWatch( "Process Router Annotation" );
+  @Nonnull
+  private final StopWatch _parseRouterAnnotationStopWatch = new StopWatch( "Parse Router Annotation" );
+  @Nonnull
+  private final StopWatch _emitRouterImplStopWatch = new StopWatch( "Emit Java Router Annotation" );
 
   @Override
-  public boolean process( final Set<? extends TypeElement> annotations, final RoundEnvironment env )
+  protected void collectStopWatches( @Nonnull final Collection<StopWatch> stopWatches )
+  {
+    stopWatches.add( _processRouterAnnotationStopWatch );
+    stopWatches.add( _parseRouterAnnotationStopWatch );
+    stopWatches.add( _emitRouterImplStopWatch );
+  }
+
+  @Override
+  public boolean process( @Nonnull final Set<? extends TypeElement> annotations, @Nonnull final RoundEnvironment env )
   {
     debugAnnotationProcessingRootElements( env );
     collectRootTypeNames( env );
-    processTypeElements( annotations, env, Constants.ROUTER_ANNOTATION_CLASSNAME, _deferredTypes, this::process );
+    processTypeElements( annotations,
+                         env,
+                         Constants.ROUTER_ANNOTATION_CLASSNAME,
+                         _deferredTypes,
+                         "Process Router",
+                         this::process,
+                         _processRouterAnnotationStopWatch );
     errorIfProcessingOverAndInvalidTypesDetected( env );
     clearRootTypeNamesIfProcessingOver( env );
+    reportProfilerTimings();
     return true;
   }
 
@@ -82,9 +108,28 @@ public final class RouterProcessor
   private void process( @Nonnull final TypeElement element )
     throws IOException, ProcessorException
   {
-    final RouterDescriptor descriptor = parse( element );
-    emitTypeSpec( descriptor.getPackageName(), Generator.buildService( descriptor ) );
-    emitTypeSpec( descriptor.getPackageName(), Generator.buildRouterImpl( descriptor ) );
+    emitJavaTypes( parse( element ) );
+  }
+
+  private void emitJavaTypes( @Nonnull final RouterDescriptor descriptor )
+    throws IOException
+  {
+    try
+    {
+      if ( isProfileEnabled() )
+      {
+        _emitRouterImplStopWatch.start();
+      }
+      emitTypeSpec( descriptor.getPackageName(), Generator.buildService( descriptor ) );
+      emitTypeSpec( descriptor.getPackageName(), Generator.buildRouterImpl( descriptor ) );
+    }
+    finally
+    {
+      if ( isProfileEnabled() )
+      {
+        _emitRouterImplStopWatch.stop();
+      }
+    }
   }
 
   @Override
@@ -96,21 +141,35 @@ public final class RouterProcessor
   @Nonnull
   private RouterDescriptor parse( @Nonnull final TypeElement typeElement )
   {
-    final AnnotationMirror annotation =
-      AnnotationsUtil.getAnnotationByType( typeElement, Constants.ROUTER_ANNOTATION_CLASSNAME );
-    final boolean arezComponent = AnnotationsUtil.getAnnotationValueValue( annotation, "arez" );
-    final PackageElement packageElement = processingEnv.getElementUtils().getPackageOf( typeElement );
-    final RouterDescriptor descriptor = new RouterDescriptor( packageElement, typeElement );
-    descriptor.setArezComponent( arezComponent );
+    try
+    {
+      if ( isProfileEnabled() )
+      {
+        _parseRouterAnnotationStopWatch.start();
+      }
+      final AnnotationMirror annotation =
+        AnnotationsUtil.getAnnotationByType( typeElement, Constants.ROUTER_ANNOTATION_CLASSNAME );
+      final boolean arezComponent = AnnotationsUtil.getAnnotationValueValue( annotation, "arez" );
+      final PackageElement packageElement = processingEnv.getElementUtils().getPackageOf( typeElement );
+      final RouterDescriptor descriptor = new RouterDescriptor( packageElement, typeElement );
+      descriptor.setArezComponent( arezComponent );
 
-    parseRouteAnnotations( descriptor );
-    parseBoundParameterAnnotations( descriptor );
+      parseRouteAnnotations( descriptor );
+      parseBoundParameterAnnotations( descriptor );
 
-    parseRouteCallbacks( descriptor );
+      parseRouteCallbacks( descriptor );
 
-    parseRouterRefs( descriptor );
+      parseRouterRefs( descriptor );
 
-    return descriptor;
+      return descriptor;
+    }
+    finally
+    {
+      if ( isProfileEnabled() )
+      {
+        _parseRouterAnnotationStopWatch.stop();
+      }
+    }
   }
 
   private void parseRouterRefs( @Nonnull final RouterDescriptor descriptor )
