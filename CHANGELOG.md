@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.akasha` artifacts to version `0.30`.
 * Update the `org.realityforge.arez` artifacts to version `0.203`.
 
 ### [v0.38](https://github.com/realityforge/router-fu/tree/v0.38) (2021-12-28) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.37...v0.38)
