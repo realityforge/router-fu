@@ -5,7 +5,7 @@
 * Update the `org.realityforge.proton` artifacts to version `0.58`.
 * Update the `org.realityforge.grim` artifacts to version `0.09`.
 * Update the `org.realityforge.akasha` artifacts to version `0.30`.
-* Update the `org.realityforge.arez` artifacts to version `0.204`.
+* Update the `org.realityforge.arez` artifacts to version `0.205`.
 
 ### [v0.38](https://github.com/realityforge/router-fu/tree/v0.38) (2021-12-28) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.37...v0.38)
 
