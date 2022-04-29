@@ -25,8 +25,8 @@ artifacts:
 
   braincheck: org.realityforge.braincheck:braincheck-core:jar:1.31.0
 
-  grim_annotations: org.realityforge.grim:grim-annotations:jar:0.06
-  grim_processor: org.realityforge.grim:grim-processor:jar:0.06
+  grim_annotations: org.realityforge.grim:grim-annotations:jar:0.09
+  grim_processor: org.realityforge.grim:grim-processor:jar:0.09
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.110
 
