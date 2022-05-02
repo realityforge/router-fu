@@ -6,6 +6,7 @@
 * Update the `org.realityforge.grim` artifacts to version `0.09`.
 * Update the `org.realityforge.akasha` artifacts to version `0.30`.
 * Update the `org.realityforge.arez` artifacts to version `0.205`.
+* Upgrade to use JDK 17 as a baseline.
 
 ### [v0.38](https://github.com/realityforge/router-fu/tree/v0.38) (2021-12-28) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.37...v0.38)
 

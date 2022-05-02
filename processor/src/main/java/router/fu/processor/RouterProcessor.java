@@ -40,7 +40,7 @@ import org.realityforge.proton.StopWatch;
  */
 @SuppressWarnings( "Duplicates" )
 @SupportedAnnotationTypes( Constants.ROUTER_ANNOTATION_CLASSNAME )
-@SupportedSourceVersion( SourceVersion.RELEASE_8 )
+@SupportedSourceVersion( SourceVersion.RELEASE_17 )
 @SupportedOptions( { "router.fu.defer.unresolved",
                      "router.fu.defer.errors",
                      "router.fu.debug",
@@ -176,8 +176,8 @@ public final class RouterProcessor
   {
     final List<ExecutableElement> methods =
       getMethods( descriptor.getElement() ).stream().
-        filter( m -> null != AnnotationsUtil.findAnnotationByType( m, Constants.ROUTER_REF_ANNOTATION_CLASSNAME ) ).
-        collect( Collectors.toList() );
+        filter( m -> null != AnnotationsUtil.findAnnotationByType( m, Constants.ROUTER_REF_ANNOTATION_CLASSNAME ) )
+        .toList();
 
     final ArrayList<ExecutableElement> routerRefMethods = new ArrayList<>();
     for ( final ExecutableElement method : methods )
