@@ -1,7 +1,6 @@
 package router.fu.processor;
 
 import arez.processor.ArezProcessor;
-import java.nio.file.Path;
 import java.util.Arrays;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.Processor;
@@ -63,8 +62,8 @@ public final class RouterProcessorTest
     throws Exception
   {
     assertSuccessfulCompile( "com.example.nested.NestedRouter",
-                             "expected/com/example/nested/NestedRouter_InnerRouterService.java",
-                             "expected/com/example/nested/NestedRouter_RouterFu_InnerRouter.java" );
+                             "com/example/nested/NestedRouter_InnerRouterService.java",
+                             "com/example/nested/NestedRouter_RouterFu_InnerRouter.java" );
   }
 
   @Test
@@ -74,8 +73,8 @@ public final class RouterProcessorTest
     final JavaFileObject source1 = fixture( "input/com/example/callback/CallbackFromInterface.java" );
     final JavaFileObject source2 = fixture( "input/com/example/callback/CallbackInterface.java" );
     assertSuccessfulCompile( Arrays.asList( source1, source2 ),
-                             Arrays.asList( "expected/com/example/callback/CallbackFromInterfaceService.java",
-                                            "expected/com/example/callback/RouterFu_CallbackFromInterface.java" ) );
+                             Arrays.asList( "com/example/callback/CallbackFromInterfaceService.java",
+                                            "com/example/callback/RouterFu_CallbackFromInterface.java" ) );
   }
 
   @DataProvider( name = "failedCompiles" )
@@ -172,18 +171,19 @@ public final class RouterProcessorTest
   }
 
   @Override
-  protected boolean emitGeneratedFile( @Nonnull final JavaFileObject target )
+  protected boolean emitGeneratedFile( @Nonnull final String target )
   {
-    final Path path = fixtureDir().resolve( "expected/" + target.getName().replace( "/SOURCE_OUTPUT/", "" ) );
-    final String filename = path.toFile().getName();
-    return super.emitGeneratedFile( target ) && !( filename.startsWith( "Arez_" ) || filename.contains( "_Arez_" ) );
+    return super.emitGeneratedFile( target ) &&
+           !target.contains( "/Arez_" ) &&
+           !target.contains( "_Arez_" ) &&
+           !target.startsWith( "/Arez_" );
   }
 
   void assertSuccessfulCompile( @Nonnull final String classname )
     throws Exception
   {
     assertSuccessfulCompile( classname,
-                             toFilename( "expected", classname, "RouterFu_", ".java" ),
-                             toFilename( "expected", classname, "", "Service.java" ) );
+                             toFilename( classname, "RouterFu_", ".java" ),
+                             toFilename( classname, "", "Service.java" ) );
   }
 }
