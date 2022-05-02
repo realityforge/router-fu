@@ -52,14 +52,7 @@ define 'router-fu' do
                  :javapoet,
                  :javax_annotation
 
-    test.with :compile_testing,
-              Buildr::Util.tools_jar,
-              :truth,
-              :junit,
-              :hamcrest_core,
-              :guava,
-              :guava_failureaccess,
-              :proton_qa,
+    test.with :proton_qa,
               :arez_core,
               :arez_processor,
               project('core').package(:jar),

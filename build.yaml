@@ -40,9 +40,4 @@ artifacts:
   proton_core: org.realityforge.proton:proton-core:jar:0.58
   proton_qa: org.realityforge.proton:proton-qa:jar:0.58
 
-  compile_testing: com.google.testing.compile:compile-testing:jar:0.18-rf
-  truth: com.google.truth:truth:jar:0.45
-  junit: junit:junit:jar:4.12
-  hamcrest_core: org.hamcrest:hamcrest-core:jar:1.3
-
   javax_json: org.glassfish:javax.json:jar:1.1
