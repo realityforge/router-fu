@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.39](https://github.com/realityforge/router-fu/tree/v0.39) (2022-05-02) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.38...v0.39)
+
+Changes in this release:
 
 * Update the `org.realityforge.proton` artifacts to version `0.58`.
 * Update the `org.realityforge.grim` artifacts to version `0.09`.
