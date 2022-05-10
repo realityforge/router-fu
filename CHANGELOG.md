@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Migrate to Java9 `@javax.annotation.processing.Generated` annotation rather than non-standard `@javax.annotation.Generated`.
+
 ### [v0.39](https://github.com/realityforge/router-fu/tree/v0.39) (2022-05-02) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.38...v0.39)
 
 Changes in this release:

@@ -1,8 +1,8 @@
 package com.example.callback;
 
-import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.processing.Generated;
 import router.fu.Location;
 import router.fu.Parameter;
 import router.fu.Route;

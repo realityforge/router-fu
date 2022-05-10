@@ -120,7 +120,7 @@ public final class RouterProcessor
       {
         _emitRouterImplStopWatch.start();
       }
-      emitTypeSpec( descriptor.getPackageName(), Generator.buildService( descriptor ) );
+      emitTypeSpec( descriptor.getPackageName(), Generator.buildService( processingEnv, descriptor ) );
       emitTypeSpec( descriptor.getPackageName(), Generator.buildRouterImpl( descriptor ) );
     }
     finally

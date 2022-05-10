@@ -22,6 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
@@ -60,19 +61,15 @@ final class Generator
   }
 
   @Nonnull
-  static TypeSpec buildService( @Nonnull final RouterDescriptor descriptor )
+  static TypeSpec buildService( @Nonnull final ProcessingEnvironment processingEnv,
+                                @Nonnull final RouterDescriptor descriptor )
   {
     final TypeElement element = descriptor.getElement();
 
     final TypeSpec.Builder builder = TypeSpec.interfaceBuilder( descriptor.getServiceClassName() );
 
     GeneratorUtil.copyAccessModifiers( element, builder );
-
-    // Mark it as generated
-    builder.addAnnotation( AnnotationSpec
-                             .builder( Generated.class )
-                             .addMember( "value", "$S", RouterProcessor.class.getName() )
-                             .build() );
+    GeneratorUtil.addGeneratedAnnotation( processingEnv, builder, RouterProcessor.class.getName() );
 
     buildGetLocationMethod( builder );
     descriptor.getRoutes().forEach( route -> {
