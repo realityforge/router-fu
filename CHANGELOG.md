@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.40](https://github.com/realityforge/router-fu/tree/v0.40) (2022-05-10) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.39...v0.40)
 
 Changes in this release:
