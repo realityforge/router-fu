@@ -20,7 +20,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.ExecutableElement;
@@ -187,7 +186,8 @@ final class Generator
   }
 
   @Nonnull
-  static TypeSpec buildRouterImpl( @Nonnull final RouterDescriptor descriptor )
+  static TypeSpec buildRouterImpl( @Nonnull final ProcessingEnvironment processingEnv,
+                                   @Nonnull final RouterDescriptor descriptor )
   {
     final TypeElement element = descriptor.getElement();
 
@@ -209,14 +209,9 @@ final class Generator
     }
 
     GeneratorUtil.copyAccessModifiers( element, builder );
+    GeneratorUtil.addGeneratedAnnotation( processingEnv, builder, RouterProcessor.class.getName() );
 
     builder.addSuperinterface( descriptor.getServiceClassName() );
-
-    // Mark it as generated
-    builder.addAnnotation( AnnotationSpec
-                             .builder( Generated.class )
-                             .addMember( "value", "$S", RouterProcessor.class.getName() )
-                             .build() );
 
     buildParameterFields( builder, descriptor );
     descriptor.getRoutes().forEach( route -> buildRouteField( builder, route ) );
