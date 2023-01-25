@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.42](https://github.com/realityforge/router-fu/tree/v0.42) (2023-01-25) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.41...v0.42)
+
+Changes in this release:
 
 * Update the `org.realityforge.arez` artifacts to version `0.207`.
 * Add `router.fu.verbose_out_of_round.errors` to the list of processor options declared as supported. This was not required in Java 8 but is required in Java 17 to have these options accessed by processor without errors.
