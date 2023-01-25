@@ -44,6 +44,7 @@ import org.realityforge.proton.StopWatch;
 @SupportedOptions( { "router.fu.defer.unresolved",
                      "router.fu.defer.errors",
                      "router.fu.debug",
+                     "router.fu.verbose_out_of_round.errors",
                      "router.fu.profile" } )
 public final class RouterProcessor
   extends AbstractStandardProcessor
