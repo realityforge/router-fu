@@ -28,7 +28,7 @@ artifacts:
   grim_annotations: org.realityforge.grim:grim-annotations:jar:0.09
   grim_processor: org.realityforge.grim:grim-processor:jar:0.09
 
-  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.110
+  guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.112
 
   arez_core: org.realityforge.arez:arez-core:jar:0.208
   arez_processor: org.realityforge.arez:arez-processor:jar:0.208
