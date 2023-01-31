@@ -2,7 +2,7 @@
 
 ### Unreleased
 
-* Update the `org.realityforge.guiceyloops` artifact to version `0.112`.
+* Update the `org.realityforge.guiceyloops` artifact to version `0.113`.
 * Update the `org.realityforge.arez` artifacts to version `0.208`.
 
 ### [v0.42](https://github.com/realityforge/router-fu/tree/v0.42) (2023-01-25) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.41...v0.42)
