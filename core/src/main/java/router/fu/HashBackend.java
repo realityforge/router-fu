@@ -38,7 +38,8 @@ public class HashBackend
   @Override
   public String getLocation()
   {
-    return _window.location().hash.substring( 1 );
+    final String hash = _window.location().hash;
+    return 0 == hash.length() ? "" : hash.substring( 1 );
   }
 
   @Override
