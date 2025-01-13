@@ -3,7 +3,7 @@
 ### Unreleased
 
 * Update the `org.realityforge.javax.annotation` artifact to version `1.1.1`.
-* Update the `org.realityforge.proton` artifacts to version `0.64`.
+* Update the `org.realityforge.proton` artifacts to version `0.65`.
 * Update the `org.realityforge.guiceyloops` artifact to version `0.113`.
 * Update the `org.realityforge.arez` artifacts to version `0.209`.
 
