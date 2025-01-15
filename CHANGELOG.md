@@ -5,7 +5,7 @@
 * Update the `org.realityforge.javax.annotation` artifact to version `1.1.1`.
 * Update the `org.realityforge.proton` artifacts to version `0.65`.
 * Update the `org.realityforge.guiceyloops` artifact to version `0.113`.
-* Update the `org.realityforge.arez` artifacts to version `0.209`.
+* Update the `org.realityforge.arez` artifacts to version `0.214`.
 
 ### [v0.42](https://github.com/realityforge/router-fu/tree/v0.42) (2023-01-25) · [Full Changelog](https://github.com/spritz/spritz/compare/v0.41...v0.42)
 
