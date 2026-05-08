@@ -24,14 +24,23 @@ define 'router-fu' do
   desc 'The core router-fu code'
   define 'core' do
     compile.with :javax_annotation,
+                 :akasha,
+                 :braincheck,
                  :jsinterop_base,
                  :jsinterop_annotations,
                  :grim_annotations,
-                 :jetbrains_annotations,
-                 :akasha,
-                 :braincheck
+                 :jetbrains_annotations
 
-    compile.options[:processor_path] << artifacts(:grim_processor, :javax_json)
+    deps = artifacts(:javax_annotation,
+                     :braincheck,
+                     :akasha)
+    pom.include_transitive_dependencies << deps
+    pom.dependency_filter = Proc.new { |dep| deps.include?(dep[:artifact]) }
+    compile.with deps,
+                 :jsinterop_base,
+                 :jsinterop_annotations,
+                 :grim_annotations,
+                 :jetbrains_annotations
 
     test.options[:properties] = { 'braincheck.environment' => 'development' }
     test.options[:java_args] = ['-ea']
@@ -48,6 +57,8 @@ define 'router-fu' do
 
   desc 'The Annotation processor'
   define 'processor' do
+    pom.dependency_filter = Proc.new { |_| false }
+
     compile.with :proton_core,
                  :javapoet,
                  :javax_annotation
