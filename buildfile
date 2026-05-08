@@ -95,6 +95,8 @@ define 'router-fu' do
                  :guava,
                  :gwt_user
 
+    compile.options[:processor] = true
+
     gwt_enhance(project, :modules_complete => true, :package_jars => false)
 
     # The generators are configured to generate to here.
