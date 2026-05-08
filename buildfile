@@ -68,7 +68,7 @@ define 'router-fu' do
       jar.enhance do |f|
         Buildr::Shade.shade(f,
                             f,
-                            'com.squareup.javapoet' => 'router.fu.processor.vendor.javapoet',
+                            'com.palantir.javapoet' => 'router.fu.processor.vendor.javapoet',
                             'org.realityforge.proton' => 'router.fu.processor.vendor.proton')
       end
     end

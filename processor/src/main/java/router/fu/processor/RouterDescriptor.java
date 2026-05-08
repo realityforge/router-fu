@@ -1,6 +1,6 @@
 package router.fu.processor;
 
-import com.squareup.javapoet.ClassName;
+import com.palantir.javapoet.ClassName;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;

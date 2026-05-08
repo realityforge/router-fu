@@ -1,13 +1,13 @@
 package router.fu.processor;
 
-import com.squareup.javapoet.AnnotationSpec;
-import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
-import com.squareup.javapoet.TypeSpec;
+import com.palantir.javapoet.AnnotationSpec;
+import com.palantir.javapoet.ClassName;
+import com.palantir.javapoet.CodeBlock;
+import com.palantir.javapoet.FieldSpec;
+import com.palantir.javapoet.MethodSpec;
+import com.palantir.javapoet.ParameterSpec;
+import com.palantir.javapoet.TypeName;
+import com.palantir.javapoet.TypeSpec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -895,7 +895,7 @@ final class Generator
       method.addStatement( "$N( null )", "set" + toPascalCaseName( boundParameter.getName() ) );
     }
     method.addStatement( "final $T<$T> states = location.getStates()", List.class, ROUTE_STATE_TYPE );
-    method.addStatement( "int routeStartIndex = 0", List.class, ROUTE_STATE_TYPE );
+    method.addStatement( "int routeStartIndex = 0" );
 
     final CodeBlock.Builder loop = CodeBlock.builder();
     final Collection<RouteDescriptor> routes = descriptor.getRoutes();
