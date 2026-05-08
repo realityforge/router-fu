@@ -1,5 +1,7 @@
 # Change Log
 
+### Unreleased
+
 ### [v0.43](https://github.com/realityforge/router-fu/tree/v0.43) (2026-05-08) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.42...v0.43)
 
 Changes in this release:
