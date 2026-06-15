@@ -1,6 +1,8 @@
 # Change Log
 
-### Unreleased
+### [v0.46](https://github.com/realityforge/router-fu/tree/v0.46) (2026-06-15) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.45...v0.46)
+
+Changes in this release:
 
 * Update the `org.realityforge.akasha` artifacts to version `0.33`.
 * Update the `org.realityforge.proton` artifacts to version `0.72` and use Proton's shaded
