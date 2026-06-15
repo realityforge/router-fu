@@ -3,6 +3,8 @@
 ### Unreleased
 
 * Update the `org.realityforge.akasha` artifacts to version `0.33`.
+* Update the `org.realityforge.proton` artifacts to version `0.72` and use Proton's shaded
+  generated-source formatting support from the RouterFu processor.
 
 ### [v0.45](https://github.com/realityforge/router-fu/tree/v0.45) (2026-05-08) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.44...v0.45)
 

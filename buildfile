@@ -6,6 +6,17 @@ require 'buildr/shade'
 
 Buildr::MavenCentral.define_publish_tasks(:profile_name => 'org.realityforge', :username => 'realityforge')
 
+FORMATTER_JDK_EXPORTS =
+  %w(
+    --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED
+    --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED
+    --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED
+    --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED
+    --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+    --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+  )
+FORMATTER_JAVAC_OPTIONS = FORMATTER_JDK_EXPORTS.map { |arg| "-J#{arg}" }
+
 desc 'router-fu: A GWT based state router'
 define 'router-fu' do
   project.group = 'org.realityforge.router.fu'
@@ -86,6 +97,7 @@ define 'router-fu' do
 
     test.using :testng
     test.options[:properties] = { 'router.fu.fixture_dir' => _('src/test/fixtures') }
+    test.options[:java_args] = ['-ea'] + FORMATTER_JDK_EXPORTS
     test.compile.with :guiceyloops
 
     # The generators are configured to generate to here.
@@ -107,6 +119,7 @@ define 'router-fu' do
                  :gwt_user
 
     compile.options[:processor] = true
+    compile.options.other += FORMATTER_JAVAC_OPTIONS
 
     gwt_enhance(project, :modules_complete => true, :package_jars => false)
 
@@ -127,7 +140,7 @@ define 'router-fu' do
 
   iml.excluded_directories << project._('tmp')
 
-  ipr.add_default_testng_configuration(:jvm_args => '-ea -Dbraincheck.environment=development -Drouter.fu.output_fixture_data=false -Drouter.fu.fixture_dir=processor/src/test/resources')
+  ipr.add_default_testng_configuration(:jvm_args => "-ea #{FORMATTER_JDK_EXPORTS.join(' ')} -Dbraincheck.environment=development -Drouter.fu.output_fixture_data=false -Drouter.fu.fixture_dir=processor/src/test/fixtures")
 
   ipr.add_gwt_configuration(project('example'),
                             :gwt_module => 'router.fu.example.Example',
