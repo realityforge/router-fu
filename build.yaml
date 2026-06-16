@@ -27,8 +27,8 @@ artifacts:
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.113
 
-  arez_core: org.realityforge.arez:arez-core:jar:0.242
-  arez_processor: org.realityforge.arez:arez-processor:jar:0.242
+  arez_core: org.realityforge.arez:arez-core:jar:0.249
+  arez_processor: org.realityforge.arez:arez-processor:jar:0.249
 
   javapoet: com.palantir.javapoet:javapoet:jar:0.14.0
   guava: com.google.guava:guava:jar:27.1-jre

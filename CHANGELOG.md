@@ -2,6 +2,8 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.arez` artifacts to version `0.249`.
+
 ### [v0.46](https://github.com/realityforge/router-fu/tree/v0.46) (2026-06-15) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.45...v0.46)
 
 Changes in this release:
