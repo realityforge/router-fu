@@ -6,15 +6,14 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.NestingKind;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import org.realityforge.proton.ElementsUtil;
 import org.realityforge.proton.GeneratorUtil;
+import org.realityforge.proton.MemberChecks;
 import org.realityforge.proton.ProcessorException;
 
 final class RouterDescriptor
@@ -34,28 +33,12 @@ final class RouterDescriptor
     _packageElement = Objects.requireNonNull( packageElement );
     _element = Objects.requireNonNull( element );
 
-    if ( ElementKind.CLASS != element.getKind() )
-    {
-      throw new ProcessorException( "@Router target must be a class", element );
-    }
-    else if ( element.getModifiers().contains( Modifier.ABSTRACT ) )
-    {
-      throw new ProcessorException( "@Router target must not be abstract", element );
-    }
-    else if ( element.getModifiers().contains( Modifier.FINAL ) )
-    {
-      throw new ProcessorException( "@Router target must not be final", element );
-    }
-    else if ( NestingKind.TOP_LEVEL != element.getNestingKind() &&
-              !element.getModifiers().contains( Modifier.STATIC ) )
-    {
-      throw new ProcessorException( "@Router target must not be a non-static nested class", element );
-    }
+    MemberChecks.mustBeClass( Constants.ROUTER_ANNOTATION_CLASSNAME, element );
+    MemberChecks.mustNotBeAbstract( Constants.ROUTER_ANNOTATION_CLASSNAME, element );
+    MemberChecks.mustNotBeFinal( Constants.ROUTER_ANNOTATION_CLASSNAME, element );
+    MemberChecks.mustNotBeNonStaticNestedType( Constants.ROUTER_ANNOTATION_CLASSNAME, element );
 
-    final List<ExecutableElement> constructors = element.getEnclosedElements().stream().
-      filter( m -> m.getKind() == ElementKind.CONSTRUCTOR ).
-      map( m -> (ExecutableElement) m ).
-      collect( Collectors.toList() );
+    final List<ExecutableElement> constructors = ElementsUtil.getConstructors( element );
     if ( !( 1 == constructors.size() &&
             constructors.get( 0 ).getParameters().isEmpty() &&
             !constructors.get( 0 ).getModifiers().contains( Modifier.PRIVATE ) ) )

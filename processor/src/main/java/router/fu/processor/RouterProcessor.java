@@ -31,6 +31,7 @@ import org.realityforge.proton.AnnotationsUtil;
 import org.realityforge.proton.DeferredElementSet;
 import org.realityforge.proton.ElementsUtil;
 import org.realityforge.proton.MemberChecks;
+import org.realityforge.proton.NamesUtil;
 import org.realityforge.proton.ProcessorException;
 import org.realityforge.proton.StopWatch;
 
@@ -544,23 +545,6 @@ public final class RouterProcessor
   private String deriveCallbackName( @Nonnull final ExecutableElement method, @Nonnull final String name )
     throws ProcessorException
   {
-    if ( name.isEmpty() )
-    {
-      final String methodName = method.getSimpleName().toString();
-      final Matcher matcher = RouterProcessor.CALLBACK_PATTERN.matcher( methodName );
-      if ( matcher.find() )
-      {
-        final String candidate = matcher.group( 1 );
-        return Character.toLowerCase( candidate.charAt( 0 ) ) + candidate.substring( 1 );
-      }
-      else
-      {
-        return null;
-      }
-    }
-    else
-    {
-      return name;
-    }
+    return NamesUtil.deriveName( method, CALLBACK_PATTERN, name, "" );
   }
 }
