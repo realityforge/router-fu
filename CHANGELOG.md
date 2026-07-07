@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.proton` artifacts to version `0.75`.
 * Rely on Proton to declare common annotation processor options.
 
 ### [v0.47](https://github.com/realityforge/router-fu/tree/v0.47) (2026-06-16) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.46...v0.47)
