@@ -14,7 +14,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedOptions;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
@@ -42,12 +41,6 @@ import org.realityforge.proton.StopWatch;
 @SuppressWarnings( "Duplicates" )
 @SupportedAnnotationTypes( Constants.ROUTER_ANNOTATION_CLASSNAME )
 @SupportedSourceVersion( SourceVersion.RELEASE_17 )
-@SupportedOptions( { "router.fu.defer.unresolved",
-                     "router.fu.defer.errors",
-                     "router.fu.debug",
-                     "router.fu.format_generated_source",
-                     "router.fu.verbose_out_of_round.errors",
-                     "router.fu.profile" } )
 public final class RouterProcessor
   extends AbstractStandardProcessor
 {
