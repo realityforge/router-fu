@@ -34,14 +34,6 @@ define 'router-fu' do
 
   desc 'The core router-fu code'
   define 'core' do
-    compile.with :javax_annotation,
-                 :braincheck,
-                 :jsinterop_base,
-                 :jsinterop_annotations,
-                 :jspecify,
-                 :grim_annotations,
-                 :jetbrains_annotations
-
     deps = artifacts(:javax_annotation,
                      :braincheck,
                      :jsinterop_base,

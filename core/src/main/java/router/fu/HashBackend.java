@@ -2,6 +2,10 @@ package router.fu;
 
 import java.util.Objects;
 import javax.annotation.Nonnull;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 
 /**
@@ -11,14 +15,14 @@ public class HashBackend
   implements Backend
 {
   @Nonnull
-  private final JsRuntime.Window _window;
+  private final Window _window;
 
   /**
    * Create backend for routing for on current window.
    */
   public HashBackend()
   {
-    this( JsRuntime.window() );
+    this( window() );
   }
 
   /**
@@ -42,7 +46,7 @@ public class HashBackend
   @Override
   public void setLocation( @Nonnull final String hash )
   {
-    final JsRuntime.Location location = _window.location();
+    final Location location = _window.location();
     if ( 0 == hash.length() )
     {
       /*
@@ -66,7 +70,7 @@ public class HashBackend
   @Override
   public Object addListener( @Nonnull final LocationChangeListener handler )
   {
-    final JsRuntime.EventListener eventListener = e -> handler.onLocationChange( getLocation() );
+    final EventListener eventListener = e -> handler.onLocationChange( getLocation() );
     _window.addEventListener( "hashchange", eventListener, false );
     return eventListener;
   }
@@ -74,6 +78,78 @@ public class HashBackend
   @Override
   public void removeListener( @Nonnull final Object handle )
   {
-    _window.removeEventListener( "hashchange", (JsRuntime.EventListener) handle, false );
+    _window.removeEventListener( "hashchange", (EventListener) handle, false );
+  }
+
+  @JsProperty( namespace = JsPackage.GLOBAL, name = "window" )
+  private static native Window window();
+
+  @FunctionalInterface
+  @JsFunction
+  private interface EventListener
+  {
+    void handleEvent( Object event );
+  }
+
+  @JsType( isNative = true, namespace = JsPackage.GLOBAL, name = "Document" )
+  private static final class Document
+  {
+    private Document()
+    {
+    }
+
+    @JsProperty( name = "title" )
+    native String title();
+  }
+
+  @JsType( isNative = true, namespace = JsPackage.GLOBAL, name = "History" )
+  private static final class History
+  {
+    private History()
+    {
+    }
+
+    native void replaceState( Object data, String unused, String url );
+  }
+
+  @JsType( isNative = true, namespace = JsPackage.GLOBAL, name = "Location" )
+  private static final class Location
+  {
+    private Location()
+    {
+    }
+
+    @JsProperty( name = "hash" )
+    native String hash();
+
+    @JsProperty( name = "hash" )
+    native void setHash( String hash );
+
+    @JsProperty( name = "pathname" )
+    native String pathname();
+
+    @JsProperty( name = "search" )
+    native String search();
+  }
+
+  @JsType( isNative = true, namespace = JsPackage.GLOBAL, name = "Window" )
+  private static final class Window
+  {
+    private Window()
+    {
+    }
+
+    native void addEventListener( String type, EventListener listener, boolean useCapture );
+
+    @JsProperty( name = "document" )
+    native Document document();
+
+    @JsProperty( name = "history" )
+    native History history();
+
+    @JsProperty( name = "location" )
+    native Location location();
+
+    native void removeEventListener( String type, EventListener listener, boolean useCapture );
   }
 }
