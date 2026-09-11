@@ -2,6 +2,9 @@
 
 ### Unreleased
 
+* Update the `org.realityforge.braincheck` artifact to version `1.35.0`.
+* Update the `org.realityforge.arez` artifacts to version `0.256`.
+* Remove the dependency on Akasha by using internal browser runtime bindings.
 * Update the `org.realityforge.proton` artifacts to version `0.75`.
 * Rely on Proton to declare common annotation processor options.
 

@@ -1,6 +1,5 @@
 package router.fu;
 
-import akasha.core.RegExpResult;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 
@@ -8,9 +7,9 @@ final class BrowserMatchResult
   implements RegExMatchResult
 {
   @Nonnull
-  private final RegExpResult _groups;
+  private final JsRuntime.RegExpResult _groups;
 
-  BrowserMatchResult( @Nonnull final RegExpResult groups )
+  BrowserMatchResult( @Nonnull final JsRuntime.RegExpResult groups )
   {
     _groups = Objects.requireNonNull( groups );
   }
@@ -18,7 +17,7 @@ final class BrowserMatchResult
   @Override
   public int getGroupCount()
   {
-    return _groups.length();
+    return _groups.getLength();
   }
 
   @Override

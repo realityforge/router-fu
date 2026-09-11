@@ -1,6 +1,5 @@
 package com.example.parameter;
 
-import akasha.core.RegExp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,8 +21,8 @@ import router.fu.Segment;
 @Generated("router.fu.processor.RouterProcessor")
 public class RouterFu_URIEncodedParameter extends URIEncodedParameter
     implements URIEncodedParameterService {
-  private final Parameter $fu$_keyword_755992427 = new Parameter(
-      "keyword", new RegExp("^((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"));
+  private final Parameter $fu$_keyword_755992427 =
+      new Parameter("keyword", "^((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$");
 
   private final Route $fu$_route_region = new Route(
       "region",
@@ -33,7 +32,7 @@ public class RouterFu_URIEncodedParameter extends URIEncodedParameter
       new Parameter[] {
         $fu$_keyword_755992427,
       },
-      new RegExp("^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Router $fu$_router;

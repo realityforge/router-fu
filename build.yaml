@@ -17,16 +17,16 @@ artifacts:
 
   jsinterop_base: com.google.jsinterop:base:jar:1.0.0
 
-  akasha: org.realityforge.akasha:akasha-gwt:jar:0.33
+  jspecify: org.jspecify:jspecify:jar:1.0.0
 
-  braincheck: org.realityforge.braincheck:braincheck-core:jar:1.33.0
+  braincheck: org.realityforge.braincheck:braincheck-core:jar:1.35.0
 
   grim_annotations: org.realityforge.grim:grim-annotations:jar:0.09
 
   guiceyloops: org.realityforge.guiceyloops:guiceyloops:jar:0.113
 
-  arez_core: org.realityforge.arez:arez-core:jar:0.249
-  arez_processor: org.realityforge.arez:arez-processor:jar:0.249
+  arez_core: org.realityforge.arez:arez-core:jar:0.256
+  arez_processor: org.realityforge.arez:arez-processor:jar:0.256
 
   javapoet: com.palantir.javapoet:javapoet:jar:0.14.0
   guava: com.google.guava:guava:jar:27.1-jre

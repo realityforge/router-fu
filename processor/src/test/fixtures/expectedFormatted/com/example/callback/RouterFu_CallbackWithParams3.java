@@ -1,6 +1,5 @@
 package com.example.callback;
 
-import akasha.core.RegExp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class RouterFu_CallbackWithParams3 extends CallbackWithParams3
       new Parameter[] {
         $fu$_regionCode,
       },
-      new RegExp("^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$",
       (location, route, parameters) -> regionCallback(parameters));
 
   private final Router $fu$_router;

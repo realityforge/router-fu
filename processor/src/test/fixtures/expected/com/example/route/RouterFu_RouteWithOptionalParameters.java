@@ -1,6 +1,5 @@
 package com.example.route;
 
-import akasha.core.RegExp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,11 +26,11 @@ public class RouterFu_RouteWithOptionalParameters extends RouteWithOptionalParam
 
   private final Parameter $fu$_regionCode = new Parameter( "regionCode" );
 
-  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, new RegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_region = new Route( "region", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), }, new Parameter[]{$fu$_regionCode, }, "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)$", ( location, route, parameters ) -> MatchResult.TERMINAL );
 
-  private final Route $fu$_route_regionEvents = new Route( "regionEvents", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events/" ), new Segment( $fu$_filter ), }, new Parameter[]{$fu$_regionCode, $fu$_filter, }, new RegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)/events/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_regionEvents = new Route( "regionEvents", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), new Segment( "/events/" ), new Segment( $fu$_filter ), }, new Parameter[]{$fu$_regionCode, $fu$_filter, }, "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)/events/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)$", ( location, route, parameters ) -> MatchResult.TERMINAL );
 
-  private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), new Segment( "/event/" ), new Segment( $fu$_eventId ), new Segment( "/" ), new Segment( $fu$_filter ), }, new Parameter[]{$fu$_regionCode, $fu$_eventId, $fu$_filter, }, new RegExp( "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)/event/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)$" ), ( location, route, parameters ) -> MatchResult.TERMINAL );
+  private final Route $fu$_route_regionEvent = new Route( "regionEvent", new Segment[]{new Segment( "/regions/" ), new Segment( $fu$_regionCode ), new Segment( "/event/" ), new Segment( $fu$_eventId ), new Segment( "/" ), new Segment( $fu$_filter ), }, new Parameter[]{$fu$_regionCode, $fu$_eventId, $fu$_filter, }, "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)/event/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})*)$", ( location, route, parameters ) -> MatchResult.TERMINAL );
 
   private final Router $fu$_router;
 

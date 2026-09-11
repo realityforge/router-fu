@@ -33,7 +33,6 @@ final class Generator
 {
   private static final ClassName NONNULL_CLASSNAME = ClassName.get( "javax.annotation", "Nonnull" );
   private static final ClassName NULLABLE_CLASSNAME = ClassName.get( "javax.annotation", "Nullable" );
-  private static final ClassName REGEXP_TYPE = ClassName.get( "akasha.core", "RegExp" );
   private static final ClassName ROUTER_TYPE = ClassName.get( "router.fu", "Router" );
   private static final ClassName ROUTE_TYPE = ClassName.get( "router.fu", "Route" );
   private static final ClassName ROUTE_STATE_TYPE = ClassName.get( "router.fu", "RouteState" );
@@ -354,10 +353,9 @@ final class Generator
     final String constraint = parameter.getConstraint();
     if ( null != constraint )
     {
-      field.initializer( "new $T( $S, new $T( $S ) )",
+      field.initializer( "new $T( $S, $S )",
                          PARAMETER_TYPE,
                          parameter.getName(),
-                         REGEXP_TYPE,
                          "^" + constraint + "$" );
     }
     else
@@ -406,8 +404,7 @@ final class Generator
     buildParameters( sb, params, route );
     sb.append( "}, " );
 
-    sb.append( "new $T( $S ), " );
-    params.add( REGEXP_TYPE );
+    sb.append( "$S, " );
     params.add( toJsRegExp( route ) );
 
     if ( route.hasCallback() )

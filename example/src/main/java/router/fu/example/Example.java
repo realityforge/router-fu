@@ -1,11 +1,13 @@
 package router.fu.example;
 
-import akasha.Console;
-import akasha.Document;
-import akasha.WindowGlobal;
 import arez.Arez;
 import com.google.gwt.core.client.EntryPoint;
 import java.util.Random;
+import jsinterop.annotations.JsFunction;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 import router.fu.RouteState;
 
 public class Example
@@ -18,46 +20,74 @@ public class Example
     @SuppressWarnings( "unused" )
     final MyRouterService router = AppState.ROUTER;
 
-    final Document document = WindowGlobal.document();
+    final Document document = document();
     document.querySelector( "#login" ).
-      addClickListener( e -> Arez.context().safeAction( () -> AppState.AUTH.setUsername( "Bob" ) ) );
+      addEventListener( "click", e -> Arez.context().safeAction( () -> AppState.AUTH.setUsername( "Bob" ) ) );
     document.querySelector( "#logout" ).
-      addClickListener( e -> Arez.context().safeAction( () -> AppState.AUTH.setUsername( null ) ) );
+      addEventListener( "click", e -> Arez.context().safeAction( () -> AppState.AUTH.setUsername( null ) ) );
     document.querySelector( "#route_regions" ).
-      addClickListener( e -> AppState.ROUTER.gotoRegions() );
+      addEventListener( "click", e -> AppState.ROUTER.gotoRegions() );
     document.querySelector( "#route_region" ).
-      addClickListener( e -> AppState.ROUTER.gotoRegion( "ballarat" ) );
+      addEventListener( "click", e -> AppState.ROUTER.gotoRegion( "ballarat" ) );
     document.querySelector( "#route_regionEvents" ).
-      addClickListener( e -> AppState.ROUTER.gotoRegionEvents( "ballarat" ) );
+      addEventListener( "click", e -> AppState.ROUTER.gotoRegionEvents( "ballarat" ) );
     document.querySelector( "#route_regionEvent" ).
-      addClickListener( e -> AppState.ROUTER.gotoRegionEvent( "ballarat", "42" ) );
+      addEventListener( "click", e -> AppState.ROUTER.gotoRegionEvent( "ballarat", "42" ) );
     document.querySelector( "#randomize_regionCode" ).
-      addClickListener( e -> AppState.ROUTER.updateRegionCode( String.valueOf( new Random().nextInt() ) ) );
+      addEventListener( "click", e -> AppState.ROUTER.updateRegionCode( String.valueOf( new Random().nextInt() ) ) );
     document.querySelector( "#randomize_eventId" ).
-      addClickListener( e -> AppState.ROUTER.updateEventId( String.valueOf( new Random().nextInt() ) ) );
+      addEventListener( "click", e -> AppState.ROUTER.updateEventId( String.valueOf( new Random().nextInt() ) ) );
     Arez.context().observer( this::renderView );
   }
 
   private void renderView()
   {
-    final Document document = WindowGlobal.document();
+    final Document document = document();
     final String username = AppState.AUTH.getUsername();
-    document.querySelector( "#username" ).innerHTML = null == username ? "" : username;
-    document.querySelector( "#location" ).innerHTML = AppState.ROUTER.getLocation().getPath();
+    document.querySelector( "#username" ).setInnerHTML( null == username ? "" : username );
+    document.querySelector( "#location" ).setInnerHTML( AppState.ROUTER.getLocation().getPath() );
     final String regionCode = AppState.ROUTER.getRegionCode();
-    document.querySelector( "#regionCode" ).innerHTML = null == regionCode ? "" : regionCode;
+    document.querySelector( "#regionCode" ).setInnerHTML( null == regionCode ? "" : regionCode );
     final String eventId = AppState.ROUTER.getEventId();
-    document.querySelector( "#eventId" ).innerHTML = null == eventId ? "" : eventId;
+    document.querySelector( "#eventId" ).setInnerHTML( null == eventId ? "" : eventId );
 
     final RouteState state = AppState.ROUTER.getRegionFilterRouteState();
     if ( null != state )
     {
       final String regionCode2 = state.getParameterValue( AppState.ROUTER.getRegionFilterRegionCodeParameter() );
-      Console.log( "RegionCode: " + regionCode2 );
+      log( "RegionCode: " + regionCode2 );
     }
     else
     {
-      Console.log( "No RegionCode" );
+      log( "No RegionCode" );
     }
+  }
+
+  @JsProperty( namespace = JsPackage.GLOBAL, name = "document" )
+  private static native Document document();
+
+  @JsMethod( namespace = JsPackage.GLOBAL, name = "console.log" )
+  private static native void log( Object message );
+
+  @JsType( isNative = true, namespace = JsPackage.GLOBAL, name = "Document" )
+  private static final class Document
+  {
+    native Element querySelector( String selector );
+  }
+
+  @JsType( isNative = true, namespace = JsPackage.GLOBAL, name = "Element" )
+  private static final class Element
+  {
+    native void addEventListener( String type, EventListener listener );
+
+    @JsProperty( name = "innerHTML" )
+    native void setInnerHTML( String value );
+  }
+
+  @FunctionalInterface
+  @JsFunction
+  private interface EventListener
+  {
+    void handleEvent( Object event );
   }
 }

@@ -1,6 +1,5 @@
 package com.example.route;
 
-import akasha.core.RegExp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public class RouterFu_RouteWithLongStaticSegment extends RouteWithLongStaticSegm
         new Segment("/regions/ballarat/events/23/coordination/now/shift1/crew23/position2")
       },
       new Parameter[] {},
-      new RegExp("^/regions/ballarat/events/23/coordination/now/shift1/crew23/position2$"),
+      "^/regions/ballarat/events/23/coordination/now/shift1/crew23/position2$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Router $fu$_router;

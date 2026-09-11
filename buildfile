@@ -35,21 +35,21 @@ define 'router-fu' do
   desc 'The core router-fu code'
   define 'core' do
     compile.with :javax_annotation,
-                 :akasha,
                  :braincheck,
                  :jsinterop_base,
                  :jsinterop_annotations,
+                 :jspecify,
                  :grim_annotations,
                  :jetbrains_annotations
 
     deps = artifacts(:javax_annotation,
                      :braincheck,
-                     :akasha)
+                     :jsinterop_base,
+                     :jsinterop_annotations)
     pom.include_transitive_dependencies << deps
     pom.dependency_filter = Proc.new { |dep| deps.include?(dep[:artifact]) }
     compile.with deps,
-                 :jsinterop_base,
-                 :jsinterop_annotations,
+                 :jspecify,
                  :grim_annotations,
                  :jetbrains_annotations
 

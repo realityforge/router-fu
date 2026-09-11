@@ -1,6 +1,5 @@
 package router.fu;
 
-import akasha.core.RegExp;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -20,7 +19,12 @@ public final class Parameter
     this( name, (RegExMatcher) null );
   }
 
-  public Parameter( @Nonnull final String name, @Nullable final RegExp validator )
+  public Parameter( @Nonnull final String name, @Nullable final String validatorPattern )
+  {
+    this( name, null == validatorPattern ? null : new BrowserMatcher( validatorPattern ) );
+  }
+
+  public Parameter( @Nonnull final String name, @Nullable final Object validator )
   {
     this( name, null == validator ? null : new BrowserMatcher( validator ) );
   }

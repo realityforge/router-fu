@@ -1,6 +1,5 @@
 package com.example.arez;
 
-import akasha.core.RegExp;
 import arez.annotations.Action;
 import arez.annotations.ArezComponent;
 import arez.annotations.Executor;
@@ -37,11 +36,9 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
     implements CompleteRouterService {
   private final Parameter $fu$_regionCode = new Parameter("regionCode");
 
-  private final Parameter $fu$_eventCode_1643987249 =
-      new Parameter("eventCode", new RegExp("^[0-9]+$"));
+  private final Parameter $fu$_eventCode_1643987249 = new Parameter("eventCode", "^[0-9]+$");
 
-  private final Parameter $fu$_regionCode_821487049 =
-      new Parameter("regionCode", new RegExp("^[a-zA-Z]+$"));
+  private final Parameter $fu$_regionCode_821487049 = new Parameter("regionCode", "^[a-zA-Z]+$");
 
   private final Route $fu$_route_regionFilter = new Route(
       "regionFilter",
@@ -51,7 +48,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
       new Parameter[] {
         $fu$_regionCode,
       },
-      new RegExp("^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$",
       (location, route, parameters) -> regionFilterCallback());
 
   private final Route $fu$_route_region = new Route(
@@ -62,7 +59,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
       new Parameter[] {
         $fu$_regionCode_821487049,
       },
-      new RegExp("^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Route $fu$_route_regionEvents = new Route(
@@ -73,8 +70,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
       new Parameter[] {
         $fu$_regionCode_821487049,
       },
-      new RegExp(
-          "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)/events$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)/events$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Route $fu$_route_regionEvent = new Route(
@@ -88,8 +84,7 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
       new Parameter[] {
         $fu$_regionCode_821487049, $fu$_eventCode_1643987249,
       },
-      new RegExp(
-          "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)/events/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)/events/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Router $fu$_router;

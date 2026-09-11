@@ -1,6 +1,5 @@
 package com.example.route;
 
-import akasha.core.RegExp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
       new Parameter[] {
         $fu$_regionCode,
       },
-      new RegExp("^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)",
       (location, route, parameters) -> MatchResult.NON_TERMINAL);
 
   private final Route $fu$_route_region = new Route(
@@ -43,7 +42,7 @@ public class RouterFu_RouteWithPartialMatchParameters extends RouteWithPartialMa
       new Parameter[] {
         $fu$_regionCode,
       },
-      new RegExp("^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$"),
+      "^/regions/((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})+)$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Router $fu$_router;

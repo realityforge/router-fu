@@ -1,6 +1,5 @@
 package com.example.route;
 
-import akasha.core.RegExp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class RouterFu_RouteWithEmptyPath extends RouteWithEmptyPath
       "welcome",
       new Segment[] {},
       new Parameter[] {},
-      new RegExp("^$"),
+      "^$",
       (location, route, parameters) -> MatchResult.TERMINAL);
 
   private final Router $fu$_router;

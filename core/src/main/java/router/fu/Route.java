@@ -1,6 +1,5 @@
 package router.fu;
 
-import akasha.core.RegExp;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +57,16 @@ public final class Route
   public Route( @Nonnull final String name,
                 @Nullable final Segment[] segments,
                 @Nonnull final Parameter[] parameters,
-                @Nonnull final RegExp matcher,
+                @Nonnull final String pattern,
+                @Nonnull final RouteMatchCallback matchCallback )
+  {
+    this( name, segments, parameters, new BrowserMatcher( pattern ), matchCallback );
+  }
+
+  public Route( @Nonnull final String name,
+                @Nullable final Segment[] segments,
+                @Nonnull final Parameter[] parameters,
+                @Nonnull final Object matcher,
                 @Nonnull final RouteMatchCallback matchCallback )
   {
     this( name, segments, parameters, new BrowserMatcher( matcher ), matchCallback );
