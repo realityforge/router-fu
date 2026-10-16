@@ -31,7 +31,7 @@ alias(
 
 closure_js_library(
     name = "entry",
-    srcs = ["entry.js"],
+    srcs = ["src/main/java/router/fu/example/entry.js"],
     deps = [":app"],
 )
 

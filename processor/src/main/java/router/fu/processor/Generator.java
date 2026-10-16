@@ -128,7 +128,7 @@ final class Generator {
     private static void buildParameterAccessorMethod(
             final TypeSpec.Builder builder, final RouteDescriptor route, final ParameterDescriptor parameter) {
         final MethodSpec.Builder method = MethodSpec.methodBuilder(
-                "get" + toPascalCaseName(route.getName()) + toPascalCaseName(parameter.getName()) + "Parameter");
+                "get" + toPascalCaseName(route.getName()) + toPascalCaseName(parameter.name()) + "Parameter");
         method.addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
         method.returns(PARAMETER_TYPE);
         builder.addMethod(method.build());
@@ -141,7 +141,7 @@ final class Generator {
         method.returns(String.class);
         for (final ParameterDescriptor parameter : route.getParameters()) {
             method.addParameter(
-                    ParameterSpec.builder(String.class, parameter.getName()).build());
+                    ParameterSpec.builder(String.class, parameter.name()).build());
         }
         builder.addMethod(method.build());
     }
@@ -151,7 +151,7 @@ final class Generator {
         method.addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT);
         for (final ParameterDescriptor parameter : route.getParameters()) {
             method.addParameter(
-                    ParameterSpec.builder(String.class, parameter.getName()).build());
+                    ParameterSpec.builder(String.class, parameter.name()).build());
         }
         builder.addMethod(method.build());
     }
@@ -298,11 +298,11 @@ final class Generator {
     private static void buildParameterField(final TypeSpec.Builder builder, final ParameterDescriptor parameter) {
         final FieldSpec.Builder field = FieldSpec.builder(
                 PARAMETER_TYPE, FIELD_PREFIX + parameter.getFieldName(), Modifier.FINAL, Modifier.PRIVATE);
-        final String constraint = parameter.getConstraint();
+        final String constraint = parameter.constraint();
         if (null != constraint) {
-            field.initializer("new $T( $S, $S )", PARAMETER_TYPE, parameter.getName(), "^" + constraint + "$");
+            field.initializer("new $T( $S, $S )", PARAMETER_TYPE, parameter.name(), "^" + constraint + "$");
         } else {
-            field.initializer("new $T( $S )", PARAMETER_TYPE, parameter.getName());
+            field.initializer("new $T( $S )", PARAMETER_TYPE, parameter.name());
         }
         builder.addField(field.build());
     }
@@ -394,7 +394,7 @@ final class Generator {
                 } else {
                     final ParameterDescriptor parameter = (ParameterDescriptor) part;
                     sb.append("((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})");
-                    sb.append(parameter.isOptional() ? "*" : "+");
+                    sb.append(parameter.optional() ? "*" : "+");
                     sb.append(")");
                 }
             }
@@ -589,7 +589,7 @@ final class Generator {
     private static void buildParameterAccessorImplMethod(
             final TypeSpec.Builder builder, final RouteDescriptor route, final ParameterDescriptor parameter) {
         final MethodSpec.Builder method = MethodSpec.methodBuilder(
-                "get" + toPascalCaseName(route.getName()) + toPascalCaseName(parameter.getName()) + "Parameter");
+                "get" + toPascalCaseName(route.getName()) + toPascalCaseName(parameter.name()) + "Parameter");
         method.addModifiers(Modifier.PUBLIC);
         method.addAnnotation(Override.class);
         method.returns(PARAMETER_TYPE);
@@ -660,13 +660,13 @@ final class Generator {
                 ROUTE_FIELD_PREFIX + "params",
                 HashMap.class);
         for (final ParameterDescriptor parameter : route.getParameters()) {
-            method.addParameter(ParameterSpec.builder(String.class, parameter.getName(), Modifier.FINAL)
+            method.addParameter(ParameterSpec.builder(String.class, parameter.name(), Modifier.FINAL)
                     .build());
             method.addStatement(
                     "$N.put( $N, $N )",
                     ROUTE_FIELD_PREFIX + "params",
                     FIELD_PREFIX + parameter.getFieldName(),
-                    parameter.getName());
+                    parameter.name());
         }
         method.addStatement(
                 "return $N.buildLocation( $N )", ROUTE_FIELD_PREFIX + route.getName(), ROUTE_FIELD_PREFIX + "params");
@@ -678,7 +678,7 @@ final class Generator {
         method.addModifiers(Modifier.PUBLIC);
         method.addAnnotation(Override.class);
         for (final ParameterDescriptor parameter : route.getParameters()) {
-            method.addParameter(ParameterSpec.builder(String.class, parameter.getName(), Modifier.FINAL)
+            method.addParameter(ParameterSpec.builder(String.class, parameter.name(), Modifier.FINAL)
                     .build());
         }
 
@@ -688,7 +688,7 @@ final class Generator {
         params.add(FIELD_PREFIX + "router");
         params.add("build" + toPascalCaseName(route.getName()) + "Location");
         sb.append(route.getParameters().stream()
-                .map(ParameterDescriptor::getName)
+                .map(ParameterDescriptor::name)
                 .peek(params::add)
                 .map(routeName -> "$N")
                 .collect(Collectors.joining(", ")));

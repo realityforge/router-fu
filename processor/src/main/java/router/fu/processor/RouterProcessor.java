@@ -334,7 +334,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
         if (routeNames.isEmpty()) {
             for (final RouteDescriptor route : router.getRoutes()) {
                 for (final ParameterDescriptor descriptor : route.getParameters()) {
-                    if (descriptor.getName().equals(parameterName)) {
+                    if (descriptor.name().equals(parameterName)) {
                         bindings.put(route, descriptor);
                     }
                 }

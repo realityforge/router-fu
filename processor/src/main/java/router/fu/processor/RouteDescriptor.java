@@ -73,7 +73,7 @@ final class RouteDescriptor {
     @Nullable
     ParameterDescriptor findParameterByName(final String parameterName) {
         return getParameters().stream()
-                .filter(p -> p.getName().equals(parameterName))
+                .filter(p -> p.name().equals(parameterName))
                 .findAny()
                 .orElse(null);
     }
