@@ -64,9 +64,10 @@ tools/update_goldens.sh
 The example uses J2CL and the same generated Arez router as the browser tests. GWT modules, its compiler,
 and its development server have been retired.
 
+Java sources, including build tools, use package-aligned `src/main/java` or `src/test/java` directories.
 Java packages own their BUILD files and compile package-local sources. `java_j2cl_library` accepts only
-local source files. The root targets assemble publication artifacts and group tests; processor fixtures
-are test data compiled by the processor tests.
+local source files. The root targets assemble publication artifacts and group tests. Processor fixtures
+live under `processor/src/test/resources/fixtures` as test data compiled by the processor tests.
 
 ## Nullability
 

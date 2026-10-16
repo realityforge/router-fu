@@ -19,8 +19,9 @@ module=(root/'MODULE.bazel').read_text().replace('module(name = "router_fu")','m
 module+='\nbazel_dep(name = "router_fu")\nlocal_path_override(module_name = "router_fu", path = '+json.dumps(str(root))+')\n'
 (dest/'MODULE.bazel').write_text(module)
 PY
-cp "$root"/tools/release/consumer/*.java "$scratch/"
-cat > "$scratch/BUILD.bazel" <<'BUILD'
+mkdir -p "$scratch/src/test/java/isolated"
+cp "$root"/tools/release/src/test/java/isolated/*.java "$scratch/src/test/java/isolated/"
+cat > "$scratch/src/test/java/isolated/BUILD.bazel" <<'BUILD'
 load("@rules_java//java:defs.bzl", "java_test")
 load("@j2cl//build_defs:rules.bzl", "j2cl_library")
 java_test(
@@ -41,6 +42,6 @@ j2cl_library(
 )
 BUILD
 cd "$scratch"
-bazel --output_base="$scratch/bazel" test //:consumer --test_output=errors
-bazel --output_base="$scratch/bazel" build //:browser
+bazel --output_base="$scratch/bazel" test //src/test/java/isolated:consumer --test_output=errors
+bazel --output_base="$scratch/bazel" build //src/test/java/isolated:browser
 printf 'External Bazel consumer passed using assembled runtime, processor and J2CL sources\n'

@@ -1,19 +1,6 @@
-load("//third_party/java:rules.bzl", "java_binary")
 load(":release.bzl", "release_jar", "release_javadoc_jar", "release_pom", "release_source_jar", "release_version")
 
 package(default_visibility = ["//visibility:public"])
-
-java_binary(
-    name = "jar_builder",
-    srcs = ["JarBuilder.java"],
-    main_class = "router.fu.release.JarBuilder",
-)
-
-java_binary(
-    name = "javadoc_jar_builder",
-    srcs = ["JavadocJarBuilder.java"],
-    main_class = "router.fu.release.JavadocJarBuilder",
-)
 
 release_jar(
     name = "core_jar",

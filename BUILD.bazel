@@ -18,10 +18,10 @@ java_format_check(
         "//processor/src/test/java/router/fu/processor:tests",
         "//example/src/main/java/router/fu/example:app_java",
         "//browser/src/test/java/router/fu/browser:probe_java",
-        "//tools/release:jar_builder",
-        "//tools/release:javadoc_jar_builder",
-        "//tools/release/consumer",
-        "//tools/verification:coverage_check",
+        "//tools/release/src/main/java/router/fu/release:jar_builder",
+        "//tools/release/src/main/java/router/fu/release:javadoc_jar_builder",
+        "//tools/release/src/test/java/isolated:consumer",
+        "//tools/verification/src/main/java/router/fu/verification:coverage_check",
     ],
 )
 
@@ -80,6 +80,6 @@ test_suite(
     tests = [
         ":browser_tests",
         ":jvm_tests",
-        "//tools/release/consumer",
+        "//tools/release/src/test/java/isolated:consumer",
     ],
 )

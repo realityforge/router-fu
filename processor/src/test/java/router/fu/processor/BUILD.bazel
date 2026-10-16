@@ -7,11 +7,11 @@ java_testng(
     size = "large",
     srcs = glob(["*.java"]),
     data = [
-        "//processor/src/test/fixtures",
+        "//processor/src/test/resources/fixtures",
         "//third_party/java:strict_checker_options",
     ],
     jvm_flags = FORMATTER_JVM_FLAGS + [
-        "-Drouter.fu.fixture_dir=processor/src/test/fixtures",
+        "-Drouter.fu.fixture_dir=processor/src/test/resources/fixtures",
         "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
         "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
         "--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
