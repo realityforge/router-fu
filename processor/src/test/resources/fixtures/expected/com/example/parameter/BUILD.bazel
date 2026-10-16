@@ -1,0 +1,18 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicBoundParameterService.java",
+        "MultiRouteBoundParameterService.java",
+        "NonDefaultNameParameterService.java",
+        "RouterFu_BasicBoundParameter.java",
+        "RouterFu_MultiRouteBoundParameter.java",
+        "RouterFu_NonDefaultNameParameter.java",
+        "RouterFu_SelectiveMultiRouteBoundParameter.java",
+        "RouterFu_URIEncodedParameter.java",
+        "SelectiveMultiRouteBoundParameterService.java",
+        "URIEncodedParameterService.java",
+    ],
+)

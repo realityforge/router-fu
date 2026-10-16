@@ -1,3 +1,5 @@
+load("@j2cl//build_defs:rules.bzl", "j2cl_library")
+load("//third_party/java:rules.bzl", "J2CL_JAVACOPTS")
 load(":release.bzl", "release_jar", "release_javadoc_jar", "release_pom", "release_source_jar", "release_version")
 
 package(default_visibility = ["//visibility:public"])
@@ -6,8 +8,8 @@ release_jar(
     name = "core_jar",
     out = "router-fu-core.jar",
     java_targets = [
-        "//core/src/main/java/router/fu:core",
-        "//core/src/main/java/router/fu/annotations",
+        "//core/src/main/java/router/fu:core_java",
+        "//core/src/main/java/router/fu/annotations:annotations_java",
     ],
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
@@ -17,8 +19,8 @@ release_source_jar(
     name = "core_sources",
     out = "router-fu-core-sources.jar",
     java_targets = [
-        "//core/src/main/java/router/fu:core",
-        "//core/src/main/java/router/fu/annotations",
+        "//core/src/main/java/router/fu:core_java",
+        "//core/src/main/java/router/fu/annotations:annotations_java",
     ],
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
@@ -64,8 +66,8 @@ release_javadoc_jar(
         "//third_party/java:jspecify",
     ],
     java_targets = [
-        "//core/src/main/java/router/fu:core",
-        "//core/src/main/java/router/fu/annotations",
+        "//core/src/main/java/router/fu:core_java",
+        "//core/src/main/java/router/fu/annotations:annotations_java",
     ],
 )
 
@@ -124,4 +126,19 @@ release_javadoc_jar(
         "//third_party/java:jspecify",
     ],
     java_targets = ["//processor/src/main/java/router/fu/processor:processor"],
+)
+
+j2cl_library(
+    name = "core_archive",
+    testonly = True,
+    srcs = [":core_sources"],
+    experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
+    javacopts = J2CL_JAVACOPTS,
+    plugins = ["//third_party/java:nullaway_plugin"],
+    deps = [
+        "//third_party/java:braincheck_core-j2cl",
+        "//third_party/java:jsinterop_annotations-j2cl",
+        "//third_party/java:jsinterop_base-j2cl",
+        "//third_party/java:jspecify-j2cl",
+    ],
 )

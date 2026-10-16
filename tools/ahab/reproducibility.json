@@ -5,12 +5,17 @@
         "reproducibility": "always"
       }
     },
-    "//tools/release/src/main/java/router/fu/release/jar_builder": {
+    "//tools/release/src/main/java/router/fu/tools/release/jar_builder": {
       "spec": {
         "reproducibility": "always"
       }
     },
-    "//tools/release/src/main/java/router/fu/release/javadoc_jar_builder": {
+    "//tools/release/src/main/java/router/fu/tools/release/javadoc_jar_builder": {
+      "spec": {
+        "reproducibility": "always"
+      }
+    },
+    "@j2cl//tools/java/com/google/j2cl/tools/junit/j2cl_test_suite_tool": {
       "spec": {
         "reproducibility": "always"
       }

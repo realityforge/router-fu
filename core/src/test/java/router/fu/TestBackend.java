@@ -1,6 +1,6 @@
 package router.fu;
 
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
 
 import org.jspecify.annotations.Nullable;
 
@@ -28,7 +28,7 @@ final class TestBackend implements Backend {
     @Override
     public void removeListener(final Object handle) {
         if (null != _handler) {
-            assertEquals(_handler, handle);
+            assertEquals(handle, _handler);
             _handler = null;
         }
     }

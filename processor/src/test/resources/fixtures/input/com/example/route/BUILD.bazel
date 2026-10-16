@@ -1,0 +1,16 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "RouteParametersWithShortName.java",
+        "RouteWithEmptyPath.java",
+        "RouteWithLongStaticSegment.java",
+        "RouteWithNonTargetParameters.java",
+        "RouteWithOptionalParameters.java",
+        "RouteWithParameters.java",
+        "RouteWithParametersWithConstraints.java",
+        "RouteWithPartialMatchParameters.java",
+    ],
+)

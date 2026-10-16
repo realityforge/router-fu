@@ -8,5 +8,5 @@ if [[ "${1:-}" != validate || $# -gt 2 ]]; then
 fi
 version="${2:-0.0.0-SNAPSHOT}"
 bazel build //tools/release:maven_artifacts --//tools/release:version="$version"
-bazel test //tools/release/src/test/java/isolated:consumer --test_output=errors
+bazel test //tools/release/src/test/java/router/fu/tools/release/consumer:consumer --test_output=errors
 python3 tools/release/validate.py "$(bazel info bazel-bin)/tools/release" "$version"

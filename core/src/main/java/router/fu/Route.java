@@ -113,7 +113,7 @@ public final class Route {
         }
         assert null != _segments;
         final HashSet<Parameter> usedParameters = BrainCheckConfig.checkApiInvariants() ? new HashSet<>() : null;
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         for (final Segment segment : _segments) {
             if (segment.isParameter()) {
                 final Parameter parameterKey = segment.getParameter();

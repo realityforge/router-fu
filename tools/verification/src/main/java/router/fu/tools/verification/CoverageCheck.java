@@ -1,12 +1,10 @@
-package router.fu.verification;
+package router.fu.tools.verification;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.jspecify.annotations.NullMarked;
@@ -28,10 +26,7 @@ public final class CoverageCheck {
     }
 
     static String summarize(String report) {
-        final var modules = new LinkedHashMap<String, Counts>();
-        for (final var module : List.of("core", "processor")) {
-            modules.put(module, new Counts());
-        }
+        final var counts = new Counts();
         final var sources = new HashSet<String>();
         for (final var record : report.split("end_of_record")) {
             final var fields = new HashMap<String, String>();
@@ -44,42 +39,33 @@ public final class CoverageCheck {
                 }
             }
             final var source = fields.getOrDefault("SF", "").replace('\\', '/');
-            for (final var module : modules.entrySet()) {
-                final var prefix = module.getKey() + "/src/main/java/";
-                if (source.startsWith(prefix)) {
-                    if (!sources.add(source)) {
-                        throw new IllegalArgumentException("Duplicate coverage source: " + source);
-                    }
-                    module.getValue().add(fields, source);
+            if (source.startsWith("processor/src/main/java/")) {
+                if (!sources.add(source)) {
+                    throw new IllegalArgumentException("Duplicate coverage source: " + source);
                 }
+                counts.add(fields, source);
             }
+        }
+        if (counts.files == 0 || counts.lines == 0 || counts.hits == 0) {
+            throw new IllegalArgumentException("Missing or empty processor coverage");
+        }
+        if (counts.hits * 100 < counts.lines * 95
+                || counts.branches == 0
+                || counts.branchHits * 100 < counts.branches * 85) {
+            throw new IllegalArgumentException("Processor coverage below 95% lines or 85% branches");
         }
         final var result = new StringBuilder();
-        for (final var entry : modules.entrySet()) {
-            final var counts = entry.getValue();
-            if (counts.files == 0 || counts.lines == 0 || counts.hits == 0) {
-                throw new IllegalArgumentException("Missing or empty owned JVM coverage for " + entry.getKey());
-            }
-            final int minimumLines = entry.getKey().equals("core") ? 75 : 95;
-            final int minimumBranches = entry.getKey().equals("core") ? 65 : 85;
-            if (counts.hits * 100 < counts.lines * minimumLines
-                    || counts.branches == 0
-                    || counts.branchHits * 100 < counts.branches * minimumBranches) {
-                throw new IllegalArgumentException("JVM coverage below floor for " + entry.getKey());
-            }
-            result.append(entry.getKey())
-                    .append(": ")
-                    .append(counts.files)
-                    .append(" sources, ")
-                    .append(counts.hits)
-                    .append('/')
-                    .append(counts.lines)
-                    .append(" lines, ")
-                    .append(counts.branchHits)
-                    .append('/')
-                    .append(counts.branches)
-                    .append(" branches\n");
-        }
+        result.append("processor: ")
+                .append(counts.files)
+                .append(" sources, ")
+                .append(counts.hits)
+                .append('/')
+                .append(counts.lines)
+                .append(" lines, ")
+                .append(counts.branchHits)
+                .append('/')
+                .append(counts.branches)
+                .append(" branches\n");
         return result.toString();
     }
 

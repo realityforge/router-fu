@@ -1,0 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicRouterService.java",
+        "RouterFu_BasicRouter.java",
+        "RouterFu_RouterWithTypeParams.java",
+        "RouterWithTypeParamsService.java",
+    ],
+)

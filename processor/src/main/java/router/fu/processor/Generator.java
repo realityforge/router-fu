@@ -246,7 +246,7 @@ final class Generator {
         ctor.addParameter(
                 ParameterSpec.builder(BACKEND_TYPE, "backend", Modifier.FINAL).build());
 
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         final ArrayList<Object> params = new ArrayList<>();
         sb.append("$N = new $T( this::onLocationChanged, backend, $T.unmodifiableList( $T.asList( ");
         params.add(FIELD_PREFIX + "router");
@@ -323,7 +323,7 @@ final class Generator {
     private static void buildRouteField(final TypeSpec.Builder builder, final RouteDescriptor route) {
         final FieldSpec.Builder field =
                 FieldSpec.builder(ROUTE_TYPE, ROUTE_FIELD_PREFIX + route.getName(), Modifier.FINAL, Modifier.PRIVATE);
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         final ArrayList<Object> params = new ArrayList<>();
         sb.append("new $T( $S, ");
         params.add(ROUTE_TYPE);
@@ -386,13 +386,13 @@ final class Generator {
         if (route.getParts().isEmpty()) {
             return route.isPartialMatch() ? "^" : "^$";
         } else {
-            final StringBuilder sb = new StringBuilder();
+            final var sb = new StringBuilder();
             sb.append("^/");
             for (final Object part : route.getParts()) {
                 if (part instanceof String) {
                     sb.append(part);
                 } else {
-                    final ParameterDescriptor parameter = (ParameterDescriptor) part;
+                    final var parameter = (ParameterDescriptor) part;
                     sb.append("((?:[a-zA-Z0-9\\-_\\$\\.\\+!\\*'\\(\\)\\,\\\"~]|%[A-F0-9]{2})");
                     sb.append(parameter.optional() ? "*" : "+");
                     sb.append(")");
@@ -407,7 +407,7 @@ final class Generator {
 
     private static void buildSegments(
             final StringBuilder sb, final ArrayList<Object> params, final RouteDescriptor route) {
-        final StringBuilder accumulator = new StringBuilder();
+        final var accumulator = new StringBuilder();
         if (!route.getParts().isEmpty()) {
             accumulator.append("/");
         }
@@ -421,7 +421,7 @@ final class Generator {
                     params.add(accumulator.toString());
                     accumulator.setLength(0);
                 }
-                final ParameterDescriptor param = (ParameterDescriptor) part;
+                final var param = (ParameterDescriptor) part;
                 sb.append("new $T( $N ), ");
                 params.add(SEGMENT_TYPE);
                 params.add(FIELD_PREFIX + param.getFieldName());
@@ -438,7 +438,7 @@ final class Generator {
             final StringBuilder sb, final ArrayList<Object> params, final RouteDescriptor route) {
         for (final Object part : route.getParts()) {
             if (part instanceof ParameterDescriptor) {
-                final ParameterDescriptor param = (ParameterDescriptor) part;
+                final var param = (ParameterDescriptor) part;
                 sb.append("$N, ");
                 params.add(FIELD_PREFIX + param.getFieldName());
             }
@@ -508,13 +508,13 @@ final class Generator {
                 needElse = true;
             }
 
-            final StringBuilder sb = new StringBuilder();
+            final var sb = new StringBuilder();
             final ArrayList<Object> params = new ArrayList<>();
 
             sb.append("$N(");
             params.add("goto" + toPascalCaseName(route.getName()));
 
-            final AtomicBoolean comma = new AtomicBoolean();
+            final var comma = new AtomicBoolean();
             route.getParameters().forEach(p -> {
                 sb.append(comma.get() ? ", " : "");
                 comma.set(true);
@@ -608,7 +608,7 @@ final class Generator {
         method.returns(MATCH_RESULT_TYPE);
         GeneratorUtil.copyWhitelistedAnnotations(callback, method);
 
-        final StringBuilder statement = new StringBuilder();
+        final var statement = new StringBuilder();
         final ArrayList<Object> parameterNames = new ArrayList<>();
         statement.append("return super.$N(");
         parameterNames.add(callback.getSimpleName().toString());
@@ -682,7 +682,7 @@ final class Generator {
                     .build());
         }
 
-        final StringBuilder sb = new StringBuilder();
+        final var sb = new StringBuilder();
         final ArrayList<Object> params = new ArrayList<>();
         sb.append("$N.changeLocation( $N( ");
         params.add(FIELD_PREFIX + "router");

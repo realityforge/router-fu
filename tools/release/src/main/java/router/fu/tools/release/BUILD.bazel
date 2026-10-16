@@ -5,11 +5,11 @@ package(default_visibility = ["//visibility:public"])
 java_binary(
     name = "jar_builder",
     srcs = ["JarBuilder.java"],
-    main_class = "router.fu.release.JarBuilder",
+    main_class = "router.fu.tools.release.JarBuilder",
 )
 
 java_binary(
     name = "javadoc_jar_builder",
     srcs = ["JavadocJarBuilder.java"],
-    main_class = "router.fu.release.JavadocJarBuilder",
+    main_class = "router.fu.tools.release.JavadocJarBuilder",
 )

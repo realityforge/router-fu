@@ -1,29 +1,18 @@
-load("//third_party/java:rules.bzl", "FORMATTER_JVM_FLAGS", "java_testng")
+load("//third_party/java:rules.bzl", "java_library")
+load(":test_rules.bzl", "FIXTURES", "feature", "processor_test")
 
 package(default_visibility = ["//visibility:public"])
 
-java_testng(
-    name = "tests",
-    size = "large",
-    srcs = glob(["*.java"]),
-    data = [
-        "//processor/src/test/resources/fixtures",
-        "//third_party/java:strict_checker_options",
+java_library(
+    name = "test_classes",
+    testonly = True,
+    srcs = [
+        "RouterProcessorTest.java",
+        "package-info.java",
     ],
-    jvm_flags = FORMATTER_JVM_FLAGS + [
-        "-Drouter.fu.fixture_dir=processor/src/test/resources/fixtures",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED",
-        "--add-exports=jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED",
-        "--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED",
-        "--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
-    ],
-    test_class = "router.fu.processor.RouterProcessorTest",
     deps = [
-        "//core/src/main/java/router/fu:core",
-        "//core/src/main/java/router/fu/annotations",
+        "//core/src/main/java/router/fu:core_java",
+        "//core/src/main/java/router/fu/annotations:annotations_java",
         "//processor/src/main/java/router/fu/processor",
         "//third_party/java:arez_core",
         "//third_party/java:arez_processor_runtime",
@@ -34,5 +23,73 @@ java_testng(
         "//third_party/java:jsinterop_annotations",
         "//third_party/java:nullaway",
         "//third_party/java:proton_qa",
+        "//third_party/java:testng",
+    ],
+)
+
+processor_test(
+    name = "route_goldens",
+    data = feature("route"),
+    methods = ["processSuccessfulRouteCompile"],
+)
+
+processor_test(
+    name = "parameter_goldens",
+    data = feature("parameter"),
+    methods = ["processSuccessfulParameterCompile"],
+)
+
+processor_test(
+    name = "callback_goldens",
+    data = feature("callback"),
+    methods = [
+        "processSuccessfulCallbackCompile",
+        "callbackFromInterface",
+    ],
+)
+
+processor_test(
+    name = "router_goldens",
+    data = feature("router") + feature("router_ref") + feature("arez") + feature("nested"),
+    methods = [
+        "processSuccessfulRouterCompile",
+        "nestedRouter",
+    ],
+)
+
+processor_test(
+    name = "failed_compiles",
+    data = [FIXTURES + "/bad_input:all"],
+    methods = ["processFailedCompile"],
+)
+
+processor_test(
+    name = "checker_controls",
+    data = feature(
+        "router",
+        ["input"],
+    ),
+    methods = ["checkerRejectsInvalidGeneratedBodies"],
+)
+
+processor_test(
+    name = "formatter_failure",
+    data = feature(
+        "router",
+        ["input"],
+    ),
+    methods = ["formatGeneratedSourceFailsClearlyWithoutJdkExports"],
+)
+
+test_suite(
+    name = "tests",
+    tests = [
+        ":callback_goldens",
+        ":checker_controls",
+        ":failed_compiles",
+        ":formatter_failure",
+        ":parameter_goldens",
+        ":route_goldens",
+        ":router_goldens",
     ],
 )

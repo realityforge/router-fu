@@ -21,9 +21,9 @@ public final class BrowserProbe {
 
     @JsMethod
     public static void start() {
-        final Parameter first = new Parameter("first");
-        final Parameter second = new Parameter("second");
-        final Route route = new Route(
+        final var first = new Parameter("first");
+        final var second = new Parameter("second");
+        final var route = new Route(
                 "native",
                 null,
                 new Parameter[] {first, second},
@@ -37,17 +37,20 @@ public final class BrowserProbe {
                 || route.match("c") != null) {
             throw new AssertionError("Native regexp capture contract");
         }
-        final Route validated = new Route(
+        final var validated = new Route(
                 "validated",
                 null,
                 new Parameter[] {new Parameter("id", "^[0-9]+$")},
                 "^(.*)$",
                 (location, matched, parameters) -> MatchResult.TERMINAL);
-        if (validated.match("42") == null || validated.match("value") != null)
+        if (validated.match("42") == null || validated.match("value") != null) {
             throw new AssertionError("Native regexp validation");
+        }
         generatedContracts();
         BACKEND.setLocation("");
-        if (!BACKEND.getLocation().isEmpty()) throw new AssertionError("Empty hash location");
+        if (!BACKEND.getLocation().isEmpty()) {
+            throw new AssertionError("Empty hash location");
+        }
         CHANGES.set(0);
         handle = BACKEND.addListener(location -> CHANGES.incrementAndGet());
     }
@@ -85,7 +88,9 @@ public final class BrowserProbe {
         @Override
         public void setLocation(String value) {
             location = value;
-            if (listener != null) listener.onLocationChange(value);
+            if (listener != null) {
+                listener.onLocationChange(value);
+            }
         }
 
         @Override

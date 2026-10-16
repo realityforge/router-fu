@@ -1,0 +1,20 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BadType2RouterRef.java",
+        "BadTypeRouterRef.java",
+        "ExceptionRouterRef.java",
+        "ExceptionRouterRefService.java",
+        "FinalRouterRef.java",
+        "FinalRouterRefService.java",
+        "ParametersRouterRef.java",
+        "ParametersRouterRefService.java",
+        "PrivateRouterRef.java",
+        "PrivateRouterRefService.java",
+        "StaticRouterRef.java",
+        "StaticRouterRefService.java",
+    ],
+)

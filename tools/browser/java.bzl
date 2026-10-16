@@ -1,43 +1,49 @@
-"""Checked Java packages compiled for browser applications."""
+"""Checked J2CL packages and internal views of their existing Java outputs."""
 
 load("@j2cl//build_defs:rules.bzl", "j2cl_library")
+load("@j2cl//build_defs/internal_do_not_use:provider.bzl", "J2clInfo")
 load("@rules_java//java/common:java_info.bzl", "JavaInfo")
-load("//third_party/java:rules.bzl", "java_library")
+load("//third_party/java:rules.bzl", "J2CL_JAVACOPTS")
 
-def _checked_sources_impl(ctx):
-    java_info = ctx.attr.java[JavaInfo]
+def _java_outputs_impl(ctx):
+    info = ctx.attr.library[J2clInfo]._private_.java_info
+    output = info.java_outputs[0]
     return [
-        DefaultInfo(files = depset(java_info.source_jars)),
-        # Building a source-only consumer must also run the JVM/static checks.
-        OutputGroupInfo(_validation = depset(java_info.runtime_output_jars)),
+        JavaInfo(
+            output_jar = output.class_jar,
+            compile_jar = output.compile_jar,
+            source_jar = info.source_jars[0],
+            generated_class_jar = output.generated_class_jar,
+            generated_source_jar = output.generated_source_jar,
+        ),
+        DefaultInfo(files = depset([output.class_jar])),
     ]
 
-_checked_sources = rule(
-    implementation = _checked_sources_impl,
-    attrs = {"java": attr.label(mandatory = True, providers = [JavaInfo])},
+_java_outputs = rule(
+    implementation = _java_outputs_impl,
+    attrs = {
+        "library": attr.label(mandatory = True, providers = [J2clInfo]),
+        "srcs": attr.label_list(allow_files = [".java"]),
+    },
 )
 
-def java_j2cl_library(name, srcs, deps = [], java_deps = [], plugins = [], native_srcs = [], testonly = False):
+def java_j2cl_library(name, srcs, deps = [], plugins = [], native_srcs = [], testonly = False):
     for src in srcs + native_srcs:
         if "/" in src or src.startswith("@"):
             fail("java_j2cl_library sources must be files in the current package: " + src)
-    java_library(
-        name = name + "_java",
-        testonly = testonly,
-        srcs = srcs,
-        deps = java_deps,
-        plugins = plugins,
-    )
-    _checked_sources(
-        name = name + "_sources",
-        testonly = testonly,
-        java = ":" + name + "_java",
-        visibility = ["//visibility:private"],
-    )
     j2cl_library(
         name = name,
         testonly = testonly,
-        srcs = [":" + name + "_sources"] + native_srcs,
+        srcs = srcs + native_srcs,
+        javacopts = J2CL_JAVACOPTS,
+        plugins = ["//third_party/java:nullaway_plugin"] + plugins,
         experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
-        deps = deps,
+        deps = ["//third_party/java:jspecify-j2cl"] + deps,
+    )
+    _java_outputs(
+        name = name + "_java",
+        testonly = testonly,
+        library = ":" + name,
+        srcs = srcs,
+        visibility = ["//:__subpackages__"],
     )

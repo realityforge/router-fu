@@ -1,7 +1,12 @@
 package(default_visibility = ["//visibility:public"])
 
 filegroup(
-    name = "fixtures",
+    name = "all",
     testonly = True,
-    srcs = glob(["**/*.java"]),
+    srcs = [
+        "//processor/src/test/resources/fixtures/bad_input:all",
+        "//processor/src/test/resources/fixtures/expected:all",
+        "//processor/src/test/resources/fixtures/expectedFormatted:all",
+        "//processor/src/test/resources/fixtures/input:all",
+    ],
 )

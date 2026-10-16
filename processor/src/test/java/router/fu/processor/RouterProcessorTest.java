@@ -101,49 +101,82 @@ public final class RouterProcessorTest extends AbstractProcessorTest {
         }
     }
 
-    @DataProvider(name = "successfulCompiles")
-    public Object[][] successfulCompiles() {
+    @DataProvider(name = "routeCompiles")
+    public Object[][] routeCompiles() {
         return new Object[][] {
-            new Object[] {"com.example.arez.ArezRouter"},
-            new Object[] {"com.example.arez.CompleteRouter"},
-            new Object[] {"com.example.callback.BasicCallback"},
-            new Object[] {"com.example.callback.CallbackWithCustomName"},
-            new Object[] {"com.example.callback.CallbackWithParams1"},
-            new Object[] {"com.example.callback.CallbackWithParams2"},
-            new Object[] {"com.example.callback.CallbackWithParams3"},
-            new Object[] {"com.example.callback.CallbackWithParams4"},
-            new Object[] {"com.example.callback.CallbackWithParams5"},
-            new Object[] {"com.example.callback.CallbackWithParams6"},
-            new Object[] {"com.example.parameter.BasicBoundParameter"},
-            new Object[] {"com.example.parameter.URIEncodedParameter"},
-            new Object[] {"com.example.parameter.MultiRouteBoundParameter"},
-            new Object[] {"com.example.parameter.NonDefaultNameParameter"},
-            new Object[] {"com.example.parameter.SelectiveMultiRouteBoundParameter"},
-            new Object[] {"com.example.route.RouteParametersWithShortName"},
-            new Object[] {"com.example.route.RouteWithEmptyPath"},
-            new Object[] {"com.example.route.RouteWithLongStaticSegment"},
-            new Object[] {"com.example.route.RouteWithNonTargetParameters"},
-            new Object[] {"com.example.route.RouteWithOptionalParameters"},
-            new Object[] {"com.example.route.RouteWithParameters"},
-            new Object[] {"com.example.route.RouteWithParametersWithConstraints"},
-            new Object[] {"com.example.route.RouteWithPartialMatchParameters"},
-            new Object[] {"com.example.router.BasicRouter"},
-            new Object[] {"com.example.router.RouterWithTypeParams"},
-            new Object[] {"com.example.router_ref.AnnotatedRouterRef"},
-            new Object[] {"com.example.router_ref.BasicRouterRef"},
-            new Object[] {"com.example.router_ref.MultiRouterRef"},
-            new Object[] {"com.example.router_ref.ProtectedRouterRef"},
-            new Object[] {"com.example.router_ref.PublicRouterRef"}
+            {"com.example.route.RouteParametersWithShortName"},
+            {"com.example.route.RouteWithEmptyPath"},
+            {"com.example.route.RouteWithLongStaticSegment"},
+            {"com.example.route.RouteWithNonTargetParameters"},
+            {"com.example.route.RouteWithOptionalParameters"},
+            {"com.example.route.RouteWithParameters"},
+            {"com.example.route.RouteWithParametersWithConstraints"},
+            {"com.example.route.RouteWithPartialMatchParameters"}
         };
     }
 
-    @Test(dataProvider = "successfulCompiles")
-    public void processSuccessfulCompile(final String classname) throws Exception {
+    @Test(dataProvider = "routeCompiles")
+    public void processSuccessfulRouteCompile(final String classname) throws Exception {
+        assertSuccessfulCompile(classname);
+    }
+
+    @DataProvider(name = "parameterCompiles")
+    public Object[][] parameterCompiles() {
+        return new Object[][] {
+            {"com.example.parameter.BasicBoundParameter"},
+            {"com.example.parameter.URIEncodedParameter"},
+            {"com.example.parameter.MultiRouteBoundParameter"},
+            {"com.example.parameter.NonDefaultNameParameter"},
+            {"com.example.parameter.SelectiveMultiRouteBoundParameter"}
+        };
+    }
+
+    @Test(dataProvider = "parameterCompiles")
+    public void processSuccessfulParameterCompile(final String classname) throws Exception {
+        assertSuccessfulCompile(classname);
+    }
+
+    @DataProvider(name = "callbackCompiles")
+    public Object[][] callbackCompiles() {
+        return new Object[][] {
+            {"com.example.callback.BasicCallback"},
+            {"com.example.callback.CallbackWithCustomName"},
+            {"com.example.callback.CallbackWithParams1"},
+            {"com.example.callback.CallbackWithParams2"},
+            {"com.example.callback.CallbackWithParams3"},
+            {"com.example.callback.CallbackWithParams4"},
+            {"com.example.callback.CallbackWithParams5"},
+            {"com.example.callback.CallbackWithParams6"}
+        };
+    }
+
+    @Test(dataProvider = "callbackCompiles")
+    public void processSuccessfulCallbackCompile(final String classname) throws Exception {
+        assertSuccessfulCompile(classname);
+    }
+
+    @DataProvider(name = "routerCompiles")
+    public Object[][] routerCompiles() {
+        return new Object[][] {
+            {"com.example.arez.ArezRouter"},
+            {"com.example.arez.CompleteRouter"},
+            {"com.example.router.BasicRouter"},
+            {"com.example.router.RouterWithTypeParams"},
+            {"com.example.router_ref.AnnotatedRouterRef"},
+            {"com.example.router_ref.BasicRouterRef"},
+            {"com.example.router_ref.MultiRouterRef"},
+            {"com.example.router_ref.ProtectedRouterRef"},
+            {"com.example.router_ref.PublicRouterRef"}
+        };
+    }
+
+    @Test(dataProvider = "routerCompiles")
+    public void processSuccessfulRouterCompile(final String classname) throws Exception {
         assertSuccessfulCompile(classname);
     }
 
     @Test
-    public void nestedReactComponent() throws Exception {
+    public void nestedRouter() throws Exception {
         assertSuccessfulCompile(
                 "com.example.nested.NestedRouter",
                 "com/example/nested/NestedRouter_InnerRouterService.java",
@@ -286,7 +319,7 @@ public final class RouterProcessorTest extends AbstractProcessorTest {
         final Path classOutput = Files.createTempDirectory("router-fu-format-no-exports-classes");
         final Path sourceOutput = Files.createTempDirectory("router-fu-format-no-exports-sources");
         try {
-            final Path javac = Path.of(System.getProperty("java.home"), "bin", "javac");
+            final var javac = Path.of(System.getProperty("java.home"), "bin", "javac");
             assertTrue(Files.exists(javac), "Expected javac to exist at " + javac);
 
             final List<String> command = new ArrayList<>();
@@ -307,7 +340,7 @@ public final class RouterProcessorTest extends AbstractProcessorTest {
 
             final Process process =
                     new ProcessBuilder(command).redirectErrorStream(true).start();
-            final String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            final var output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
             final int exitCode = process.waitFor();
 
             assertNotEquals(exitCode, 0, "Expected javac to fail without formatter JDK exports. Output:\n" + output);

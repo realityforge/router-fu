@@ -1,0 +1,26 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicCallbackService.java",
+        "CallbackFromInterfaceService.java",
+        "CallbackWithCustomNameService.java",
+        "CallbackWithParams1Service.java",
+        "CallbackWithParams2Service.java",
+        "CallbackWithParams3Service.java",
+        "CallbackWithParams4Service.java",
+        "CallbackWithParams5Service.java",
+        "CallbackWithParams6Service.java",
+        "RouterFu_BasicCallback.java",
+        "RouterFu_CallbackFromInterface.java",
+        "RouterFu_CallbackWithCustomName.java",
+        "RouterFu_CallbackWithParams1.java",
+        "RouterFu_CallbackWithParams2.java",
+        "RouterFu_CallbackWithParams3.java",
+        "RouterFu_CallbackWithParams4.java",
+        "RouterFu_CallbackWithParams5.java",
+        "RouterFu_CallbackWithParams6.java",
+    ],
+)

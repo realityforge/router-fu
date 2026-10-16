@@ -1,0 +1,13 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BadParameterName.java",
+        "DuplicateParameterName.java",
+        "NoSuchParameterInAnyRoute.java",
+        "NoSuchParameterInSpecificRoute.java",
+        "NoSuchRoute.java",
+    ],
+)

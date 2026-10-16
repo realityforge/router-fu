@@ -61,7 +61,7 @@ release_jar = rule(
         "resource_entries": attr.string_list(),
         "resource_files": attr.label_list(allow_files = True),
         "_jar_builder": attr.label(
-            default = Label("//tools/release/src/main/java/router/fu/release:jar_builder"),
+            default = Label("//tools/release/src/main/java/router/fu/tools/release:jar_builder"),
             executable = True,
             cfg = "exec",
         ),
@@ -102,7 +102,7 @@ release_source_jar = rule(
         "resource_entries": attr.string_list(),
         "resource_files": attr.label_list(allow_files = True),
         "_jar_builder": attr.label(
-            default = Label("//tools/release/src/main/java/router/fu/release:jar_builder"),
+            default = Label("//tools/release/src/main/java/router/fu/tools/release:jar_builder"),
             executable = True,
             cfg = "exec",
         ),
@@ -137,7 +137,7 @@ release_javadoc_jar = rule(
         "java_targets": attr.label_list(providers = [JavaInfo]),
         "out": attr.string(mandatory = True),
         "_javadoc_jar_builder": attr.label(
-            default = Label("//tools/release/src/main/java/router/fu/release:javadoc_jar_builder"),
+            default = Label("//tools/release/src/main/java/router/fu/tools/release:javadoc_jar_builder"),
             executable = True,
             cfg = "exec",
         ),

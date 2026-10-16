@@ -9,6 +9,7 @@ cleanup() {
 }
 trap cleanup EXIT
 cp "$root/.bazelrc" "$root/.bazelversion" "$root/maven_install.json" "$scratch/"
+printf 'exports_files(["maven_install.json"])\n' > "$scratch/BUILD.bazel"
 mkdir -p "$scratch/third_party/bazel"
 cp -R "$root/third_party/bazel/patches" "$scratch/third_party/bazel/"
 python3 - "$root" "$scratch" <<'PY'
@@ -19,29 +20,54 @@ module=(root/'MODULE.bazel').read_text().replace('module(name = "router_fu")','m
 module+='\nbazel_dep(name = "router_fu")\nlocal_path_override(module_name = "router_fu", path = '+json.dumps(str(root))+')\n'
 (dest/'MODULE.bazel').write_text(module)
 PY
-mkdir -p "$scratch/src/test/java/isolated"
-cp "$root"/tools/release/src/test/java/isolated/*.java "$scratch/src/test/java/isolated/"
-cat > "$scratch/src/test/java/isolated/BUILD.bazel" <<'BUILD'
-load("@rules_java//java:defs.bzl", "java_test")
-load("@j2cl//build_defs:rules.bzl", "j2cl_library")
-java_test(
-    name = "consumer",
-    srcs = ["Consumer.java", "Catalog.java", "EmptyRouter.java", "Browser.java"],
-    main_class = "isolated.Consumer",
-    use_testrunner = False,
-    javacopts = ["--release", "17", "-Werror", "-XDaddTypeAnnotationsToSymbol=true", "-Xep:NullAway:ERROR", "-XepOpt:NullAway:OnlyNullMarked=true", "-XepOpt:NullAway:JSpecifyMode=true", "-XepOpt:NullAway:AssertsEnabled=true", "-XepOpt:NullAway:CastToNonNullMethod=java.util.Objects.requireNonNull"],
-    plugins = ["@router_fu//:router_fu_processor_plugin", "@router_fu//third_party/java:nullaway_plugin"],
-    deps = ["@router_fu//:core", "@arez//:core"],
-    jvm_flags = ["-ea", "-Dbraincheck.environment=development"],
+consumer_path=src/test/java/router/fu/tools/release/consumer
+mkdir -p "$scratch/$consumer_path"
+cp "$root"/tools/release/"$consumer_path"/*.java "$scratch/$consumer_path/"
+cat > "$scratch/$consumer_path/BUILD.bazel" <<'BUILD'
+load("@j2cl//build_defs:rules.bzl", "j2cl_library", "j2cl_test")
+load("@router_fu//third_party/java:rules.bzl", "J2CL_JAVACOPTS")
+load("@rules_webtesting//web:web.bzl", "custom_browser")
+
+custom_browser(
+    name = "chromium",
+    browser = "@rules_webtesting//browsers:chromium-local",
+    environment = {"CHROME_LOG_FILE": "/dev/stderr"},
 )
+
 j2cl_library(
-    name = "browser",
-    srcs = ["Browser.java"],
+    name = "test_classes",
+    testonly = True,
+    srcs = ["Catalog.java", "ConsumerTest.java", "EmptyRouter.java"],
     experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
-    deps = ["@router_fu//:core-j2cl", "@router_fu//third_party/java:jspecify-j2cl"],
+    javacopts = J2CL_JAVACOPTS,
+    plugins = ["@router_fu//:router_fu_processor_plugin", "@router_fu//third_party/java:nullaway_plugin"],
+    deps = ["@router_fu//:core", "@router_fu//third_party/java:jspecify-j2cl", "@j2cl//:junit"],
+)
+
+j2cl_test(
+    name = "consumer",
+    test_class = "router.fu.tools.release.consumer.ConsumerTest",
+    runtime_deps = [":test_classes"],
+    browsers = [":chromium"],
+    compilation_level = "BUNDLE",
+    runtime_defines = {"braincheck.environment": "development"},
+)
+
+j2cl_library(
+    name = "archive",
+    srcs = ["@router_fu//tools/release:core_j2cl_sources"],
+    experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
+    javacopts = J2CL_JAVACOPTS,
+    plugins = ["@router_fu//third_party/java:nullaway_plugin"],
+    deps = [
+        "@router_fu//third_party/java:braincheck_core-j2cl",
+        "@router_fu//third_party/java:jsinterop_annotations-j2cl",
+        "@router_fu//third_party/java:jsinterop_base-j2cl",
+        "@router_fu//third_party/java:jspecify-j2cl",
+    ],
 )
 BUILD
 cd "$scratch"
-bazel --output_base="$scratch/bazel" test //src/test/java/isolated:consumer --test_output=errors
-bazel --output_base="$scratch/bazel" build //src/test/java/isolated:browser
-printf 'External Bazel consumer passed using assembled runtime, processor and J2CL sources\n'
+bazel --output_base="$scratch/bazel" test "//$consumer_path:consumer" --test_output=errors
+bazel --output_base="$scratch/bazel" build "//$consumer_path:archive"
+printf 'External J2CL consumer passed using public targets and assembled sources\n'

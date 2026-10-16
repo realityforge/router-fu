@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "AbstractRouter.java",
+        "CtorWithArgsRouter.java",
+        "EnumRouter.java",
+        "FinalRouter.java",
+        "InterfaceRouter.java",
+        "NonStaticNestedRouter.java",
+        "PrivateCtorRouter.java",
+    ],
+)

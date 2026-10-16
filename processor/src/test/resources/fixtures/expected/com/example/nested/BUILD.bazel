@@ -1,0 +1,10 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "NestedRouter_InnerRouterService.java",
+        "NestedRouter_RouterFu_InnerRouter.java",
+    ],
+)

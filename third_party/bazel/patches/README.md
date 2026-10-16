@@ -12,6 +12,5 @@ same overrides because Bazel does not inherit overrides from dependencies.
 * C++ rules: allow the selected macOS SDK root in sandboxed native tool compilation.
 * JsInterop base: suppress warnings on the two upstream class-conversion exports that J2CL cannot expose.
 * Arez: share Braincheck's source targets and update its JVM imports to base 1.2.0 and JSpecify 1.0.1.
-  Its immutable source revision and the packaged-consumer check are documented in `tools/release/README.md`.
 
 Remove a patch when an adopted upstream revision contains the fix; keep product compatibility logic out of these files.

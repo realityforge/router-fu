@@ -44,11 +44,11 @@ public final class RouterProcessor extends AbstractStandardProcessor {
 
     private static final Pattern CALLBACK_PATTERN = Pattern.compile("^([a-z].*)Callback$");
 
-    private final Pattern _urlParameterPattern = Pattern.compile("^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?");
+    private static final Pattern URL_PARAMETER_PATTERN = Pattern.compile("^:([a-zA-Z0-9\\-_]*[a-zA-Z0-9])(<(.+?)>)?");
 
-    private final Pattern _separatorPattern = Pattern.compile("^([!&\\-/_.;])");
+    private static final Pattern SEPARATOR_PATTERN = Pattern.compile("^([!&\\-/_.;])");
 
-    private final Pattern _fragmentPattern = Pattern.compile("^([0-9a-zA-Z]+)");
+    private static final Pattern FRAGMENT_PATTERN = Pattern.compile("^([0-9a-zA-Z]+)");
 
     private final DeferredElementSet _deferredTypes = new DeferredElementSet();
 
@@ -126,7 +126,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
             final boolean arezComponent = AnnotationsUtil.getAnnotationValueValue(annotation, "arez");
             final PackageElement packageElement =
                     processingEnv.getElementUtils().getPackageOf(typeElement);
-            final RouterDescriptor descriptor = new RouterDescriptor(packageElement, typeElement);
+            final var descriptor = new RouterDescriptor(packageElement, typeElement);
             descriptor.setArezComponent(arezComponent);
 
             parseRouteAnnotations(descriptor);
@@ -167,7 +167,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
                             "Method annotated with @RouterRef must return an instance of " + expectedServiceName,
                             method);
                 } else {
-                    final TypeElement returnTypeElement =
+                    final var returnTypeElement =
                             (TypeElement) processingEnv.getTypeUtils().asElement(returnType);
                     if (!returnTypeElement.getQualifiedName().toString().equals(expectedServiceName)) {
                         throw new ProcessorException(
@@ -230,7 +230,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
                 for (int i = 0; i < parameterTypes.size(); i++) {
                     final TypeMirror paramType = parameterTypes.get(i);
                     if (TypeKind.DECLARED == paramType.getKind()) {
-                        final DeclaredType type = (DeclaredType) paramType;
+                        final var type = (DeclaredType) paramType;
                         switch (((TypeElement) type.asElement())
                                 .getQualifiedName()
                                 .toString()) {
@@ -275,6 +275,8 @@ public final class RouterProcessor extends AbstractStandardProcessor {
                                 } else {
                                     throw duplicateCallbackParamException(method, "parameters", parametersIndex, i);
                                 }
+                            default:
+                                break;
                         }
                     }
 
@@ -305,7 +307,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
     }
 
     private ExecutableType toMethodType(final TypeElement element, final ExecutableElement method) {
-        final DeclaredType classType = (DeclaredType) element.asType();
+        final var classType = (DeclaredType) element.asType();
         return (ExecutableType) processingEnv.getTypeUtils().asMemberOf(classType, method);
     }
 
@@ -347,7 +349,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
             }
         } else {
             for (final AnnotationValue route : routeNames) {
-                final String routeName = (String) route.getValue();
+                final var routeName = (String) route.getValue();
                 if (router.hasRouteNamed(routeName)) {
                     final RouteDescriptor routeDescriptor = router.getRouteByName(routeName);
                     final ParameterDescriptor parameterDescriptor = routeDescriptor.findParameterByName(parameterName);
@@ -368,7 +370,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
             }
         }
 
-        final BoundParameterDescriptor boundParameter = new BoundParameterDescriptor(name, bindings);
+        final var boundParameter = new BoundParameterDescriptor(name, bindings);
         if (router.hasBoundParameterNamed(name)) {
             throw new ProcessorException(
                     "@Router target has multiple @BoundParameter annotations with the " + "name '" + name + "'",
@@ -396,7 +398,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
         final boolean partialMatch = AnnotationsUtil.getAnnotationValueValue(annotation, "partialMatch");
         final List<AnnotationValue> optionalParameters =
                 AnnotationsUtil.getAnnotationValueValue(annotation, "optionalParameters");
-        final RouteDescriptor route = new RouteDescriptor(name, navigationTarget, partialMatch);
+        final var route = new RouteDescriptor(name, navigationTarget, partialMatch);
 
         if (descriptor.hasRouteNamed(name)) {
             throw new ProcessorException(
@@ -428,7 +430,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
         while (start < length) {
             // Match path parameters
             {
-                final Matcher matcher = _urlParameterPattern.matcher(path.substring(start));
+                final Matcher matcher = URL_PARAMETER_PATTERN.matcher(path.substring(start));
                 if (matcher.find()) {
                     final String matched = matcher.group();
                     start += matched.length();
@@ -441,7 +443,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
             }
             // Match separators
             {
-                final Matcher matcher = _separatorPattern.matcher(path.substring(start));
+                final Matcher matcher = SEPARATOR_PATTERN.matcher(path.substring(start));
                 if (matcher.find()) {
                     final String matched = matcher.group();
                     start += matched.length();
@@ -452,7 +454,7 @@ public final class RouterProcessor extends AbstractStandardProcessor {
 
             // Match fragments
             {
-                final Matcher matcher = _fragmentPattern.matcher(path.substring(start));
+                final Matcher matcher = FRAGMENT_PATTERN.matcher(path.substring(start));
                 if (matcher.find()) {
                     final String matched = matcher.group();
                     start += matched.length();

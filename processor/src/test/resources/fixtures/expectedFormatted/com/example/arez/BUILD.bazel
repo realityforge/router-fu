@@ -1,0 +1,12 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "ArezRouterService.java",
+        "CompleteRouterService.java",
+        "RouterFu_ArezRouter.java",
+        "RouterFu_CompleteRouter.java",
+    ],
+)

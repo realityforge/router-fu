@@ -1,4 +1,4 @@
-package router.fu.release;
+package router.fu.tools.release;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

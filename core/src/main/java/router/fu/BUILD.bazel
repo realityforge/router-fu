@@ -1,13 +1,29 @@
-load("//third_party/java:rules.bzl", "java_library")
+load("//tools/browser:java.bzl", "java_j2cl_library")
 
 package(default_visibility = ["//visibility:public"])
 
-java_library(
+java_j2cl_library(
     name = "core",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Backend.java",
+        "BrowserMatcher.java",
+        "HashBackend.java",
+        "Location.java",
+        "LocationListener.java",
+        "MatchResult.java",
+        "Parameter.java",
+        "RegExMatchResult.java",
+        "RegExMatcher.java",
+        "Route.java",
+        "RouteMatchCallback.java",
+        "RouteState.java",
+        "Router.java",
+        "Segment.java",
+        "package-info.java",
+    ],
     deps = [
-        "//third_party/java:base",
-        "//third_party/java:braincheck_core",
-        "//third_party/java:jsinterop_annotations",
+        "//third_party/java:braincheck_core-j2cl",
+        "//third_party/java:jsinterop_annotations-j2cl",
+        "//third_party/java:jsinterop_base-j2cl",
     ],
 )

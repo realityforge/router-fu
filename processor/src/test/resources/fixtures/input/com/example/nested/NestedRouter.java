@@ -4,8 +4,12 @@ import org.jspecify.annotations.NullMarked;
 import router.fu.annotations.Router;
 
 @NullMarked
-public class NestedRouter
+public final class NestedRouter
 {
+  private NestedRouter()
+  {
+  }
+
   @Router
   public static class InnerRouter
   {

@@ -1,5 +1,6 @@
 """Shared example bundles and two-mode Chromium tests."""
 
+load("@j2cl//build_defs:rules.bzl", _j2cl_test = "j2cl_test")
 load("@rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_test")
 
 _PRODUCTION = "//tools/browser:production"
@@ -34,6 +35,8 @@ _DEVELOPMENT_DEFINES = dict(_PRODUCTION_DEFINES, **{
     "braincheck.verbose_error_messages": "true",
     "jre.classMetadata": "SIMPLE",
 })
+
+_UNIT_TEST_DEFINES = {key: value for key, value in _DEVELOPMENT_DEFINES.items() if key.startswith("braincheck.") or key.startswith("jre.")}
 
 def _defines(test = False):
     production = dict(_PRODUCTION_DEFINES)
@@ -101,4 +104,15 @@ def browser_test(name, srcs, deps, entry_point, data = []):
         defs = _compiler_defines(test = True),
         runtime_defines = _defines(test = True),
         browsers = ["//tools/browser:chromium"],
+    )
+
+def j2cl_junit_test(name, test_class, runtime_deps):
+    _j2cl_test(
+        name = name,
+        test_class = test_class,
+        runtime_deps = runtime_deps,
+        browsers = ["//tools/browser:chromium"],
+        compilation_level = select({_PRODUCTION: "ADVANCED", "//conditions:default": "BUNDLE"}),
+        extra_defs = ["--define=%s=%s" % item for item in _UNIT_TEST_DEFINES.items()],
+        runtime_defines = _UNIT_TEST_DEFINES,
     )

@@ -4,7 +4,16 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "processor",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "BoundParameterDescriptor.java",
+        "Constants.java",
+        "Generator.java",
+        "ParameterDescriptor.java",
+        "RouteDescriptor.java",
+        "RouterDescriptor.java",
+        "RouterProcessor.java",
+        "package-info.java",
+    ],
     resources = ["//processor/src/main/resources/META-INF/services"],
     deps = [
         "//third_party/java:javapoet",

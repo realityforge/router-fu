@@ -9,15 +9,9 @@ java_j2cl_library(
         "BrowserProbe.java",
         "BrowserRouter.java",
     ],
-    java_deps = [
-        "//:core",
-        "//third_party/java:jsinterop_annotations",
-        "//third_party/java:braincheck_core",
-    ],
     plugins = ["//:router_fu_processor_plugin"],
     deps = [
-        "//:core-j2cl",
+        "//:core",
         "//third_party/java:jsinterop_annotations-j2cl",
-        "//third_party/java:jspecify-j2cl",
     ],
 )

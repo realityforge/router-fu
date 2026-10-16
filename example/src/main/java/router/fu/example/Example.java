@@ -1,6 +1,7 @@
 package router.fu.example;
 
 import arez.Arez;
+import java.util.Objects;
 import java.util.Random;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsMethod;
@@ -22,22 +23,22 @@ public class Example {
         final MyRouterService router = AppState.ROUTER;
 
         final Document document = document();
-        java.util.Objects.requireNonNull(document.querySelector("#login"))
+        Objects.requireNonNull(document.querySelector("#login"))
                 .addEventListener("click", e -> Arez.context().safeAction(() -> AppState.AUTH.setUsername("Bob")));
-        java.util.Objects.requireNonNull(document.querySelector("#logout"))
+        Objects.requireNonNull(document.querySelector("#logout"))
                 .addEventListener("click", e -> Arez.context().safeAction(() -> AppState.AUTH.setUsername(null)));
-        java.util.Objects.requireNonNull(document.querySelector("#route_regions"))
+        Objects.requireNonNull(document.querySelector("#route_regions"))
                 .addEventListener("click", e -> AppState.ROUTER.gotoRegions());
-        java.util.Objects.requireNonNull(document.querySelector("#route_region"))
+        Objects.requireNonNull(document.querySelector("#route_region"))
                 .addEventListener("click", e -> AppState.ROUTER.gotoRegion("ballarat"));
-        java.util.Objects.requireNonNull(document.querySelector("#route_regionEvents"))
+        Objects.requireNonNull(document.querySelector("#route_regionEvents"))
                 .addEventListener("click", e -> AppState.ROUTER.gotoRegionEvents("ballarat"));
-        java.util.Objects.requireNonNull(document.querySelector("#route_regionEvent"))
+        Objects.requireNonNull(document.querySelector("#route_regionEvent"))
                 .addEventListener("click", e -> AppState.ROUTER.gotoRegionEvent("ballarat", "42"));
-        java.util.Objects.requireNonNull(document.querySelector("#randomize_regionCode"))
+        Objects.requireNonNull(document.querySelector("#randomize_regionCode"))
                 .addEventListener(
                         "click", e -> AppState.ROUTER.updateRegionCode(String.valueOf(new Random().nextInt())));
-        java.util.Objects.requireNonNull(document.querySelector("#randomize_eventId"))
+        Objects.requireNonNull(document.querySelector("#randomize_eventId"))
                 .addEventListener("click", e -> AppState.ROUTER.updateEventId(String.valueOf(new Random().nextInt())));
         Arez.context().observer(this::renderView);
     }
@@ -45,16 +46,14 @@ public class Example {
     private void renderView() {
         final Document document = document();
         final String username = AppState.AUTH.getUsername();
-        java.util.Objects.requireNonNull(document.querySelector("#username"))
-                .setInnerHTML(null == username ? "" : username);
-        java.util.Objects.requireNonNull(document.querySelector("#location"))
+        Objects.requireNonNull(document.querySelector("#username")).setInnerHTML(null == username ? "" : username);
+        Objects.requireNonNull(document.querySelector("#location"))
                 .setInnerHTML(AppState.ROUTER.getLocation().getPath());
         final String regionCode = AppState.ROUTER.getRegionCode();
-        java.util.Objects.requireNonNull(document.querySelector("#regionCode"))
+        Objects.requireNonNull(document.querySelector("#regionCode"))
                 .setInnerHTML(null == regionCode ? "" : regionCode);
         final String eventId = AppState.ROUTER.getEventId();
-        java.util.Objects.requireNonNull(document.querySelector("#eventId"))
-                .setInnerHTML(null == eventId ? "" : eventId);
+        Objects.requireNonNull(document.querySelector("#eventId")).setInnerHTML(null == eventId ? "" : eventId);
 
         final RouteState state = AppState.ROUTER.getRegionFilterRouteState();
         if (null != state) {

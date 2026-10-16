@@ -1,27 +1,29 @@
 package router.fu;
 
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
 
-import java.util.UUID;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class ParameterTest extends AbstractRouterFuTest {
+@RunWith(JUnit4.class)
+public final class ParameterTest extends AbstractRouterFuTest {
     @Test
     public void basicOperation() {
-        final String name = UUID.randomUUID().toString();
-        final TestRegExp validator = new TestRegExp();
-        final Parameter parameter = new Parameter(name, validator);
-        assertEquals(parameter.getName(), name);
-        assertEquals(parameter.getValidator(), validator);
-        assertEquals(parameter.toString(), name);
+        final String name = "route";
+        final var validator = new TestRegExp();
+        final var parameter = new Parameter(name, validator);
+        assertEquals(name, parameter.getName());
+        assertEquals(validator, parameter.getValidator());
+        assertEquals(name, parameter.toString());
     }
 
     @Test
     public void nullValidator() {
-        final String name = UUID.randomUUID().toString();
-        final Parameter parameter = new Parameter(name);
-        assertEquals(parameter.getName(), name);
+        final String name = "route";
+        final var parameter = new Parameter(name);
+        assertEquals(name, parameter.getName());
         assertNull(parameter.getValidator());
-        assertEquals(parameter.toString(), name);
+        assertEquals(name, parameter.toString());
     }
 }

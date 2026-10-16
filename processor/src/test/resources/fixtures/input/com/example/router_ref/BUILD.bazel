@@ -1,0 +1,13 @@
+package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "AnnotatedRouterRef.java",
+        "BasicRouterRef.java",
+        "MultiRouterRef.java",
+        "ProtectedRouterRef.java",
+        "PublicRouterRef.java",
+    ],
+)
