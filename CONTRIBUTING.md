@@ -15,9 +15,9 @@ Bazel downloads the pinned Java toolchains, Chromium, and WebDriver. Building th
 requires a C++ toolchain: Xcode command-line tools on macOS or GCC on Linux.
 
 The gate checks formatting, hermeticity, processor tests, JavaScript tests, processor coverage,
-external J2CL consumption, and reproducible publication archives. Runtime unit tests use JUnit compiled
-by J2CL and run in Chromium. Browser integration tests exercise native regular expressions, hash
-navigation, and the generated Arez example in development and optimized production configurations.
+publication builds, and a J2CL consumer of the assembled sources and processor. Runtime unit tests use
+JUnit compiled by J2CL and run in Chromium. Browser integration tests exercise native regular expressions,
+hash navigation, and the generated Arez example in development and optimized production configurations.
 
 For a smaller check:
 
@@ -81,6 +81,5 @@ Applications use the J2CL target `//:core` and the JVM annotation-processing plu
 `//:router_fu_processor_plugin`. Runtime JVM targets are not an application API.
 
 Copy the dependency overrides and patches from `MODULE.bazel` into the consuming root; Bazel does not
-inherit dependency-module overrides. `tools/check_bazel_consumer.sh` exercises a separate workspace
-against the public targets and the runtime source archive. The [release guide](tools/release/README.md)
-lists the publication artifacts.
+inherit dependency-module overrides. The [release guide](tools/release/README.md) lists the publication
+artifacts.

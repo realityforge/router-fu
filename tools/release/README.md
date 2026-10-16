@@ -1,28 +1,30 @@
-# Publication
+# Publication artifacts
 
-Build the runtime and processor jars, sources, Javadocs, and POMs with:
+Build the runtime and annotation processor artifacts with:
 
 ```sh
 bazel build //tools/release:maven_artifacts
 ```
 
-External Bazel projects use `@router_fu//tools/release:core_j2cl_sources` for the runtime source archive.
-Individual artifact targets for maintainer builds are listed in
-[BUILD.bazel](BUILD.bazel). The processor jar, `//tools/release:processor_jar`, embeds relocated Proton and
-JavaPoet dependencies and its service registration.
-Shared browser runtimes remain dependencies.
+The files are written to `bazel-bin/tools/release/`. Each module, `router-fu-core` and
+`router-fu-processor`, produces a jar, a `-sources.jar`, a `-javadoc.jar`, and a POM under the Maven group
+`org.realityforge.router.fu`. Individual build targets are listed in [BUILD.bazel](BUILD.bazel).
 
-`tools/release.sh validate 0.0.0-SNAPSHOT` checks archive contents, metadata, and a J2CL consumer of the
-assembled sources and processor. `tools/release/check_reproducibility.sh` compares all eight artifacts
-with an independent build. Both are part of `tools/check.sh`.
+The processor jar includes its service registration and embeds Proton and JavaPoet under relocated
+packages. The runtime declares Braincheck, JsInterop, and JSpecify as dependencies in its POM.
+Bazel consumers can use `@router_fu//tools/release:core_j2cl_sources` for the runtime source archive.
 
-## Version selection
+## Versions
 
-The default artifact version and Braincheck POM dependency are `0.0.0-SNAPSHOT`. Before a Maven release,
-choose a published Braincheck version matching the pinned source API with
-`--//tools/release:braincheck_version=VERSION`, then select Router-fu's version with
-`--//tools/release:version=VERSION`. Validation rejects a non-snapshot release with a snapshot Braincheck
-dependency. The validation command does not upload or tag a release.
+Both the Router-fu artifact version and the Braincheck dependency version default to `0.0.0-SNAPSHOT`.
+For a release, set `router_fu_version` to the release version and `braincheck_version` to a published
+Braincheck version compatible with the source revision pinned in [MODULE.bazel](../../MODULE.bazel),
+then build:
 
-Dependency revisions and build overrides are maintained in [MODULE.bazel](../../MODULE.bazel).
-Patch purposes are documented in [the patch directory](../../third_party/bazel/patches/README.md).
+```sh
+bazel build //tools/release:maven_artifacts \
+  --//tools/release:version="$router_fu_version" \
+  --//tools/release:braincheck_version="$braincheck_version"
+```
+
+These settings select the versions in the generated POMs. Output filenames stay the same.

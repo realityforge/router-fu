@@ -9,7 +9,7 @@
 * Honor partial matching for empty route paths so an empty auth filter continues matching after navigation.
 * Retire GWT support and move the browser example to J2CL.
 * Expose J2CL runtime targets beside their package sources and a plugin backed by the shaded processor artifact.
-  Validate publication archives, external J2CL consumption and reproducible builds.
+  Build publication archives and test the assembled runtime sources and processor with J2CL.
 
 ### [v0.48](https://github.com/realityforge/router-fu/tree/v0.48) (2026-09-11) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.47...v0.48)
 

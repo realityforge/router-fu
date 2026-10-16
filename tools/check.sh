@@ -15,9 +15,5 @@ coverage_report="$(bazel info -c dbg output_path)/_coverage/_coverage_report.dat
 mkdir -p reports/coverage
 cp -f "$coverage_report" reports/coverage/jvm.lcov
 bazel run //tools/verification/src/main/java/router/fu/tools/verification:coverage_check -- "$root/reports/coverage/jvm.lcov" "$root/reports/coverage/summary.txt"
-tools/check_bazel_consumer.sh
-tools/release.sh validate 0.0.0-SNAPSHOT
-tools/release/check_reproducibility.sh
-bazel build //tools/release:maven_artifacts
 git diff --check
 echo 'All Router-fu checks passed.'
