@@ -1,5 +1,3 @@
-package(default_visibility = ["//visibility:public"])
-
 filegroup(
     name = "all",
     testonly = True,
@@ -11,5 +9,8 @@ filegroup(
         "//processor/src/test/resources/fixtures/expected/com/example/route:all",
         "//processor/src/test/resources/fixtures/expected/com/example/router:all",
         "//processor/src/test/resources/fixtures/expected/com/example/router_ref:all",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/expected/com:__pkg__",
     ],
 )

@@ -27,13 +27,15 @@ _java_outputs = rule(
     },
 )
 
-def java_j2cl_library(name, srcs, deps = [], plugins = [], native_srcs = [], testonly = False):
+def java_j2cl_library(name, srcs, deps = [], plugins = [], native_srcs = [], testonly = False, visibility = None, java_visibility = None):
     for src in srcs + native_srcs:
         if "/" in src or src.startswith("@"):
             fail("java_j2cl_library sources must be files in the current package: " + src)
     j2cl_library(
         name = name,
         testonly = testonly,
+        visibility = visibility,
+        generate_j2wasm_library = False,
         srcs = srcs + native_srcs,
         javacopts = J2CL_JAVACOPTS,
         plugins = ["//third_party/java:nullaway_plugin"] + plugins,
@@ -45,5 +47,5 @@ def java_j2cl_library(name, srcs, deps = [], plugins = [], native_srcs = [], tes
         testonly = testonly,
         library = ":" + name,
         srcs = srcs,
-        visibility = ["//:__subpackages__"],
+        visibility = java_visibility,
     )

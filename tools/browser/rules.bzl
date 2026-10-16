@@ -79,7 +79,7 @@ _preview = rule(
     },
 )
 
-def browser_application(name, entry_point, deps, html):
+def browser_application(name, entry_point, deps, html, visibility = None):
     closure_js_binary(
         name = name + "_bundle",
         compilation_level = select({_PRODUCTION: "ADVANCED", "//conditions:default": "BUNDLE"}),
@@ -87,7 +87,7 @@ def browser_application(name, entry_point, deps, html):
         entry_points = [entry_point],
         deps = deps,
     )
-    _preview(name = name, html = html, js = name + "_bundle.js", defines = _defines())
+    _preview(name = name, html = html, js = name + "_bundle.js", defines = _defines(), visibility = visibility)
 
 def browser_test(name, srcs, deps, entry_point, data = []):
     closure_js_test(

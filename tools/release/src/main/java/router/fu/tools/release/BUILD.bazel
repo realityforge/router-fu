@@ -1,15 +1,21 @@
 load("//third_party/java:rules.bzl", "java_binary")
 
-package(default_visibility = ["//visibility:public"])
-
 java_binary(
     name = "jar_builder",
     srcs = ["JarBuilder.java"],
     main_class = "router.fu.tools.release.JarBuilder",
+    visibility = [
+        "//:__pkg__",
+        "//tools/release:__pkg__",
+    ],
 )
 
 java_binary(
     name = "javadoc_jar_builder",
     srcs = ["JavadocJarBuilder.java"],
     main_class = "router.fu.tools.release.JavadocJarBuilder",
+    visibility = [
+        "//:__pkg__",
+        "//tools/release:__pkg__",
+    ],
 )

@@ -24,9 +24,14 @@ consumer_path=src/test/java/router/fu/tools/release/consumer
 mkdir -p "$scratch/$consumer_path"
 cp "$root"/tools/release/"$consumer_path"/*.java "$scratch/$consumer_path/"
 cat > "$scratch/$consumer_path/BUILD.bazel" <<'BUILD'
-load("@j2cl//build_defs:rules.bzl", "j2cl_library", "j2cl_test")
+load("@j2cl//build_defs:rules.bzl", "j2cl_import", "j2cl_library", "j2cl_test")
 load("@router_fu//third_party/java:rules.bzl", "J2CL_JAVACOPTS")
 load("@rules_webtesting//web:web.bzl", "custom_browser")
+
+j2cl_import(
+    name = "jspecify",
+    jar = "@arez//third_party/java:jspecify",
+)
 
 custom_browser(
     name = "chromium",
@@ -40,8 +45,8 @@ j2cl_library(
     srcs = ["Catalog.java", "ConsumerTest.java", "EmptyRouter.java"],
     experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
     javacopts = J2CL_JAVACOPTS,
-    plugins = ["@router_fu//:router_fu_processor_plugin", "@router_fu//third_party/java:nullaway_plugin"],
-    deps = ["@router_fu//:core", "@router_fu//third_party/java:jspecify-j2cl", "@j2cl//:junit"],
+    plugins = ["@router_fu//:router_fu_processor_plugin", "@sting//third_party/java:nullaway_plugin"],
+    deps = ["@router_fu//:core", ":jspecify", "@j2cl//:junit"],
 )
 
 j2cl_test(
@@ -58,12 +63,12 @@ j2cl_library(
     srcs = ["@router_fu//tools/release:core_j2cl_sources"],
     experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
     javacopts = J2CL_JAVACOPTS,
-    plugins = ["@router_fu//third_party/java:nullaway_plugin"],
+    plugins = ["@sting//third_party/java:nullaway_plugin"],
     deps = [
-        "@router_fu//third_party/java:braincheck_core-j2cl",
-        "@router_fu//third_party/java:jsinterop_annotations-j2cl",
-        "@router_fu//third_party/java:jsinterop_base-j2cl",
-        "@router_fu//third_party/java:jspecify-j2cl",
+        "@braincheck//core/src/main/java/org/realityforge/braincheck:core-j2cl",
+        "@j2cl//:jsinterop-annotations-j2cl",
+        "@jsinterop_base//:jsinterop-base-j2cl",
+        ":jspecify",
     ],
 )
 BUILD

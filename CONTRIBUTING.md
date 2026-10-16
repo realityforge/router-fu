@@ -34,7 +34,9 @@ Processor JVM coverage must reach 95% of lines and 85% of branches. Reports are 
 
 Use package-aligned `src/main/java` and `src/test/java` paths, including for build tools. Tool packages
 use `router.fu.tools.<tool>`. Put BUILD files beside their sources and list Java files explicitly.
-Compiler fixtures belong under `processor/src/test/resources/fixtures`.
+Compiler fixtures belong under `processor/src/test/resources/fixtures`. Keep targets private by default
+and grant access to specific consuming packages with `__pkg__` visibility. Public visibility is reserved
+for downstream entry points.
 
 The J2CL wrapper runs Error Prone and NullAway during J2CL's compilation. Its internal `*_java` targets
 expose those existing outputs for packaging and formatting without another compile. The processor and

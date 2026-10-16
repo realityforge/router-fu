@@ -2,9 +2,10 @@ load("@j2cl//build_defs:rules.bzl", "j2cl_library")
 load("@rules_java//java:defs.bzl", "java_import", "java_plugin")
 load("@rules_palantir_java_format//:defs.bzl", "java_format_check")
 
-package(default_visibility = ["//visibility:public"])
-
-exports_files(["LICENSE"])
+exports_files(
+    ["LICENSE"],
+    visibility = ["//tools/release:__pkg__"],
+)
 
 java_format_check(
     name = "java_format_check",
@@ -36,11 +37,18 @@ java_plugin(
     name = "router_fu_processor_plugin",
     generates_api = True,
     processor_class = "router.fu.processor.RouterProcessor",
+    visibility = [
+        "//visibility:public",
+    ],
     deps = [":processor"],
 )
 
 j2cl_library(
     name = "core",
+    generate_j2wasm_library = False,
+    visibility = [
+        "//visibility:public",
+    ],
     exports = [
         "//core/src/main/java/router/fu:core",
         "//core/src/main/java/router/fu/annotations",
@@ -57,7 +65,7 @@ test_suite(
 test_suite(
     name = "browser_tests",
     tests = [
-        "//browser/src/test/js/router.fu:tests",
+        "//browser/src/test/js/router.fu:all_tests",
         "//core/src/test/java/router/fu:tests",
     ],
 )
@@ -67,6 +75,6 @@ test_suite(
     tests = [
         ":browser_tests",
         ":processor_tests",
-        "//tools/release/src/test/java/router/fu/tools/release/consumer",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:all_tests",
     ],
 )

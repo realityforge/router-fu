@@ -4,5 +4,7 @@ java_binary(
     name = "coverage_check",
     srcs = ["CoverageCheck.java"],
     main_class = "router.fu.tools.verification.CoverageCheck",
-    visibility = ["//visibility:public"],
+    visibility = [
+        "//:__pkg__",
+    ],
 )

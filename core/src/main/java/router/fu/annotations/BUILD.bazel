@@ -1,7 +1,5 @@
 load("//tools/browser:java.bzl", "java_j2cl_library")
 
-package(default_visibility = ["//visibility:public"])
-
 java_j2cl_library(
     name = "annotations",
     srcs = [
@@ -13,5 +11,13 @@ java_j2cl_library(
         "RouterRef.java",
         "Routes.java",
         "package-info.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+    visibility = [
+        "//:__pkg__",
     ],
 )

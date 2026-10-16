@@ -1,7 +1,5 @@
 load("//tools/browser:rules.bzl", "browser_test")
 
-package(default_visibility = ["//visibility:public"])
-
 browser_test(
     name = "tests",
     srcs = ["browser_test.js"],
@@ -11,4 +9,10 @@ browser_test(
         "//browser/src/test/java/router/fu/browser:probe",
         "@rules_closure//closure/testing/library:testcase",
     ],
+)
+
+test_suite(
+    name = "all_tests",
+    tests = [":tests"],
+    visibility = ["//:__pkg__"],
 )

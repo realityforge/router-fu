@@ -1,7 +1,5 @@
 load("//tools/browser:java.bzl", "java_j2cl_library")
 
-package(default_visibility = ["//visibility:public"])
-
 java_j2cl_library(
     name = "core",
     srcs = [
@@ -20,6 +18,14 @@ java_j2cl_library(
         "Router.java",
         "Segment.java",
         "package-info.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+    visibility = [
+        "//:__pkg__",
     ],
     deps = [
         "//third_party/java:braincheck_core-j2cl",

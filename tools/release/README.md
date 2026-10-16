@@ -6,8 +6,8 @@ Build the runtime and processor jars, sources, Javadocs, and POMs with:
 bazel build //tools/release:maven_artifacts
 ```
 
-The runtime source archive is available as `//tools/release:core_sources` and
-`//tools/release:core_j2cl_sources`. Use it for J2CL consumption. Individual artifact targets are listed in
+External Bazel projects use `@router_fu//tools/release:core_j2cl_sources` for the runtime source archive.
+Individual artifact targets for maintainer builds are listed in
 [BUILD.bazel](BUILD.bazel). The processor jar, `//tools/release:processor_jar`, embeds relocated Proton and
 JavaPoet dependencies and its service registration.
 Shared browser runtimes remain dependencies.

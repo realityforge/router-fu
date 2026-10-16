@@ -1,8 +1,6 @@
 load("@rules_closure//closure:defs.bzl", "closure_js_library")
 load("//tools/browser:java.bzl", "java_j2cl_library")
 
-package(default_visibility = ["//visibility:public"])
-
 java_j2cl_library(
     name = "app",
     srcs = [
@@ -11,6 +9,9 @@ java_j2cl_library(
         "Example.java",
         "MyRouter.java",
         "package-info.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
     ],
     plugins = [
         "//:router_fu_processor_plugin",
@@ -26,5 +27,8 @@ java_j2cl_library(
 closure_js_library(
     name = "entry",
     srcs = ["entry.js"],
+    visibility = [
+        "//example/src/main/webapp:__pkg__",
+    ],
     deps = [":app"],
 )

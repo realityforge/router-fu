@@ -1,5 +1,3 @@
-package(default_visibility = ["//visibility:public"])
-
 filegroup(
     name = "all",
     testonly = True,
@@ -9,5 +7,8 @@ filegroup(
         "NoSuchParameterInAnyRoute.java",
         "NoSuchParameterInSpecificRoute.java",
         "NoSuchRoute.java",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/bad_input/com/example:__pkg__",
     ],
 )

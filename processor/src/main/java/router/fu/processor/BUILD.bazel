@@ -1,7 +1,5 @@
 load("//third_party/java:rules.bzl", "java_library", "java_plugin")
 
-package(default_visibility = ["//visibility:public"])
-
 java_library(
     name = "processor",
     srcs = [
@@ -15,6 +13,11 @@ java_library(
         "package-info.java",
     ],
     resources = ["//processor/src/main/resources/META-INF/services"],
+    visibility = [
+        "//:__pkg__",
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
     deps = [
         "//third_party/java:javapoet",
         "//third_party/java:proton_core",

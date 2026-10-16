@@ -1,22 +1,32 @@
 load("@rules_closure//closure:defs.bzl", "closure_js_library")
 load("@rules_webtesting//web:web.bzl", "custom_browser")
 
-package(default_visibility = ["//visibility:public"])
-
-exports_files([
-    "java.bzl",
-    "rules.bzl",
-])
+exports_files(
+    [
+        "java.bzl",
+        "rules.bzl",
+    ],
+    visibility = ["//visibility:private"],
+)
 
 config_setting(
     name = "production",
     values = {"compilation_mode": "opt"},
+    visibility = [
+        "//browser/src/test/js/router.fu:__pkg__",
+        "//core/src/test/java/router/fu:__pkg__",
+        "//example/src/main/webapp:__pkg__",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:__pkg__",
+    ],
 )
 
 closure_js_library(
     name = "mode",
     testonly = True,
     srcs = ["mode.js"],
+    visibility = [
+        "//browser/src/test/js/router.fu:__pkg__",
+    ],
 )
 
 # Chromium otherwise writes chrome_debug.log beside its downloaded executable on macOS.
@@ -24,4 +34,9 @@ custom_browser(
     name = "chromium",
     browser = "@rules_webtesting//browsers:chromium-local",
     environment = {"CHROME_LOG_FILE": "/dev/stderr"},
+    visibility = [
+        "//browser/src/test/js/router.fu:__pkg__",
+        "//core/src/test/java/router/fu:__pkg__",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:__pkg__",
+    ],
 )

@@ -1,14 +1,15 @@
 load("//third_party/java:rules.bzl", "java_library")
 load(":test_rules.bzl", "FIXTURES", "feature", "processor_test")
 
-package(default_visibility = ["//visibility:public"])
-
 java_library(
     name = "test_classes",
     testonly = True,
     srcs = [
         "RouterProcessorTest.java",
         "package-info.java",
+    ],
+    visibility = [
+        "//:__pkg__",
     ],
     deps = [
         "//core/src/main/java/router/fu:core_java",
@@ -91,5 +92,8 @@ test_suite(
         ":parameter_goldens",
         ":route_goldens",
         ":router_goldens",
+    ],
+    visibility = [
+        "//:__pkg__",
     ],
 )

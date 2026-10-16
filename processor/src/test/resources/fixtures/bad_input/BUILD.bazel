@@ -1,9 +1,11 @@
-package(default_visibility = ["//visibility:public"])
-
 filegroup(
     name = "all",
     testonly = True,
     srcs = [
         "//processor/src/test/resources/fixtures/bad_input/com:all",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures:__pkg__",
     ],
 )

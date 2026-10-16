@@ -41,8 +41,8 @@ to make it observable.
 ## Using Router-fu
 
 Router-fu targets JavaScript through J2CL. Bazel applications depend on `@router_fu//:core` and use
-`@router_fu//:router_fu_processor_plugin` to generate routers. The runtime and annotation packages also
-have J2CL targets beside their sources.
+`@router_fu//:router_fu_processor_plugin` to generate routers. For the assembled runtime source archive,
+use `@router_fu//tools/release:core_j2cl_sources`.
 
 Route-state and bound-parameter getters return `@Nullable` until their route matches. Native regular
 expressions can leave capture groups unmatched, so callbacks accepting parameter maps use

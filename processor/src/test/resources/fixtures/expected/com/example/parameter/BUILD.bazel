@@ -1,5 +1,3 @@
-package(default_visibility = ["//visibility:public"])
-
 filegroup(
     name = "all",
     testonly = True,
@@ -14,5 +12,9 @@ filegroup(
         "RouterFu_URIEncodedParameter.java",
         "SelectiveMultiRouteBoundParameterService.java",
         "URIEncodedParameterService.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/expected/com/example:__pkg__",
     ],
 )

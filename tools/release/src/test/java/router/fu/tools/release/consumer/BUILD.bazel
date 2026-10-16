@@ -1,8 +1,6 @@
 load("//tools/browser:java.bzl", "java_j2cl_library")
 load("//tools/browser:rules.bzl", "j2cl_junit_test")
 
-package(default_visibility = ["//visibility:public"])
-
 java_j2cl_library(
     name = "test_classes",
     testonly = True,
@@ -10,6 +8,9 @@ java_j2cl_library(
         "Catalog.java",
         "ConsumerTest.java",
         "EmptyRouter.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
     ],
     plugins = ["//:router_fu_processor_plugin"],
     deps = [
@@ -22,4 +23,10 @@ j2cl_junit_test(
     name = "consumer",
     test_class = "router.fu.tools.release.consumer.ConsumerTest",
     runtime_deps = [":test_classes"],
+)
+
+test_suite(
+    name = "all_tests",
+    tests = [":consumer"],
+    visibility = ["//:__pkg__"],
 )
