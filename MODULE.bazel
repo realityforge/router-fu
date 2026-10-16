@@ -59,7 +59,7 @@ single_version_override(
 # transitive module's partial Maven lock.
 browser_maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 browser_maven.install(
-    artifacts = ["org.jspecify:jspecify:1.0.0"],
+    artifacts = ["org.jspecify:jspecify:1.0.1"],
     duplicate_version_warning = "none",
     fail_if_repin_required = True,
     known_contributing_modules = [
