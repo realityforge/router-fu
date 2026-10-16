@@ -30,7 +30,7 @@ load("@rules_webtesting//web:web.bzl", "custom_browser")
 
 j2cl_import(
     name = "jspecify",
-    jar = "@arez//third_party/java:jspecify",
+    jar = "@jspecify//file:jspecify.jar",
 )
 
 custom_browser(
@@ -65,7 +65,7 @@ j2cl_library(
     javacopts = J2CL_JAVACOPTS,
     plugins = ["@sting//third_party/java:nullaway_plugin"],
     deps = [
-        "@braincheck//core/src/main/java/org/realityforge/braincheck:core-j2cl",
+        "@arez//third_party/java:braincheck_core-j2cl",
         "@j2cl//:jsinterop-annotations-j2cl",
         "@jsinterop_base//:jsinterop-base-j2cl",
         ":jspecify",

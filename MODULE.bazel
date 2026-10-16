@@ -3,9 +3,7 @@ module(name = "router_fu")
 bazel_dep(name = "arez")
 git_override(
     module_name = "arez",
-    commit = "491a15a93363431eb1df4ba81e3e8088a4153ce3",
-    patch_strip = 1,
-    patches = ["//third_party/bazel/patches:arez_shared_runtimes.patch"],
+    commit = "c4e99b9c1dc61593a3a7adf12fd932f66d621271",
     remote = "https://github.com/arez/arez.git",
 )
 
@@ -130,7 +128,7 @@ single_version_override(
 bazel_dep(name = "braincheck")
 git_override(
     module_name = "braincheck",
-    commit = "e34ad2685d8f691c7bac82bfc829fe64a4266bfb",
+    commit = "cf4f382f75a8660425d7637a88451c3a5596d887",
     remote = "https://github.com/realityforge/braincheck.git",
 )
 
@@ -141,4 +139,18 @@ _http_file(
     downloaded_file_path = "dataflow-errorprone.jar",
     sha256 = "10434fba4e53f55fa9c76904cde414b918932548c9dfc4e2d634ac05ff7a7d10",
     urls = ["https://repo.maven.apache.org/maven2/io/github/eisop/dataflow-errorprone/3.41.0-eisop1/dataflow-errorprone-3.41.0-eisop1.jar"],
+)
+
+_http_file(
+    name = "base",
+    downloaded_file_path = "base-1.2.0.jar",
+    sha256 = "74b273c76c94b27826ff816186310a2b384fb7b3e96471b26dd28afae263572a",
+    urls = ["https://repo.maven.apache.org/maven2/com/google/jsinterop/base/1.2.0/base-1.2.0.jar"],
+)
+
+_http_file(
+    name = "jspecify",
+    downloaded_file_path = "jspecify.jar",
+    sha256 = "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+    urls = ["https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar"],
 )
