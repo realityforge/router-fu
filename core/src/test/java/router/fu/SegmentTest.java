@@ -1,39 +1,39 @@
 package router.fu;
 
-import org.realityforge.guiceyloops.shared.ValueUtil;
-import org.testng.annotations.Test;
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
 
-public class SegmentTest
-  extends AbstractRouterFuTest
-{
-  @Test
-  public void staticPath()
-  {
-    final String path = ValueUtil.randomString();
-    final Segment segment = new Segment( path );
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-    assertFalse( segment.isParameter() );
-    assertEquals( segment.getPath(), path );
+@RunWith(JUnit4.class)
+public final class SegmentTest extends AbstractRouterFuTest {
+    @Test
+    public void staticPath() {
+        final String path = "/path";
+        final var segment = new Segment(path);
 
-    final IllegalStateException exception = expectThrows( IllegalStateException.class, segment::getParameter );
-    assertEquals( exception.getMessage(),
-                  "Segment.getParameter() invoked on non-parameter path element with value '" + path + "'" );
-  }
+        assertFalse(segment.isParameter());
+        assertEquals(path, segment.getPath());
 
-  @Test
-  public void parameterPath()
-  {
-    final String parameterName = ValueUtil.randomString();
-    final Parameter parameter = new Parameter( parameterName );
-    final Segment segment = new Segment( parameter );
+        final IllegalStateException exception = assertThrows(IllegalStateException.class, segment::getParameter);
+        assertEquals(
+                "Segment.getParameter() invoked on non-parameter path element with value '" + path + "'",
+                exception.getMessage());
+    }
 
-    assertTrue( segment.isParameter() );
-    assertEquals( segment.getParameter(), parameter );
+    @Test
+    public void parameterPath() {
+        final String parameterName = "id";
+        final var parameter = new Parameter(parameterName);
+        final var segment = new Segment(parameter);
 
-    final IllegalStateException exception = expectThrows( IllegalStateException.class, segment::getPath );
-    assertEquals( exception.getMessage(),
-                  "Segment.getPath() invoked on parameter path element with parameter named '" +
-                  parameterName + "'" );
-  }
+        assertTrue(segment.isParameter());
+        assertEquals(parameter, segment.getParameter());
+
+        final IllegalStateException exception = assertThrows(IllegalStateException.class, segment::getPath);
+        assertEquals(
+                "Segment.getPath() invoked on parameter path element with parameter named '" + parameterName + "'",
+                exception.getMessage());
+    }
 }

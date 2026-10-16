@@ -1,0 +1,21 @@
+load("//tools/browser:java.bzl", "java_j2cl_library")
+
+java_j2cl_library(
+    name = "probe",
+    testonly = True,
+    srcs = [
+        "BrowserProbe.java",
+        "BrowserRouter.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
+    ],
+    plugins = ["//:router_fu_processor_plugin"],
+    visibility = [
+        "//browser/src/test/js/router.fu:__pkg__",
+    ],
+    deps = [
+        "//:core",
+        "//third_party/java:jsinterop_annotations-j2cl",
+    ],
+)

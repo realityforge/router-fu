@@ -1,0 +1,12 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "NestedRouter_InnerRouterService.java",
+        "NestedRouter_RouterFu_InnerRouter.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/expectedFormatted/com/example:__pkg__",
+    ],
+)

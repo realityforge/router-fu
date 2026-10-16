@@ -1,0 +1,20 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicBoundParameterService.java",
+        "MultiRouteBoundParameterService.java",
+        "NonDefaultNameParameterService.java",
+        "RouterFu_BasicBoundParameter.java",
+        "RouterFu_MultiRouteBoundParameter.java",
+        "RouterFu_NonDefaultNameParameter.java",
+        "RouterFu_SelectiveMultiRouteBoundParameter.java",
+        "RouterFu_URIEncodedParameter.java",
+        "SelectiveMultiRouteBoundParameterService.java",
+        "URIEncodedParameterService.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/expected/com/example:__pkg__",
+    ],
+)

@@ -1,0 +1,10 @@
+load("//third_party/java:rules.bzl", "java_binary")
+
+java_binary(
+    name = "coverage_check",
+    srcs = ["CoverageCheck.java"],
+    main_class = "router.fu.tools.verification.CoverageCheck",
+    visibility = [
+        "//:__pkg__",
+    ],
+)

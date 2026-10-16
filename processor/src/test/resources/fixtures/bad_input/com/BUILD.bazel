@@ -1,0 +1,10 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "//processor/src/test/resources/fixtures/bad_input/com/example:all",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/bad_input:__pkg__",
+    ],
+)

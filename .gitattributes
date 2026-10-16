@@ -1,16 +1,20 @@
-# DO NOT EDIT: File is auto-generated
 * -text
+*.bazel text
+*.bzl text
 *.html text
 *.java text
+*.js text
+*.json text
 *.md text
-*.rake text
-*.rb text
+# Unified diff context uses a single space to represent an empty line.
+*.patch text whitespace=-blank-at-eol
+*.py text
+*.sh text eol=lf
 *.xml text
 *.yaml text
 *.yml text
+.bazelrc text
+.bazelversion text
 .gitattributes text
 .gitignore text
-.ruby-version text
-Gemfile text
 LICENSE text
-buildfile text

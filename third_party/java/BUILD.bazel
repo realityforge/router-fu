@@ -1,0 +1,187 @@
+load("@j2cl//build_defs/internal_do_not_use:j2cl_java_library.bzl", "j2cl_java_import")
+load("@rules_java//java:defs.bzl", "java_import")
+load(":rules.bzl", "strict_checker_options")
+
+strict_checker_options(
+    name = "strict_checker_options",
+    visibility = ["//processor/src/test/java/router/fu/processor:__pkg__"],
+)
+
+alias(
+    name = "proton_core",
+    actual = "@proton//:core",
+    visibility = [
+        "//processor/src/main/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+alias(
+    name = "proton_qa",
+    actual = "@proton//:qa",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)
+
+alias(
+    name = "javapoet",
+    actual = "@proton//third_party/java:javapoet",
+    visibility = [
+        "//processor/src/main/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+alias(
+    name = "testng",
+    actual = "@sting//third_party/java:testng",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)
+
+alias(
+    name = "nullaway_plugin",
+    actual = "@sting//third_party/java:nullaway_plugin",
+    visibility = [
+        "//browser/src/test/java/router/fu/browser:__pkg__",
+        "//core/src/main/java/router/fu:__pkg__",
+        "//core/src/main/java/router/fu/annotations:__pkg__",
+        "//core/src/test/java/router/fu:__pkg__",
+        "//example/src/main/java/router/fu/example:__pkg__",
+        "//processor/src/main/java/router/fu/processor:__pkg__",
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+        "//tools/release/src/main/java/router/fu/tools/release:__pkg__",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:__pkg__",
+        "//tools/verification/src/main/java/router/fu/tools/verification:__pkg__",
+    ],
+)
+
+alias(
+    name = "nullaway",
+    actual = "@sting//third_party/java:nullaway",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)
+
+alias(
+    name = "error_prone_core",
+    actual = "@sting//third_party/java:error_prone_core",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)
+
+alias(
+    name = "braincheck_core",
+    actual = "@arez//third_party/java:braincheck_core",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+alias(
+    name = "braincheck_core-j2cl",
+    actual = "@arez//third_party/java:braincheck_core-j2cl",
+    visibility = [
+        "//core/src/main/java/router/fu:__pkg__",
+        "//core/src/test/java/router/fu:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+alias(
+    name = "jsinterop_base-j2cl",
+    actual = "@jsinterop_base//:jsinterop-base-j2cl",
+    visibility = [
+        "//core/src/main/java/router/fu:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+alias(
+    name = "jsinterop_annotations-j2cl",
+    actual = "@j2cl//:jsinterop-annotations-j2cl",
+    visibility = [
+        "//browser/src/test/java/router/fu/browser:__pkg__",
+        "//core/src/main/java/router/fu:__pkg__",
+        "//example/src/main/java/router/fu/example:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+alias(
+    name = "arez_core",
+    actual = "@arez//:core",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)
+
+alias(
+    name = "arez_processor_runtime",
+    actual = "@arez//:processor",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)
+
+java_import(
+    name = "jspecify",
+    jars = ["@jspecify//file"],
+    visibility = [
+        "//processor/src/main/java/router/fu/processor:__pkg__",
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+        "//tools/release/src/main/java/router/fu/tools/release:__pkg__",
+        "//tools/verification/src/main/java/router/fu/tools/verification:__pkg__",
+    ],
+)
+
+alias(
+    name = "jsinterop_annotations",
+    actual = "@arez//third_party/java:jsinterop_annotations",
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+)
+
+java_import(
+    name = "base",
+    jars = ["@base//file"],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+    deps = [
+        ":jsinterop_annotations",
+        ":jspecify",
+    ],
+)
+
+j2cl_java_import(
+    name = "jspecify-j2cl",
+    jar = ":jspecify",
+    visibility = [
+        "//browser/src/test/java/router/fu/browser:__pkg__",
+        "//core/src/main/java/router/fu:__pkg__",
+        "//core/src/main/java/router/fu/annotations:__pkg__",
+        "//core/src/test/java/router/fu:__pkg__",
+        "//example/src/main/java/router/fu/example:__pkg__",
+        "//tools/release:__pkg__",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:__pkg__",
+    ],
+)
+
+java_import(
+    name = "dataflow_errorprone",
+    jars = ["@dataflow_errorprone//file"],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+    ],
+)

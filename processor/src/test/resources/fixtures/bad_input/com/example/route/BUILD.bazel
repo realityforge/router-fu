@@ -1,0 +1,15 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BadParameterName2Router.java",
+        "BadParameterName3Router.java",
+        "BadParameterNameRouter.java",
+        "BadPathInParameterRouter.java",
+        "SameParameterNameRouter.java",
+        "UnmatchedOptionalParametersRouter.java",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/bad_input/com/example:__pkg__",
+    ],
+)

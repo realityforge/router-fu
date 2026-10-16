@@ -1,22 +1,17 @@
 package router.fu;
 
+import org.junit.After;
+import org.junit.Before;
 import org.realityforge.braincheck.BrainCheckTestUtil;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 
-public abstract class AbstractRouterFuTest
-{
-  @BeforeMethod
-  protected void beforeTest()
-    throws Exception
-  {
-    BrainCheckTestUtil.resetConfig( false );
-  }
+public abstract class AbstractRouterFuTest {
+    @Before
+    public void beforeTest() {
+        BrainCheckTestUtil.resetConfig(false);
+    }
 
-  @AfterMethod
-  protected void afterTest()
-    throws Exception
-  {
-    BrainCheckTestUtil.resetConfig( true );
-  }
+    @After
+    public void afterTest() {
+        BrainCheckTestUtil.resetConfig(true);
+    }
 }

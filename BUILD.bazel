@@ -1,0 +1,80 @@
+load("@j2cl//build_defs:rules.bzl", "j2cl_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_plugin")
+load("@rules_palantir_java_format//:defs.bzl", "java_format_check")
+
+exports_files(
+    ["LICENSE"],
+    visibility = ["//tools/release:__pkg__"],
+)
+
+java_format_check(
+    name = "java_format_check",
+    testonly = True,
+    remediation = "tools/java_format.sh write",
+    targets = [
+        "//core/src/main/java/router/fu:core_java",
+        "//core/src/main/java/router/fu/annotations:annotations_java",
+        "//core/src/test/java/router/fu:test_classes_java",
+        "//processor/src/main/java/router/fu/processor:processor",
+        "//processor/src/test/java/router/fu/processor:test_classes",
+        "//example/src/main/java/router/fu/example:app_java",
+        "//browser/src/test/java/router/fu/browser:probe_java",
+        "//tools/release/src/main/java/router/fu/tools/release:jar_builder",
+        "//tools/release/src/main/java/router/fu/tools/release:javadoc_jar_builder",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:test_classes_java",
+        "//tools/verification/src/main/java/router/fu/tools/verification:coverage_check",
+    ],
+)
+
+java_import(
+    name = "processor",
+    jars = ["//tools/release:processor_jar"],
+    srcjar = "//tools/release:processor_sources",
+    visibility = ["//visibility:private"],
+)
+
+java_plugin(
+    name = "router_fu_processor_plugin",
+    generates_api = True,
+    processor_class = "router.fu.processor.RouterProcessor",
+    visibility = [
+        "//visibility:public",
+    ],
+    deps = [":processor"],
+)
+
+j2cl_library(
+    name = "core",
+    generate_j2wasm_library = False,
+    visibility = [
+        "//visibility:public",
+    ],
+    exports = [
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+    ],
+)
+
+test_suite(
+    name = "processor_tests",
+    tests = [
+        "//processor/src/test/java/router/fu/processor:tests",
+    ],
+)
+
+test_suite(
+    name = "browser_tests",
+    tests = [
+        "//browser/src/test/js/router.fu:all_tests",
+        "//core/src/test/java/router/fu:tests",
+    ],
+)
+
+test_suite(
+    name = "all_tests",
+    tests = [
+        ":browser_tests",
+        ":processor_tests",
+        "//tools/release/src/test/java/router/fu/tools/release/consumer:all_tests",
+    ],
+)

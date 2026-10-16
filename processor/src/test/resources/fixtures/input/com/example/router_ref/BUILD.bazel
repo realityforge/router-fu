@@ -1,0 +1,15 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "AnnotatedRouterRef.java",
+        "BasicRouterRef.java",
+        "MultiRouterRef.java",
+        "ProtectedRouterRef.java",
+        "PublicRouterRef.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/input/com/example:__pkg__",
+    ],
+)

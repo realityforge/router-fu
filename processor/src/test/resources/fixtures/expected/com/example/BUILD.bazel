@@ -1,0 +1,16 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "//processor/src/test/resources/fixtures/expected/com/example/arez:all",
+        "//processor/src/test/resources/fixtures/expected/com/example/callback:all",
+        "//processor/src/test/resources/fixtures/expected/com/example/nested:all",
+        "//processor/src/test/resources/fixtures/expected/com/example/parameter:all",
+        "//processor/src/test/resources/fixtures/expected/com/example/route:all",
+        "//processor/src/test/resources/fixtures/expected/com/example/router:all",
+        "//processor/src/test/resources/fixtures/expected/com/example/router_ref:all",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/expected/com:__pkg__",
+    ],
+)

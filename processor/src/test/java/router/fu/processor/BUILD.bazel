@@ -1,0 +1,99 @@
+load("//third_party/java:rules.bzl", "java_library")
+load(":test_rules.bzl", "FIXTURES", "feature", "processor_test")
+
+java_library(
+    name = "test_classes",
+    testonly = True,
+    srcs = [
+        "RouterProcessorTest.java",
+        "package-info.java",
+    ],
+    visibility = [
+        "//:__pkg__",
+    ],
+    deps = [
+        "//core/src/main/java/router/fu:core_java",
+        "//core/src/main/java/router/fu/annotations:annotations_java",
+        "//processor/src/main/java/router/fu/processor",
+        "//third_party/java:arez_core",
+        "//third_party/java:arez_processor_runtime",
+        "//third_party/java:base",
+        "//third_party/java:braincheck_core",
+        "//third_party/java:dataflow_errorprone",
+        "//third_party/java:error_prone_core",
+        "//third_party/java:jsinterop_annotations",
+        "//third_party/java:nullaway",
+        "//third_party/java:proton_qa",
+        "//third_party/java:testng",
+    ],
+)
+
+processor_test(
+    name = "route_goldens",
+    data = feature("route"),
+    methods = ["processSuccessfulRouteCompile"],
+)
+
+processor_test(
+    name = "parameter_goldens",
+    data = feature("parameter"),
+    methods = ["processSuccessfulParameterCompile"],
+)
+
+processor_test(
+    name = "callback_goldens",
+    data = feature("callback"),
+    methods = [
+        "processSuccessfulCallbackCompile",
+        "callbackFromInterface",
+    ],
+)
+
+processor_test(
+    name = "router_goldens",
+    data = feature("router") + feature("router_ref") + feature("arez") + feature("nested"),
+    methods = [
+        "processSuccessfulRouterCompile",
+        "nestedRouter",
+    ],
+)
+
+processor_test(
+    name = "failed_compiles",
+    data = [FIXTURES + "/bad_input:all"],
+    methods = ["processFailedCompile"],
+)
+
+processor_test(
+    name = "checker_controls",
+    data = feature(
+        "router",
+        ["input"],
+    ),
+    methods = ["checkerRejectsInvalidGeneratedBodies"],
+)
+
+processor_test(
+    name = "formatter_failure",
+    data = feature(
+        "router",
+        ["input"],
+    ),
+    methods = ["formatGeneratedSourceFailsClearlyWithoutJdkExports"],
+)
+
+test_suite(
+    name = "tests",
+    tests = [
+        ":callback_goldens",
+        ":checker_controls",
+        ":failed_compiles",
+        ":formatter_failure",
+        ":parameter_goldens",
+        ":route_goldens",
+        ":router_goldens",
+    ],
+    visibility = [
+        "//:__pkg__",
+    ],
+)

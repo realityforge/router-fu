@@ -1,51 +1,40 @@
 package router.fu;
 
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import static org.testng.Assert.*;
+import static org.junit.Assert.*;
 
-final class TestBackend
-  implements Backend
-{
-  private LocationChangeListener _handler;
-  @Nonnull
-  private String _location = "";
+import org.jspecify.annotations.Nullable;
 
-  @Nonnull
-  @Override
-  public String getLocation()
-  {
-    return _location;
-  }
+final class TestBackend implements Backend {
+    private @Nullable LocationChangeListener _handler;
 
-  @Override
-  public void setLocation( @Nonnull final String location )
-  {
-    _location = Objects.requireNonNull( location );
-  }
+    private String _location = "";
 
-  @Nonnull
-  @Override
-  public Object addListener( @Nonnull final LocationChangeListener handler )
-  {
-    _handler = handler;
-    return handler;
-  }
-
-  @Override
-  public void removeListener( @Nonnull final Object handle )
-  {
-    if ( null != _handler )
-    {
-      assertEquals( _handler, handle );
-      _handler = null;
+    @Override
+    public String getLocation() {
+        return _location;
     }
-  }
 
-  @Nullable
-  LocationChangeListener getHandler()
-  {
-    return _handler;
-  }
+    @Override
+    public void setLocation(final String location) {
+        _location = location;
+    }
+
+    @Override
+    public Object addListener(final LocationChangeListener handler) {
+        _handler = handler;
+        return handler;
+    }
+
+    @Override
+    public void removeListener(final Object handle) {
+        if (null != _handler) {
+            assertEquals(handle, _handler);
+            _handler = null;
+        }
+    }
+
+    @Nullable
+    LocationChangeListener getHandler() {
+        return _handler;
+    }
 }

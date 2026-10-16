@@ -1,0 +1,18 @@
+load("//tools/browser:rules.bzl", "browser_test")
+
+browser_test(
+    name = "tests",
+    srcs = ["browser_test.js"],
+    data = ["//example/src/main/webapp:example"],
+    entry_point = "router.fu.BrowserTest",
+    deps = [
+        "//browser/src/test/java/router/fu/browser:probe",
+        "@rules_closure//closure/testing/library:testcase",
+    ],
+)
+
+test_suite(
+    name = "all_tests",
+    tests = [":tests"],
+    visibility = ["//:__pkg__"],
+)

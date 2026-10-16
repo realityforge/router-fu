@@ -1,0 +1,156 @@
+module(name = "router_fu")
+
+bazel_dep(name = "arez")
+git_override(
+    module_name = "arez",
+    commit = "c4e99b9c1dc61593a3a7adf12fd932f66d621271",
+    remote = "https://github.com/arez/arez.git",
+)
+
+bazel_dep(name = "proton_project", repo_name = "proton")
+git_override(
+    module_name = "proton_project",
+    commit = "d156a9d2eee74f1577cf8b7a03cd9a5a67a637ee",
+    remote = "https://github.com/realityforge/proton.git",
+)
+
+bazel_dep(name = "sting")
+git_override(
+    module_name = "sting",
+    commit = "b313be65dc351090e31fb53862f345c260f01e68",
+    remote = "https://github.com/sting-ioc/sting.git",
+)
+
+bazel_dep(name = "rules_java", version = "9.9.0")
+single_version_override(
+    module_name = "rules_java",
+    patch_strip = 1,
+    patches = ["//third_party/bazel/patches:rules_java_exclude_build_data.patch"],
+    version = "9.9.0",
+)
+
+bazel_dep(name = "buildifier_prebuilt", version = "10.0.1", dev_dependency = True)
+bazel_dep(name = "ahab", version = "0.4.0", dev_dependency = True)
+
+bazel_dep(name = "rules_palantir_java_format", version = "0.1.1")
+archive_override(
+    module_name = "rules_palantir_java_format",
+    integrity = "sha256-4h/h0cVmPQ/7jkXnvW69rmABbfXOOzoXuBh3gMJDMk8=",
+    strip_prefix = "rules_palantir_java_format-0.1.1",
+    urls = ["https://github.com/realityforge/rules_palantir_java_format/releases/download/v0.1.1/rules_palantir_java_format-v0.1.1.tar.gz"],
+)
+
+bazel_dep(name = "j2cl", version = "20260918")
+bazel_dep(name = "rules_closure", version = "0.17.0")
+
+bazel_dep(name = "rules_webtesting", version = "0.4.1", dev_dependency = True)
+
+bazel_dep(name = "jsinterop_base", version = "1.2.0")
+bazel_dep(name = "rules_jvm_external", version = "7.1")
+bazel_dep(name = "rules_cc", version = "0.2.25")
+single_version_override(
+    module_name = "rules_cc",
+    patch_strip = 1,
+    patches = ["//third_party/bazel/patches:rules_cc_allowlist_macos_sdk_root.patch"],
+    version = "0.2.25",
+)
+
+# Own the shared browser compiler/tool dependencies rather than inheriting a
+# transitive module's partial Maven lock.
+browser_maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+browser_maven.install(
+    artifacts = ["org.jspecify:jspecify:1.0.1"],
+    duplicate_version_warning = "none",
+    fail_if_repin_required = True,
+    known_contributing_modules = [
+        "braincheck",
+        "j2cl",
+        "jsinterop_base",
+        "protobuf",
+        "rules_closure",
+    ],
+    lock_file = "//:maven_install.json",
+    repositories = ["https://repo.maven.apache.org/maven2"],
+)
+use_repo(browser_maven, "maven")
+
+archive_override(
+    module_name = "j2cl",
+    integrity = "sha256-XEgoQZDNjT51rfGuc4rpVYamAYsQi+q44JT1W86AiD4=",
+    patch_strip = 1,
+    patches = [
+        "//third_party/bazel/patches:j2cl_configure_class_output.patch",
+        "//third_party/bazel/patches:j2cl_forward_test_defs.patch",
+        "//third_party/bazel/patches:j2cl_configurable_test_compilation.patch",
+        "//third_party/bazel/patches:j2cl_pin_java_runtime_21.patch",
+        "//third_party/bazel/patches:j2cl_suppress_ast_processing_warning.patch",
+        "//third_party/bazel/patches:j2cl_remove_invalid_wasm_annotation_from_jsunit_helper.patch",
+        "//third_party/bazel/patches:j2cl_hermetic_test_generation.patch",
+        "//third_party/bazel/patches:j2cl_use_canonical_maven_coordinate.patch",
+    ],
+    strip_prefix = "j2cl-3995891275f54114e9dbfd5a8ceff97bf10030aa",
+    urls = ["https://github.com/google/j2cl/archive/3995891275f54114e9dbfd5a8ceff97bf10030aa.tar.gz"],
+)
+
+single_version_override(
+    module_name = "rules_closure",
+    patch_strip = 1,
+    patches = [
+        "//third_party/bazel/patches:rules_closure_bazel_9_missing_loads.patch",
+        "//third_party/bazel/patches:rules_closure_bound_link_memory.patch",
+        "//third_party/bazel/patches:rules_closure_custom_env_test_typings.patch",
+        "//third_party/bazel/patches:rules_closure_use_protobuf_java_proto_library.patch",
+        "//third_party/bazel/patches:rules_closure_web_test_runtime_defines.patch",
+        "//third_party/bazel/patches:rules_closure_test_execution_requirements.patch",
+    ],
+    version = "0.17.0",
+)
+
+single_version_override(
+    module_name = "rules_webtesting",
+    patch_strip = 1,
+    patches = [
+        "//third_party/bazel/patches:rules_webtesting_collect_runfiles_library.patch",
+        "//third_party/bazel/patches:rules_webtesting_suppress_environment_dump.patch",
+        "//third_party/bazel/patches:rules_webtesting_test_execution_requirements.patch",
+        "//third_party/bazel/patches:rules_webtesting_use_pure_go_binaries.patch",
+    ],
+    version = "0.4.1",
+)
+
+single_version_override(
+    module_name = "jsinterop_base",
+    patch_strip = 1,
+    patches = ["//third_party/bazel/patches:jsinterop_base_suppress_unusable_by_js_warnings.patch"],
+    version = "1.2.0",
+)
+
+bazel_dep(name = "braincheck")
+git_override(
+    module_name = "braincheck",
+    commit = "cf4f382f75a8660425d7637a88451c3a5596d887",
+    remote = "https://github.com/realityforge/braincheck.git",
+)
+
+_http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+_http_file(
+    name = "dataflow_errorprone",
+    downloaded_file_path = "dataflow-errorprone.jar",
+    sha256 = "10434fba4e53f55fa9c76904cde414b918932548c9dfc4e2d634ac05ff7a7d10",
+    urls = ["https://repo.maven.apache.org/maven2/io/github/eisop/dataflow-errorprone/3.41.0-eisop1/dataflow-errorprone-3.41.0-eisop1.jar"],
+)
+
+_http_file(
+    name = "base",
+    downloaded_file_path = "base-1.2.0.jar",
+    sha256 = "74b273c76c94b27826ff816186310a2b384fb7b3e96471b26dd28afae263572a",
+    urls = ["https://repo.maven.apache.org/maven2/com/google/jsinterop/base/1.2.0/base-1.2.0.jar"],
+)
+
+_http_file(
+    name = "jspecify",
+    downloaded_file_path = "jspecify.jar",
+    sha256 = "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
+    urls = ["https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar"],
+)

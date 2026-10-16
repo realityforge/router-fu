@@ -1,0 +1,19 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BadParameterCallback.java",
+        "DuplicateCallback.java",
+        "DuplicateLocationParameterCallback.java",
+        "DuplicateParametersParameterCallback.java",
+        "DuplicateRouteParameterCallback.java",
+        "FinalCallback.java",
+        "NameNotMatchRouteCallback.java",
+        "NoDeriveNameCallback.java",
+        "PrivateCallback.java",
+        "StaticCallback.java",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/bad_input/com/example:__pkg__",
+    ],
+)

@@ -1,0 +1,14 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "ArezRouterService.java",
+        "CompleteRouterService.java",
+        "RouterFu_ArezRouter.java",
+        "RouterFu_CompleteRouter.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/expectedFormatted/com/example:__pkg__",
+    ],
+)

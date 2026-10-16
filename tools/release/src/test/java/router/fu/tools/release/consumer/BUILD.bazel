@@ -1,0 +1,32 @@
+load("//tools/browser:java.bzl", "java_j2cl_library")
+load("//tools/browser:rules.bzl", "j2cl_junit_test")
+
+java_j2cl_library(
+    name = "test_classes",
+    testonly = True,
+    srcs = [
+        "Catalog.java",
+        "ConsumerTest.java",
+        "EmptyRouter.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
+    ],
+    plugins = ["//:router_fu_processor_plugin"],
+    deps = [
+        "//tools/release:core_archive",
+        "@j2cl//:junit",
+    ],
+)
+
+j2cl_junit_test(
+    name = "consumer",
+    test_class = "router.fu.tools.release.consumer.ConsumerTest",
+    runtime_deps = [":test_classes"],
+)
+
+test_suite(
+    name = "all_tests",
+    tests = [":consumer"],
+    visibility = ["//:__pkg__"],
+)

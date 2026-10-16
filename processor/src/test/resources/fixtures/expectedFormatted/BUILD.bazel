@@ -1,0 +1,10 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "//processor/src/test/resources/fixtures/expectedFormatted/com:all",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures:__pkg__",
+    ],
+)

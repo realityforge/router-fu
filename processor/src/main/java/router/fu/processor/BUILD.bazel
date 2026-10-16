@@ -1,0 +1,32 @@
+load("//third_party/java:rules.bzl", "java_library", "java_plugin")
+
+java_library(
+    name = "processor",
+    srcs = [
+        "BoundParameterDescriptor.java",
+        "Constants.java",
+        "Generator.java",
+        "ParameterDescriptor.java",
+        "RouteDescriptor.java",
+        "RouterDescriptor.java",
+        "RouterProcessor.java",
+        "package-info.java",
+    ],
+    resources = ["//processor/src/main/resources/META-INF/services"],
+    visibility = [
+        "//:__pkg__",
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//tools/release:__pkg__",
+    ],
+    deps = [
+        "//third_party/java:javapoet",
+        "//third_party/java:proton_core",
+    ],
+)
+
+java_plugin(
+    name = "router_fu_processor_plugin",
+    generates_api = True,
+    processor_class = "router.fu.processor.RouterProcessor",
+    deps = [":processor"],
+)

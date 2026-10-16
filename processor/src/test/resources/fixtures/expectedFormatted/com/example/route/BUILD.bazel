@@ -1,0 +1,26 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "RouteParametersWithShortNameService.java",
+        "RouteWithEmptyPathService.java",
+        "RouteWithLongStaticSegmentService.java",
+        "RouteWithNonTargetParametersService.java",
+        "RouteWithOptionalParametersService.java",
+        "RouteWithParametersService.java",
+        "RouteWithParametersWithConstraintsService.java",
+        "RouteWithPartialMatchParametersService.java",
+        "RouterFu_RouteParametersWithShortName.java",
+        "RouterFu_RouteWithEmptyPath.java",
+        "RouterFu_RouteWithLongStaticSegment.java",
+        "RouterFu_RouteWithNonTargetParameters.java",
+        "RouterFu_RouteWithOptionalParameters.java",
+        "RouterFu_RouteWithParameters.java",
+        "RouterFu_RouteWithParametersWithConstraints.java",
+        "RouterFu_RouteWithPartialMatchParameters.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/expectedFormatted/com/example:__pkg__",
+    ],
+)

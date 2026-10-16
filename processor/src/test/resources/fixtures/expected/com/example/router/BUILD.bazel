@@ -1,0 +1,14 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicRouterService.java",
+        "RouterFu_BasicRouter.java",
+        "RouterFu_RouterWithTypeParams.java",
+        "RouterWithTypeParamsService.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/expected/com/example:__pkg__",
+    ],
+)

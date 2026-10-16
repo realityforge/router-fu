@@ -1,32 +1,29 @@
 package router.fu;
 
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
-import org.realityforge.guiceyloops.shared.ValueUtil;
-import org.testng.annotations.Test;
-import static org.testng.Assert.*;
+import org.jspecify.annotations.Nullable;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class RouteStateTest
-  extends AbstractRouterFuTest
-{
-  @Test
-  public void basicOperation()
-  {
-    final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
-    final Route route = new Route( ValueUtil.randomString(),
-                                   new Segment[ 0 ],
-                                   new Parameter[ 0 ],
-                                   new TestRegExp(),
-                                   matchCallback );
-    final HashMap<Parameter, String> parameters = new HashMap<>();
-    final Parameter parameter = new Parameter( ValueUtil.randomString() );
-    final String parameterValue = ValueUtil.randomString();
-    parameters.put( parameter, parameterValue );
-    final boolean terminal = true;
-    final RouteState state = new RouteState( route, parameters, terminal );
+@RunWith(JUnit4.class)
+public final class RouteStateTest extends AbstractRouterFuTest {
+    @Test
+    public void basicOperation() {
+        final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
+        final var route = new Route("test-value", new Segment[0], new Parameter[0], new TestRegExp(), matchCallback);
+        final HashMap<Parameter, @Nullable String> parameters = new HashMap<>();
+        final var parameter = new Parameter("test-value");
+        final String parameterValue = "42";
+        parameters.put(parameter, parameterValue);
+        final boolean terminal = true;
+        final var state = new RouteState(route, parameters, terminal);
 
-    assertEquals( state.getRoute(), route );
-    assertEquals( state.getParameters(), parameters );
-    assertEquals( state.isTerminal(), terminal );
-    assertEquals( state.getParameterValue( parameter ), parameterValue );
-  }
+        assertEquals(route, state.getRoute());
+        assertEquals(parameters, state.getParameters());
+        assertEquals(terminal, state.isTerminal());
+        assertEquals(parameterValue, state.getParameterValue(parameter));
+    }
 }

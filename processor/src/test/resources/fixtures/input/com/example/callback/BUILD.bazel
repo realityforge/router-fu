@@ -1,0 +1,20 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicCallback.java",
+        "CallbackFromInterface.java",
+        "CallbackInterface.java",
+        "CallbackWithCustomName.java",
+        "CallbackWithParams1.java",
+        "CallbackWithParams2.java",
+        "CallbackWithParams3.java",
+        "CallbackWithParams4.java",
+        "CallbackWithParams5.java",
+        "CallbackWithParams6.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/input/com/example:__pkg__",
+    ],
+)

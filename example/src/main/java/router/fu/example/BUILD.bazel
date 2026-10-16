@@ -1,0 +1,34 @@
+load("@rules_closure//closure:defs.bzl", "closure_js_library")
+load("//tools/browser:java.bzl", "java_j2cl_library")
+
+java_j2cl_library(
+    name = "app",
+    srcs = [
+        "AppState.java",
+        "AuthState.java",
+        "Example.java",
+        "MyRouter.java",
+        "package-info.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
+    ],
+    plugins = [
+        "//:router_fu_processor_plugin",
+        "@arez//:arez_processor_plugin",
+    ],
+    deps = [
+        "//:core",
+        "//third_party/java:jsinterop_annotations-j2cl",
+        "@arez//:core-j2cl",
+    ],
+)
+
+closure_js_library(
+    name = "entry",
+    srcs = ["entry.js"],
+    visibility = [
+        "//example/src/main/webapp:__pkg__",
+    ],
+    deps = [":app"],
+)

@@ -1,0 +1,16 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "AbstractRouter.java",
+        "CtorWithArgsRouter.java",
+        "EnumRouter.java",
+        "FinalRouter.java",
+        "InterfaceRouter.java",
+        "NonStaticNestedRouter.java",
+        "PrivateCtorRouter.java",
+    ],
+    visibility = [
+        "//processor/src/test/resources/fixtures/bad_input/com/example:__pkg__",
+    ],
+)

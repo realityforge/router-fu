@@ -1,0 +1,11 @@
+load("//tools/browser:rules.bzl", "browser_application")
+
+browser_application(
+    name = "example",
+    entry_point = "router.fu.example.Main",
+    html = "example.html",
+    visibility = [
+        "//browser/src/test/js/router.fu:__pkg__",
+    ],
+    deps = ["//example/src/main/java/router/fu/example:entry"],
+)

@@ -1,7 +1,5 @@
 # Router-Fu: A framework agnostic, state producing router
 
-[![codecov](https://codecov.io/gh/realityforge/router-fu/branch/master/graph/badge.svg)](https://codecov.io/gh/realityforge/router-fu)
-
 ## What is Router-Fu?
 
 Router-Fu is a modern router for your web application. Traditional routers match on the url and render components,
@@ -35,13 +33,27 @@ The `Router` also exposes the routes so that application code can generate paths
 parameters. It also provides methods via which the application can request that the location be changed.
 
 The `Location` object is effectively immutable and can easily be passed to other frameworks that have their
-own state management tools. In an [`Arez`](https://github.com/realityforge/arez), it would expected that you wrap
-the `Location` to make it observable.
+own state management tools. With [`Arez`](https://github.com/realityforge/arez), you can wrap the `Location`
+to make it observable.
+
+## Using Router-fu
+
+Router-fu targets JavaScript through J2CL. Bazel applications depend on `@router_fu//:core` and use
+`@router_fu//:router_fu_processor_plugin` to generate routers. For the assembled runtime source archive,
+use `@router_fu//tools/release:core_j2cl_sources`.
+
+Route-state and bound-parameter getters return `@Nullable` until their route matches. Native regular
+expressions can leave capture groups unmatched, so callbacks accepting parameter maps use
+`Map<Parameter, @Nullable String>`. `RouteState.getParameterValue()` requires a captured value;
+`Route.buildLocation()` requires non-null parameter values.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the build, tests, dependency setup, and development conventions.
+The [release guide](tools/release/README.md) covers publication archives and version selection.
 
 # Credit
 
 * [Stock Software](http://www.stocksoftware.com.au/) for providing significant support in building and maintaining
-  the library, particularly at it's inception.
+  the library, particularly at its inception.
 
 * This toolkit drew inspiration from [troch/path-parser](https://github.com/troch/path-parser) and
   [router5](http://router5.github.io/).

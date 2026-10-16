@@ -1,0 +1,7 @@
+filegroup(
+    name = "services",
+    srcs = ["javax.annotation.processing.Processor"],
+    visibility = [
+        "//processor/src/main/java/router/fu/processor:__pkg__",
+    ],
+)

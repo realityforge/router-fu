@@ -1,0 +1,80 @@
+load("//tools/browser:java.bzl", "java_j2cl_library")
+load("//tools/browser:rules.bzl", "j2cl_junit_test")
+
+java_j2cl_library(
+    name = "test_classes",
+    testonly = True,
+    srcs = [
+        "AbstractRouterFuTest.java",
+        "LocationTest.java",
+        "ParameterTest.java",
+        "RouteStateTest.java",
+        "RouteTest.java",
+        "RouterTest.java",
+        "SegmentTest.java",
+        "TestBackend.java",
+        "TestRegExp.java",
+        "TestRegExpResult.java",
+        "TestRouteMatchCallback.java",
+        "package-info.java",
+    ],
+    java_visibility = [
+        "//:__pkg__",
+    ],
+    deps = [
+        "//:core",
+        "//third_party/java:braincheck_core-j2cl",
+        "@j2cl//:junit",
+    ],
+)
+
+j2cl_junit_test(
+    name = "LocationTest",
+    test_class = "router.fu.LocationTest",
+    runtime_deps = [":test_classes"],
+)
+
+j2cl_junit_test(
+    name = "ParameterTest",
+    test_class = "router.fu.ParameterTest",
+    runtime_deps = [":test_classes"],
+)
+
+j2cl_junit_test(
+    name = "RouteStateTest",
+    test_class = "router.fu.RouteStateTest",
+    runtime_deps = [":test_classes"],
+)
+
+j2cl_junit_test(
+    name = "RouteTest",
+    test_class = "router.fu.RouteTest",
+    runtime_deps = [":test_classes"],
+)
+
+j2cl_junit_test(
+    name = "RouterTest",
+    test_class = "router.fu.RouterTest",
+    runtime_deps = [":test_classes"],
+)
+
+j2cl_junit_test(
+    name = "SegmentTest",
+    test_class = "router.fu.SegmentTest",
+    runtime_deps = [":test_classes"],
+)
+
+test_suite(
+    name = "tests",
+    tests = [
+        ":LocationTest",
+        ":ParameterTest",
+        ":RouteStateTest",
+        ":RouteTest",
+        ":RouterTest",
+        ":SegmentTest",
+    ],
+    visibility = [
+        "//:__pkg__",
+    ],
+)

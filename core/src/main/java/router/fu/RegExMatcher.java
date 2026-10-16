@@ -1,10 +1,8 @@
 package router.fu;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-interface RegExMatcher
-{
-  @Nullable
-  RegExMatchResult match( @Nonnull String text );
+interface RegExMatcher {
+    @Nullable
+    RegExMatchResult match(String text);
 }

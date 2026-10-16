@@ -1,0 +1,15 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "BasicBoundParameter.java",
+        "MultiRouteBoundParameter.java",
+        "NonDefaultNameParameter.java",
+        "SelectiveMultiRouteBoundParameter.java",
+        "URIEncodedParameter.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/input/com/example:__pkg__",
+    ],
+)

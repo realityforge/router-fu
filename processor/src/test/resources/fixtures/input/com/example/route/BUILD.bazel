@@ -1,0 +1,18 @@
+filegroup(
+    name = "all",
+    testonly = True,
+    srcs = [
+        "RouteParametersWithShortName.java",
+        "RouteWithEmptyPath.java",
+        "RouteWithLongStaticSegment.java",
+        "RouteWithNonTargetParameters.java",
+        "RouteWithOptionalParameters.java",
+        "RouteWithParameters.java",
+        "RouteWithParametersWithConstraints.java",
+        "RouteWithPartialMatchParameters.java",
+    ],
+    visibility = [
+        "//processor/src/test/java/router/fu/processor:__pkg__",
+        "//processor/src/test/resources/fixtures/input/com/example:__pkg__",
+    ],
+)
