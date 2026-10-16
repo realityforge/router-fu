@@ -1,7 +1,5 @@
 # Router-Fu: A framework agnostic, state producing router
 
-[![Verify](https://github.com/realityforge/router-fu/actions/workflows/bazel.yml/badge.svg)](https://github.com/realityforge/router-fu/actions/workflows/bazel.yml)
-
 ## What is Router-Fu?
 
 Router-Fu is a modern router for your web application. Traditional routers match on the url and render components,
