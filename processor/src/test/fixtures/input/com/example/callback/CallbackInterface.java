@@ -1,9 +1,10 @@
 package com.example.callback;
 
+import org.jspecify.annotations.NullMarked;
 import router.fu.MatchResult;
 import router.fu.annotations.RouteCallback;
 
-@org.jspecify.annotations.NullMarked
+@NullMarked
 public interface CallbackInterface
 {
   @RouteCallback

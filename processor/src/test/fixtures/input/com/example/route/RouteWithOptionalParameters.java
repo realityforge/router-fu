@@ -1,5 +1,6 @@
 package com.example.route;
 
+import org.jspecify.annotations.NullMarked;
 import router.fu.annotations.Route;
 import router.fu.annotations.Router;
 
@@ -15,7 +16,7 @@ import router.fu.annotations.Router;
   path = "regions/:regionCode/event/:eventId/:filter",
   optionalParameters = { "regionCode", "filter" }
 )
-@org.jspecify.annotations.NullMarked
+@NullMarked
 public class RouteWithOptionalParameters
 {
 }

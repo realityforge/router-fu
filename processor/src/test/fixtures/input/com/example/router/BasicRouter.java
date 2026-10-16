@@ -1,9 +1,10 @@
 package com.example.router;
 
+import org.jspecify.annotations.NullUnmarked;
 import router.fu.annotations.Router;
 
 @Router
-@org.jspecify.annotations.NullUnmarked
+@NullUnmarked
 public class BasicRouter
 {
 }

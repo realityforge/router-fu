@@ -1,11 +1,12 @@
 package com.example.route;
 
+import org.jspecify.annotations.NullMarked;
 import router.fu.annotations.Route;
 import router.fu.annotations.Router;
 
 @Router
 @Route( name = "-ace", path = "" )
-@org.jspecify.annotations.NullMarked
+@NullMarked
 public class BadParameterNameRouter
 {
 }

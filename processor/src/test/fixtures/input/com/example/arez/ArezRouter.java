@@ -1,9 +1,10 @@
 package com.example.arez;
 
+import org.jspecify.annotations.NullMarked;
 import router.fu.annotations.Router;
 
 @Router( arez = true )
-@org.jspecify.annotations.NullMarked
+@NullMarked
 public class ArezRouter
 {
 }

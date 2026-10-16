@@ -1,8 +1,10 @@
 package router.fu;
 
+import org.jspecify.annotations.Nullable;
+
 interface RegExMatchResult {
     int getGroupCount();
 
-    @org.jspecify.annotations.Nullable
+    @Nullable
     String getGroup(int i);
 }

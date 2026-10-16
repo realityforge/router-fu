@@ -1,5 +1,6 @@
 package com.example.arez;
 
+import org.jspecify.annotations.NullMarked;
 import router.fu.MatchResult;
 import router.fu.annotations.BoundParameter;
 import router.fu.annotations.Route;
@@ -14,7 +15,7 @@ import router.fu.annotations.Router;
 @BoundParameter( name = "regionCode" )
 @BoundParameter( name = "eventCode", routeNames = { "regionEvent" } )
 @BoundParameter( name = "eventCode2", parameterName = "eventCode" )
-@org.jspecify.annotations.NullMarked
+@NullMarked
 public class CompleteRouter
 {
   @RouteCallback

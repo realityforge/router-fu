@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import java.util.HashMap;
 import java.util.UUID;
+import org.jspecify.annotations.Nullable;
 import org.testng.annotations.Test;
 
 public class RouteStateTest extends AbstractRouterFuTest {
@@ -12,7 +13,7 @@ public class RouteStateTest extends AbstractRouterFuTest {
         final RouteMatchCallback matchCallback = new TestRouteMatchCallback();
         final Route route = new Route(
                 UUID.randomUUID().toString(), new Segment[0], new Parameter[0], new TestRegExp(), matchCallback);
-        final HashMap<Parameter, @org.jspecify.annotations.Nullable String> parameters = new HashMap<>();
+        final HashMap<Parameter, @Nullable String> parameters = new HashMap<>();
         final Parameter parameter = new Parameter(UUID.randomUUID().toString());
         final String parameterValue = UUID.randomUUID().toString();
         parameters.put(parameter, parameterValue);

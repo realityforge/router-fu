@@ -7,6 +7,7 @@ import jsinterop.annotations.JsMethod;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import org.jspecify.annotations.Nullable;
 import router.fu.RouteState;
 
 public class Example {
@@ -72,7 +73,7 @@ public class Example {
 
     @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Document")
     private static final class Document {
-        native @org.jspecify.annotations.Nullable Element querySelector(String selector);
+        native @Nullable Element querySelector(String selector);
     }
 
     @JsType(isNative = true, namespace = JsPackage.GLOBAL, name = "Element")

@@ -1,6 +1,8 @@
 package com.example.router_ref;
 
-@org.jspecify.annotations.NullMarked
+import org.jspecify.annotations.NullMarked;
+
+@NullMarked
 interface ParametersRouterRefService
 {
 }

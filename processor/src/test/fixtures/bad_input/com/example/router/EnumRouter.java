@@ -1,9 +1,10 @@
 package com.example.router;
 
+import org.jspecify.annotations.NullMarked;
 import router.fu.annotations.Router;
 
 @Router
-@org.jspecify.annotations.NullMarked
+@NullMarked
 public enum EnumRouter
 {
 }
