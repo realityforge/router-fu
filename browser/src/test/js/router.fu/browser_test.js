@@ -41,7 +41,7 @@ testSuite({
 
   async testGeneratedArezRouter() {
     const frame = /** @type {!HTMLIFrameElement} */ (document.createElement('iframe'));
-    frame.src = '/example/example/index.html';
+    frame.src = '/example/src/main/webapp/example/index.html';
     document.body.appendChild(frame);
     try {
       /** @type {!Promise<void>} */

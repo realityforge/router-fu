@@ -1,0 +1,10 @@
+load("//tools/browser:rules.bzl", "browser_application")
+
+package(default_visibility = ["//visibility:public"])
+
+browser_application(
+    name = "example",
+    entry_point = "router.fu.example.Main",
+    html = "example.html",
+    deps = ["//example/src/main/java/router/fu/example:entry"],
+)

@@ -1,4 +1,4 @@
-load("//third_party/java:rules.bzl", "java_binary", "java_test")
+load("//third_party/java:rules.bzl", "java_binary")
 load(":release.bzl", "release_jar", "release_javadoc_jar", "release_pom", "release_source_jar", "release_version")
 
 package(default_visibility = ["//visibility:public"])
@@ -18,7 +18,10 @@ java_binary(
 release_jar(
     name = "core_jar",
     out = "router-fu-core.jar",
-    java_targets = ["//core"],
+    java_targets = [
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+    ],
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
 )
@@ -26,7 +29,10 @@ release_jar(
 release_source_jar(
     name = "core_sources",
     out = "router-fu-core-sources.jar",
-    java_targets = ["//core"],
+    java_targets = [
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+    ],
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
 )
@@ -44,7 +50,7 @@ release_jar(
         "//third_party/java:javapoet",
         "//third_party/java:jspecify",
     ],
-    java_targets = ["//processor"],
+    java_targets = ["//processor/src/main/java/router/fu/processor:processor"],
     relocations = [
         "org.realityforge.proton=router.fu.processor.vendor.proton",
         "com.palantir.javapoet=router.fu.processor.vendor.javapoet",
@@ -56,7 +62,7 @@ release_jar(
 release_source_jar(
     name = "processor_sources",
     out = "router-fu-processor-sources.jar",
-    java_targets = ["//processor"],
+    java_targets = ["//processor/src/main/java/router/fu/processor:processor"],
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
 )
@@ -70,7 +76,10 @@ release_javadoc_jar(
         "//third_party/java:jsinterop_annotations",
         "//third_party/java:jspecify",
     ],
-    java_targets = ["//core"],
+    java_targets = [
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+    ],
 )
 
 filegroup(
@@ -127,23 +136,5 @@ release_javadoc_jar(
         "//third_party/java:javapoet",
         "//third_party/java:jspecify",
     ],
-    java_targets = ["//processor"],
-)
-
-java_test(
-    name = "consumer",
-    srcs = [
-        "consumer/Browser.java",
-        "consumer/Catalog.java",
-        "consumer/Consumer.java",
-        "consumer/EmptyRouter.java",
-    ],
-    jvm_flags = ["-Dbraincheck.environment=development"],
-    main_class = "isolated.Consumer",
-    plugins = ["//:router_fu_processor_plugin"],
-    use_testrunner = False,
-    deps = [
-        "//:core",
-        "//third_party/java:arez_core",
-    ],
+    java_targets = ["//processor/src/main/java/router/fu/processor:processor"],
 )

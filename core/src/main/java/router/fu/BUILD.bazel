@@ -1,0 +1,13 @@
+load("//third_party/java:rules.bzl", "java_library")
+
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "core",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//third_party/java:base",
+        "//third_party/java:braincheck_core",
+        "//third_party/java:jsinterop_annotations",
+    ],
+)

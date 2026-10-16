@@ -1,0 +1,21 @@
+load("//third_party/java:rules.bzl", "java_test")
+
+package(default_visibility = ["//visibility:public"])
+
+java_test(
+    name = "consumer",
+    srcs = [
+        "Browser.java",
+        "Catalog.java",
+        "Consumer.java",
+        "EmptyRouter.java",
+    ],
+    jvm_flags = ["-Dbraincheck.environment=development"],
+    main_class = "isolated.Consumer",
+    plugins = ["//:router_fu_processor_plugin"],
+    use_testrunner = False,
+    deps = [
+        "//:core",
+        "//third_party/java:arez_core",
+    ],
+)

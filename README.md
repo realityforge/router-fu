@@ -55,14 +55,18 @@ Useful commands:
 bazel test //:jvm_tests --test_output=errors
 bazel test //:browser_tests --test_output=errors
 bazel test -c opt //:browser_tests --test_output=errors
-bazel build //example:example
-# Serve bazel-bin/example/example/ with a static HTTP server to open the example.
+bazel build //example/src/main/webapp:example
+# Serve bazel-bin/example/src/main/webapp/example/ with a static HTTP server to open the example.
 tools/java_format.sh write
 tools/update_goldens.sh
 ```
 
 The example uses J2CL and the same generated Arez router as the browser tests. GWT modules, its compiler,
 and its development server have been retired.
+
+Java packages own their BUILD files and compile package-local sources. `java_j2cl_library` accepts only
+local source files. The root targets assemble publication artifacts and group tests; processor fixtures
+are test data compiled by the processor tests.
 
 ## Nullability
 

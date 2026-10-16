@@ -11,15 +11,16 @@ java_format_check(
     testonly = True,
     remediation = "tools/java_format.sh write",
     targets = [
-        "//core",
-        "//core:tests",
-        "//processor",
-        "//processor:tests",
-        "//example:java",
-        "//browser:probe_java",
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+        "//core/src/test/java/router/fu:tests",
+        "//processor/src/main/java/router/fu/processor:processor",
+        "//processor/src/test/java/router/fu/processor:tests",
+        "//example/src/main/java/router/fu/example:app_java",
+        "//browser/src/test/java/router/fu/browser:probe_java",
         "//tools/release:jar_builder",
         "//tools/release:javadoc_jar_builder",
-        "//tools/release:consumer",
+        "//tools/release/consumer",
         "//tools/verification:coverage_check",
     ],
 )
@@ -64,14 +65,14 @@ j2cl_library(
 test_suite(
     name = "jvm_tests",
     tests = [
-        "//core:tests",
-        "//processor:tests",
+        "//core/src/test/java/router/fu:tests",
+        "//processor/src/test/java/router/fu/processor:tests",
     ],
 )
 
 test_suite(
     name = "browser_tests",
-    tests = ["//browser:tests"],
+    tests = ["//browser/src/test/js/router.fu:tests"],
 )
 
 test_suite(
@@ -79,6 +80,6 @@ test_suite(
     tests = [
         ":browser_tests",
         ":jvm_tests",
-        "//tools/release:consumer",
+        "//tools/release/consumer",
     ],
 )

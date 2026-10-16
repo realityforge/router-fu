@@ -1,29 +1,15 @@
-load("//third_party/java:rules.bzl", "FORMATTER_JVM_FLAGS", "java_library", "java_plugin", "java_testng")
+load("//third_party/java:rules.bzl", "FORMATTER_JVM_FLAGS", "java_testng")
 
 package(default_visibility = ["//visibility:public"])
-
-java_library(
-    name = "processor",
-    srcs = glob(["src/main/java/**/*.java"]),
-    resources = glob(["src/main/resources/**"]),
-    deps = [
-        "//third_party/java:javapoet",
-        "//third_party/java:proton_core",
-    ],
-)
-
-java_plugin(
-    name = "router_fu_processor_plugin",
-    generates_api = True,
-    processor_class = "router.fu.processor.RouterProcessor",
-    deps = [":processor"],
-)
 
 java_testng(
     name = "tests",
     size = "large",
-    srcs = glob(["src/test/java/**/*.java"]),
-    data = glob(["src/test/fixtures/**"]) + ["//third_party/java:strict_checker_options"],
+    srcs = glob(["*.java"]),
+    data = [
+        "//processor/src/test/fixtures",
+        "//third_party/java:strict_checker_options",
+    ],
     jvm_flags = FORMATTER_JVM_FLAGS + [
         "-Drouter.fu.fixture_dir=processor/src/test/fixtures",
         "--add-exports=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED",
@@ -36,8 +22,9 @@ java_testng(
     ],
     test_class = "router.fu.processor.RouterProcessorTest",
     deps = [
-        ":processor",
-        "//core",
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+        "//processor/src/main/java/router/fu/processor",
         "//third_party/java:arez_core",
         "//third_party/java:arez_processor_runtime",
         "//third_party/java:base",

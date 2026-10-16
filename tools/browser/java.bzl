@@ -18,6 +18,9 @@ _checked_sources = rule(
 )
 
 def java_j2cl_library(name, srcs, deps = [], java_deps = [], plugins = [], native_srcs = [], testonly = False):
+    for src in srcs + native_srcs:
+        if "/" in src or src.startswith("@"):
+            fail("java_j2cl_library sources must be files in the current package: " + src)
     java_library(
         name = name + "_java",
         testonly = testonly,

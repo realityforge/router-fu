@@ -7,7 +7,7 @@ bazel run //tools/buildifier:buildifier_check
 tools/java_format.sh check
 bazel run //tools/ahab:hermeticity.check
 bazel run //tools/ahab:hermeticity.check -- --compilation-mode=opt
-bazel build //:core //:processor //:core-j2cl //example:example //tools/release:maven_artifacts
+bazel build //:core //:processor //:core-j2cl //example/src/main/webapp:example //tools/release:maven_artifacts
 bazel test //:all_tests --test_output=errors
 bazel test -c opt //:browser_tests --test_output=errors
 bazel coverage -c dbg //:jvm_tests --combined_report=lcov '--instrumentation_filter=^//(core|processor)(:|/),-/src/test/' --test_output=errors

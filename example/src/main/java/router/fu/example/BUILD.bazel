@@ -1,12 +1,11 @@
 load("@rules_closure//closure:defs.bzl", "closure_js_library")
 load("//tools/browser:java.bzl", "java_j2cl_library")
-load("//tools/browser:rules.bzl", "browser_application")
 
 package(default_visibility = ["//visibility:public"])
 
 java_j2cl_library(
     name = "app",
-    srcs = glob(["src/main/java/**/*.java"]),
+    srcs = glob(["*.java"]),
     java_deps = [
         "//:core",
         "//third_party/java:arez_core",
@@ -24,20 +23,8 @@ java_j2cl_library(
     ],
 )
 
-alias(
-    name = "java",
-    actual = ":app_java",
-)
-
 closure_js_library(
     name = "entry",
-    srcs = ["src/main/java/router/fu/example/entry.js"],
+    srcs = ["entry.js"],
     deps = [":app"],
-)
-
-browser_application(
-    name = "example",
-    entry_point = "router.fu.example.Main",
-    html = "src/main/webapp/example.html",
-    deps = [":entry"],
 )

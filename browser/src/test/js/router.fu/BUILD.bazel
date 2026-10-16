@@ -1,0 +1,14 @@
+load("//tools/browser:rules.bzl", "browser_test")
+
+package(default_visibility = ["//visibility:public"])
+
+browser_test(
+    name = "tests",
+    srcs = ["browser_test.js"],
+    data = ["//example/src/main/webapp:example"],
+    entry_point = "router.fu.BrowserTest",
+    deps = [
+        "//browser/src/test/java/router/fu/browser:probe",
+        "@rules_closure//closure/testing/library:testcase",
+    ],
+)
