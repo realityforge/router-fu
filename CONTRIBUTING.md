@@ -21,7 +21,9 @@ Participation in this project comes under the [Contributor Covenant Code of Cond
 
 When submitting pull requests, make sure to do the following:
 
-- Maintain the same code style as the rest of the project.
+- Run `tools/java_format.sh write` for Java and `bazel run //tools/buildifier:buildifier` for Bazel files.
+- Run `tools/check.sh` before submitting.
+- Regenerate processor fixtures with `tools/update_goldens.sh`; do not edit generated goldens by hand.
 - Remove trailing whitespace. Many editors will do this automatically.
 - Ensure any new files have [a trailing newline](https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file)
 

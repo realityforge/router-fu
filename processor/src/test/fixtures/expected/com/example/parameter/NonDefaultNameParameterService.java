@@ -1,36 +1,31 @@
 package com.example.parameter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.processing.Generated;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import router.fu.Location;
 import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
+@NullMarked
 @Generated("router.fu.processor.RouterProcessor")
 public interface NonDefaultNameParameterService {
-  @Nonnull
   Location getLocation();
 
-  @Nonnull
   Route getRegionRoute();
 
-  @Nullable
-  RouteState getRegionRouteState();
+  @Nullable RouteState getRegionRouteState();
 
-  @Nonnull
   Parameter getRegionRegionCodeParameter();
 
-  @Nullable
-  String getFoo();
+  @Nullable String getFoo();
 
-  void updateFoo(@Nonnull String foo);
+  void updateFoo(String foo);
 
-  @Nonnull
-  String buildRegionLocation(@Nonnull String regionCode);
+  String buildRegionLocation(String regionCode);
 
-  void gotoRegion(@Nonnull String regionCode);
+  void gotoRegion(String regionCode);
 
   void reRoute();
 }

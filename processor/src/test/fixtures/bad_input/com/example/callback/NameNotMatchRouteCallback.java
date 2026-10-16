@@ -7,6 +7,7 @@ import router.fu.annotations.Router;
 
 @Router
 @Route( name = "notRegion", path = "regions/:regionCode" )
+@org.jspecify.annotations.NullMarked
 public class NameNotMatchRouteCallback
 {
   @RouteCallback

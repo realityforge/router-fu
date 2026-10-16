@@ -6,6 +6,7 @@ import router.fu.annotations.Router;
 @Router
 @Route( name = "root", path = "" )
 @Route( name = "root", path = "" )
+@org.jspecify.annotations.NullMarked
 public class SameParameterNameRouter
 {
 }

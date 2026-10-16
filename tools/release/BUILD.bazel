@@ -1,0 +1,149 @@
+load("//third_party/java:rules.bzl", "java_binary", "java_test")
+load(":release.bzl", "release_jar", "release_javadoc_jar", "release_pom", "release_source_jar", "release_version")
+
+package(default_visibility = ["//visibility:public"])
+
+java_binary(
+    name = "jar_builder",
+    srcs = ["JarBuilder.java"],
+    main_class = "router.fu.release.JarBuilder",
+)
+
+java_binary(
+    name = "javadoc_jar_builder",
+    srcs = ["JavadocJarBuilder.java"],
+    main_class = "router.fu.release.JavadocJarBuilder",
+)
+
+release_jar(
+    name = "core_jar",
+    out = "router-fu-core.jar",
+    java_targets = ["//core"],
+    resource_entries = ["META-INF/LICENSE"],
+    resource_files = ["//:LICENSE"],
+)
+
+release_source_jar(
+    name = "core_sources",
+    out = "router-fu-core-sources.jar",
+    java_targets = ["//core"],
+    resource_entries = ["META-INF/LICENSE"],
+    resource_files = ["//:LICENSE"],
+)
+
+alias(
+    name = "core_j2cl_sources",
+    actual = ":core_sources",
+)
+
+release_jar(
+    name = "processor_jar",
+    out = "router-fu-processor.jar",
+    jars = [
+        "//third_party/java:proton_core",
+        "//third_party/java:javapoet",
+        "//third_party/java:jspecify",
+    ],
+    java_targets = ["//processor"],
+    relocations = [
+        "org.realityforge.proton=router.fu.processor.vendor.proton",
+        "com.palantir.javapoet=router.fu.processor.vendor.javapoet",
+    ],
+    resource_entries = ["META-INF/LICENSE"],
+    resource_files = ["//:LICENSE"],
+)
+
+release_source_jar(
+    name = "processor_sources",
+    out = "router-fu-processor-sources.jar",
+    java_targets = ["//processor"],
+    resource_entries = ["META-INF/LICENSE"],
+    resource_files = ["//:LICENSE"],
+)
+
+release_javadoc_jar(
+    name = "core_javadoc",
+    out = "router-fu-core-javadoc.jar",
+    classpath = [
+        "//third_party/java:braincheck_core",
+        "//third_party/java:base",
+        "//third_party/java:jsinterop_annotations",
+        "//third_party/java:jspecify",
+    ],
+    java_targets = ["//core"],
+)
+
+filegroup(
+    name = "maven_artifacts",
+    srcs = [
+        ":core_jar",
+        ":core_javadoc",
+        ":core_pom",
+        ":core_sources",
+        ":processor_jar",
+        ":processor_javadoc",
+        ":processor_pom",
+        ":processor_sources",
+    ],
+)
+
+release_version(
+    name = "version",
+    build_setting_default = "0.0.0-SNAPSHOT",
+)
+
+release_version(
+    name = "braincheck_version",
+    build_setting_default = "0.0.0-SNAPSHOT",
+)
+
+release_pom(
+    name = "core_pom",
+    out = "router-fu-core.pom",
+    artifact_id = "router-fu-core",
+    dependencies = [
+        "org.jspecify:jspecify:1.0.1",
+        "org.realityforge.braincheck:braincheck-core:{braincheck_version}",
+        "com.google.jsinterop:base:1.2.0",
+        "com.google.jsinterop:jsinterop-annotations:2.0.0",
+    ],
+    description = "Framework agnostic state producing router",
+    display_name = "Router-fu Core",
+)
+
+release_pom(
+    name = "processor_pom",
+    out = "router-fu-processor.pom",
+    artifact_id = "router-fu-processor",
+    description = "Router-fu annotation processor",
+    display_name = "Router-fu Processor",
+)
+
+release_javadoc_jar(
+    name = "processor_javadoc",
+    out = "router-fu-processor-javadoc.jar",
+    classpath = [
+        "//third_party/java:proton_core",
+        "//third_party/java:javapoet",
+        "//third_party/java:jspecify",
+    ],
+    java_targets = ["//processor"],
+)
+
+java_test(
+    name = "consumer",
+    srcs = [
+        "consumer/Browser.java",
+        "consumer/Catalog.java",
+        "consumer/Consumer.java",
+        "consumer/EmptyRouter.java",
+    ],
+    jvm_flags = ["-Dbraincheck.environment=development"],
+    main_class = "isolated.Consumer",
+    plugins = ["//:router_fu_processor_plugin"],
+    use_testrunner = False,
+    deps = [
+        "//:core",
+        "//third_party/java:arez_core",
+    ],
+)

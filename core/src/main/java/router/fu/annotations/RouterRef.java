@@ -18,7 +18,5 @@ import java.lang.annotation.Target;
  * </ul>
  */
 @Documented
-@Target( ElementType.METHOD )
-public @interface RouterRef
-{
-}
+@Target(ElementType.METHOD)
+public @interface RouterRef {}

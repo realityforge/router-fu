@@ -5,6 +5,7 @@ import router.fu.annotations.Router;
 
 @Router
 @Route( name = "A", path = "regions/:regionCode" )
+@org.jspecify.annotations.NullMarked
 public class RouteParametersWithShortName
 {
 }

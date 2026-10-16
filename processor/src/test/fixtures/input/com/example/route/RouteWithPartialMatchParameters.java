@@ -6,6 +6,7 @@ import router.fu.annotations.Router;
 @Router
 @Route( name = "regionFilter", path = "regions/:regionCode", navigationTarget = false, partialMatch = true )
 @Route( name = "region", path = "regions/:regionCode" )
+@org.jspecify.annotations.NullMarked
 public class RouteWithPartialMatchParameters
 {
 }

@@ -1,31 +1,27 @@
 package com.example.route;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.processing.Generated;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import router.fu.Location;
 import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
+@NullMarked
 @Generated("router.fu.processor.RouterProcessor")
 public interface RouteParametersWithShortNameService {
-  @Nonnull
   Location getLocation();
 
-  @Nonnull
   Route getARoute();
 
-  @Nullable
-  RouteState getARouteState();
+  @Nullable RouteState getARouteState();
 
-  @Nonnull
   Parameter getARegionCodeParameter();
 
-  @Nonnull
-  String buildALocation(@Nonnull String regionCode);
+  String buildALocation(String regionCode);
 
-  void gotoA(@Nonnull String regionCode);
+  void gotoA(String regionCode);
 
   void reRoute();
 }

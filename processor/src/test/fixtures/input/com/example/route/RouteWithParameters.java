@@ -7,6 +7,7 @@ import router.fu.annotations.Router;
 @Route( name = "region", path = "regions/:regionCode" )
 @Route( name = "regionEvents", path = "regions/:regionCode/events" )
 @Route( name = "regionEvent", path = "regions/:regionCode/events/:eventCode" )
+@org.jspecify.annotations.NullMarked
 public class RouteWithParameters
 {
 }

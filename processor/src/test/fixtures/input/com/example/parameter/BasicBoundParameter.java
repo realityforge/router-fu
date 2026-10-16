@@ -7,6 +7,7 @@ import router.fu.annotations.Router;
 @Router
 @Route( name = "region", path = "regions/:regionCode<[a-zA-Z]+>" )
 @BoundParameter( name = "regionCode" )
+@org.jspecify.annotations.NullMarked
 public class BasicBoundParameter
 {
 }

@@ -9,10 +9,11 @@ import router.fu.annotations.Router;
 
 @Router
 @Route( name = "region", path = "regions/:regionCode" )
+@org.jspecify.annotations.NullMarked
 public class CallbackWithParams3
 {
   @RouteCallback
-  MatchResult regionCallback( Map<Parameter, String> parameters )
+  MatchResult regionCallback( Map<Parameter, @org.jspecify.annotations.Nullable String> parameters )
   {
     return MatchResult.TERMINAL;
   }

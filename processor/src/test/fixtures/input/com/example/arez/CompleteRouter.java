@@ -14,6 +14,7 @@ import router.fu.annotations.Router;
 @BoundParameter( name = "regionCode" )
 @BoundParameter( name = "eventCode", routeNames = { "regionEvent" } )
 @BoundParameter( name = "eventCode2", parameterName = "eventCode" )
+@org.jspecify.annotations.NullMarked
 public class CompleteRouter
 {
   @RouteCallback

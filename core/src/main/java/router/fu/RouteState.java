@@ -1,46 +1,38 @@
 package router.fu;
 
 import java.util.Map;
-import java.util.Objects;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.Nullable;
 
-public final class RouteState
-{
-  private final Route _route;
-  private final Map<Parameter, String> _parameters;
-  private final boolean _terminal;
+public final class RouteState {
+    private final Route _route;
+    private final Map<Parameter, @Nullable String> _parameters;
+    private final boolean _terminal;
 
-  public RouteState( @Nonnull final Route route,
-                     @Nonnull final Map<Parameter, String> parameters,
-                     final boolean terminal )
-  {
-    _route = Objects.requireNonNull( route );
-    _parameters = Objects.requireNonNull( parameters );
-    _terminal = terminal;
-  }
+    public RouteState(final Route route, final Map<Parameter, @Nullable String> parameters, final boolean terminal) {
+        _route = route;
+        _parameters = parameters;
+        _terminal = terminal;
+    }
 
-  @Nonnull
-  public Route getRoute()
-  {
-    return _route;
-  }
+    public Route getRoute() {
+        return _route;
+    }
 
-  @Nonnull
-  public Map<Parameter, String> getParameters()
-  {
-    return _parameters;
-  }
+    public Map<Parameter, @Nullable String> getParameters() {
+        return _parameters;
+    }
 
-  @Nonnull
-  public String getParameterValue( @Nonnull final Parameter parameter )
-  {
-    final String value = _parameters.get( parameter );
-    assert null != value;
-    return value;
-  }
+    /**
+     * Return a non-null capture for the parameter.
+     * This requires a captured value; use {@link #getParameters()} to inspect unmatched native groups.
+     */
+    public String getParameterValue(final Parameter parameter) {
+        final String value = _parameters.get(parameter);
+        assert null != value;
+        return value;
+    }
 
-  public boolean isTerminal()
-  {
-    return _terminal;
-  }
+    public boolean isTerminal() {
+        return _terminal;
+    }
 }

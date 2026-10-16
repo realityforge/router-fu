@@ -5,10 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.processing.Generated;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import router.fu.Backend;
 import router.fu.Location;
 import router.fu.MatchResult;
@@ -18,6 +17,7 @@ import router.fu.RouteState;
 import router.fu.Router;
 import router.fu.Segment;
 
+@NullMarked
 @Generated("router.fu.processor.RouterProcessor")
 public class RouterFu_SelectiveMultiRouteBoundParameter extends SelectiveMultiRouteBoundParameter implements SelectiveMultiRouteBoundParameterService {
   private final Parameter $fu$_eventCode_1643987249 = new Parameter( "eventCode", "^[0-9]+$" );
@@ -32,105 +32,94 @@ public class RouterFu_SelectiveMultiRouteBoundParameter extends SelectiveMultiRo
 
   private final Router $fu$_router;
 
-  private Location $fu$_location;
+  private @Nullable Location $fu$_location;
 
-  private RouteState $fu$_state_region;
+  private @Nullable RouteState $fu$_state_region;
 
-  private RouteState $fu$_state_regionEvents;
+  private @Nullable RouteState $fu$_state_regionEvents;
 
-  private RouteState $fu$_state_regionEvent;
+  private @Nullable RouteState $fu$_state_regionEvent;
 
-  private String $fu$_param_regionCode;
+  private @Nullable String $fu$_param_regionCode;
 
-  RouterFu_SelectiveMultiRouteBoundParameter(@Nonnull final Backend backend) {
+  RouterFu_SelectiveMultiRouteBoundParameter(final Backend backend) {
     $fu$_router = new Router( this::onLocationChanged, backend, Collections.unmodifiableList( Arrays.asList( $fu$_route_region, $fu$_route_regionEvents, $fu$_route_regionEvent ) ) );
     $fu$_router.activate();
   }
 
-  @Nonnull
   @Override
   public Route getRegionRoute() {
     return $fu$_route_region;
   }
 
-  @Nullable
   @Override
-  public RouteState getRegionRouteState() {
+  public @Nullable RouteState getRegionRouteState() {
     return $fu$_state_region;
   }
 
-  void setRegionRouteState(@Nullable final RouteState state) {
+  void setRegionRouteState(final @Nullable RouteState state) {
     $fu$_state_region = state;
   }
 
-  @Nonnull
   @Override
   public Parameter getRegionRegionCodeParameter() {
     return $fu$_regionCode_821487049;
   }
 
-  @Nonnull
   @Override
   public Route getRegionEventsRoute() {
     return $fu$_route_regionEvents;
   }
 
-  @Nullable
   @Override
-  public RouteState getRegionEventsRouteState() {
+  public @Nullable RouteState getRegionEventsRouteState() {
     return $fu$_state_regionEvents;
   }
 
-  void setRegionEventsRouteState(@Nullable final RouteState state) {
+  void setRegionEventsRouteState(final @Nullable RouteState state) {
     $fu$_state_regionEvents = state;
   }
 
-  @Nonnull
   @Override
   public Parameter getRegionEventsRegionCodeParameter() {
     return $fu$_regionCode_821487049;
   }
 
-  @Nonnull
   @Override
   public Route getRegionEventRoute() {
     return $fu$_route_regionEvent;
   }
 
-  @Nullable
   @Override
-  public RouteState getRegionEventRouteState() {
+  public @Nullable RouteState getRegionEventRouteState() {
     return $fu$_state_regionEvent;
   }
 
-  void setRegionEventRouteState(@Nullable final RouteState state) {
+  void setRegionEventRouteState(final @Nullable RouteState state) {
     $fu$_state_regionEvent = state;
   }
 
-  @Nonnull
   @Override
   public Parameter getRegionEventRegionCodeParameter() {
     return $fu$_regionCode_821487049;
   }
 
-  @Nonnull
   @Override
   public Parameter getRegionEventEventCodeParameter() {
     return $fu$_eventCode_1643987249;
   }
 
-  @Nullable
   @Override
-  public String getRegionCode() {
+  public @Nullable String getRegionCode() {
     return $fu$_param_regionCode;
   }
 
-  void setRegionCode(@Nullable final String value) {
+  void setRegionCode(final @Nullable String value) {
     $fu$_param_regionCode = value;
   }
 
   @Override
-  public void updateRegionCode(@Nonnull final String regionCode) {
+  public void updateRegionCode(final String regionCode) {
     final Location location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if ( null != terminalState ) {
@@ -143,36 +132,32 @@ public class RouterFu_SelectiveMultiRouteBoundParameter extends SelectiveMultiRo
     }
   }
 
-  @Nonnull
   @Override
-  public String buildRegionLocation(@Nonnull final String regionCode) {
+  public String buildRegionLocation(final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode_821487049, regionCode );
     return $fu$_route_region.buildLocation( $fu$_route_params );
   }
 
   @Override
-  public void gotoRegion(@Nonnull final String regionCode) {
+  public void gotoRegion(final String regionCode) {
     $fu$_router.changeLocation( buildRegionLocation( regionCode ) );
   }
 
-  @Nonnull
   @Override
-  public String buildRegionEventsLocation(@Nonnull final String regionCode) {
+  public String buildRegionEventsLocation(final String regionCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode_821487049, regionCode );
     return $fu$_route_regionEvents.buildLocation( $fu$_route_params );
   }
 
   @Override
-  public void gotoRegionEvents(@Nonnull final String regionCode) {
+  public void gotoRegionEvents(final String regionCode) {
     $fu$_router.changeLocation( buildRegionEventsLocation( regionCode ) );
   }
 
-  @Nonnull
   @Override
-  public String buildRegionEventLocation(@Nonnull final String regionCode,
-      @Nonnull final String eventCode) {
+  public String buildRegionEventLocation(final String regionCode, final String eventCode) {
     final Map<Parameter, String> $fu$_route_params = new HashMap<>();
     $fu$_route_params.put( $fu$_regionCode_821487049, regionCode );
     $fu$_route_params.put( $fu$_eventCode_1643987249, eventCode );
@@ -180,58 +165,52 @@ public class RouterFu_SelectiveMultiRouteBoundParameter extends SelectiveMultiRo
   }
 
   @Override
-  public void gotoRegionEvent(@Nonnull final String regionCode, @Nonnull final String eventCode) {
+  public void gotoRegionEvent(final String regionCode, final String eventCode) {
     $fu$_router.changeLocation( buildRegionEventLocation( regionCode, eventCode ) );
   }
 
-  @Nonnull
   @Override
   public Location getLocation() {
     assert null != $fu$_location;
     return $fu$_location;
   }
 
-  void setLocation(@Nonnull final Location location) {
+  void setLocation(final Location location) {
     $fu$_location = location;
   }
 
-  void onLocationChanged(@Nonnull final Location location) {
-    setLocation( Objects.requireNonNull( location ) );
+  void onLocationChanged(final Location location) {
+    setLocation( location );
     setRegionCode( null );
     final List<RouteState> states = location.getStates();
     int routeStartIndex = 0;
-    for ( int i = 0; i < 3; i++ ) {
+     {
       final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
-      switch ( i ) {
-        case 0: {
-          if ( null != state && state.getRoute() == $fu$_route_region ) {
-            setRegionRouteState( state );
-            routeStartIndex++;
-            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-          } else {
-            setRegionRouteState( null );
-          }
-          break;
-        } case 1: {
-          if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
-            setRegionEventsRouteState( state );
-            routeStartIndex++;
-            setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
-          } else {
-            setRegionEventsRouteState( null );
-          }
-          break;
-        } case 2: {
-          if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
-            setRegionEventRouteState( state );
-            routeStartIndex++;
-          } else {
-            setRegionEventRouteState( null );
-          }
-          break;
-        } default: {
-          break;
-        }
+      if ( null != state && state.getRoute() == $fu$_route_region ) {
+        setRegionRouteState( state );
+        routeStartIndex++;
+        setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+      } else {
+        setRegionRouteState( null );
+      }
+    }
+     {
+      final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
+      if ( null != state && state.getRoute() == $fu$_route_regionEvents ) {
+        setRegionEventsRouteState( state );
+        routeStartIndex++;
+        setRegionCode( state.getParameterValue( $fu$_regionCode_821487049 ) );
+      } else {
+        setRegionEventsRouteState( null );
+      }
+    }
+     {
+      final RouteState state = states.size() > routeStartIndex ? states.get( routeStartIndex ) : null;
+      if ( null != state && state.getRoute() == $fu$_route_regionEvent ) {
+        setRegionEventRouteState( state );
+        routeStartIndex++;
+      } else {
+        setRegionEventRouteState( null );
       }
     }
   }

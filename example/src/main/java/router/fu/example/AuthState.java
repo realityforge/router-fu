@@ -4,18 +4,15 @@ import arez.annotations.ArezComponent;
 import arez.annotations.Observable;
 
 @ArezComponent
-public abstract class AuthState
-{
-  private String _username;
+public abstract class AuthState {
+    private @org.jspecify.annotations.Nullable String _username;
 
-  @Observable
-  public String getUsername()
-  {
-    return _username;
-  }
+    @Observable
+    public @org.jspecify.annotations.Nullable String getUsername() {
+        return _username;
+    }
 
-  public void setUsername( final String username )
-  {
-    _username = username;
-  }
+    public void setUsername(final @org.jspecify.annotations.Nullable String username) {
+        _username = username;
+    }
 }

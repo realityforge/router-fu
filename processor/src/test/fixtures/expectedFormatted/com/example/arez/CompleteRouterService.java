@@ -1,86 +1,74 @@
 package com.example.arez;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.processing.Generated;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import router.fu.Location;
 import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
+@NullMarked
 @Generated("router.fu.processor.RouterProcessor")
 public interface CompleteRouterService {
-  @Nonnull
   Location getLocation();
 
-  @Nonnull
   Route getRegionFilterRoute();
 
   @Nullable
   RouteState getRegionFilterRouteState();
 
-  @Nonnull
   Parameter getRegionFilterRegionCodeParameter();
 
-  @Nonnull
   Route getRegionRoute();
 
   @Nullable
   RouteState getRegionRouteState();
 
-  @Nonnull
   Parameter getRegionRegionCodeParameter();
 
-  @Nonnull
   Route getRegionEventsRoute();
 
   @Nullable
   RouteState getRegionEventsRouteState();
 
-  @Nonnull
   Parameter getRegionEventsRegionCodeParameter();
 
-  @Nonnull
   Route getRegionEventRoute();
 
   @Nullable
   RouteState getRegionEventRouteState();
 
-  @Nonnull
   Parameter getRegionEventRegionCodeParameter();
 
-  @Nonnull
   Parameter getRegionEventEventCodeParameter();
 
   @Nullable
   String getRegionCode();
 
-  void updateRegionCode(@Nonnull String regionCode);
+  void updateRegionCode(String regionCode);
 
   @Nullable
   String getEventCode();
 
-  void updateEventCode(@Nonnull String eventCode);
+  void updateEventCode(String eventCode);
 
   @Nullable
   String getEventCode2();
 
-  void updateEventCode2(@Nonnull String eventCode2);
+  void updateEventCode2(String eventCode2);
 
-  @Nonnull
-  String buildRegionLocation(@Nonnull String regionCode);
+  String buildRegionLocation(String regionCode);
 
-  void gotoRegion(@Nonnull String regionCode);
+  void gotoRegion(String regionCode);
 
-  @Nonnull
-  String buildRegionEventsLocation(@Nonnull String regionCode);
+  String buildRegionEventsLocation(String regionCode);
 
-  void gotoRegionEvents(@Nonnull String regionCode);
+  void gotoRegionEvents(String regionCode);
 
-  @Nonnull
-  String buildRegionEventLocation(@Nonnull String regionCode, @Nonnull String eventCode);
+  String buildRegionEventLocation(String regionCode, String eventCode);
 
-  void gotoRegionEvent(@Nonnull String regionCode, @Nonnull String eventCode);
+  void gotoRegionEvent(String regionCode, String eventCode);
 
   void reRoute();
 }

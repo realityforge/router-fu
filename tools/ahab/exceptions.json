@@ -1,0 +1,11 @@
+{
+  "exceptions": [
+    {
+      "reason": "WebDriver and the test server communicate over loopback; filesystem sandboxing stays enabled",
+      "kind": "execution_requirement",
+      "mnemonic": "TestRunner",
+      "target": "//browser:tests",
+      "requirement": "requires-network"
+    }
+  ]
+}

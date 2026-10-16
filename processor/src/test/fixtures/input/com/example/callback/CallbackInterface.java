@@ -3,6 +3,7 @@ package com.example.callback;
 import router.fu.MatchResult;
 import router.fu.annotations.RouteCallback;
 
+@org.jspecify.annotations.NullMarked
 public interface CallbackInterface
 {
   @RouteCallback

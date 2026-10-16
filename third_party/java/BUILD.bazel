@@ -1,0 +1,97 @@
+load("@j2cl//build_defs:rules.bzl", "j2cl_import")
+load("@rules_java//java:defs.bzl", "java_import")
+load(":rules.bzl", "strict_checker_options")
+
+package(default_visibility = ["//visibility:public"])
+
+strict_checker_options(name = "strict_checker_options")
+
+alias(
+    name = "proton_core",
+    actual = "@proton//:core",
+)
+
+alias(
+    name = "proton_qa",
+    actual = "@proton//:qa",
+)
+
+alias(
+    name = "javapoet",
+    actual = "@proton//third_party/java:javapoet",
+)
+
+alias(
+    name = "testng",
+    actual = "@sting//third_party/java:testng",
+)
+
+alias(
+    name = "nullaway_plugin",
+    actual = "@sting//third_party/java:nullaway_plugin",
+)
+
+alias(
+    name = "nullaway",
+    actual = "@sting//third_party/java:nullaway",
+)
+
+alias(
+    name = "error_prone_core",
+    actual = "@sting//third_party/java:error_prone_core",
+)
+
+alias(
+    name = "braincheck_core",
+    actual = "@braincheck//core/src/main/java/org/realityforge/braincheck:core",
+)
+
+alias(
+    name = "braincheck_core-j2cl",
+    actual = "@braincheck//core/src/main/java/org/realityforge/braincheck:core-j2cl",
+)
+
+alias(
+    name = "jsinterop_base-j2cl",
+    actual = "@jsinterop_base//:jsinterop-base-j2cl",
+)
+
+alias(
+    name = "jsinterop_annotations-j2cl",
+    actual = "@j2cl//:jsinterop-annotations-j2cl",
+)
+
+alias(
+    name = "arez_core",
+    actual = "@arez//:core",
+)
+
+alias(
+    name = "arez_processor_runtime",
+    actual = "@arez//:processor",
+)
+
+alias(
+    name = "jspecify",
+    actual = "@arez//third_party/java:jspecify",
+)
+
+alias(
+    name = "jsinterop_annotations",
+    actual = "@arez//third_party/java:jsinterop_annotations",
+)
+
+alias(
+    name = "base",
+    actual = "@arez//third_party/java:base",
+)
+
+j2cl_import(
+    name = "jspecify-j2cl",
+    jar = ":jspecify",
+)
+
+java_import(
+    name = "dataflow_errorprone",
+    jars = ["@dataflow_errorprone//file"],
+)

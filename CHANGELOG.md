@@ -2,6 +2,14 @@
 
 ### Unreleased
 
+* Replace Buildr with Bazel and a shared `tools/check.sh` gate, including JVM, generated-code and real Chromium tests.
+* Adopt JSpecify defaults and type-use qualifiers throughout the runtime, processor, example and generated contracts.
+  Route state and bound parameters are nullable until matched; native regexp capture maps permit absent values.
+* Honor partial matching for empty route paths so an empty auth filter continues matching after navigation.
+* Retire GWT support and move the browser example to J2CL.
+* Expose assembled runtime and processor artifacts, a processor plugin and checked J2CL sources for Bazel consumers.
+  Pin migrated source dependencies and validate the shaded publication boundary without publishing a release.
+
 ### [v0.48](https://github.com/realityforge/router-fu/tree/v0.48) (2026-09-11) · [Full Changelog](https://github.com/realityforge/router-fu/compare/v0.47...v0.48)
 
 Changes in this release:

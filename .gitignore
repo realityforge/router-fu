@@ -6,3 +6,6 @@
 /reports
 /target
 /tmp
+/bazel-*
+/dist
+/.bazelrc.local

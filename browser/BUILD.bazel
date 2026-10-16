@@ -1,0 +1,35 @@
+load("//tools/browser:java.bzl", "java_j2cl_library")
+load("//tools/browser:rules.bzl", "browser_test")
+
+package(default_visibility = ["//visibility:public"])
+
+java_j2cl_library(
+    name = "probe",
+    testonly = True,
+    srcs = [
+        "BrowserProbe.java",
+        "BrowserRouter.java",
+    ],
+    java_deps = [
+        "//:core",
+        "//third_party/java:jsinterop_annotations",
+        "//third_party/java:braincheck_core",
+    ],
+    plugins = ["//:router_fu_processor_plugin"],
+    deps = [
+        "//:core-j2cl",
+        "//third_party/java:jsinterop_annotations-j2cl",
+        "//third_party/java:jspecify-j2cl",
+    ],
+)
+
+browser_test(
+    name = "tests",
+    srcs = ["browser_test.js"],
+    data = ["//example"],
+    entry_point = "router.fu.BrowserTest",
+    deps = [
+        ":probe",
+        "@rules_closure//closure/testing/library:testcase",
+    ],
+)

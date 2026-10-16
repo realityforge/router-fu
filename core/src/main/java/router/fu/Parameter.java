@@ -1,65 +1,52 @@
 package router.fu;
 
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Representation of a path parameter.
  */
-public final class Parameter
-{
-  @Nonnull
-  private final String _name;
-  @Nullable
-  private final RegExMatcher _validator;
+public final class Parameter {
 
-  public Parameter( @Nonnull final String name )
-  {
-    this( name, (RegExMatcher) null );
-  }
+    private final String _name;
+    private final @Nullable RegExMatcher _validator;
 
-  public Parameter( @Nonnull final String name, @Nullable final String validatorPattern )
-  {
-    this( name, null == validatorPattern ? null : new BrowserMatcher( validatorPattern ) );
-  }
+    public Parameter(final String name) {
+        this(name, (RegExMatcher) null);
+    }
 
-  public Parameter( @Nonnull final String name, @Nullable final Object validator )
-  {
-    this( name, null == validator ? null : new BrowserMatcher( validator ) );
-  }
+    public Parameter(final String name, final @Nullable String validatorPattern) {
+        this(name, null == validatorPattern ? null : new BrowserMatcher(validatorPattern));
+    }
 
-  Parameter( @Nonnull final String name, @Nullable final RegExMatcher validator )
-  {
-    _name = Objects.requireNonNull( name );
-    _validator = validator;
-  }
+    public Parameter(final String name, final @Nullable Object validator) {
+        this(name, null == validator ? null : new BrowserMatcher(validator));
+    }
 
-  /**
-   * Return the name of the parameter.
-   *
-   * @return the name of the parameter.
-   */
-  @Nonnull
-  public String getName()
-  {
-    return _name;
-  }
+    Parameter(final String name, final @Nullable RegExMatcher validator) {
+        _name = name;
+        _validator = validator;
+    }
 
-  /**
-   * Return the validator for parameter if any.
-   *
-   * @return the validator for parameter if any.
-   */
-  @Nullable
-  public RegExMatcher getValidator()
-  {
-    return _validator;
-  }
+    /**
+     * Return the name of the parameter.
+     *
+     * @return the name of the parameter.
+     */
+    public String getName() {
+        return _name;
+    }
 
-  @Override
-  public String toString()
-  {
-    return getName();
-  }
+    /**
+     * Return the validator for parameter if any.
+     *
+     * @return the validator for parameter if any.
+     */
+    public @Nullable RegExMatcher getValidator() {
+        return _validator;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

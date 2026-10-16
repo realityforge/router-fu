@@ -15,6 +15,7 @@ import router.fu.annotations.Router;
   path = "regions/:regionCode/event/:eventId/:filter",
   optionalParameters = { "regionCode", "filter" }
 )
+@org.jspecify.annotations.NullMarked
 public class RouteWithOptionalParameters
 {
 }

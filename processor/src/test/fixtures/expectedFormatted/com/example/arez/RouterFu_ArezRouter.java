@@ -8,23 +8,22 @@ import arez.annotations.PostConstruct;
 import arez.annotations.PreDispose;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import javax.annotation.Nonnull;
 import javax.annotation.processing.Generated;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import router.fu.Backend;
 import router.fu.Location;
-import router.fu.RouteState;
 import router.fu.Router;
 
+@NullMarked
 @ArezComponent(name = "ArezRouter", requireId = Feature.DISABLE, disposeNotifier = Feature.DISABLE)
 @Generated("router.fu.processor.RouterProcessor")
 public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRouterService {
   private final Router $fu$_router;
 
-  private Location $fu$_location;
+  private @Nullable Location $fu$_location;
 
-  RouterFu_ArezRouter(@Nonnull final Backend backend) {
+  RouterFu_ArezRouter(final Backend backend) {
     $fu$_router =
         new Router(this::onLocationChanged, backend, Collections.unmodifiableList(Arrays.asList()));
     $fu$_location = new Location("", Collections.emptyList());
@@ -40,7 +39,6 @@ public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRout
     $fu$_router.deactivate();
   }
 
-  @Nonnull
   @Observable
   @Override
   public Location getLocation() {
@@ -48,23 +46,13 @@ public abstract class RouterFu_ArezRouter extends ArezRouter implements ArezRout
     return $fu$_location;
   }
 
-  void setLocation(@Nonnull final Location location) {
+  void setLocation(final Location location) {
     $fu$_location = location;
   }
 
   @Action
-  void onLocationChanged(@Nonnull final Location location) {
-    setLocation(Objects.requireNonNull(location));
-    final List<RouteState> states = location.getStates();
-    int routeStartIndex = 0;
-    for (int i = 0; i < 0; i++) {
-      final RouteState state = states.size() > routeStartIndex ? states.get(routeStartIndex) : null;
-      switch (i) {
-        default: {
-          break;
-        }
-      }
-    }
+  void onLocationChanged(final Location location) {
+    setLocation(location);
   }
 
   @Override

@@ -8,6 +8,7 @@ import router.fu.annotations.Router;
 @Route( name = "region", path = "regions/:regionCode" )
 @BoundParameter( name = "regionCode" )
 @BoundParameter( name = "regionCode" )
+@org.jspecify.annotations.NullMarked
 public class DuplicateParameterName
 {
 }

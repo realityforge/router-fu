@@ -5,6 +5,7 @@ import router.fu.annotations.Router;
 
 @Router
 @Route( name = "region", path = "regions/ballarat/events/23/coordination/now/shift1/crew23/position2" )
+@org.jspecify.annotations.NullMarked
 public class RouteWithLongStaticSegment
 {
 }

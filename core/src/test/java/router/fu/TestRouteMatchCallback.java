@@ -1,30 +1,22 @@
 package router.fu;
 
 import java.util.Map;
-import java.util.Objects;
-import javax.annotation.Nonnull;
+import org.jspecify.annotations.Nullable;
 
-class TestRouteMatchCallback
-  implements RouteMatchCallback
-{
-  private final MatchResult _result;
+class TestRouteMatchCallback implements RouteMatchCallback {
+    private final MatchResult _result;
 
-  TestRouteMatchCallback()
-  {
-    this( MatchResult.TERMINAL );
-  }
+    TestRouteMatchCallback() {
+        this(MatchResult.TERMINAL);
+    }
 
-  TestRouteMatchCallback( @Nonnull final MatchResult result )
-  {
-    _result = Objects.requireNonNull( result );
-  }
+    TestRouteMatchCallback(final MatchResult result) {
+        _result = result;
+    }
 
-  @Nonnull
-  @Override
-  public MatchResult shouldMatch( @Nonnull final String location,
-                                  @Nonnull final Route route,
-                                  @Nonnull final Map<Parameter, String> parameters )
-  {
-    return _result;
-  }
+    @Override
+    public MatchResult shouldMatch(
+            final String location, final Route route, final Map<Parameter, @Nullable String> parameters) {
+        return _result;
+    }
 }

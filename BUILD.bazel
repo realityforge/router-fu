@@ -1,0 +1,84 @@
+load("@j2cl//build_defs:rules.bzl", "j2cl_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_plugin")
+load("@rules_palantir_java_format//:defs.bzl", "java_format_check")
+
+package(default_visibility = ["//visibility:public"])
+
+exports_files(["LICENSE"])
+
+java_format_check(
+    name = "java_format_check",
+    testonly = True,
+    remediation = "tools/java_format.sh write",
+    targets = [
+        "//core",
+        "//core:tests",
+        "//processor",
+        "//processor:tests",
+        "//example:java",
+        "//browser:probe_java",
+        "//tools/release:jar_builder",
+        "//tools/release:javadoc_jar_builder",
+        "//tools/release:consumer",
+        "//tools/verification:coverage_check",
+    ],
+)
+
+java_import(
+    name = "core",
+    jars = ["//tools/release:core_jar"],
+    srcjar = "//tools/release:core_sources",
+    exports = [
+        "//third_party/java:base",
+        "//third_party/java:braincheck_core",
+        "//third_party/java:jsinterop_annotations",
+        "//third_party/java:jspecify",
+    ],
+)
+
+java_import(
+    name = "processor",
+    jars = ["//tools/release:processor_jar"],
+    srcjar = "//tools/release:processor_sources",
+)
+
+java_plugin(
+    name = "router_fu_processor_plugin",
+    generates_api = True,
+    processor_class = "router.fu.processor.RouterProcessor",
+    deps = [":processor"],
+)
+
+j2cl_library(
+    name = "core-j2cl",
+    srcs = ["//tools/release:core_j2cl_sources"],
+    experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
+    deps = [
+        "//third_party/java:braincheck_core-j2cl",
+        "//third_party/java:jsinterop_annotations-j2cl",
+        "//third_party/java:jsinterop_base-j2cl",
+        "//third_party/java:jspecify-j2cl",
+    ],
+)
+
+test_suite(
+    name = "jvm_tests",
+    tests = [
+        "//core:tests",
+        "//processor:tests",
+    ],
+)
+
+test_suite(
+    name = "browser_tests",
+    tests = ["//browser:tests"],
+)
+
+test_suite(
+    name = "all_tests",
+    tests = [
+        ":browser_tests",
+        ":jvm_tests",
+        "//tools/release:consumer",
+    ],
+)

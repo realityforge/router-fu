@@ -7,6 +7,7 @@ import router.fu.annotations.Router;
 @Router
 @Route( name = "other", path = "regions/:regionCode" )
 @BoundParameter( name = "regionCode", routeNames = { "region" } )
+@org.jspecify.annotations.NullMarked
 public class NoSuchRoute
 {
 }

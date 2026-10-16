@@ -1,0 +1,119 @@
+diff --git a/MODULE.bazel b/MODULE.bazel
+--- a/MODULE.bazel
++++ b/MODULE.bazel
+@@ -1,4 +1,6 @@
+ module(name = "arez")
++
++bazel_dep(name = "braincheck")
+ 
+ bazel_dep(name = "proton_project", repo_name = "proton")
+ git_override(
+@@ -160,16 +162,16 @@
+ 
+ _http_file(
+     name = "base",
+-    downloaded_file_path = "com/google/jsinterop/base/1.0.0/base-1.0.0.jar",
+-    sha256 = "603635c26a384f601b19fa79c04208bd2f52da7af54650a3abced5b813ca4412",
+-    urls = ["https://repo.maven.apache.org/maven2/com/google/jsinterop/base/1.0.0/base-1.0.0.jar"],
++    downloaded_file_path = "com/google/jsinterop/base/1.2.0/base-1.2.0.jar",
++    sha256 = "74b273c76c94b27826ff816186310a2b384fb7b3e96471b26dd28afae263572a",
++    urls = ["https://repo.maven.apache.org/maven2/com/google/jsinterop/base/1.2.0/base-1.2.0.jar"],
+ )
+ 
+ _http_file(
+     name = "base__sources",
+-    downloaded_file_path = "com/google/jsinterop/base/1.0.0/base-1.0.0-sources.jar",
+-    sha256 = "733f02f18b225ffb24e927f23ca12ea91fec7b560665a8720a62ab95013cf5ea",
+-    urls = ["https://repo.maven.apache.org/maven2/com/google/jsinterop/base/1.0.0/base-1.0.0-sources.jar"],
++    downloaded_file_path = "com/google/jsinterop/base/1.2.0/base-1.2.0-sources.jar",
++    sha256 = "bd3584e4541e96557b98066c1bda7070046e87f11ec017c7815a0eed207e0ec8",
++    urls = ["https://repo.maven.apache.org/maven2/com/google/jsinterop/base/1.2.0/base-1.2.0-sources.jar"],
+ )
+ 
+ _http_file(
+@@ -398,16 +400,16 @@
+ 
+ _http_file(
+     name = "jspecify",
+-    downloaded_file_path = "org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar",
+-    sha256 = "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab",
+-    urls = ["https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar"],
++    downloaded_file_path = "org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar",
++    sha256 = "070d75f261fe4c5b8202508366715f7f2d4660f88c8ef7e6d3575e48c9683b66",
++    urls = ["https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1.jar"],
+ )
+ 
+ _http_file(
+     name = "jspecify__sources",
+-    downloaded_file_path = "org/jspecify/jspecify/1.0.0/jspecify-1.0.0-sources.jar",
+-    sha256 = "adf0898191d55937fb3192ba971826f4f294292c4a960740f3c27310e7b70296",
+-    urls = ["https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.0/jspecify-1.0.0-sources.jar"],
++    downloaded_file_path = "org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar",
++    sha256 = "230c491aac6d2a2b7e66b68d4331b1d2626f1bf3a372c33bbe2b077297e46c45",
++    urls = ["https://repo.maven.apache.org/maven2/org/jspecify/jspecify/1.0.1/jspecify-1.0.1-sources.jar"],
+ )
+ 
+ _http_file(
+diff --git a/third_party/java/BUILD.bazel b/third_party/java/BUILD.bazel
+--- a/third_party/java/BUILD.bazel
++++ b/third_party/java/BUILD.bazel
+@@ -73,16 +73,9 @@
+     actual = "@jsinterop_base//:jsinterop-base-j2cl",
+ )
+ 
+-j2cl_library(
++alias(
+     name = "braincheck_core-j2cl",
+-    # Braincheck 1.35 ships Java and native JS together in its binary jar;
+-    # its sources jar omits the native configuration companions.
+-    srcs = ["@braincheck_core//file"],
+-    experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,
+-    deps = [
+-        ":jsinterop_annotations-j2cl",
+-        ":jspecify-j2cl",
+-    ],
++    actual = "@braincheck//core/src/main/java/org/realityforge/braincheck:core-j2cl",
+ )
+ 
+ # --- depgen-generated targets start ---
+@@ -208,8 +201,11 @@
+     name = "base",
+     jars = ["@base//file"],
+     srcjar = "@base__sources//file",
+-    tags = ["maven_coordinates=com.google.jsinterop:base:1.0.0"],
+-    deps = [":jsinterop_annotations"],
++    tags = ["maven_coordinates=com.google.jsinterop:base:1.2.0"],
++    deps = [
++        ":jsinterop_annotations",
++        ":jspecify",
++    ],
+ )
+ 
+ _java_import(
+@@ -339,7 +335,7 @@
+     name = "jspecify",
+     jars = ["@jspecify//file"],
+     srcjar = "@jspecify__sources//file",
+-    tags = ["maven_coordinates=org.jspecify:jspecify:1.0.0"],
++    tags = ["maven_coordinates=org.jspecify:jspecify:1.0.1"],
+ )
+ 
+ _java_import(
+@@ -368,15 +364,9 @@
+     tags = ["maven_coordinates=org.realityforge.bazel.depgen:bazel-depgen:0.26"],
+ )
+ 
+-_java_import(
++alias(
+     name = "braincheck_core",
+-    jars = ["@braincheck_core//file"],
+-    srcjar = "@braincheck_core__sources//file",
+-    tags = ["maven_coordinates=org.realityforge.braincheck:braincheck-core:1.35.0"],
+-    deps = [
+-        ":jsinterop_annotations",
+-        ":jspecify",
+-    ],
++    actual = "@braincheck//core/src/main/java/org/realityforge/braincheck:core",
+ )
+ 
+ _java_import(

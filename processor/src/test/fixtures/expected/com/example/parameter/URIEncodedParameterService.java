@@ -1,36 +1,31 @@
 package com.example.parameter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.processing.Generated;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import router.fu.Location;
 import router.fu.Parameter;
 import router.fu.Route;
 import router.fu.RouteState;
 
+@NullMarked
 @Generated("router.fu.processor.RouterProcessor")
 public interface URIEncodedParameterService {
-  @Nonnull
   Location getLocation();
 
-  @Nonnull
   Route getRegionRoute();
 
-  @Nullable
-  RouteState getRegionRouteState();
+  @Nullable RouteState getRegionRouteState();
 
-  @Nonnull
   Parameter getRegionKeywordParameter();
 
-  @Nullable
-  String getKeyword();
+  @Nullable String getKeyword();
 
-  void updateKeyword(@Nonnull String keyword);
+  void updateKeyword(String keyword);
 
-  @Nonnull
-  String buildRegionLocation(@Nonnull String keyword);
+  String buildRegionLocation(String keyword);
 
-  void gotoRegion(@Nonnull String keyword);
+  void gotoRegion(String keyword);
 
   void reRoute();
 }

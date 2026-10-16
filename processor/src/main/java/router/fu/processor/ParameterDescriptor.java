@@ -1,50 +1,37 @@
 package router.fu.processor;
 
-import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-final class ParameterDescriptor
-{
-  @Nonnull
-  private final String _name;
-  @Nullable
-  private final String _constraint;
-  private final boolean _optional;
+final class ParameterDescriptor {
 
-  ParameterDescriptor( @Nonnull final String name, @Nullable final String constraint, final boolean optional )
-  {
-    _name = Objects.requireNonNull( name );
-    _constraint = constraint;
-    _optional = optional;
-  }
+    private final String _name;
+    private final @Nullable String _constraint;
+    private final boolean _optional;
 
-  @Nonnull
-  String getKey()
-  {
-    return getName() + ( null == _constraint ? "" : "<" + _constraint + ">" );
-  }
+    ParameterDescriptor(final String name, final @Nullable String constraint, final boolean optional) {
+        _name = name;
+        _constraint = constraint;
+        _optional = optional;
+    }
 
-  @Nonnull
-  String getFieldName()
-  {
-    return getName() + ( null == _constraint ? "" : "_" + Math.abs( _constraint.hashCode() ) );
-  }
+    String getKey() {
+        return getName() + (null == _constraint ? "" : "<" + _constraint + ">");
+    }
 
-  @Nonnull
-  String getName()
-  {
-    return _name;
-  }
+    String getFieldName() {
+        return getName() + (null == _constraint ? "" : "_" + Math.abs(_constraint.hashCode()));
+    }
 
-  @Nullable
-  String getConstraint()
-  {
-    return _constraint;
-  }
+    String getName() {
+        return _name;
+    }
 
-  boolean isOptional()
-  {
-    return _optional;
-  }
+    @Nullable
+    String getConstraint() {
+        return _constraint;
+    }
+
+    boolean isOptional() {
+        return _optional;
+    }
 }
