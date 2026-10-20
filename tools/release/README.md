@@ -12,7 +12,7 @@ The files are written to `bazel-bin/tools/release/`. Each module, `router-fu-cor
 
 The processor jar includes its service registration and embeds Proton and JavaPoet under relocated
 packages. The runtime declares Braincheck, JsInterop, and JSpecify as dependencies in its POM.
-Bazel consumers can use `@router_fu//tools/release:core_j2cl_sources` for the runtime source archive.
+Bazel applications use `@router_fu//:core` and `@router_fu//:processor`. Publication targets are internal.
 
 ## Versions
 

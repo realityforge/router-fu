@@ -24,14 +24,6 @@ release_source_jar(
     resource_files = ["//:LICENSE"],
 )
 
-alias(
-    name = "core_j2cl_sources",
-    actual = ":core_sources",
-    visibility = [
-        "//visibility:public",
-    ],
-)
-
 release_jar(
     name = "processor_jar",
     out = "router-fu-processor.jar",
@@ -48,7 +40,7 @@ release_jar(
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
     visibility = [
-        "//:__pkg__",
+        "//processor:__pkg__",
     ],
 )
 
@@ -59,7 +51,7 @@ release_source_jar(
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
     visibility = [
-        "//:__pkg__",
+        "//processor:__pkg__",
     ],
 )
 

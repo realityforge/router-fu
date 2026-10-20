@@ -1,0 +1,17 @@
+load("@rules_java//java:defs.bzl", "java_import", "java_plugin")
+
+package(default_visibility = ["//visibility:private"])
+
+java_import(
+    name = "_processor_java",
+    jars = ["//tools/release:processor_jar"],
+    srcjar = "//tools/release:processor_sources",
+)
+
+java_plugin(
+    name = "processor",
+    generates_api = True,
+    processor_class = "router.fu.processor.RouterProcessor",
+    visibility = ["//:__pkg__"],
+    deps = [":_processor_java"],
+)

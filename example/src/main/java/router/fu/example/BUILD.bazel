@@ -14,13 +14,13 @@ java_j2cl_library(
         "//:__pkg__",
     ],
     plugins = [
-        "//:router_fu_processor_plugin",
+        "//:processor",
         "@arez//:processor",
     ],
     deps = [
         "//:core",
-        "//third_party/java:jsinterop_annotations-j2cl",
         "@arez//:core-j2cl",
+        "@j2cl//:jsinterop-annotations-j2cl",
     ],
 )
 
