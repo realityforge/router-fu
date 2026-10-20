@@ -77,7 +77,7 @@ alias(
 
 alias(
     name = "braincheck_core",
-    actual = "@arez//third_party/java:braincheck_core",
+    actual = "@arez//third_party:braincheck_core",
     visibility = [
         "//processor/src/test/java/router/fu/processor:__pkg__",
         "//tools/release:__pkg__",
@@ -86,7 +86,7 @@ alias(
 
 alias(
     name = "braincheck_core-j2cl",
-    actual = "@arez//third_party/java:braincheck_core-j2cl",
+    actual = "@arez//third_party:braincheck_core-j2cl",
     visibility = [
         "//core/src/main/java/router/fu:__pkg__",
         "//core/src/test/java/router/fu:__pkg__",
@@ -124,7 +124,7 @@ alias(
 
 alias(
     name = "arez_processor_runtime",
-    actual = "@arez//:processor",
+    actual = "@arez//:processor_runtime",
     visibility = [
         "//processor/src/test/java/router/fu/processor:__pkg__",
     ],
@@ -144,7 +144,7 @@ java_import(
 
 alias(
     name = "jsinterop_annotations",
-    actual = "@arez//third_party/java:jsinterop_annotations",
+    actual = "@arez//third_party:jsinterop_annotations",
     visibility = [
         "//processor/src/test/java/router/fu/processor:__pkg__",
         "//tools/release:__pkg__",

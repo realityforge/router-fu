@@ -3,7 +3,7 @@ module(name = "router_fu")
 bazel_dep(name = "arez")
 git_override(
     module_name = "arez",
-    commit = "0321e1ed4f45a3ca77572ab3f101ee7dff9c40e2",
+    commit = "9dfc6ec6ba99c140043a5f9f1e54e104530a754d",
     remote = "https://github.com/arez/arez.git",
 )
 

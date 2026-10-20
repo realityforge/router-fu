@@ -15,7 +15,7 @@ java_j2cl_library(
     ],
     plugins = [
         "//:router_fu_processor_plugin",
-        "@arez//:arez_processor_plugin",
+        "@arez//:processor",
     ],
     deps = [
         "//:core",
