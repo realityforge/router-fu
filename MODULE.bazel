@@ -3,7 +3,7 @@ module(name = "router_fu")
 bazel_dep(name = "arez")
 git_override(
     module_name = "arez",
-    commit = "9dfc6ec6ba99c140043a5f9f1e54e104530a754d",
+    commit = "bac86f65b445609b2067e565464035a1ad045447",
     remote = "https://github.com/arez/arez.git",
 )
 
@@ -128,7 +128,7 @@ single_version_override(
 bazel_dep(name = "braincheck")
 git_override(
     module_name = "braincheck",
-    commit = "da61a26bb5b0577cb6b76fbccf9eff3158fd1e1f",
+    commit = "d1c717ab04e54281d811c15c1f84daa264675761",
     remote = "https://github.com/realityforge/braincheck.git",
 )
 
