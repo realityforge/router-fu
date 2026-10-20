@@ -131,7 +131,8 @@ testSuite({
         "core:core-j2cl", "core:libcore-j2cl.jar", "core/src/main/java/router/fu:core",
         "core/src/main/java/router/fu:Backend.java",
         "core/src/main/java/router/fu/annotations:annotations",
-        "processor/src/main/java/router/fu/processor:processor", ":_processor_java",
+        "processor/src/main/java/router/fu/processor:processor", "processor:processor",
+        "processor:_processor_java",
         "tools/release:core_sources", "tools/release:processor_jar",
         "third_party/java:braincheck_core-j2cl",
     ):

@@ -40,7 +40,7 @@ release_jar(
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
     visibility = [
-        "//:__pkg__",
+        "//processor:__pkg__",
     ],
 )
 
@@ -51,7 +51,7 @@ release_source_jar(
     resource_entries = ["META-INF/LICENSE"],
     resource_files = ["//:LICENSE"],
     visibility = [
-        "//:__pkg__",
+        "//processor:__pkg__",
     ],
 )
 

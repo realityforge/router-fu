@@ -1,4 +1,3 @@
-load("@rules_java//java:defs.bzl", "java_import", "java_plugin")
 load("@rules_palantir_java_format//:defs.bzl", "java_format_check")
 
 package(default_visibility = ["//visibility:private"])
@@ -27,18 +26,10 @@ java_format_check(
     ],
 )
 
-java_import(
-    name = "_processor_java",
-    jars = ["//tools/release:processor_jar"],
-    srcjar = "//tools/release:processor_sources",
-)
-
-java_plugin(
+alias(
     name = "processor",
-    generates_api = True,
-    processor_class = "router.fu.processor.RouterProcessor",
+    actual = "//processor:processor",
     visibility = ["//visibility:public"],
-    deps = [":_processor_java"],
 )
 
 alias(
