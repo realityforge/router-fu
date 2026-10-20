@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Update the Bazel Braincheck and Arez source pins for Java/J2CL-only Braincheck.
 * Replace Buildr with Bazel and a shared `tools/check.sh` gate. Run runtime unit tests as J2CL JavaScript in Chromium
   and processor tests on the JVM, with shared Error Prone and NullAway checks.
 * Adopt JSpecify defaults and type-use qualifiers throughout the runtime, processor, example and generated contracts.
