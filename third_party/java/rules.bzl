@@ -1,4 +1,6 @@
-load("@rules_java//java:defs.bzl", _java_binary = "java_binary", _java_library = "java_library", _java_plugin = "java_plugin", _java_test = "java_test")
+load("@rules_java//java:defs.bzl", _java_binary = "java_binary", _java_library = "java_library", _java_test = "java_test")
+
+visibility(["//..."])
 
 # Share the Java 17 and nullness policy between owned code and fixture compilations.
 _JAVACOPTS = [
@@ -131,10 +133,6 @@ def _compile_policy(srcs, javacopts, deps, plugins):
 def java_library(name, srcs = [], javacopts = [], deps = [], plugins = [], **kwargs):
     options, deps, plugins = _compile_policy(srcs, javacopts, deps, plugins)
     _java_library(name = name, srcs = srcs, javacopts = options, deps = deps, plugins = plugins, **kwargs)
-
-def java_plugin(name, srcs = [], javacopts = [], deps = [], plugins = [], **kwargs):
-    options, deps, plugins = _compile_policy(srcs, javacopts, deps, plugins)
-    _java_plugin(name = name, srcs = srcs, javacopts = options, deps = deps, plugins = plugins, **kwargs)
 
 def java_binary(name, srcs = [], javacopts = [], deps = [], plugins = [], **kwargs):
     options, deps, plugins = _compile_policy(srcs, javacopts, deps, plugins)

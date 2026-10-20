@@ -1,5 +1,7 @@
 load("//third_party/java:rules.bzl", "FORMATTER_JVM_FLAGS", "java_testng")
 
+visibility("private")
+
 FIXTURES = "//processor/src/test/resources/fixtures"
 MAIN = "router.fu.processor.RouterProcessorTest"
 

@@ -1,14 +1,6 @@
 load("@rules_closure//closure:defs.bzl", "closure_js_library")
 load("@rules_webtesting//web:web.bzl", "custom_browser")
 
-exports_files(
-    [
-        "java.bzl",
-        "rules.bzl",
-    ],
-    visibility = ["//visibility:private"],
-)
-
 config_setting(
     name = "production",
     values = {"compilation_mode": "opt"},

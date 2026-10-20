@@ -17,7 +17,5 @@ java_j2cl_library(
         "//processor/src/test/java/router/fu/processor:__pkg__",
         "//tools/release:__pkg__",
     ],
-    visibility = [
-        "//:__pkg__",
-    ],
+    visibility = ["//core:__pkg__"],
 )

@@ -12,7 +12,7 @@ java_j2cl_library(
     java_visibility = [
         "//:__pkg__",
     ],
-    plugins = ["//:router_fu_processor_plugin"],
+    plugins = ["//:processor"],
     deps = [
         "//tools/release:core_archive",
         "@j2cl//:junit",
