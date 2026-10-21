@@ -35,7 +35,7 @@ alias(
 
 alias(
     name = "testng",
-    actual = "@sting//third_party/java:testng",
+    actual = "@sting//third_party:testng",
     visibility = [
         "//processor/src/test/java/router/fu/processor:__pkg__",
     ],
@@ -43,7 +43,7 @@ alias(
 
 alias(
     name = "nullaway_plugin",
-    actual = "@sting//third_party/java:nullaway_plugin",
+    actual = "@sting//third_party:nullaway_plugin",
     visibility = [
         "//browser/src/test/java/router/fu/browser:__pkg__",
         "//core/src/main/java/router/fu:__pkg__",
@@ -61,7 +61,7 @@ alias(
 
 alias(
     name = "nullaway",
-    actual = "@sting//third_party/java:nullaway",
+    actual = "@sting//third_party:nullaway",
     visibility = [
         "//processor/src/test/java/router/fu/processor:__pkg__",
     ],
@@ -69,7 +69,7 @@ alias(
 
 alias(
     name = "error_prone_core",
-    actual = "@sting//third_party/java:error_prone_core",
+    actual = "@sting//third_party:error_prone_core",
     visibility = [
         "//processor/src/test/java/router/fu/processor:__pkg__",
     ],
