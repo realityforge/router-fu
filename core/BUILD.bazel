@@ -1,0 +1,11 @@
+load("@j2cl//build_defs:rules.bzl", "j2cl_library")
+
+j2cl_library(
+    name = "core-j2cl",
+    generate_j2wasm_library = False,
+    visibility = ["//:__pkg__"],
+    exports = [
+        "//core/src/main/java/router/fu:core",
+        "//core/src/main/java/router/fu/annotations",
+    ],
+)

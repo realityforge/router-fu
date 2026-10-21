@@ -5,6 +5,8 @@ load("@j2cl//build_defs/internal_do_not_use:provider.bzl", "J2clInfo")
 load("@rules_java//java/common:java_info.bzl", "JavaInfo")
 load("//third_party/java:rules.bzl", "J2CL_JAVACOPTS")
 
+visibility(["//..."])
+
 def _java_outputs_impl(ctx):
     info = ctx.attr.library[J2clInfo]._private_.java_info
     output = info.java_outputs[0]
@@ -27,8 +29,8 @@ _java_outputs = rule(
     },
 )
 
-def java_j2cl_library(name, srcs, deps = [], plugins = [], native_srcs = [], testonly = False, visibility = None, java_visibility = None):
-    for src in srcs + native_srcs:
+def java_j2cl_library(name, srcs, deps = [], plugins = [], testonly = False, visibility = None, java_visibility = None):
+    for src in srcs:
         if "/" in src or src.startswith("@"):
             fail("java_j2cl_library sources must be files in the current package: " + src)
     j2cl_library(
@@ -36,7 +38,7 @@ def java_j2cl_library(name, srcs, deps = [], plugins = [], native_srcs = [], tes
         testonly = testonly,
         visibility = visibility,
         generate_j2wasm_library = False,
-        srcs = srcs + native_srcs,
+        srcs = srcs,
         javacopts = J2CL_JAVACOPTS,
         plugins = ["//third_party/java:nullaway_plugin"] + plugins,
         experimental_enable_jspecify_support_do_not_enable_without_jspecify_static_checking_or_you_might_cause_an_outage = True,

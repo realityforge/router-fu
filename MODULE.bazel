@@ -128,7 +128,7 @@ single_version_override(
 bazel_dep(name = "braincheck")
 git_override(
     module_name = "braincheck",
-    commit = "d1c717ab04e54281d811c15c1f84daa264675761",
+    commit = "18adeceecb966be6fa6bc8165f8047330c34749d",
     remote = "https://github.com/realityforge/braincheck.git",
 )
 

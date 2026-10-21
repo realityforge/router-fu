@@ -3,6 +3,8 @@
 load("@j2cl//build_defs:rules.bzl", _j2cl_test = "j2cl_test")
 load("@rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_test")
 
+visibility(["//..."])
+
 _PRODUCTION = "//tools/browser:production"
 _PRODUCTION_DEFINES = {
     "arez.check_api_invariants": "false",

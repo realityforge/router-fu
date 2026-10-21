@@ -1,6 +1,6 @@
-load("@j2cl//build_defs:rules.bzl", "j2cl_library")
-load("@rules_java//java:defs.bzl", "java_import", "java_plugin")
 load("@rules_palantir_java_format//:defs.bzl", "java_format_check")
+
+package(default_visibility = ["//visibility:private"])
 
 exports_files(
     ["LICENSE"],
@@ -26,33 +26,16 @@ java_format_check(
     ],
 )
 
-java_import(
+alias(
     name = "processor",
-    jars = ["//tools/release:processor_jar"],
-    srcjar = "//tools/release:processor_sources",
-    visibility = ["//visibility:private"],
+    actual = "//processor:processor",
+    visibility = ["//visibility:public"],
 )
 
-java_plugin(
-    name = "router_fu_processor_plugin",
-    generates_api = True,
-    processor_class = "router.fu.processor.RouterProcessor",
-    visibility = [
-        "//visibility:public",
-    ],
-    deps = [":processor"],
-)
-
-j2cl_library(
+alias(
     name = "core",
-    generate_j2wasm_library = False,
-    visibility = [
-        "//visibility:public",
-    ],
-    exports = [
-        "//core/src/main/java/router/fu:core",
-        "//core/src/main/java/router/fu/annotations",
-    ],
+    actual = "//core:core-j2cl",
+    visibility = ["//visibility:public"],
 )
 
 test_suite(

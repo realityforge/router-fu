@@ -109,7 +109,6 @@ alias(
     visibility = [
         "//browser/src/test/java/router/fu/browser:__pkg__",
         "//core/src/main/java/router/fu:__pkg__",
-        "//example/src/main/java/router/fu/example:__pkg__",
         "//tools/release:__pkg__",
     ],
 )
