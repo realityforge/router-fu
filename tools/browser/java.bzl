@@ -1,14 +1,13 @@
 """Checked J2CL packages and internal views of their existing Java outputs."""
 
 load("@j2cl//build_defs:rules.bzl", "j2cl_library")
-load("@j2cl//build_defs/internal_do_not_use:provider.bzl", "J2clInfo")
 load("@rules_java//java/common:java_info.bzl", "JavaInfo")
 load("//third_party/java:rules.bzl", "J2CL_JAVACOPTS")
 
 visibility(["//..."])
 
 def _java_outputs_impl(ctx):
-    info = ctx.attr.library[J2clInfo]._private_.java_info
+    info = ctx.attr.library[JavaInfo]
     output = info.java_outputs[0]
     return [
         JavaInfo(
@@ -24,7 +23,7 @@ def _java_outputs_impl(ctx):
 _java_outputs = rule(
     implementation = _java_outputs_impl,
     attrs = {
-        "library": attr.label(mandatory = True, providers = [J2clInfo]),
+        "library": attr.label(mandatory = True, providers = [JavaInfo]),
         "srcs": attr.label_list(allow_files = [".java"]),
     },
 )

@@ -1,4 +1,4 @@
-load("@j2cl//build_defs/internal_do_not_use:j2cl_java_library.bzl", "j2cl_java_import")
+load("@j2cl//build_defs:rules.bzl", "j2cl_import")
 load("@rules_java//java:defs.bzl", "java_import")
 load(":rules.bzl", "strict_checker_options")
 
@@ -163,7 +163,7 @@ java_import(
     ],
 )
 
-j2cl_java_import(
+j2cl_import(
     name = "jspecify-j2cl",
     jar = ":jspecify",
     visibility = [

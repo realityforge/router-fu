@@ -2,6 +2,10 @@
 
 ### Unreleased
 
+* Pin the consolidated J2CL compiler and matching Braincheck, Arez and Sting revisions. Remove redundant compiler patches; retain only JUnit runtime-definition forwarding.
+* Use public J2CL imports and JavaInfo for annotation dependencies and publication outputs.
+* Preserve final-round JUnit visitor generation so tests emitted by other processors remain discoverable.
+
 * Use the upstream rules_closure protobuf-rule migration and remove the redundant local patch.
 * Update the Bazel Braincheck and Arez source pins for Java/J2CL-only Braincheck.
 * Replace Buildr with Bazel and a shared `tools/check.sh` gate. Run runtime unit tests as J2CL JavaScript in Chromium
