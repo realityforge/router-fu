@@ -11,8 +11,7 @@ Install Bazelisk, then run:
 tools/check.sh
 ```
 
-Bazel downloads the pinned Java toolchains, Chromium, and WebDriver. Building the browser compiler also
-requires a C++ toolchain: Xcode command-line tools on macOS or GCC on Linux.
+Bazel downloads the pinned Java toolchains, Chromium, and WebDriver.
 
 The gate checks formatting, hermeticity, processor tests, JavaScript tests, processor coverage,
 publication builds, a J2CL consumer of the assembled sources and processor, and an isolated application
