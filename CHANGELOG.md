@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Upgrade the pinned Bazel version to 9.3.1.
 * Pin the consolidated J2CL compiler and matching Braincheck, Arez and Sting revisions. Remove redundant compiler patches; retain only JUnit runtime-definition forwarding.
 * Use public J2CL imports and JavaInfo for annotation dependencies and publication outputs.
 * Preserve final-round JUnit visitor generation so tests emitted by other processors remain discoverable.
