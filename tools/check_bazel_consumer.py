@@ -45,6 +45,7 @@ def check_consumer(workspace):
     shutil.copytree(ROOT / "third_party/bazel/patches", workspace / "third_party/bazel/patches")
     sources = workspace / "src"
     sources.mkdir()
+    shutil.copy2(ROOT / "tools/browser/chromium.json", sources / "chromium.json")
     for package in (
         "tools/release/src/test/java/router/fu/tools/release/consumer",
         "browser/src/test/java/router/fu/browser",
@@ -55,8 +56,7 @@ def check_consumer(workspace):
     shutil.copy2(ROOT / "example/src/main/java/router/fu/example/entry.js", sources / "entry.js")
     (sources / "BUILD.bazel").write_text('''\
 load("@j2cl//build_defs:rules.bzl", "j2cl_library", "j2cl_test")
-load("@rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library", "closure_js_test")
-load("@rules_webtesting//web:web.bzl", "custom_browser")
+load("@rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library", "closure_js_test", "custom_browser")
 
 config_setting(name = "production", values = {"compilation_mode": "opt"})
 LEVEL = select({":production": "ADVANCED", "//conditions:default": "BUNDLE"})
@@ -69,7 +69,7 @@ COMPILER_DEFINES = select({
     "//conditions:default": ["--define=braincheck.environment='development'", "--define=consumer.environment='development'"],
 })
 
-custom_browser(name = "chromium", browser = "@rules_webtesting//browsers:chromium-local", environment = {"CHROME_LOG_FILE": "/dev/stderr"})
+custom_browser(name = "chromium", browser = "@rules_browsers//browsers/chromium:chromium", metadata = "chromium.json")
 j2cl_library(
     name = "consumer", testonly = True,
     srcs = ["Catalog.java", "ConsumerTest.java", "EmptyRouter.java", "BrowserProbe.java", "BrowserRouter.java"],

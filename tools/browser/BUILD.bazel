@@ -1,5 +1,4 @@
-load("@rules_closure//closure:defs.bzl", "closure_js_library")
-load("@rules_webtesting//web:web.bzl", "custom_browser")
+load("@rules_closure//closure:defs.bzl", "closure_js_library", "custom_browser")
 
 config_setting(
     name = "production",
@@ -24,8 +23,8 @@ closure_js_library(
 # Chromium otherwise writes chrome_debug.log beside its downloaded executable on macOS.
 custom_browser(
     name = "chromium",
-    browser = "@rules_webtesting//browsers:chromium-local",
-    environment = {"CHROME_LOG_FILE": "/dev/stderr"},
+    browser = "@rules_browsers//browsers/chromium:chromium",
+    metadata = "chromium.json",
     visibility = [
         "//browser/src/test/js/router.fu:__pkg__",
         "//core/src/test/java/router/fu:__pkg__",
