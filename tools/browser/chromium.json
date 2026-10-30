@@ -1,0 +1,7 @@
+{
+  "capabilities": {
+    "goog:chromeOptions": {
+      "args": ["--enable-logging=stderr"]
+    }
+  }
+}

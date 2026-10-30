@@ -3,11 +3,11 @@
 ### Unreleased
 
 * Upgrade the pinned Bazel version to 9.3.1.
-* Pin the consolidated J2CL compiler and matching Braincheck, Arez and Sting revisions. Remove redundant compiler patches; retain only JUnit runtime-definition forwarding.
+* Pin refreshed J2CL and Closure integration snapshots; use declared Chromium/ChromeDriver inputs and remove
+  local compiler/browser-runner patches, including JUnit runtime-definition forwarding now supplied by J2CL.
 * Use public J2CL imports and JavaInfo for annotation dependencies and publication outputs.
 * Preserve final-round JUnit visitor generation so tests emitted by other processors remain discoverable.
 
-* Use the upstream rules_closure protobuf-rule migration and remove the redundant local patch.
 * Update the Bazel Braincheck and Arez source pins for Java/J2CL-only Braincheck.
 * Replace Buildr with Bazel and a shared `tools/check.sh` gate. Run runtime unit tests as J2CL JavaScript in Chromium
   and processor tests on the JVM, with shared Error Prone and NullAway checks.
