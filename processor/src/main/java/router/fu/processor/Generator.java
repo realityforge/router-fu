@@ -485,11 +485,11 @@ final class Generator {
         method.addAnnotation(Override.class);
         method.addParameter(ParameterSpec.builder(String.class, boundParameter.getName(), Modifier.FINAL)
                 .build());
-        method.addStatement("final $T location = getLocation()", LOCATION_TYPE);
+        method.addStatement("final var location = getLocation()");
         method.addStatement("final $T terminalState = location.getTerminalState()", ROUTE_STATE_TYPE);
         final CodeBlock.Builder block = CodeBlock.builder();
         block.beginControlFlow("if ( null != terminalState )");
-        block.addStatement("final $T route = terminalState.getRoute()", ROUTE_TYPE);
+        block.addStatement("final var route = terminalState.getRoute()");
 
         final CodeBlock.Builder routeBlocks = CodeBlock.builder();
         final LinkedHashMap<RouteDescriptor, ParameterDescriptor> bindings = boundParameter.getBindings();
@@ -732,8 +732,8 @@ final class Generator {
         }
         final Collection<RouteDescriptor> routes = descriptor.getRoutes();
         if (!routes.isEmpty()) {
-            method.addStatement("final $T<$T> states = location.getStates()", List.class, ROUTE_STATE_TYPE);
-            method.addStatement("int routeStartIndex = 0");
+            method.addStatement("final var states = location.getStates()");
+            method.addStatement("var routeStartIndex = 0");
             for (final RouteDescriptor route : routes) {
                 final CodeBlock.Builder block = CodeBlock.builder();
                 block.beginControlFlow("");

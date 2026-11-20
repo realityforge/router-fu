@@ -3,7 +3,6 @@ package com.example.parameter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.processing.Generated;
 import org.jspecify.annotations.NullMarked;
@@ -81,10 +80,10 @@ public class RouterFu_URIEncodedParameter extends URIEncodedParameter
 
   @Override
   public void updateKeyword(final String keyword) {
-    final Location location = getLocation();
+    final var location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if (null != terminalState) {
-      final Route route = terminalState.getRoute();
+      final var route = terminalState.getRoute();
       if (route == $fu$_route_region) {
         gotoRegion(keyword);
       }
@@ -116,8 +115,8 @@ public class RouterFu_URIEncodedParameter extends URIEncodedParameter
   void onLocationChanged(final Location location) {
     setLocation(location);
     setKeyword(null);
-    final List<RouteState> states = location.getStates();
-    int routeStartIndex = 0;
+    final var states = location.getStates();
+    var routeStartIndex = 0;
     {
       final RouteState state = states.size() > routeStartIndex ? states.get(routeStartIndex) : null;
       if (null != state && state.getRoute() == $fu$_route_region) {

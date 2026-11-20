@@ -3,7 +3,6 @@ package com.example.route;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.processing.Generated;
 import org.jspecify.annotations.NullMarked;
@@ -191,8 +190,8 @@ public class RouterFu_RouteWithParametersWithConstraints extends RouteWithParame
 
   void onLocationChanged(final Location location) {
     setLocation(location);
-    final List<RouteState> states = location.getStates();
-    int routeStartIndex = 0;
+    final var states = location.getStates();
+    var routeStartIndex = 0;
     {
       final RouteState state = states.size() > routeStartIndex ? states.get(routeStartIndex) : null;
       if (null != state && state.getRoute() == $fu$_route_region) {

@@ -2,6 +2,7 @@
 
 ### Unreleased
 
+* Generate `var` for router locals whose initializers infer the same type without a target type.
 * Upgrade the pinned Bazel version to 9.3.1.
 * Pin refreshed J2CL and Closure integration snapshots; use declared Chromium/ChromeDriver inputs and remove
   local compiler/browser-runner patches, including JUnit runtime-definition forwarding now supplied by J2CL.
