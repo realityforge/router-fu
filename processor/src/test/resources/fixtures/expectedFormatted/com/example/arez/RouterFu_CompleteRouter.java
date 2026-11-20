@@ -12,7 +12,6 @@ import arez.annotations.PreDispose;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.annotation.processing.Generated;
 import org.jspecify.annotations.NullMarked;
@@ -236,10 +235,10 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
   @Action
   @Override
   public void updateRegionCode(final String regionCode) {
-    final Location location = getLocation();
+    final var location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if (null != terminalState) {
-      final Route route = terminalState.getRoute();
+      final var route = terminalState.getRoute();
       if (route == $fu$_route_region) {
         gotoRegion(regionCode);
       } else if (route == $fu$_route_regionEvents) {
@@ -263,10 +262,10 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
   @Action
   @Override
   public void updateEventCode(final String eventCode) {
-    final Location location = getLocation();
+    final var location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if (null != terminalState) {
-      final Route route = terminalState.getRoute();
+      final var route = terminalState.getRoute();
       if (route == $fu$_route_regionEvent) {
         gotoRegionEvent(terminalState.getParameterValue($fu$_regionCode_821487049), eventCode);
       }
@@ -286,10 +285,10 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
   @Action
   @Override
   public void updateEventCode2(final String eventCode2) {
-    final Location location = getLocation();
+    final var location = getLocation();
     final RouteState terminalState = location.getTerminalState();
     if (null != terminalState) {
-      final Route route = terminalState.getRoute();
+      final var route = terminalState.getRoute();
       if (route == $fu$_route_regionEvent) {
         gotoRegionEvent(terminalState.getParameterValue($fu$_regionCode_821487049), eventCode2);
       }
@@ -350,8 +349,8 @@ public abstract class RouterFu_CompleteRouter extends CompleteRouter
     setRegionCode(null);
     setEventCode(null);
     setEventCode2(null);
-    final List<RouteState> states = location.getStates();
-    int routeStartIndex = 0;
+    final var states = location.getStates();
+    var routeStartIndex = 0;
     {
       final RouteState state = states.size() > routeStartIndex ? states.get(routeStartIndex) : null;
       if (null != state && state.getRoute() == $fu$_route_regionFilter) {
